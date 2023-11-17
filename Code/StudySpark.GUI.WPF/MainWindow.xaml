@@ -4,9 +4,146 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudySpark.GUI.WPF"
+        xmlns:viewModel="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="StudySpark" Height="720" Width="1280">
-    <Grid>
+        Height="520" Width="920"
+        WindowStyle="None"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
 
-    </Grid>
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+
+    <Border Background="#272537"
+            CornerRadius="15">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+            <TextBlock Text="StudySpark"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="48,0,0,0"
+                       Foreground="White"
+                       FontFamily="/Fonts/#Ubuntu"
+                       FontSize="22"/>
+
+            <StackPanel Grid.Row="1">
+                <!--<RadioButton Content="Overzicht"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             IsChecked="True"
+                             Command="{Binding OverviewViewCommand}"/>-->
+
+                <!--<RadioButton Content="Notities"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding NotesViewCommand}"/>-->
+
+                <RadioButton Content="Bestanden"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             IsChecked="True"
+                             Command="{Binding FilesViewCommand}"/>
+                <!--TODO: Remove IsChecked="True" from 'Files' when an overview view is made-->
+
+                <!--<RadioButton Content="Tijdlijn"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding TimelineViewCommand}"/>-->
+
+                <!--<RadioButton Content="Rooster"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding ScheduleViewCommand}"/>-->
+            </StackPanel>
+
+            <Grid MouseLeftButtonDown="WindowDrag"
+                  Grid.Column="1"
+                  Background="Transparent"
+                  Cursor="Hand">
+
+                <!--<TextBox Width="250"
+                         Height="40"
+                         VerticalContentAlignment="Center"
+                         HorizontalAlignment="Left"
+                         Margin="5"
+                         Grid.Column="1"
+                         Style="{StaticResource ModernTextbox}" />-->
+
+
+                <Button Content="➖"
+                        Command="{Binding MinimizeCommand}"
+                        Margin="0,0,128,0"
+                        Grid.Column="1"
+                        Width="42"
+                        Height="42"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Foreground="White"
+                        Style="{StaticResource ApplicationActionButtonTheme}" />
+
+                <Button Content="➕"
+                        Grid.Column="1"
+                        Command="{Binding MaximizeCommand}"
+                        Margin="0,0,72,0"
+                        Width="42"
+                        Height="42"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Foreground="White"
+                        Style="{StaticResource ApplicationActionButtonTheme}" />
+
+                <Button Content="❌"
+                        Grid.Column="1"
+                        Command="{Binding CloseCommand}"
+                        Margin="0,0,18,0"
+                        Width="42"
+                        Height="42"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Foreground="White"
+                        Style="{StaticResource ApplicationActionButtonTheme}"/>
+
+            </Grid>
+
+            <ScrollViewer Grid.Row="1"
+                          Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Hidden">
+                <ContentControl Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10"
+                                Content="{Binding CurrentView}"/>
+            </ScrollViewer>
+
+        </Grid>
+
+    </Border>
+
 </Window>

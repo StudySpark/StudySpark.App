@@ -7,4 +7,18 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Logo_NoText.png" />
+    <None Remove="MVVM\View\DirectoryIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MVVM\Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Logo_NoText.png" />
+    <Resource Include="MVVM\View\DirectoryIcon.png" />
+  </ItemGroup>
+
 </Project>
