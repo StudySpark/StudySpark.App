@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StudySpark.Core\StudySpark.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Logo_NoText.png" />
     <Resource Include="MVVM\View\DirectoryIcon.png" />
   </ItemGroup>
