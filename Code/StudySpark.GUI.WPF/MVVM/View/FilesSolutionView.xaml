@@ -14,7 +14,7 @@
 
             <ContentControl
                 Margin="10"
-                Content="{Binding CurrentView}"/>
+                Content="{Binding CurrentSLNList}"/>
         </ScrollViewer>
     </Grid>
 </UserControl>

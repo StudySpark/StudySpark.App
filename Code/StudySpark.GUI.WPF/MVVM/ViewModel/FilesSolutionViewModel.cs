@@ -11,15 +11,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesSolutionViewModel : ObservableObject
     {
-        private object _currentView;
-        public object CurrentView {
+        private object _currentSLNList;
+        public object CurrentSLNList {
             get
             {
-                return _currentView;
+                return _currentSLNList;
             }
             set
             {
-                _currentView = value;
+                _currentSLNList = value;
             }
         }
 
@@ -45,7 +45,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     Text = _recentSLNFiles[i]
                 }); 
             }
-            CurrentView = solutionPanel;
+            _currentSLNList = solutionPanel;
         }
 
         public ImageBrush SetIcon()
