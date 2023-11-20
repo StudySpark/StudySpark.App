@@ -29,7 +29,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+            <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -129,6 +129,17 @@
                         Style="{StaticResource ApplicationActionButtonTheme}"/>
 
             </Grid>
+
+            <Image Source="/Images/Logo_NoText_NoColor.png" Margin="-109,253,13,-133" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Opacity="0.05" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="33"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
 
             <ScrollViewer Grid.Row="1"
                           Grid.Column="1"
