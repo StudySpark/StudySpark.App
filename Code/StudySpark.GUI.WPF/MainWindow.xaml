@@ -39,14 +39,14 @@
                        FontSize="22"/>
 
             <StackPanel Grid.Row="1">
-                <!--<RadioButton Content="Overzicht"
+                <RadioButton Content="Overzicht"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
-                             Command="{Binding OverviewViewCommand}"/>-->
+                             Command="{Binding OverviewViewCommand}"/>
 
                 <!--<RadioButton Content="Notities"
                              Cursor="Hand"
@@ -62,9 +62,7 @@
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             IsChecked="True"
-                             Command="{Binding FilesViewCommand}"/>
-                <!--TODO: Remove IsChecked="True" from 'Files' when an overview view is made-->
+                             Command="{Binding FilesViewCommand}" />
 
                 <!--<RadioButton Content="Tijdlijn"
                              Cursor="Hand"

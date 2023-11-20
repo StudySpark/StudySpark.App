@@ -7,171 +7,173 @@
              mc:Ignorable="d" 
              d:DesignHeight="660" d:DesignWidth="800">
     <StackPanel>
-        <TextBlock Text="Home"
+        <TextBlock x:Name="UserGreetingText"  Text="%GREETING%"
                      Foreground="White"
                      FontSize="28"
                      HorizontalAlignment="Left"
                      Margin="0,0,0,20"/>
 
-        <StackPanel Orientation="Horizontal"
-                    Margin="0,0,0,10">
-            <Border Width="400"
-                    Height="200">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
-                        <GradientStop Color="#5bb3ff" Offset="0" />
-                        <GradientStop Color="#3aa0ff" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-                <Border.Clip>
-                    <RectangleGeometry RadiusX="10"
-                                       RadiusY="10"
-                                       Rect="0,0,400,200"/>
-                </Border.Clip>
+        <StackPanel Visibility="Hidden">
+            <StackPanel Orientation="Horizontal"
+               Margin="0,0,0,10">
+                <Border Width="400"
+               Height="200">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
+                            <GradientStop Color="#5bb3ff" Offset="0" />
+                            <GradientStop Color="#3aa0ff" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.Clip>
+                        <RectangleGeometry RadiusX="10"
+                                  RadiusY="10"
+                                  Rect="0,0,400,200"/>
+                    </Border.Clip>
 
-                <Grid>
+                    <Grid>
 
 
-                    <TextBlock Text="Card #1"
-                               Foreground="White"
-                               FontSize="52"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Left"
-                               Margin="2,-3,0,3"
-                               RenderTransformOrigin="0.5,0.5"
-                               Opacity="0.2">
-                        <TextBlock.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                    <StackPanel>
-                        <TextBlock Text="Example text&#x0a;Line #2"
-                                   Foreground="White"
-                                   FontSize="28"
-                                   Margin="20,10,10,0"/>
-                        <TextBlock Text="Example subtext"
-                                   Foreground="White"
-                                   FontSize="18"
-                                   Margin="20,10,10,0"/>
-                    </StackPanel>
+                        <TextBlock Text="Card #1"
+                          Foreground="White"
+                          FontSize="52"
+                          FontWeight="Bold"
+                          HorizontalAlignment="Left"
+                          Margin="2,-3,0,3"
+                          RenderTransformOrigin="0.5,0.5"
+                          Opacity="0.2">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-90"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                        <StackPanel>
+                            <TextBlock Text="Example text&#x0a;Line #2"
+                              Foreground="White"
+                              FontSize="28"
+                              Margin="20,10,10,0"/>
+                            <TextBlock Text="Example subtext"
+                              Foreground="White"
+                              FontSize="18"
+                              Margin="20,10,10,0"/>
+                        </StackPanel>
 
-                    <Image Width="250"
-                           Height="250"
-                           Source="/MVVM/View/man.png"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Bottom" Margin="0,0,-120,-57" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-17.388"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-                </Grid>
-            </Border>
-            <Border Width="200"
-                    Height="200"
-                    CornerRadius="10"
-                    Margin="45,0,0,0">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
-                        <GradientStop Color="#ffc554" Offset="0" />
-                        <GradientStop Color="#ffc738" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
+                        <Image Width="250"
+                      Height="250"
+                      Source="/MVVM/View/man.png"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom" Margin="0,0,-120,-57" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-17.388"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Grid>
+                </Border>
+                <Border Width="200"
+               Height="200"
+               CornerRadius="10"
+               Margin="45,0,0,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
+                            <GradientStop Color="#ffc554" Offset="0" />
+                            <GradientStop Color="#ffc738" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
 
-                <Grid>
-                    <TextBlock Text="Card #2"
-           Foreground="White"
-           FontSize="52"
-           FontWeight="Bold"
-           HorizontalAlignment="Left"
-           Margin="2,-3,0,3"
-           RenderTransformOrigin="0.5,0.5"
-           Opacity="0.2">
-                        <TextBlock.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
+                    <Grid>
+                        <TextBlock Text="Card #2"
+      Foreground="White"
+      FontSize="52"
+      FontWeight="Bold"
+      HorizontalAlignment="Left"
+      Margin="2,-3,0,3"
+      RenderTransformOrigin="0.5,0.5"
+      Opacity="0.2">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-90"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
 
-                    <StackPanel>
+                        <StackPanel>
 
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </StackPanel>
-        <StackPanel Margin="0,0,0,10">
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="Margin" Value="15,0,0,0"/>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock Text="Row #2"
-     Foreground="White"
-     FontSize="20"
-     HorizontalAlignment="Left"
-     Margin="0,0,0,10"/>
-            <StackPanel Orientation="Horizontal">
-                <Border Width="150"
-                Height="150"
-                Background="#844eff"
-                CornerRadius="10"
-                Margin="0"/>
-                <Border Width="150"
-                Height="150"
-                Background="#4e99ff"
-                CornerRadius="10"/>
-                <Border Width="150"
-                Height="150"
-                Background="#4eff91"
-                CornerRadius="10"/>
-                <Border Width="150"
-                Height="150"
-                Background="#ecff4e"
-                CornerRadius="10"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </StackPanel>
-        </StackPanel>
-        <StackPanel>
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="Margin" Value="15,0,0,0"/>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock Text="Row #3"
-                     Foreground="White"
-                     FontSize="20"
-                     HorizontalAlignment="Left"
-                     Margin="0,0,0,10"/>
-            <StackPanel Orientation="Horizontal">
-                <Border Width="150"
-                Height="150"
-                Background="#844eff"
-                CornerRadius="10"
-                Margin="0"/>
-                <Border Width="150"
-                Height="150"
-                Background="#4e99ff"
-                CornerRadius="10"/>
-                <Border Width="150"
-                Height="150"
-                Background="#4eff91"
-                CornerRadius="10"/>
-                <Border Width="150"
-                Height="150"
-                Background="#ecff4e"
-                CornerRadius="10"/>
+            <StackPanel Margin="0,0,0,10">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Margin" Value="15,0,0,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Row #2"
+                            Foreground="White"
+                            FontSize="20"
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="150"
+           Height="150"
+           Background="#844eff"
+           CornerRadius="10"
+           Margin="0"/>
+                    <Border Width="150"
+           Height="150"
+           Background="#4e99ff"
+           CornerRadius="10"/>
+                    <Border Width="150"
+           Height="150"
+           Background="#4eff91"
+           CornerRadius="10"/>
+                    <Border Width="150"
+           Height="150"
+           Background="#ecff4e"
+           CornerRadius="10"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Margin" Value="15,0,0,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Row #3"
+                Foreground="White"
+                FontSize="20"
+                HorizontalAlignment="Left"
+                Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="150"
+           Height="150"
+           Background="#844eff"
+           CornerRadius="10"
+           Margin="0"/>
+                    <Border Width="150"
+           Height="150"
+           Background="#4e99ff"
+           CornerRadius="10"/>
+                    <Border Width="150"
+           Height="150"
+           Background="#4eff91"
+           CornerRadius="10"/>
+                    <Border Width="150"
+           Height="150"
+           Background="#ecff4e"
+           CornerRadius="10"/>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </StackPanel>

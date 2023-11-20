@@ -47,7 +47,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             ScheduleVM = new ScheduleViewModel();
             TimelineVM = new TimelineViewModel();
 
-            CurrentView = FilesVM; // OverviewVM; // TODO: Change when we actually have an overview view
+            CurrentView = OverviewVM;
 
             OverviewViewCommand = new RelayCommand(o => {
                 CurrentView = OverviewVM;
