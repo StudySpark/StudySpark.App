@@ -16,10 +16,6 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <Image Source="/MVVM/View/DirectoryIcon.png" Grid.Column="0" Grid.Row="0" Height="56" VerticalAlignment="Top" HorizontalAlignment="Center" Width="78" Margin="0,24,0,0" />
             <Image Source="/MVVM/View/DirectoryIcon.png" Grid.Column="1" Grid.Row="0" Height="56" VerticalAlignment="Top" HorizontalAlignment="Center" Width="78" Margin="0,24,0,0" />
@@ -28,6 +24,6 @@
             <Image Source="/MVVM/View/DirectoryIcon.png" Grid.Column="4" Grid.Row="0" Height="56" VerticalAlignment="Top" HorizontalAlignment="Center" Width="78" Margin="0,24,0,0" />
             <Image Source="/MVVM/View/DirectoryIcon.png" Grid.Column="0" Grid.Row="1" Height="56" VerticalAlignment="Top" HorizontalAlignment="Center" Width="78" Margin="0,24,0,0" />
         </Grid>
-        <TextBox HorizontalAlignment="Left" Margin="303,171,0,0" TextWrapping="Wrap" Text="Files" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="test" HorizontalAlignment="Left" Margin="303,171,0,0" TextWrapping="Wrap" Text="Files" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </UserControl>

@@ -12,6 +12,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public FilesViewModel() {
             _model = new FilesModel();
+            
+        }
+        public void generateFileRows()
+        {
+
         }
     }
 }
