@@ -6,10 +6,43 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                            <Border Background="#15000000" Margin="-45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50">
+                                <Border.LayoutTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Border.LayoutTransform>
+
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Border Background="#15000000" Margin="-35,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50">
+                                <Border.LayoutTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Border.LayoutTransform>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            
                             <TextBlock Text="{TemplateBinding Property=Content}"
                                        VerticalAlignment="Center"
-                                       Margin="50,-2,0,0"
+                                       Margin="50,0,0,0"
                                        FontFamily="/Fonts/#Ubuntu" />
+
 
                             <TextBlock Text="»"
                                        VerticalAlignment="Center"
