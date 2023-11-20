@@ -7,16 +7,16 @@ namespace StudySpark.GUI.WPF.MVVM.Model {
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private List<File> files = new List<File>();
+        private List<SearchFiles> files = new List<SearchFiles>();
 
-        public List<File> Files { get { return files; } }
+        public List<SearchFiles> Files { get { return files; } }
 
-        public void AddFile(File file) {
+        public void AddFile(SearchFiles file) {
             files.Add(file);
             OnPropertyChanged(nameof(Files));
         }
 
-        public void RemoveFile(File file) {
+        public void RemoveFile(SearchFiles file) {
             files.Remove(file);
             OnPropertyChanged(nameof(Files));
         }

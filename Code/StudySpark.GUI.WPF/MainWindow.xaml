@@ -29,6 +29,16 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
+            <ScrollViewer Grid.Row="1"
+              Grid.Column="1"
+              VerticalScrollBarVisibility="Auto"
+              HorizontalScrollBarVisibility="Hidden">
+                <ContentControl Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0"
+                    Content="{Binding CurrentView}"/>
+            </ScrollViewer>
+
             <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
@@ -131,16 +141,6 @@
                         Style="{StaticResource ApplicationActionButtonTheme}"/>
 
             </Grid>
-
-            <ScrollViewer Grid.Row="1"
-                          Grid.Column="1"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden">
-                <ContentControl Grid.Row="1"
-                                Grid.Column="1"
-                                Margin="10"
-                                Content="{Binding CurrentView}"/>
-            </ScrollViewer>
 
         </Grid>
 
