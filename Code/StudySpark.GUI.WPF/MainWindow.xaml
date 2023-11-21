@@ -144,7 +144,8 @@
             <ScrollViewer Grid.Row="1"
                           Grid.Column="1"
                           VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden">
+                          HorizontalScrollBarVisibility="Hidden"
+                          Style="{StaticResource ScrollViewTheme}">
                 <ContentControl Grid.Row="1"
                                 Grid.Column="1"
                                 Margin="10"
