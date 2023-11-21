@@ -1,6 +1,7 @@
 ﻿using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand FilesViewCommand { get; set; }
         public RelayCommand TimelineViewCommand { get; set; }
         public RelayCommand ScheduleViewCommand { get; set; }
+        public RelayCommand OpenSettingsCommand { get; set; }
 
         public RelayCommand MinimizeCommand { get; private set; }
         public RelayCommand MaximizeCommand { get; private set; }
@@ -67,6 +69,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             ScheduleViewCommand = new RelayCommand(o => {
                 CurrentView = ScheduleVM;
+            });
+
+            OpenSettingsCommand = new RelayCommand(o => {
+                Debug.WriteLine("Settings!");
             });
 
         }

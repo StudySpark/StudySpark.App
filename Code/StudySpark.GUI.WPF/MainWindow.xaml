@@ -151,7 +151,17 @@
                                 Margin="10"
                                 Content="{Binding CurrentView}"/>
             </ScrollViewer>
-
+            <Button Content="⚙"
+                    Width="58"
+                    Height="56"
+                    Style="{StaticResource RoundButtonTheme}"
+                    HorizontalAlignment="Left"
+                    Margin="170,0,0,40"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Cursor="Hand"
+                    Command="{Binding OpenSettingsCommand}"
+                    VerticalAlignment="Bottom" />
         </Grid>
 
     </Border>

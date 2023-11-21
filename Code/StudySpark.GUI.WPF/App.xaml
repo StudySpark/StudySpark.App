@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="Theme/TextboxTheme.xaml" />
                 <ResourceDictionary Source="Theme/ApplicationActionButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/ScrollViewTheme.xaml" />
+                <ResourceDictionary Source="Theme/RoundButtonTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:OverviewViewModel}">
