@@ -21,7 +21,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     public partial class FilesView : UserControl {
         public FilesView() {
             InitializeComponent();
-            test.Text = User.Instance.Username;
+            
         }
     }
 }
