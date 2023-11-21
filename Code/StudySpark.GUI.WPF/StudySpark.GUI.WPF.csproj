@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\DirectoryIcon.png" />
+    <None Remove="Images\Icon_VS.png" />
+    <None Remove="Images\Logo_NoText.png" />
+    <None Remove="Images\man.png" />
     <None Remove="Logo_NoText.png" />
-    <None Remove="MVVM\View\DirectoryIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,8 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\DirectoryIcon.png" />
+    <Resource Include="Images\Icon_VS.png" />
+    <Resource Include="Images\Logo_NoText.png" />
+    <Resource Include="Images\man.png" />
     <Resource Include="Logo_NoText.png" />
-    <Resource Include="MVVM\View\DirectoryIcon.png" />
   </ItemGroup>
 
 </Project>
