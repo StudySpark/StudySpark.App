@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SQLite" Version="3.13.0" />
+    <Folder Include="MVVM\Model\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StudySpark.Core\StudySpark.DB.SQLlite.csproj" />
+    <ProjectReference Include="..\StudySpark.Core\StudySpark.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
