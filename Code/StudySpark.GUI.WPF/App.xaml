@@ -33,6 +33,14 @@
                 <view:ScheduleView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:FilesSolutionViewModel}">
+                <view:FilesSolutionView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:FilesDownloadViewModel}">
+                <view:FilesDownloadView/>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
