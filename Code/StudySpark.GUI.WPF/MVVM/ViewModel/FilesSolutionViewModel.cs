@@ -11,6 +11,7 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -28,20 +29,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        public Button ButtonNoHoverEffect()
-        {
-            Button button = new Button();
-
-            button.Width = 60;
-            button.Height = 60;
-            button.BorderThickness = new Thickness(0, 0, 0, 0);
-            button.Background = SetIcon();
-            button.Cursor = Cursors.Hand;
-            button.MouseDoubleClick += btn_Click;
-            return button;
-        }
-
-
         private const int AmountToShow = 5;
         private List<string> _recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
         WrapPanel solutionPanel = new();
@@ -49,7 +36,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public FilesSolutionViewModel()
         {
-
             for (int i = 0; i < AmountToShow; i++)
             {
                 //create a grid for every iteration
@@ -68,21 +54,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     solutionGrid.Children.Add(b);
 
                     //Create textbox and add it to grid
-                    TextBlock t = new()
-                    {
-                        TextAlignment = TextAlignment.Center,
-                        Width = 100,
-                        Height = 20,
-                        FontSize = 12,
-                        Text = fileName,
-                        Foreground = new SolidColorBrush(Colors.White),
-                        Background = new SolidColorBrush(Colors.Transparent),
-                        IsEnabled = true,
-                        Cursor = Cursors.Hand
-                    };
+                    TextBlock t = SubText();
+                    t.Text = fileName;
                     solutionGrid.Children.Add(t);
 
-                    //set row defenitions for b and t
+                    //set row defenitions for button and text
                     Grid.SetRow(b, 0);
                     Grid.SetRow(t, 1);
 
@@ -90,10 +66,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     solutionPanel.HorizontalAlignment = HorizontalAlignment.Center;
                     solutionPanel.VerticalAlignment = VerticalAlignment.Top;
                     
-                    //set margin top
+                    //set margin top -- in the middle of screen --> delete when more than
+                    //5 solutions need to be displayed
                     Thickness margin = solutionPanel.Margin;
                     margin.Top = 80;
-                    solutionPanel.Margin = margin; 
+                    solutionPanel.Margin = margin;
+                    //------------------------------------
 
                     //add grid to panel
                     solutionPanel.Children.Add(solutionGrid);
@@ -130,6 +108,36 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             return brush;
         }
+
+        public Button ButtonNoHoverEffect()
+        {
+            Button button = new Button();
+
+            button.Width = 60;
+            button.Height = 60;
+            button.BorderThickness = new Thickness(0, 0, 0, 0);
+            button.Background = SetIcon();
+            button.Cursor = Cursors.Hand;
+            button.MouseDoubleClick += btn_Click;
+            return button;
+        }
+
+        public TextBlock SubText()
+        {
+            TextBlock textBlock = new TextBlock();
+            textBlock.TextAlignment = TextAlignment.Center;
+            textBlock.Width = 100;
+            textBlock.Height = 20;
+            textBlock.FontSize = 12;
+            textBlock.Foreground = new SolidColorBrush(Colors.White);
+            textBlock.Background = new SolidColorBrush(Colors.Transparent);
+            textBlock.IsEnabled = true;
+            textBlock.Cursor = Cursors.Hand;
+            return textBlock;
+        }
+
+
+        //for testing purposes -- delete when merging
         public ImageBrush SetIcon2()
         {
             var brush = new ImageBrush
@@ -138,6 +146,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             return brush;
         }
+        //--------------------------------------------
+
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             Button? button = sender as Button;
