@@ -1,28 +1,42 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SQLite;
+using StudySpark.Core;
 using StudySpark.Core.FileManager;
 
 namespace StudySpark.GUI.WPF.MVVM.Model {
-    class FilesModel : INotifyPropertyChanged  {
+    class FilesModel  {
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        //public event PropertyChangedEventHandler? PropertyChanged;
 
-        private List<File> files = new List<File>();
+        //private List<File> files = new List<File>();
 
-        public List<File> Files { get { return files; } }
+        //public List<File> Files { get { return files; } }
 
-        public void AddFile(File file) {
-            files.Add(file);
-            OnPropertyChanged(nameof(Files));
+        public static void AddFile() {
+
+            SQLiteConnection sqlite_conn = DBLogic.CreateConnection();
+            DBLogic.InsertData(sqlite_conn);
+
         }
 
-        public void RemoveFile(File file) {
-            files.Remove(file);
-            OnPropertyChanged(nameof(Files));
+        public static void RemoveFile() {
+
+            SQLiteConnection sqlite_conn = DBLogic.CreateConnection();
+            DBLogic.InsertData(sqlite_conn);
+
         }
 
-        protected virtual void OnPropertyChanged(string propertyName) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public static void ReadFromDatabase()
+        {
+
+            SQLiteConnection sqlite_conn = DBLogic.CreateConnection();
+            DBLogic.ReadData(sqlite_conn);
+
         }
+
+        //protected virtual void OnPropertyChanged(string propertyName) {
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }
