@@ -22,7 +22,9 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="359*" />
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
@@ -32,14 +34,14 @@
             <ScrollViewer Grid.Row="1"
               Grid.Column="1"
               VerticalScrollBarVisibility="Auto"
-              HorizontalScrollBarVisibility="Hidden">
+              HorizontalScrollBarVisibility="Hidden" Grid.ColumnSpan="3">
                 <ContentControl Grid.Row="1"
                     Grid.Column="1"
                     Margin="0"
                     Content="{Binding CurrentView}"/>
             </ScrollViewer>
 
-            <Image x:Name="AAA" Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+            <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -96,7 +98,7 @@
             <Grid MouseLeftButtonDown="WindowDrag"
                   Grid.Column="1"
                   Background="Transparent"
-                  Cursor="Hand">
+                  Cursor="Hand" Grid.ColumnSpan="3">
 
                 <!--<TextBox Width="250"
                          Height="40"

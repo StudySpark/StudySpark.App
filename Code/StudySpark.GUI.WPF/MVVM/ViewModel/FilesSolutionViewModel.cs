@@ -7,20 +7,16 @@ using StudySpark.Core.FileManager;
 using StudySpark.GUI.WPF.Core;
 using System.Windows;
 using System.IO;
+using System.ComponentModel;
 
-namespace StudySpark.GUI.WPF.MVVM.ViewModel
-{
-    internal class FilesSolutionViewModel : ObservableObject
-    {
+namespace StudySpark.GUI.WPF.MVVM.ViewModel {
+    internal class FilesSolutionViewModel : ObservableObject {
         private object _currentSLNList;
-        public object CurrentSLNList
-        {
-            get
-            {
+        public object CurrentSLNList {
+            get {
                 return _currentSLNList;
             }
-            set
-            {
+            set {
                 _currentSLNList = value;
             }
         }
@@ -29,14 +25,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private List<string> _recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
         StackPanel solutionPanel = new();
 
-        public FilesSolutionViewModel()
-        {
-            for (int i = 0; i < AmountToShow; i++)
-            {
-                if (i < _recentSLNFiles.Count)
-                {
-                    Button b = new Button
-                    {
+        public FilesSolutionViewModel() {
+            for (int i = 0; i < AmountToShow; i++) {
+                if (i < _recentSLNFiles.Count) {
+                    Button b = new Button {
                         Width = 50,
                         Height = 50,
                     };
@@ -49,27 +41,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     // Use Path.GetFileName to get only the file name part
                     string fileName = Path.GetFileName(_recentSLNFiles[i]);
 
-                    solutionPanel.Children.Add(new TextBox
-                    {
+                    solutionPanel.Children.Add(new TextBox {
                         TextAlignment = TextAlignment.Center,
                         Width = 150,
                         Height = 20,
                         Text = fileName,
                         IsEnabled = false
                     });
-                }
-                else
-                {
+                } else {
                     // If there are fewer than 5 files, create blank buttons or handle it as needed
-                    solutionPanel.Children.Add(new Button
-                    {
+                    solutionPanel.Children.Add(new Button {
                         Width = 50,
                         Height = 50,
                         IsEnabled = false, // Disable the button if no file is associated
                     });
 
-                    solutionPanel.Children.Add(new TextBox
-                    {
+                    solutionPanel.Children.Add(new TextBox {
                         TextAlignment = TextAlignment.Center,
                         Width = 150,
                         Height = 20,
@@ -81,12 +68,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             _currentSLNList = solutionPanel;
         }
 
-        public ImageBrush SetIcon()
-        {
-            var brush = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Icon_VS.png"))
-            };
+        public ImageBrush SetIcon() {
+
+            ImageBrush? brush = null;
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                brush = new ImageBrush {
+                    ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/Icon_VS.png", UriKind.Relative))
+                };
+            } else {
+                brush = new ImageBrush {
+                    ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Icon_VS.png"))
+                };
+            }
+
             return brush;
         }
     }
