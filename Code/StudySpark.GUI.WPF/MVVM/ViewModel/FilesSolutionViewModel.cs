@@ -46,14 +46,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     fileName = fileName.Substring(0, fileName.IndexOf(".lnk"));
 
                     //create button and add it to grid
-                    Button b = new Button
+                    Button b = new()
                     {
                         Width = 60,
                         Height = 60,
-                        BorderThickness = new Thickness(0,0,0,0),
+                        BorderThickness = new Thickness(0, 0, 0, 0),
+                        Background = SetIcon(),
+                        Tag = _recentSLNFiles[i]
                     };
-                    b.Background = SetIcon();
-                    b.Tag = _recentSLNFiles[i];
+                    b.Click += btn_Click;
                    
                     solutionGrid.Children.Add(b);
 
@@ -118,6 +119,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
             };
             return brush;
+        }
+
+        //testing - remove
+        public ImageBrush SetIcon2()
+        {
+            var brush = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\DirectoryIcon.png", UriKind.Relative))
+            };
+            return brush;
+        }
+
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            Button? b = sender as Button;
+            b.Background = SetIcon2();
         }
     }
 }
