@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudySpark.DB.SQLlite", "StudySpark.Core\StudySpark.DB.SQLlite.csproj", "{092F9A42-BA74-488F-A2A3-F7680EFF80CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudySpark.Core", "StudySpark.Core\StudySpark.Core.csproj", "{092F9A42-BA74-488F-A2A3-F7680EFF80CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudySpark.GUI.WPF", "StudySpark.GUI.WPF\StudySpark.GUI.WPF.csproj", "{F8AD5CBB-C0C3-47C7-AA00-D4F553B66DC5}"
 EndProject
