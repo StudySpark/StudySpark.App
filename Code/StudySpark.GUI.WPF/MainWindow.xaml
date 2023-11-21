@@ -18,7 +18,10 @@
     </Window.DataContext>
 
     <Border Background="#272537"
-            CornerRadius="15">
+            CornerRadius="15" ClipToBounds="True">
+        <Border.Effect>
+            <DropShadowEffect/>
+        </Border.Effect>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
