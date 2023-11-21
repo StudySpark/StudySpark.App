@@ -83,6 +83,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                     Application.Current.MainWindow.WindowState = WindowState.Normal;
                 } else {
                     Application.Current.MainWindow.WindowState = WindowState.Maximized;
+
+                    // Set the maximum size of the window to the screen dimensions
+                    Application.Current.MainWindow.MaxWidth = SystemParameters.WorkArea.Width;
+                    Application.Current.MainWindow.MaxHeight = SystemParameters.WorkArea.Height;
                 }
             }
         }
