@@ -133,7 +133,7 @@
 
             </Grid>
 
-            <Image Source="/Images/Logo_NoText_NoColor.png" Margin="-109,253,13,-133" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Opacity="0.05" >
+            <Image Source="/Images/Logo_NoText_NoColor.png" Margin="-102,0,0,-116" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Opacity="0.05" HorizontalAlignment="Left" Width="296" Height="325" VerticalAlignment="Bottom" >
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
