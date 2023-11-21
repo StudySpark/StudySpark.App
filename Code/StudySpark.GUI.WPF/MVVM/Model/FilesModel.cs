@@ -7,19 +7,11 @@ namespace StudySpark.GUI.WPF.MVVM.Model {
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private List<SearchFiles> files = new List<SearchFiles>();
-
-        public List<SearchFiles> Files { get { return files; } }
-
-        public void AddFile(SearchFiles file) {
-            files.Add(file);
-            OnPropertyChanged(nameof(Files));
-        }
-
-        public void RemoveFile(SearchFiles file) {
-            files.Remove(file);
-            OnPropertyChanged(nameof(Files));
-        }
+        public int id { get; set; }
+        public string path { get; set; }
+        public string targetname { get; set; }
+        public string type { get; set; }
+        public string image { get; set; }
 
         protected virtual void OnPropertyChanged(string propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

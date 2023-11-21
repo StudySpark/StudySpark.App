@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudySpark.GUI.WPF.MVVM.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     public partial class FilesView : UserControl {
         public FilesView() {
             InitializeComponent();
+            test.Text = User.Instance.Username;
         }
     }
 }

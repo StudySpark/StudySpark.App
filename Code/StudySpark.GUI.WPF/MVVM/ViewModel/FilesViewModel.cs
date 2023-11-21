@@ -25,6 +25,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             }
         }
         public FilesViewModel() {
+
             FilesSolutionVM = new FilesSolutionViewModel();
             FilesDownloadVM = new FilesDownloadViewModel();
 
@@ -39,6 +40,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             {
                 CurrentView = FilesDownloadVM;
             });
+
         }
     }
 }
