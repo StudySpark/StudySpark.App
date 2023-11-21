@@ -8,6 +8,9 @@ using StudySpark.GUI.WPF.Core;
 using System.Windows;
 using System.IO;
 using System.Windows.Markup;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Media3D;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -24,6 +27,20 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 _currentSLNList = value;
             }
         }
+
+        public Button ButtonNoHoverEffect()
+        {
+            Button button = new Button();
+
+            button.Width = 60;
+            button.Height = 60;
+            button.BorderThickness = new Thickness(0, 0, 0, 0);
+            button.Background = SetIcon();
+            button.Cursor = Cursors.Hand;
+            button.MouseDoubleClick += btn_Click;
+            return button;
+        }
+
 
         private const int AmountToShow = 5;
         private List<string> _recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
@@ -46,16 +63,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     fileName = fileName.Substring(0, fileName.IndexOf(".lnk"));
 
                     //create button and add it to grid
-                    Button b = new()
-                    {
-                        Width = 60,
-                        Height = 60,
-                        BorderThickness = new Thickness(0, 0, 0, 0),
-                        Background = SetIcon(),
-                        Tag = _recentSLNFiles[i]
-                    };
-                    b.Click += btn_Click;
-                   
+                    Button b = ButtonNoHoverEffect();
+                    b.Tag = _recentSLNFiles[i];
                     solutionGrid.Children.Add(b);
 
                     //Create textbox and add it to grid
@@ -69,6 +78,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         Foreground = new SolidColorBrush(Colors.White),
                         Background = new SolidColorBrush(Colors.Transparent),
                         IsEnabled = true,
+                        Cursor = Cursors.Hand
                     };
                     solutionGrid.Children.Add(t);
 
@@ -120,8 +130,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             return brush;
         }
-
-        //testing - remove
         public ImageBrush SetIcon2()
         {
             var brush = new ImageBrush
@@ -130,11 +138,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             return brush;
         }
-
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            Button? b = sender as Button;
-            b.Background = SetIcon2();
+            Button? button = sender as Button;
+            if (button != null)
+            {
+                button.Background = SetIcon2();
+            }
         }
     }
 }
