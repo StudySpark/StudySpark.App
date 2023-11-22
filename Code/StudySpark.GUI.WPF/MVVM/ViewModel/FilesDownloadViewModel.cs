@@ -45,8 +45,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     // Use Path.GetFileName to get only the file name part
                     string fileName = Path.GetFileName(_lastDownloadedFiles[i]);
-
-                    fileName = TruncateFileName(fileName, 10);
+                    string truncatedFileName = TruncateFileName(fileName, 15);
 
                     Button b = ButtonNoHoverEffect();
                     b.Tag = _lastDownloadedFiles[i];
@@ -54,7 +53,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     //Create textbox and add it to grid
                     TextBlock t = SubText();
-                    t.Text = fileName;
+                    t.Text = truncatedFileName;
+                    t.ToolTip = fileName;
                     downloadGrid.Children.Add(t);
 
                     //set row defenitions for button and text
