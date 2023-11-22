@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -105,6 +106,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Cursor = Cursors.Hand;
+            button.Background = SetIcon();
             return button;
         }
 
@@ -134,6 +136,28 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 // If the file name is too long, truncate it and add "..." at the end
                 return fileName.Substring(0, maxLength - 3) + "...";
             }
+        }
+
+        public ImageBrush SetIcon()
+        {
+
+            ImageBrush? brush = null;
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/FileIcon.png", UriKind.Relative))
+                };
+            }
+            else
+            {
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\FileIcon.png", UriKind.Relative))
+                };
+            }
+
+            return brush;
         }
     }
 }
