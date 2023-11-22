@@ -21,7 +21,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         public OverviewView() {
             InitializeComponent();
 
-            UserGreetingText.Text = GetGreeting(DateTime.Now.Hour, Environment.UserName);
+            UserGreetingText.Text = GetGreeting(DateTime.Now.Hour, CapitalizeFirstLetter(Environment.UserName));
         }
 
         private string GetGreeting(int hour, string name) {
@@ -38,6 +38,17 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             }
 
             return greeting;
+        }
+
+        private string CapitalizeFirstLetter(string input) {
+            if (string.IsNullOrEmpty(input)) {
+                return input;
+            }
+
+            char[] charArray = input.ToCharArray();
+            charArray[0] = char.ToUpper(charArray[0]);
+
+            return new string(charArray);
         }
     }
 }
