@@ -33,25 +33,27 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         FileRepository repository;
         public FilesFolderViewModel()
         {
-            //repository = new FileRepository();
-            //List<GenericFile> files = repository.ReadData();
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            folderPanel.Width = double.Parse(UserControl.ActualWidthProperty.ToString());
+            repository = new FileRepository();
+            repository.InsertData();
+            List<GenericFile> files = repository.ReadData();
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
+            //files.Add(new GenericFile(1, "d", "c", "b", "a"));     
             foreach (GenericFile file in files)
             {
                 Grid folderGrid = new Grid();
+                folderGrid.RowDefinitions.Add(new RowDefinition());
+                folderGrid.RowDefinitions.Add(new RowDefinition());
                 //create button and add it to grid
                 Button b = ButtonNoHoverEffect();
                 b.Tag = file.Path;
@@ -59,12 +61,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 //Create textbox and add it to grid
                 TextBlock t = SubText();
-                t.Text = file.TargetName;
+                t.Text = TruncateFileName(file.Path, 15);
+                t.ToolTip = file.Path;
                 folderGrid.Children.Add(t);
 
                 //set row defenitions for button and text
                 Grid.SetRow(b, 0);
                 Grid.SetRow(t, 1);
+
+                //
+                Thickness margin = folderGrid.Margin;
+                margin.Bottom = 75;
+                folderGrid.Margin = margin;
+
 
                 //set alignment for panel
                 folderPanel.HorizontalAlignment = HorizontalAlignment.Center;
@@ -72,6 +81,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 //add grid to panel
                 folderPanel.Children.Add(folderGrid);
+
             }
             _currentFolderList = folderPanel;
         }
@@ -99,6 +109,18 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.IsEnabled = true;
             textBlock.Cursor = Cursors.Hand;
             return textBlock;
+        }
+        private string TruncateFileName(string fileName, int maxLength)
+        {
+            if (fileName.Length <= maxLength)
+            {
+                return fileName;
+            }
+            else
+            {
+                // If the file name is too long, truncate it and add "..." at the end
+                return fileName.Substring(0, maxLength - 3) + "...";
+            }
         }
 
         public ImageBrush SetIcon()

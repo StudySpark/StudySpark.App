@@ -22,7 +22,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition />
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
@@ -36,6 +36,7 @@
                 <ContentControl Grid.Row="1"
                     Grid.Column="1"
                     Margin="0"
+                    Width="Auto"
                     Content="{Binding CurrentView}"/>
             </ScrollViewer>
 
