@@ -10,7 +10,7 @@
         <ScrollViewer
         VerticalScrollBarVisibility="Hidden"
         HorizontalScrollBarVisibility="Hidden">
-
+            
             <ContentControl
             Margin="10"
             Content="{Binding CurrentDownloadList}"/>
