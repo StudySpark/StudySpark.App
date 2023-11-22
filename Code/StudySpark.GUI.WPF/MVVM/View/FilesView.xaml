@@ -28,6 +28,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                     <!--add new collumndefinition for every new tab-->
                 </Grid.ColumnDefinitions>
                 
@@ -50,6 +51,16 @@
                     IsChecked="False"
                     Command="{Binding FilesDownloadCommand}"
                     />
+                <RadioButton Content="Folder"
+                    Grid.Column="2"
+                    Cursor="Hand"
+                    Height="50"
+                    Foreground="White"
+                    FontSize="14"
+                    Style="{StaticResource MenuButtonTheme}"
+                    IsChecked="False"
+                    Command="{Binding FilesFolderCommand}"
+                    />
             </Grid>
 
             <ScrollViewer Grid.Row="1"
@@ -59,7 +70,7 @@
                 
                 <ContentControl Grid.Row="1"
                     Grid.Column="1"
-                    Margin="10"
+                    Margin="0"
                     Content="{Binding CurrentView}"/>
             </ScrollViewer>
         </Grid>

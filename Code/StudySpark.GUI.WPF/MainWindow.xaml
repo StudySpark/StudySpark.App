@@ -49,22 +49,22 @@
                        FontSize="22"/>
 
             <StackPanel Grid.Row="1">
-                <!--<RadioButton Content="Overzicht"
+                <RadioButton Content="Overzicht"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
-                             Command="{Binding OverviewViewCommand}"/>-->
+                             Command="{Binding OverviewViewCommand}"/>
 
-                <!--<RadioButton Content="Notities"
+                <RadioButton Content="Notities"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding NotesViewCommand}"/>-->
+                             Command="{Binding NotesViewCommand}"/>
 
                 <RadioButton Content="Bestanden"
                              Cursor="Hand"
@@ -76,21 +76,21 @@
                              Command="{Binding FilesViewCommand}"/>
                 <!--TODO: Remove IsChecked="True" from 'Files' when an overview view is made-->
 
-                <!--<RadioButton Content="Tijdlijn"
+                <RadioButton Content="Tijdlijn"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding TimelineViewCommand}"/>-->
+                             Command="{Binding TimelineViewCommand}"/>
 
-                <!--<RadioButton Content="Rooster"
+                <RadioButton Content="Rooster"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding ScheduleViewCommand}"/>-->
+                             Command="{Binding ScheduleViewCommand}"/>
             </StackPanel>
 
             <Grid MouseLeftButtonDown="WindowDrag"
