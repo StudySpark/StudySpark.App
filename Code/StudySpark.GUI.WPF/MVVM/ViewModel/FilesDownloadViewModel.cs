@@ -101,7 +101,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public Button ButtonNoHoverEffect()
         {
             Button button = new Button();
-
             button.Width = 60;
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
