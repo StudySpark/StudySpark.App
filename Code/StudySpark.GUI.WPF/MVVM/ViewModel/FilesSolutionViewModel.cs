@@ -129,7 +129,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Background = SetIcon();
-            button.Cursor = Cursors.Hand;
+            button.Cursor = Cursors.Hand; 
             button.MouseDoubleClick += btn_Click;
             return button;
         }
