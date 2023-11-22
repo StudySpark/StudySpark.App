@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using static System.Net.Mime.MediaTypeNames;
+using System.ComponentModel;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -102,10 +103,21 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public ImageBrush SetIcon()
         {
-            var brush = new ImageBrush
+            ImageBrush? brush = null;
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
-            };
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/Icon_VS.png", UriKind.Relative))
+                };
+            }
+            else
+            {
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
+                };
+            }
             return brush;
         }
 
