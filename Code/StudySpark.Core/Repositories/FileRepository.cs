@@ -33,18 +33,17 @@ namespace StudySpark.Core.Repositories
         {
 
             SQLiteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS FileTable (id INT, path VARCHAR(256), targetname VARCHAR(64))";
+            string Createsql = "CREATE TABLE IF NOT EXISTS FileTable (id INT, path VARCHAR(256), targetname VARCHAR(64), type VARCHAR(32), image VARCHAR(64))";
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = Createsql;
             sqlite_cmd.ExecuteNonQuery();
-
         }
 
         public void InsertData()
         {
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "INSERT INTO FileTable (path, targetname) VALUES('Ditiseentest', 'test'); ";
+            sqlite_cmd.CommandText = "INSERT INTO FileTable (path, targetname, type, image) VALUES('Hoi/hoi/hoi1', 'eenbestand', 'docx', 'somefile'); ";
             sqlite_cmd.ExecuteNonQuery();
 
         }
@@ -62,13 +61,12 @@ namespace StudySpark.Core.Repositories
             reader = sqlite_cmd.ExecuteReader();
             while (reader.Read())
             {
-                int dbID = reader.GetInt16("id");
                 string dbPath = reader.GetString("path");
                 string dbTargetName = reader.GetString("targetname");
                 string dbType = reader.GetString("type");
                 string dbImage = reader.GetString("image");
 
-                GenericFile file = new GenericFile(dbID, dbPath, dbTargetName, dbType, dbImage);
+                GenericFile file = new GenericFile(1, dbPath, dbTargetName, dbType, dbImage);
                 files.Add(file);
             }
             return files;

@@ -22,14 +22,25 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition />
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+            <ScrollViewer Grid.Row="1"
+              Grid.Column="1"
+              VerticalScrollBarVisibility="Auto"
+              HorizontalScrollBarVisibility="Hidden">
+                <ContentControl Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0"
+                    Width="Auto"
+                    Content="{Binding CurrentView}"/>
+            </ScrollViewer>
+
+            <Image x:Name="AAA" Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -39,22 +50,22 @@
                        FontSize="22"/>
 
             <StackPanel Grid.Row="1">
-                <!--<RadioButton Content="Overzicht"
+                <RadioButton Content="Overzicht"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
-                             Command="{Binding OverviewViewCommand}"/>-->
+                             Command="{Binding OverviewViewCommand}"/>
 
-                <!--<RadioButton Content="Notities"
+                <RadioButton Content="Notities"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding NotesViewCommand}"/>-->
+                             Command="{Binding NotesViewCommand}"/>
 
                 <RadioButton Content="Bestanden"
                              Cursor="Hand"
@@ -66,21 +77,21 @@
                              Command="{Binding FilesViewCommand}"/>
                 <!--TODO: Remove IsChecked="True" from 'Files' when an overview view is made-->
 
-                <!--<RadioButton Content="Tijdlijn"
+                <RadioButton Content="Tijdlijn"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding TimelineViewCommand}"/>-->
+                             Command="{Binding TimelineViewCommand}"/>
 
-                <!--<RadioButton Content="Rooster"
+                <RadioButton Content="Rooster"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding ScheduleViewCommand}"/>-->
+                             Command="{Binding ScheduleViewCommand}"/>
             </StackPanel>
 
             <Grid MouseLeftButtonDown="WindowDrag"
@@ -131,16 +142,6 @@
                         Style="{StaticResource ApplicationActionButtonTheme}"/>
 
             </Grid>
-
-            <ScrollViewer Grid.Row="1"
-                          Grid.Column="1"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden">
-                <ContentControl Grid.Row="1"
-                                Grid.Column="1"
-                                Margin="10"
-                                Content="{Binding CurrentView}"/>
-            </ScrollViewer>
 
         </Grid>
 

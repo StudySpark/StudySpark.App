@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,8 @@ namespace StudySpark.GUI.WPF {
 
         public MainWindow() {
             InitializeComponent();
+
+            Debug.WriteLine(AAA.Source.ToString());
         }
 
         private void WindowDrag(object sender, MouseButtonEventArgs e) {
