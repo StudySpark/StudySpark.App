@@ -18,7 +18,7 @@
     </Window.DataContext>
 
     <Border Background="#272537"
-            CornerRadius="15">
+            CornerRadius="15" ClipToBounds="True">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -29,7 +29,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+            <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -39,14 +39,14 @@
                        FontSize="22"/>
 
             <StackPanel Grid.Row="1">
-                <!--<RadioButton Content="Overzicht"
+                <RadioButton Content="Overzicht"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
-                             Command="{Binding OverviewViewCommand}"/>-->
+                             Command="{Binding OverviewViewCommand}"/>
 
                 <!--<RadioButton Content="Notities"
                              Cursor="Hand"
@@ -62,9 +62,7 @@
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             IsChecked="True"
-                             Command="{Binding FilesViewCommand}"/>
-                <!--TODO: Remove IsChecked="True" from 'Files' when an overview view is made-->
+                             Command="{Binding FilesViewCommand}" />
 
                 <!--<RadioButton Content="Tijdlijn"
                              Cursor="Hand"
@@ -132,16 +130,38 @@
 
             </Grid>
 
+            <Image Source="/Images/Logo_NoText_NoColor.png" Margin="-102,0,0,-116" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Opacity="0.05" HorizontalAlignment="Left" Width="296" Height="325" VerticalAlignment="Bottom" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="33"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+
             <ScrollViewer Grid.Row="1"
                           Grid.Column="1"
                           VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden">
+                          HorizontalScrollBarVisibility="Hidden"
+                          Style="{StaticResource ScrollViewTheme}">
                 <ContentControl Grid.Row="1"
                                 Grid.Column="1"
                                 Margin="10"
                                 Content="{Binding CurrentView}"/>
             </ScrollViewer>
-
+            <Button Content="⚙"
+                    Width="58"
+                    Height="56"
+                    Style="{StaticResource RoundButtonTheme}"
+                    HorizontalAlignment="Left"
+                    Margin="170,0,0,40"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Cursor="Hand"
+                    Command="{Binding OpenSettingsCommand}"
+                    VerticalAlignment="Bottom" />
         </Grid>
 
     </Border>
