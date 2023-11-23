@@ -31,7 +31,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
 
         private const int AmountToShow = 5;
-        private List<string> _recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
+        private List<string> _recentSLNFiles = SearchFiles.GetFilesFromDir(Environment.GetFolderPath(Environment.SpecialFolder.Recent), ".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
         WrapPanel solutionPanel = new();
         Grid solutionGrid;
 
