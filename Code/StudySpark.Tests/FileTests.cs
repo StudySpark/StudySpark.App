@@ -5,7 +5,7 @@ namespace StudySpark.Tests {
     public class FileHelperTests
     {
         [Test]
-        public void GetFilesFromRecent_ReturnsSortedListOfFiles()
+        public void TestGetFilesFromDir()
         {
             // Arrange
             var dirPath = "testdir\\";
