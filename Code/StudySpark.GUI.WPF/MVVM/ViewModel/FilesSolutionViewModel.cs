@@ -124,6 +124,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public Button ButtonNoHoverEffect()
         {
             Button button = new Button();
+            Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
             button.Width = 60;
             button.Height = 60;
@@ -131,6 +132,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             button.Background = SetIcon();
             button.Cursor = Cursors.Hand;
             button.MouseDoubleClick += btn_Click;
+            button.Style = customButtonStyle;
             return button;
         }
 
