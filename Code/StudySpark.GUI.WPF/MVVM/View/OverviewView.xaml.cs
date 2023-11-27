@@ -20,6 +20,35 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     public partial class OverviewView : UserControl {
         public OverviewView() {
             InitializeComponent();
+
+            UserGreetingText.Text = GetGreeting(DateTime.Now.Hour, CapitalizeFirstLetter(Environment.UserName));
+        }
+
+        private string GetGreeting(int hour, string name) {
+            string greeting;
+
+            if (hour >= 5 && hour < 12) {
+                greeting = $"Goede morgen {name}!";
+            } else if (hour >= 12 && hour < 17) {
+                greeting = $"Goede middag {name}!";
+            } else if (hour >= 17 && hour < 21) {
+                greeting = $"Goede avond {name}!";
+            } else {
+                greeting = $"Goede nacht {name}!";
+            }
+
+            return greeting;
+        }
+
+        private string CapitalizeFirstLetter(string input) {
+            if (string.IsNullOrEmpty(input)) {
+                return input;
+            }
+
+            char[] charArray = input.ToCharArray();
+            charArray[0] = char.ToUpper(charArray[0]);
+
+            return new string(charArray);
         }
     }
 }

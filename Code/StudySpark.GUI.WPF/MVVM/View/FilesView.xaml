@@ -11,7 +11,7 @@
     <UserControl.DataContext>
         <viewModel:FilesViewModel/>
     </UserControl.DataContext>
-    
+
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -37,7 +37,7 @@
                     Height="50"
                     Foreground="White"
                     FontSize="14"
-                    Style="{StaticResource MenuButtonTheme}"
+                    Style="{StaticResource TabButtonTheme}"
                     IsChecked="True"
                     Command="{Binding FilesSolutionCommand}"/>
                 <RadioButton Content="Downloads"
@@ -46,7 +46,7 @@
                     Height="50"
                     Foreground="White"
                     FontSize="14"
-                    Style="{StaticResource MenuButtonTheme}"
+                    Style="{StaticResource TabButtonTheme}"
                     IsChecked="False"
                     Command="{Binding FilesDownloadCommand}"
                     />
