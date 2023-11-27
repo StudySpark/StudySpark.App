@@ -7,6 +7,7 @@ namespace StudySpark.Tests {
         [Test]
         public void TestGetFilesFromDir()
         {
+            SearchFiles searchFiles = new();
             // Arrange
             var dirPath = "testdir\\";
             var extension = ".sln.lnk"; 
@@ -32,7 +33,7 @@ namespace StudySpark.Tests {
             }
 
             // Act
-            var actualFiles = SearchFiles.GetFilesFromDir(dirPath, extension, searchOption);
+            var actualFiles = searchFiles.GetFilesFromDir(dirPath, extension, searchOption);
 
             // Assert
             Assert.That(actualFiles.Count, Is.EqualTo(expectedFiles.Count));
@@ -47,6 +48,7 @@ namespace StudySpark.Tests {
         [Test]
         public void TestGetFilesFromDirNoFiles()
         {
+            SearchFiles searchFiles = new();
             // Arrange
             var dirPath = "testdir\\";
             var extension = ".sln.lnk";
@@ -65,7 +67,7 @@ namespace StudySpark.Tests {
             Directory.CreateDirectory(dirPath);
 
             // Act
-            var actualFiles = SearchFiles.GetFilesFromDir(dirPath, extension, searchOption);
+            var actualFiles = searchFiles.GetFilesFromDir(dirPath, extension, searchOption);
 
             // Assert
             Assert.That(actualFiles.Count, Is.EqualTo(expectedFiles.Count));
