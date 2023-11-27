@@ -6,19 +6,34 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                    <Border Background="#22000000" CornerRadius="5">
-                        <TextBlock Text="{TemplateBinding Property=Content}"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Foreground="{TemplateBinding Foreground}" />
-                    </Border>
-                    <!--
-                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
-                            <TextBlock Text="{TemplateBinding Property=Content}"
-                                       VerticalAlignment="Center"
-                                       Margin="0,0,0,0"
-                                       Foreground="{TemplateBinding Foreground}" />
-                        </Grid>-->
+                        <Grid>
+                            <Border x:Name="ClippingBorder" Width="42" Height="42" ClipToBounds="True">
+                                <Grid>
+                                    <Border x:Name="ButtonBorderBG" Background="#2A000000" Margin="-8,-58,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="42" Height="42">
+                                        <Border.LayoutTransform>
+                                            <RotateTransform Angle="45"/>
+                                        </Border.LayoutTransform>
+                                    </Border>
+
+                                    <Border x:Name="ButtonBorder" Background="#22000000" CornerRadius="5">
+                                        <TextBlock Text="{TemplateBinding Property=Content}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="{TemplateBinding Foreground}" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#33000000"/>
+                                <Setter TargetName="ButtonBorderBG" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter TargetName="ButtonBorderBG" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

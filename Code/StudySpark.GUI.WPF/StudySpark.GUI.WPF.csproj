@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\DirectoryIcon.png" />
+    <None Remove="Images\Logo_NoText.png" />
+    <None Remove="Images\Logo_NoText_NoColor.png" />
+    <None Remove="Images\man.png" />
     <None Remove="Logo_NoText.png" />
   </ItemGroup>
 
@@ -20,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\DirectoryIcon.png" />
+    <Resource Include="Images\Logo_NoText.png" />
+    <Resource Include="Images\Logo_NoText_NoColor.png" />
+    <Resource Include="Images\man.png" />
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
 
