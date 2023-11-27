@@ -9,58 +9,78 @@ using StudySpark.Core.FileManager;
 using StudySpark.Core.Repositories;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Forms;
+using Button = System.Windows.Controls.Button;
+using System.Windows.Threading;
+using System.Linq;
+using System.Diagnostics;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesFolderViewModel : ObservableObject
     {
-        private object currentFolderList;
+        private object _currentFolderList;
+        
+        public RelayCommand OpenFolderSelectCommand { get; private set; }
+        
+        WrapPanel folderPanel = new WrapPanel();
+        
+        public List<GenericFile> files = new List<GenericFile>();
+        
+        private List<GenericFile> previousFiles;
+        
+        FileRepository repository = new FileRepository();
         
         public object CurrentFolderList
         {
             get
             {
-                return currentFolderList;
+                return _currentFolderList;
             }
             set
             {
-                currentFolderList = value;
+                _currentFolderList = value;
             }
         }
 
-        WrapPanel folderPanel = new WrapPanel();
-        public List<GenericFile> files = new List<GenericFile>(); 
-        FileRepository repository;
         public FilesFolderViewModel()
         {
-            repository = new FileRepository();
-            List<GenericFile> files = repository.ReadData();
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));     
-            foreach (GenericFile file in files)
+            OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
+
+            UpdateOnChange();
+
+            //set alignment for panel
+            folderPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            folderPanel.VerticalAlignment = VerticalAlignment.Top;
+
+            _currentFolderList = folderPanel;
+
+        }
+
+        private void UpdateOnChange()
+        {
+            previousFiles = files;
+            files = repository.ReadData();
+            folderPanel.Children.Clear();
+            
+            List<GenericFile> difference = files.Except(previousFiles).ToList();
+            foreach (GenericFile file in difference)
             {
+                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
+
                 Grid folderGrid = new Grid();
                 folderGrid.RowDefinitions.Add(new RowDefinition());
                 folderGrid.RowDefinitions.Add(new RowDefinition());
-                //create button and add it to grid
+
+                //Create button and add it to grid
                 Button b = ButtonNoHoverEffect();
                 b.Tag = file.Path;
+                b.Style = customButtonStyle;
                 folderGrid.Children.Add(b);
 
                 //Create textbox and add it to grid
                 TextBlock t = SubText();
-                t.Text = TruncateFileName(file.Path, 15);
+                t.Text = TruncateFileName(file.TargetName, 15);
                 t.ToolTip = file.Path;
                 folderGrid.Children.Add(t);
 
@@ -73,17 +93,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 margin.Bottom = 75;
                 folderGrid.Margin = margin;
 
-
-                //set alignment for panel
-                folderPanel.HorizontalAlignment = HorizontalAlignment.Center;
-                folderPanel.VerticalAlignment = VerticalAlignment.Top;
-
                 //add grid to panel
                 folderPanel.Children.Add(folderGrid);
-
             }
-            currentFolderList = folderPanel;
         }
+
         public Button ButtonNoHoverEffect()
         {
             Button button = new Button();
@@ -92,7 +106,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Background = SetIcon();
-            button.Cursor = Cursors.Hand;
+            button.Cursor = System.Windows.Input.Cursors.Hand;
             return button;
         }
 
@@ -106,7 +120,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Foreground = new SolidColorBrush(Colors.White);
             textBlock.Background = new SolidColorBrush(Colors.Transparent);
             textBlock.IsEnabled = true;
-            textBlock.Cursor = Cursors.Hand;
+            textBlock.Cursor = System.Windows.Input.Cursors.Hand;
             return textBlock;
         }
         private string TruncateFileName(string fileName, int maxLength)
@@ -142,6 +156,24 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
 
             return brush;
+        }
+
+        private void SelectFolder()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            
+            DialogResult dr = fbd.ShowDialog();
+
+            if (dr == DialogResult.OK) 
+            {
+                string path = fbd.SelectedPath;
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    repository.InsertData(path, "folder", "DirectoryIcon.png");
+                    UpdateOnChange();
+                }
+            }
         }
     }
 }

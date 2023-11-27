@@ -8,13 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="FilesFolderControl">
- 
-    <Grid>
-        
-        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-                <WrapPanel>
-                <ContentControl Margin="10" Width="650" Content="{Binding CurrentFolderList}"/>
-                </WrapPanel>
-            </ScrollViewer>
-    </Grid>
+
+    <WrapPanel>
+        <ContentControl Margin="10" Width="650" Content="{Binding CurrentFolderList}"/>
+    </WrapPanel>
 </UserControl>
