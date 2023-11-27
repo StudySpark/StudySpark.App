@@ -34,7 +34,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public FilesFolderViewModel()
         {
             repository = new FileRepository();
-            repository.InsertData();
             List<GenericFile> files = repository.ReadData();
             //files.Add(new GenericFile(1, "d", "c", "b", "a"));
             //files.Add(new GenericFile(1, "d", "c", "b", "a"));
