@@ -45,7 +45,7 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = "INSERT INTO FileTable (path, targetname, type, image) VALUES('Hoi/hoi/hoi1', 'eenbestand', 'docx', 'somefile'); ";
             sqlite_cmd.ExecuteNonQuery();
-
+    
         }
 
         public List<GenericFile> ReadData()
