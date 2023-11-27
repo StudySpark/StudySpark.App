@@ -9,8 +9,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml" />
+                <ResourceDictionary Source="Theme/TabButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/TextboxTheme.xaml" />
                 <ResourceDictionary Source="Theme/ApplicationActionButtonTheme.xaml" />
+                <ResourceDictionary Source="Theme/FileButtonTheme.xaml" />
+                <ResourceDictionary Source="Theme/ScrollViewTheme.xaml" />
+                <ResourceDictionary Source="Theme/RoundButtonTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:OverviewViewModel}">
