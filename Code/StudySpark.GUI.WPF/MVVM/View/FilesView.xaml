@@ -5,13 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
              xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
+             xmlns:core="clr-namespace:StudySpark.GUI.WPF.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="FilesControl">
     <UserControl.DataContext>
         <viewModel:FilesViewModel/>
     </UserControl.DataContext>
-    
+
+    <UserControl.Resources>
+        <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -22,7 +27,7 @@
                 <RowDefinition Height="1*"/>
 
             </Grid.RowDefinitions>
-        
+
             <Grid Grid.Row="0" x:Name="header">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -30,7 +35,7 @@
                     <ColumnDefinition Width="*"/>
                     <!--add new collumndefinition for every new tab-->
                 </Grid.ColumnDefinitions>
-                
+
                 <RadioButton Content="Solutions"
                     Grid.Column="0"
                     Cursor="Hand"
@@ -50,7 +55,7 @@
                     IsChecked="False"
                     Command="{Binding FilesDownloadCommand}"
                     />
-                <RadioButton Content="Folder"
+                <RadioButton x:Name="TabButtonFiles" Content="Folder"
                     Grid.Column="2"
                     Cursor="Hand"
                     Height="50"
@@ -63,10 +68,10 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1"
-                          Width="{Binding ElementName=header, Path=Width}"
-                Grid.Column="1"
-                VerticalScrollBarVisibility="Auto"
-                HorizontalScrollBarVisibility="Hidden">
+                          Width="{Binding ElementName=header, Path=Height}"
+                          Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Hidden">
 
                 <ContentControl Grid.Row="1"
                     Grid.Column="1"
@@ -74,5 +79,14 @@
                     Content="{Binding CurrentView}"/>
             </ScrollViewer>
         </Grid>
+
+        <Button Content="➕"
+                Width="58"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,20,20"
+                Cursor="Hand"
+                Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Command="{Binding OpenFolderSelectCommand}" Height="56" />
     </Grid>
 </UserControl>
