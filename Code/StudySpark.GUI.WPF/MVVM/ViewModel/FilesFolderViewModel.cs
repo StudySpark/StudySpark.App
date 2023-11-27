@@ -45,7 +45,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public FilesFolderViewModel()
         {
-
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
 
             UpdateOnChange();
