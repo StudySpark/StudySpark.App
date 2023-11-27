@@ -164,16 +164,24 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             
             DialogResult dr = fbd.ShowDialog();
-
+            
             if (dr == DialogResult.OK) 
             {
                 string path = fbd.SelectedPath;
-
                 if (!string.IsNullOrEmpty(path))
                 {
-                    repository.InsertData(path, "folder", "DirectoryIcon.png");
+                    bool result = repository.InsertData(path, "folder", "DirectoryIcon.png");
+                    if (!result)
+                    {
+                        System.Windows.MessageBox.Show("Er is iets fout gegaan!");
+                        return;
+                    }
                     UpdateOnChange();
                 }
+                System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
+            } else
+            {
+                System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
         }
     }

@@ -39,7 +39,7 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
         }
 
-        public void InsertData(string fullpath, string type, string image)
+        public bool InsertData(string fullpath, string type, string image)
         {
 
             int pos = fullpath.LastIndexOf('\\') + 1;
@@ -48,11 +48,20 @@ namespace StudySpark.Core.Repositories
             string path = fullpath.Substring(0, pos - 1);
             string targetname = fullpath.Substring(pos);
 
+            List<GenericFile> files = ReadData();
+            foreach (GenericFile file in files)
+            {
+                if ((file.TargetName).Equals(targetname))
+                {
+                    return false;
+                }
+            }
+
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
-    
+            return true;
         }
 
         public List<GenericFile> ReadData()
