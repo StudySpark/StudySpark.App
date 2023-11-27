@@ -33,4 +33,8 @@
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MVVM\Model\" />
+  </ItemGroup>
+
 </Project>
