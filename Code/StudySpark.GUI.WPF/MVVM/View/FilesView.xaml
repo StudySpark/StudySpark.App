@@ -55,7 +55,7 @@
                     IsChecked="False"
                     Command="{Binding FilesDownloadCommand}"
                     />
-                <RadioButton x:Name="TabButtonFiles" Content="Folder"
+                <RadioButton x:Name="TabButtonFiles" Content="Folders"
                     Grid.Column="2"
                     Cursor="Hand"
                     Height="50"
@@ -87,6 +87,6 @@
                 Margin="0,0,20,20"
                 Cursor="Hand"
                 Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                Command="{Binding OpenFolderSelectCommand}" Height="56" />
+                Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" Height="56" />
     </Grid>
 </UserControl>
