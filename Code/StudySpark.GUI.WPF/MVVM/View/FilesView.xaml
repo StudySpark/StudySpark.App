@@ -86,6 +86,7 @@
                 HorizontalAlignment="Right"
                 Margin="0,0,20,20"
                 Cursor="Hand"
+                Style="{StaticResource RoundButtonTheme}"
                 Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" Height="56" />
     </Grid>
