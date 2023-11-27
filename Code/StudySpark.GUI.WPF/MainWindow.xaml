@@ -40,7 +40,7 @@
                     Content="{Binding CurrentView}"/>
             </ScrollViewer>
 
-            <Image x:Name="AAA" Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+            <Image Source="/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
