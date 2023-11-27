@@ -51,7 +51,7 @@ namespace StudySpark.Core.Repositories
         {
             if (this.conn == null)
             {
-                return;
+                return false;
             }
 
             int pos = fullpath.LastIndexOf('\\') + 1;
@@ -69,7 +69,7 @@ namespace StudySpark.Core.Repositories
                 }
             }
 
-            SQLiteCommand sqlite_cmd;
+            SqliteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
