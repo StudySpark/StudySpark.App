@@ -39,11 +39,18 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
         }
 
-        public void InsertData()
+        public void InsertData(string fullpath, string type, string image)
         {
+
+            int pos = fullpath.LastIndexOf('\\') + 1;
+            fullpath = new FileInfo(fullpath).ToString();
+
+            string path = fullpath.Substring(0, pos - 1);
+            string targetname = fullpath.Substring(pos);
+
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "INSERT INTO FileTable (path, targetname, type, image) VALUES('Hoi/hoi/hoi1', 'eenbestand', 'docx', 'somefile'); ";
+            sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
     
         }

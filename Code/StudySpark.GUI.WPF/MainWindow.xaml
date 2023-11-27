@@ -32,7 +32,7 @@
                 <RowDefinition Height="75" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-
+          
             <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
       
             <TextBlock Text="StudySpark"
