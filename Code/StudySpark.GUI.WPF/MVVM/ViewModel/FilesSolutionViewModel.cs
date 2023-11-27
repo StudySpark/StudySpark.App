@@ -11,35 +11,35 @@ using System.ComponentModel;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class FilesSolutionViewModel : ObservableObject {
-        private object _currentSLNList;
+        private object currentSLNList;
         public object CurrentSLNList {
             get {
-                return _currentSLNList;
+                return currentSLNList;
             }
             set {
-                _currentSLNList = value;
+                currentSLNList = value;
             }
         }
 
-        private const int AmountToShow = 5;
-        private List<string> _recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
+        private const int amountToShow = 5;
+        private List<string> recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
         StackPanel solutionPanel = new();
 
         public FilesSolutionViewModel() {
-            for (int i = 0; i < AmountToShow; i++) {
-                if (i < _recentSLNFiles.Count) {
+            for (int i = 0; i < amountToShow; i++) {
+                if (i < recentSLNFiles.Count) {
                     Button b = new Button {
                         Width = 50,
                         Height = 50,
                     };
 
                     b.Background = SetIcon();
-                    b.Tag = _recentSLNFiles[i];
+                    b.Tag = recentSLNFiles[i];
 
                     solutionPanel.Children.Add(b);
 
                     // Use Path.GetFileName to get only the file name part
-                    string fileName = Path.GetFileName(_recentSLNFiles[i]);
+                    string fileName = Path.GetFileName(recentSLNFiles[i]);
 
                     solutionPanel.Children.Add(new TextBox {
                         TextAlignment = TextAlignment.Center,
@@ -65,7 +65,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                     });
                 }
             }
-            _currentSLNList = solutionPanel;
+            currentSLNList = solutionPanel;
         }
 
         public ImageBrush SetIcon() {

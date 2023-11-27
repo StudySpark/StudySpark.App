@@ -15,27 +15,27 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesDownloadViewModel
     {
-        private object _currentDownloadList;
+        private object currentDownloadList;
         public object CurrentDownloadList
         {
             get
             {
-                return _currentDownloadList;
+                return currentDownloadList;
             }
             set
             {
-                _currentDownloadList = value;
+                currentDownloadList = value;
             }
         }
 
-        private const int AmountToShow = 5;
+        private const int amountToShow = 5;
         private List<string> _lastDownloadedFiles = SearchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
         WrapPanel downloadPanel = new();
         Grid downloadGrid;
 
         public FilesDownloadViewModel()
         {
-            for (int i = 0; i < AmountToShow; i++)
+            for (int i = 0; i < amountToShow; i++)
             {
                 //create a grid for every iteration
                 downloadGrid = new();
@@ -66,12 +66,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     downloadPanel.HorizontalAlignment = HorizontalAlignment.Center;
                     downloadPanel.VerticalAlignment = VerticalAlignment.Top;
 
-                    //set margin top -- in the middle of screen --> delete when more than
                     //5 solutions need to be displayed
                     Thickness margin = downloadPanel.Margin;
                     margin.Top = 80;
                     downloadPanel.Margin = margin;
-                    //------------------------------------
 
                     //add grid to panel
                     downloadPanel.Children.Add(downloadGrid);
@@ -96,7 +94,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     });
                 }
             }
-            _currentDownloadList = downloadPanel;
+            currentDownloadList = downloadPanel;
         }
         public Button ButtonNoHoverEffect()
         {
