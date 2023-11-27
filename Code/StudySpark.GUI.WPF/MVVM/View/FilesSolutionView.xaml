@@ -45,7 +45,7 @@
 
         <TextBlock
             Grid.Row="0"
-            Text="Jouw vijf laatste Visual Studio solutions:"
+            Text="Vijf laatste Visual Studio solutions"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontSize="30"
