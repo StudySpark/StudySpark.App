@@ -7,17 +7,14 @@ using StudySpark.Core.FileManager;
 using StudySpark.GUI.WPF.Core;
 using System.Windows;
 using System.IO;
-using System.Windows.Markup;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
-using static System.Net.Mime.MediaTypeNames;
 using System.ComponentModel;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesSolutionViewModel : ObservableObject
     {
+        SearchFiles searchFiles = new();
         private object _currentSLNList;
         public object CurrentSLNList {
             get
@@ -31,12 +28,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
 
         private const int AmountToShow = 5;
-        private List<string> _recentSLNFiles = SearchFiles.GetFilesFromDir(Environment.GetFolderPath(Environment.SpecialFolder.Recent), ".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
+        
         WrapPanel solutionPanel = new();
         Grid solutionGrid;
 
         public FilesSolutionViewModel()
         {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+            string extension = ".sln.lnk";
+            SearchOption searchOption = SearchOption.TopDirectoryOnly;
+            List<string> _recentSLNFiles = searchFiles.GetFilesFromDir(path, extension, searchOption);
+            
             for (int i = 0; i < AmountToShow; i++)
             {
                 //create a grid for every iteration

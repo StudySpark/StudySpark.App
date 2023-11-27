@@ -1,6 +1,6 @@
 ﻿namespace StudySpark.Core.FileManager;
 public class SearchFiles {
-    public static List<string> GetFilesFromDir(string path, string extension, SearchOption searchOption)
+    public List<string> GetFilesFromDir(string path, string extension, SearchOption searchOption)
     {
         List<string> sortedFilesByExtension = new();
 
