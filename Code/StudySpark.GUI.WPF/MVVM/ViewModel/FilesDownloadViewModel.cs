@@ -29,12 +29,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
 
         private const int amountToShow = 5;
-        private List<string> _lastDownloadedFiles = SearchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
         WrapPanel downloadPanel = new();
         Grid downloadGrid;
 
         public FilesDownloadViewModel()
         {
+            SearchFiles searchFiles = new();
+            List<string> _lastDownloadedFiles = searchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
+
             for (int i = 0; i < amountToShow; i++)
             {
                 //create a grid for every iteration
@@ -99,11 +101,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public Button ButtonNoHoverEffect()
         {
             Button button = new Button();
+            Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
+
             button.Width = 60;
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Cursor = Cursors.Hand;
             button.Background = SetIcon();
+            button.Style = customButtonStyle;
             return button;
         }
 
