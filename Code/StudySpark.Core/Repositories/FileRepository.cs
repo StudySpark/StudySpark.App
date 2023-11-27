@@ -42,11 +42,11 @@ namespace StudySpark.Core.Repositories
         public void InsertData(string fullpath, string type, string image)
         {
 
-            int pos = fullpath.LastIndexOf('/') + 1;
+            int pos = fullpath.LastIndexOf('\\') + 1;
             fullpath = new FileInfo(fullpath).ToString();
 
             string path = fullpath.Substring(0, pos - 1);
-            string targetname = fullpath.Substring(pos, fullpath.Length - pos);
+            string targetname = fullpath.Substring(pos);
 
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();

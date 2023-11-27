@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media.Animation;
+using Application = System.Windows.Application;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class MainViewModel : ObservableObject {

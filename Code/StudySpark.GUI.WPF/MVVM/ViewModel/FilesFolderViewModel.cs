@@ -9,12 +9,15 @@ using StudySpark.Core.FileManager;
 using StudySpark.Core.Repositories;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Forms;
+using Button = System.Windows.Controls.Button;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesFolderViewModel : ObservableObject
     {
         private object _currentFolderList;
+        public RelayCommand OpenFolderSelectCommand { get; private set; }
         
         public object CurrentFolderList
         {
@@ -33,6 +36,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         FileRepository repository;
         public FilesFolderViewModel()
         {
+
+            OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
+
             repository = new FileRepository();
             List<GenericFile> files = repository.ReadData();
             //files.Add(new GenericFile(1, "d", "c", "b", "a"));
@@ -60,7 +66,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 //Create textbox and add it to grid
                 TextBlock t = SubText();
-                t.Text = TruncateFileName(file.Path, 15);
+                t.Text = TruncateFileName(file.TargetName, 15);
                 t.ToolTip = file.Path;
                 folderGrid.Children.Add(t);
 
@@ -75,7 +81,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
 
                 //set alignment for panel
-                folderPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                folderPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
                 folderPanel.VerticalAlignment = VerticalAlignment.Top;
 
                 //add grid to panel
@@ -92,7 +98,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Background = SetIcon();
-            button.Cursor = Cursors.Hand;
+            button.Cursor = System.Windows.Input.Cursors.Hand;
             return button;
         }
 
@@ -106,7 +112,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Foreground = new SolidColorBrush(Colors.White);
             textBlock.Background = new SolidColorBrush(Colors.Transparent);
             textBlock.IsEnabled = true;
-            textBlock.Cursor = Cursors.Hand;
+            textBlock.Cursor = System.Windows.Input.Cursors.Hand;
             return textBlock;
         }
         private string TruncateFileName(string fileName, int maxLength)
@@ -142,6 +148,23 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
 
             return brush;
+        }
+
+        private void SelectFolder()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            DialogResult dr = fbd.ShowDialog();
+
+            if (dr == DialogResult.OK) 
+            {
+                string path = fbd.SelectedPath;
+                FileRepository fileRepo = new FileRepository();
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    fileRepo.InsertData(path, "folder", "DirectoryIcon.png");
+                }
+            }
         }
     }
 }
