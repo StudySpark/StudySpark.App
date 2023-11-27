@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
-using System.Data.Entity;
+//using System.Data.SQLite;
+//using System.Data.Entity;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using StudySpark.Core.FileManager;
+using Microsoft.Data.Sqlite;
 
 namespace StudySpark.Core.Repositories
 {
@@ -17,22 +18,29 @@ namespace StudySpark.Core.Repositories
     // for the SQLite DB
     public class FileRepository
     {
-        private SQLiteConnection conn;
+        private SqliteConnection conn;
         public FileRepository()
         {
-            SQLiteConnection sqlite_conn;
-            // Create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db; Version = 3; New = True; Compress = True; ");
-            // Open the connection:
-            sqlite_conn.Open();
-            this.conn = sqlite_conn;
-            CreateTable();
+            try
+            {
+                // Create a new database connection:
+                SqliteConnection sqlite_conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
+                // Open the connection:
+                sqlite_conn.Open();
+                this.conn = sqlite_conn;
+                CreateTable();
+            }
+            catch (Exception ex) { }
         }
 
         private void CreateTable()
         {
+            if (this.conn == null)
+            {
+                return;
+            }
 
-            SQLiteCommand sqlite_cmd;
+            SqliteCommand sqlite_cmd;
             string Createsql = "CREATE TABLE IF NOT EXISTS FileTable (id INT, path VARCHAR(256), targetname VARCHAR(64), type VARCHAR(32), image VARCHAR(64))";
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = Createsql;
@@ -41,6 +49,10 @@ namespace StudySpark.Core.Repositories
 
         public bool InsertData(string fullpath, string type, string image)
         {
+            if (this.conn == null)
+            {
+                return;
+            }
 
             int pos = fullpath.LastIndexOf('\\') + 1;
             fullpath = new FileInfo(fullpath).ToString();
@@ -62,15 +74,21 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
+
         }
 
         public List<GenericFile> ReadData()
         {
+            if (this.conn == null)
+            {
+                return new List<GenericFile>();
+            }
+
             List<GenericFile> files = new List<GenericFile>();
 
-            SQLiteDataReader reader;
-            SQLiteCommand sqlite_cmd;
-            
+            SqliteDataReader reader;
+            SqliteCommand sqlite_cmd;
+
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = "SELECT * FROM FileTable";
 

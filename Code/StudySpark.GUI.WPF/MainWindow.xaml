@@ -32,9 +32,9 @@
                 <RowDefinition Height="75" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-          
+
             <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
-      
+
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -53,13 +53,13 @@
                              IsChecked="True"
                              Command="{Binding OverviewViewCommand}"/>
 
-                <RadioButton Content="Notities"
+                <!--<RadioButton Content="Notities"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding NotesViewCommand}"/>
+                             Command="{Binding NotesViewCommand}"/>-->
 
                 <RadioButton Content="Bestanden"
                              Cursor="Hand"
@@ -69,21 +69,21 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding FilesViewCommand}" />
 
-                <RadioButton Content="Tijdlijn"
+                <!--<RadioButton Content="Tijdlijn"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding TimelineViewCommand}"/>
+                             Command="{Binding TimelineViewCommand}"/>-->
 
-                <RadioButton Content="Rooster"
+                <!--<RadioButton Content="Rooster"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding ScheduleViewCommand}"/>
+                             Command="{Binding ScheduleViewCommand}"/>-->
             </StackPanel>
 
             <Grid MouseLeftButtonDown="WindowDrag"
@@ -146,17 +146,12 @@
                 </Image.RenderTransform>
             </Image>
 
-            <ScrollViewer Grid.Row="1"
-                          Grid.Column="1"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden"
-                          Style="{StaticResource ScrollViewTheme}">
-                <ContentControl Grid.Row="1"
-                                Grid.Column="1"
-                                Margin="10"
-                                Content="{Binding CurrentView}"/>
-            </ScrollViewer>
-            <Button Content="⚙"
+            <ContentControl Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}" />
+           
+            <!--<Button Content="⚙"
                     Width="58"
                     Height="56"
                     Style="{StaticResource RoundButtonTheme}"
@@ -166,7 +161,7 @@
                     Grid.Row="1"
                     Cursor="Hand"
                     Command="{Binding OpenSettingsCommand}"
-                    VerticalAlignment="Bottom" />
+                    VerticalAlignment="Bottom" />-->
         </Grid>
 
     </Border>

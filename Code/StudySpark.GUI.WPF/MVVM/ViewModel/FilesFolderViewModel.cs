@@ -45,7 +45,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public FilesFolderViewModel()
         {
-
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
 
             UpdateOnChange();
@@ -81,7 +80,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 //Create textbox and add it to grid
                 TextBlock t = SubText();
+                if (file.TargetName.Length > 0) 
+                { 
                 t.Text = TruncateFileName(file.TargetName, 15);
+                }
+                else { t.Text = file.Path; }
                 t.ToolTip = file.Path;
                 folderGrid.Children.Add(t);
 
