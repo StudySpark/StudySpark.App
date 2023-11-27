@@ -1,33 +1,21 @@
 ﻿namespace StudySpark.Core.FileManager;
 public class SearchFiles {
-    //public static List<string> GetFilesFromRecent(string extension, SearchOption searchOption)
-    //{
-    //    string path = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
-    //    List<string> files = Directory.EnumerateFiles(path, "*" + extension, searchOption).ToList();
-
-
-
-    //    return files;
-    //}
-
-    public static List<string> GetFilesFromRecent(string extension, SearchOption searchOption)
+    public List<string> GetFilesFromDir(string path, string extension, SearchOption searchOption)
     {
-        List<string> sortedSLNFiles = new();
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
-        //List<string> files = Directory.EnumerateFiles(path, "*" + extension, searchOption).ToList();
+        List<string> sortedFilesByExtension = new();
 
         var sortedFiles = new DirectoryInfo(path).GetFiles().OrderByDescending(f => f.LastWriteTime).ToList();
         foreach (var file in sortedFiles)
         {
             if (file.ToString().ToLower().Contains(extension.ToLower()))
             {
-                sortedSLNFiles.Add(file.ToString());
+                sortedFilesByExtension.Add(file.ToString());
             }
         }
-
-        return sortedSLNFiles;
+        return sortedFilesByExtension;
     }
-    public static List<string> GetLastDownloadedFiles(SearchOption searchOption)
+  
+    public List<string> GetLastDownloadedFiles(SearchOption searchOption)
     {
         List<string> sortedDownloadFiles = new();
         // Implement logic to get the last downloaded files
@@ -42,7 +30,6 @@ public class SearchFiles {
             file.ToString().ToLower();
             sortedDownloadFiles.Add(file.ToString());
         }
-    return sortedDownloadFiles;
+        return sortedDownloadFiles;
     }
 }
-

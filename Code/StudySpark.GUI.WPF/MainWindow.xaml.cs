@@ -40,8 +40,6 @@ namespace StudySpark.GUI.WPF {
 
         public MainWindow() {
             InitializeComponent();
-
-            Debug.WriteLine(AAA.Source.ToString());
         }
 
         private void WindowDrag(object sender, MouseButtonEventArgs e) {

@@ -8,6 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.DataContext>
+        <viewModel:FilesSolutionViewModel/>
+    </UserControl.DataContext>
+
     <UserControl.Resources>
         <ControlTemplate x:Key="NoMouseOverButtonTemplate"   
                      TargetType="Button" x:Name = "NoHoverTemplate">
@@ -34,6 +38,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -41,12 +46,11 @@
 
         <TextBlock
             Grid.Row="0"
-            Text="Jouw vijf laatste Visual Studio solutions:"
+            Text="Vijf laatste Visual Studio solutions"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontSize="30"
             Foreground="White"/>
-        
         <ScrollViewer
             Grid.Row="1"
             VerticalScrollBarVisibility="Hidden"

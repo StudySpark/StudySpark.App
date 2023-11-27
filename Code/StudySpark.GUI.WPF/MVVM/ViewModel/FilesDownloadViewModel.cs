@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using StudySpark.Core.FileManager;
@@ -13,49 +15,66 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesDownloadViewModel
     {
-        private object _currentDownloadList;
+        private object currentDownloadList;
         public object CurrentDownloadList
         {
             get
             {
-                return _currentDownloadList;
+                return currentDownloadList;
             }
             set
             {
-                _currentDownloadList = value;
+                currentDownloadList = value;
             }
         }
 
-        private const int AmountToShow = 5;
-        private List<string> _lastDownloadedFiles = SearchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
-        StackPanel downloadPanel = new();
+        private const int amountToShow = 5;
+        WrapPanel downloadPanel = new();
+        Grid downloadGrid;
 
         public FilesDownloadViewModel()
         {
-            for (int i = 0; i < AmountToShow; i++)
+            SearchFiles searchFiles = new();
+            List<string> _lastDownloadedFiles = searchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
+
+            for (int i = 0; i < amountToShow; i++)
             {
+                //create a grid for every iteration
+                downloadGrid = new();
+                downloadGrid.RowDefinitions.Add(new RowDefinition());
+                downloadGrid.RowDefinitions.Add(new RowDefinition());
                 if (i < _lastDownloadedFiles.Count)
                 {
-                    Button b = new Button
-                    {
-                        Width = 50,
-                        Height = 50,
-                    };
-                    b.Tag = _lastDownloadedFiles[i];
-
-                    downloadPanel.Children.Add(b);
 
                     // Use Path.GetFileName to get only the file name part
                     string fileName = Path.GetFileName(_lastDownloadedFiles[i]);
+                    string truncatedFileName = TruncateFileName(fileName, 15);
 
-                    downloadPanel.Children.Add(new TextBox
-                    {
-                        TextAlignment = TextAlignment.Center,
-                        Width = 200,
-                        Height = 20,
-                        Text = fileName,
-                        IsEnabled = false
-                    });
+                    Button b = ButtonNoHoverEffect();
+                    b.Tag = _lastDownloadedFiles[i];
+                    downloadGrid.Children.Add(b);
+
+                    //Create textbox and add it to grid
+                    TextBlock t = SubText();
+                    t.Text = truncatedFileName;
+                    t.ToolTip = fileName;
+                    downloadGrid.Children.Add(t);
+
+                    //set row defenitions for button and text
+                    Grid.SetRow(b, 0);
+                    Grid.SetRow(t, 1);
+
+                    //set alignment for panel
+                    downloadPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                    downloadPanel.VerticalAlignment = VerticalAlignment.Top;
+
+                    //5 solutions need to be displayed
+                    Thickness margin = downloadPanel.Margin;
+                    margin.Top = 80;
+                    downloadPanel.Margin = margin;
+
+                    //add grid to panel
+                    downloadPanel.Children.Add(downloadGrid);
                 }
                 else
                 {
@@ -70,14 +89,77 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     downloadPanel.Children.Add(new TextBox
                     {
                         TextAlignment = TextAlignment.Center,
-                        Width = 200,
+                        Width = 100,
                         Height = 20,
                         Text = "No file available",
                         IsEnabled = false, // Disable the textbox as well
                     });
                 }
             }
-            _currentDownloadList = downloadPanel;
+            currentDownloadList = downloadPanel;
+        }
+        public Button ButtonNoHoverEffect()
+        {
+            Button button = new Button();
+            Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
+
+            button.Width = 60;
+            button.Height = 60;
+            button.BorderThickness = new Thickness(0, 0, 0, 0);
+            button.Cursor = Cursors.Hand;
+            button.Background = SetIcon();
+            button.Style = customButtonStyle;
+            return button;
+        }
+
+        public TextBlock SubText()
+        {
+            TextBlock textBlock = new TextBlock();
+            textBlock.TextAlignment = TextAlignment.Center;
+            textBlock.Width = 100;
+            textBlock.Height = 20;
+            textBlock.FontSize = 12;
+            textBlock.Foreground = new SolidColorBrush(Colors.White);
+            textBlock.Background = new SolidColorBrush(Colors.Transparent);
+            textBlock.IsEnabled = true;
+            textBlock.Cursor = Cursors.Hand;
+            return textBlock;
+        }
+
+        // Truncate the file name to the specified length
+        private string TruncateFileName(string fileName, int maxLength)
+        {
+            if (fileName.Length <= maxLength)
+            {
+                return fileName;
+            }
+            else
+            {
+                // If the file name is too long, truncate it and add "..." at the end
+                return fileName.Substring(0, maxLength - 3) + "...";
+            }
+        }
+
+        public ImageBrush SetIcon()
+        {
+
+            ImageBrush? brush = null;
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/FileIcon.png", UriKind.Relative))
+                };
+            }
+            else
+            {
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\FileIcon.png", UriKind.Relative))
+                };
+            }
+
+            return brush;
         }
     }
 }
