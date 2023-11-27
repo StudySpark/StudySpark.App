@@ -11,6 +11,9 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Forms;
 using Button = System.Windows.Controls.Button;
+using System.Windows.Threading;
+using System.Linq;
+using System.Diagnostics;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -18,7 +21,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
     {
         private object _currentFolderList;
         public RelayCommand OpenFolderSelectCommand { get; private set; }
-        
+        WrapPanel folderPanel = new WrapPanel();
+        public List<GenericFile> files = new List<GenericFile>();
+        private List<GenericFile> previousFiles;
+        FileRepository repository = new FileRepository();
+
         public object CurrentFolderList
         {
             get
@@ -31,29 +38,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        WrapPanel folderPanel = new WrapPanel();
-        public List<GenericFile> files = new List<GenericFile>(); 
-        FileRepository repository;
         public FilesFolderViewModel()
         {
 
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
 
-            repository = new FileRepository();
-            List<GenericFile> files = repository.ReadData();
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));
-            //files.Add(new GenericFile(1, "d", "c", "b", "a"));     
+            DispatcherTimer bdaytimer = new DispatcherTimer();
+            bdaytimer.Tick += UpdateOnChange;
+            bdaytimer.Interval = TimeSpan.FromSeconds(5);
+            bdaytimer.Start();
+
+            files = repository.ReadData();
             foreach (GenericFile file in files)
             {
                 Grid folderGrid = new Grid();
@@ -89,7 +84,48 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             }
             _currentFolderList = folderPanel;
+
         }
+
+        private void UpdateOnChange(object sender, EventArgs e)
+        {
+            previousFiles = files;
+            files = repository.ReadData();
+            folderPanel.Children.Clear();
+            
+            List<GenericFile> difference = files.Except(previousFiles).ToList();
+            Debug.WriteLine(difference.Count);
+            foreach (GenericFile file in difference)
+            {
+                Grid folderGrid = new Grid();
+                folderGrid.RowDefinitions.Add(new RowDefinition());
+                folderGrid.RowDefinitions.Add(new RowDefinition());
+
+                //Create button and add it to grid
+                Button b = ButtonNoHoverEffect();
+                b.Tag = file.Path;
+                folderGrid.Children.Add(b);
+
+                //Create textbox and add it to grid
+                TextBlock t = SubText();
+                t.Text = TruncateFileName(file.TargetName, 15);
+                t.ToolTip = file.Path;
+                folderGrid.Children.Add(t);
+
+                //set row defenitions for button and text
+                Grid.SetRow(b, 0);
+                Grid.SetRow(t, 1);
+
+                //
+                Thickness margin = folderGrid.Margin;
+                margin.Bottom = 75;
+                folderGrid.Margin = margin;
+
+                //add grid to panel
+                folderPanel.Children.Add(folderGrid);
+            }
+        }
+
         public Button ButtonNoHoverEffect()
         {
             Button button = new Button();
@@ -153,16 +189,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private void SelectFolder()
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            
             DialogResult dr = fbd.ShowDialog();
 
             if (dr == DialogResult.OK) 
             {
                 string path = fbd.SelectedPath;
-                FileRepository fileRepo = new FileRepository();
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    fileRepo.InsertData(path, "folder", "DirectoryIcon.png");
+                    repository.InsertData(path, "folder", "DirectoryIcon.png");
                 }
             }
         }
