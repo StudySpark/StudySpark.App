@@ -28,13 +28,13 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             string greeting;
 
             if (hour >= 5 && hour < 12) {
-                greeting = $"Good morning {name}!";
+                greeting = $"Goede morgen {name}!";
             } else if (hour >= 12 && hour < 17) {
-                greeting = $"Good afternoon {name}!";
+                greeting = $"Goede middag {name}!";
             } else if (hour >= 17 && hour < 21) {
-                greeting = $"Good evening {name}!";
+                greeting = $"Goede avond {name}!";
             } else {
-                greeting = $"Good night {name}!";
+                greeting = $"Goede nacht {name}!";
             }
 
             return greeting;
