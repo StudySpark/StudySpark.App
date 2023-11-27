@@ -43,11 +43,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
 
-            DispatcherTimer bdaytimer = new DispatcherTimer();
-            bdaytimer.Tick += UpdateOnChange;
-            bdaytimer.Interval = TimeSpan.FromSeconds(5);
-            bdaytimer.Start();
-
             files = repository.ReadData();
             foreach (GenericFile file in files)
             {
@@ -87,7 +82,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         }
 
-        private void UpdateOnChange(object sender, EventArgs e)
+        private void UpdateOnChange()
         {
             previousFiles = files;
             files = repository.ReadData();
@@ -198,6 +193,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 if (!string.IsNullOrEmpty(path))
                 {
                     repository.InsertData(path, "folder", "DirectoryIcon.png");
+                    UpdateOnChange();
                 }
             }
         }
