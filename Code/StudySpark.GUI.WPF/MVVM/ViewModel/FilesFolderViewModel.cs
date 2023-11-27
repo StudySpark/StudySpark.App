@@ -14,17 +14,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesFolderViewModel : ObservableObject
     {
-        private object _currentFolderList;
+        private object currentFolderList;
         
         public object CurrentFolderList
         {
             get
             {
-                return _currentFolderList;
+                return currentFolderList;
             }
             set
             {
-                _currentFolderList = value;
+                currentFolderList = value;
             }
         }
 
@@ -83,7 +83,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 folderPanel.Children.Add(folderGrid);
 
             }
-            _currentFolderList = folderPanel;
+            currentFolderList = folderPanel;
         }
         public Button ButtonNoHoverEffect()
         {

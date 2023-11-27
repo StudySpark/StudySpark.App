@@ -15,7 +15,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class FilesSolutionViewModel : ObservableObject
+    internal class FilesSolutionViewModel
     {
         private object _currentSLNList;
         public object CurrentSLNList {
