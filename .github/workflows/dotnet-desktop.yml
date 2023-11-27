@@ -89,7 +89,7 @@ jobs:
 
     # Build the solution
     - name: Build
-      run: dotnet build
+      run: dotnet build $env:Solution_Name
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     #- name: Decode the pfx
