@@ -1,5 +1,4 @@
 ﻿using StudySpark.GUI.WPF.Core;
-using StudySpark.GUI.WPF.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

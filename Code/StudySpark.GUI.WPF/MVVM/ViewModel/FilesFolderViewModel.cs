@@ -20,12 +20,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
     internal class FilesFolderViewModel : ObservableObject
     {
         private object _currentFolderList;
+        
         public RelayCommand OpenFolderSelectCommand { get; private set; }
+        
         WrapPanel folderPanel = new WrapPanel();
+        
         public List<GenericFile> files = new List<GenericFile>();
+        
         private List<GenericFile> previousFiles;
+        
         FileRepository repository = new FileRepository();
-
+        
         public object CurrentFolderList
         {
             get

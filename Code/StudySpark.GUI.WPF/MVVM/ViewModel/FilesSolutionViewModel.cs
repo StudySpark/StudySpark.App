@@ -13,29 +13,37 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using static System.Net.Mime.MediaTypeNames;
 
+using System.Windows.Input;
+using System.ComponentModel;
+using System.Reflection.Metadata;
+
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesSolutionViewModel : ObservableObject
-    {
-        private object _currentSLNList;
+    { 
+        private object currentSLNList;
         public object CurrentSLNList {
-            get
-            {
-                return _currentSLNList;
+            get {
+                return currentSLNList;
             }
-            set
-            {
-                _currentSLNList = value;
+            set {
+                currentSLNList = value;
             }
         }
 
         private const int AmountToShow = 5;
-        private List<string> _recentSLNFiles = SearchFiles.GetFilesFromRecent(".sln.lnk", System.IO.SearchOption.TopDirectoryOnly);
         WrapPanel solutionPanel = new();
         Grid solutionGrid;
 
         public FilesSolutionViewModel()
         {
+            SearchFiles searchFiles = new();
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+            string extension = ".sln.lnk";
+            SearchOption searchOption = SearchOption.TopDirectoryOnly;
+            List<string> _recentSLNFiles = searchFiles.GetFilesFromDir(path, extension, searchOption);
+            
             for (int i = 0; i < AmountToShow; i++)
             {
                 //create a grid for every iteration
@@ -97,28 +105,43 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     solutionPanel.Children.Add(solutionGrid);
                 }
             }
-            _currentSLNList = solutionPanel;
+            currentSLNList = solutionPanel;
         }
 
         public ImageBrush SetIcon()
         {
-            var brush = new ImageBrush
+            ImageBrush? brush = null;
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
-            };
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/Icon_VS.png", UriKind.Relative))
+                };
+            }
+            else
+            {
+                brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
+                };
+            }
             return brush;
         }
 
         public Button ButtonNoHoverEffect()
         {
             Button button = new Button();
-
+            Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
+            
             button.Width = 60;
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Background = SetIcon();
-            button.Cursor = Cursors.Hand;
+
+            button.Cursor = Cursors.Hand; 
             button.MouseDoubleClick += btn_Click;
+            button.Style = customButtonStyle;
+
             return button;
         }
 
@@ -135,25 +158,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Cursor = Cursors.Hand;
             return textBlock;
         }
-
-
-        //for testing purposes -- delete when merging
-        public ImageBrush SetIcon2()
-        {
-            var brush = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\DirectoryIcon.png", UriKind.Relative))
-            };
-            return brush;
-        }
-        //--------------------------------------------
-
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             Button? button = sender as Button;
             if (button != null)
             {
-                button.Background = SetIcon2();
+                //TODO actually implementing feature for on-click
             }
         }
     }
