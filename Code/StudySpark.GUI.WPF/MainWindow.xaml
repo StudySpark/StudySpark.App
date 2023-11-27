@@ -31,6 +31,7 @@
             </Grid.RowDefinitions>
 
             <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
+      
             <TextBlock Text="StudySpark"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -49,13 +50,13 @@
                              IsChecked="True"
                              Command="{Binding OverviewViewCommand}"/>
 
-                <!--<RadioButton Content="Notities"
+                <RadioButton Content="Notities"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding NotesViewCommand}"/>-->
+                             Command="{Binding NotesViewCommand}"/>
 
                 <RadioButton Content="Bestanden"
                              Cursor="Hand"
@@ -65,21 +66,21 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding FilesViewCommand}" />
 
-                <!--<RadioButton Content="Tijdlijn"
+                <RadioButton Content="Tijdlijn"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding TimelineViewCommand}"/>-->
+                             Command="{Binding TimelineViewCommand}"/>
 
-                <!--<RadioButton Content="Rooster"
+                <RadioButton Content="Rooster"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding ScheduleViewCommand}"/>-->
+                             Command="{Binding ScheduleViewCommand}"/>
             </StackPanel>
 
             <Grid MouseLeftButtonDown="WindowDrag"
