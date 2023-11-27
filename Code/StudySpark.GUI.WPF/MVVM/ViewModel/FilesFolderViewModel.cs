@@ -43,41 +43,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
 
-            files = repository.ReadData();
-            foreach (GenericFile file in files)
-            {
-                Grid folderGrid = new Grid();
-                folderGrid.RowDefinitions.Add(new RowDefinition());
-                folderGrid.RowDefinitions.Add(new RowDefinition());
-                //create button and add it to grid
-                Button b = ButtonNoHoverEffect();
-                b.Tag = file.Path;
-                folderGrid.Children.Add(b);
+            UpdateOnChange();
 
-                //Create textbox and add it to grid
-                TextBlock t = SubText();
-                t.Text = TruncateFileName(file.TargetName, 15);
-                t.ToolTip = file.Path;
-                folderGrid.Children.Add(t);
+            //set alignment for panel
+            folderPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            folderPanel.VerticalAlignment = VerticalAlignment.Top;
 
-                //set row defenitions for button and text
-                Grid.SetRow(b, 0);
-                Grid.SetRow(t, 1);
-
-                //
-                Thickness margin = folderGrid.Margin;
-                margin.Bottom = 75;
-                folderGrid.Margin = margin;
-
-
-                //set alignment for panel
-                folderPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-                folderPanel.VerticalAlignment = VerticalAlignment.Top;
-
-                //add grid to panel
-                folderPanel.Children.Add(folderGrid);
-
-            }
             _currentFolderList = folderPanel;
 
         }
