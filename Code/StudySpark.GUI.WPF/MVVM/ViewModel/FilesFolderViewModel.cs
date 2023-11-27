@@ -94,7 +94,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             folderPanel.Children.Clear();
             
             List<GenericFile> difference = files.Except(previousFiles).ToList();
-            Debug.WriteLine(difference.Count);
             foreach (GenericFile file in difference)
             {
                 Grid folderGrid = new Grid();
