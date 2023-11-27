@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock
         Grid.Row="0"
-        Text="Jouw vijf laatste Downloads:"
+        Text="Jouw laatste 5 downloads:"
         VerticalAlignment="Center"
         HorizontalAlignment="Center"
         FontSize="30"
