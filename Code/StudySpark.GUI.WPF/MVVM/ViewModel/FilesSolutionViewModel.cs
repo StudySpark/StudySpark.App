@@ -152,24 +152,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return textBlock;
         }
 
-
-        //for testing purposes -- delete when merging
-        public ImageBrush SetIcon2()
-        {
-            var brush = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\DirectoryIcon.png", UriKind.Relative))
-            };
-            return brush;
-        }
-        //--------------------------------------------
-
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             Button? button = sender as Button;
             if (button != null)
             {
-                button.Background = SetIcon2();
+                //TODO actually implementing feature for on-click
             }
         }
     }
