@@ -29,12 +29,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
 
         private const int amountToShow = 5;
-        private List<string> _lastDownloadedFiles = SearchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
         WrapPanel downloadPanel = new();
         Grid downloadGrid;
 
         public FilesDownloadViewModel()
         {
+            SearchFiles searchFiles = new();
+            List<string> _lastDownloadedFiles = searchFiles.GetLastDownloadedFiles(System.IO.SearchOption.TopDirectoryOnly);
+
             for (int i = 0; i < amountToShow; i++)
             {
                 //create a grid for every iteration

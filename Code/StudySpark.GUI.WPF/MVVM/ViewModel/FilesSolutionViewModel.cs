@@ -10,13 +10,13 @@ using System.IO;
 
 using System.Windows.Input;
 using System.ComponentModel;
+using System.Reflection.Metadata;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     internal class FilesSolutionViewModel : ObservableObject
-    {
-        SearchFiles searchFiles = new();
-        private object _currentSLNList;
+    { 
+        private object currentSLNList;
         public object CurrentSLNList {
             get {
                 return currentSLNList;
@@ -33,6 +33,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public FilesSolutionViewModel()
         {
+            SearchFiles searchFiles = new();
+
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
             string extension = ".sln.lnk";
             SearchOption searchOption = SearchOption.TopDirectoryOnly;

@@ -15,7 +15,7 @@ public class SearchFiles {
         return sortedFilesByExtension;
     }
   
-    public static List<string> GetLastDownloadedFiles(SearchOption searchOption)
+    public List<string> GetLastDownloadedFiles(SearchOption searchOption)
     {
         List<string> sortedDownloadFiles = new();
         // Implement logic to get the last downloaded files
@@ -30,6 +30,6 @@ public class SearchFiles {
             file.ToString().ToLower();
             sortedDownloadFiles.Add(file.ToString());
         }
-    return sortedDownloadFiles;
+        return sortedDownloadFiles;
     }
 }
