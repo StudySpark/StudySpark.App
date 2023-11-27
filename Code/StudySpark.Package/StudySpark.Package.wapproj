@@ -56,7 +56,9 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
+
     <EntryPointProjectUniqueName>..\StudySpark.GUI.WPF\StudySpark.GUI.WPF.csproj</EntryPointProjectUniqueName>
+
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -120,7 +122,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\StudySpark.GUI.WPF\StudySpark.GUI.WPF.csproj" />
   </ItemGroup>
+
 </Project>

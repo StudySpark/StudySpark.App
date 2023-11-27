@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.DataContext>
         <viewModel:FilesSolutionViewModel/>
     </UserControl.DataContext>
@@ -50,7 +51,6 @@
             HorizontalAlignment="Center"
             FontSize="30"
             Foreground="White"/>
-
         <ScrollViewer
             Grid.Row="1"
             VerticalScrollBarVisibility="Hidden"

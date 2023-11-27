@@ -25,13 +25,13 @@
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="359*" />
                 <ColumnDefinition Width="0*"/>
+
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-
 
             <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
       

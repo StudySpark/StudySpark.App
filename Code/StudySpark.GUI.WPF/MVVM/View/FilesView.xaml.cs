@@ -20,7 +20,13 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     public partial class FilesView : UserControl {
         public FilesView() {
             InitializeComponent();
-            
+            SizeChanged += UserControl_SizeChanged;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Update the folderPanel width when the size changes
+            FilesControl.Width = e.NewSize.Width;
         }
     }
 }

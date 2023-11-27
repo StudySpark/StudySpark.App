@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SQLite" Version="3.13.0" />
+    <Folder Include="MVVM\Model\" />
   </ItemGroup>
 
   <ItemGroup>

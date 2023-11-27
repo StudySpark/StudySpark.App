@@ -7,6 +7,11 @@ using StudySpark.Core.FileManager;
 using StudySpark.GUI.WPF.Core;
 using System.Windows;
 using System.IO;
+using System.Windows.Markup;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Media3D;
+using static System.Net.Mime.MediaTypeNames;
 
 using System.Windows.Input;
 using System.ComponentModel;
@@ -27,7 +32,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
 
         private const int AmountToShow = 5;
-        
         WrapPanel solutionPanel = new();
         Grid solutionGrid;
 
@@ -128,14 +132,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         {
             Button button = new Button();
             Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
-
+            
             button.Width = 60;
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Background = SetIcon();
+
             button.Cursor = Cursors.Hand; 
             button.MouseDoubleClick += btn_Click;
             button.Style = customButtonStyle;
+
             return button;
         }
 
@@ -152,7 +158,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Cursor = Cursors.Hand;
             return textBlock;
         }
-
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             Button? button = sender as Button;
