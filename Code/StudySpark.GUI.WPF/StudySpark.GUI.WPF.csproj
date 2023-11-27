@@ -9,14 +9,17 @@
 
   <ItemGroup>
     <None Remove="Images\DirectoryIcon.png" />
+
+    <None Remove="Images\FileIcon.png" />
+    <None Remove="Images\Icon_VS.png" />
     <None Remove="Images\Logo_NoText.png" />
-    <None Remove="Images\Logo_NoText_NoColor.png" />
+
     <None Remove="Images\man.png" />
     <None Remove="Logo_NoText.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MVVM\Model\" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +28,17 @@
 
   <ItemGroup>
     <Resource Include="Images\DirectoryIcon.png" />
+
+    <Resource Include="Images\FileIcon.png" />
+    <Resource Include="Images\Icon_VS.png" />
     <Resource Include="Images\Logo_NoText.png" />
-    <Resource Include="Images\Logo_NoText_NoColor.png" />
+
     <Resource Include="Images\man.png" />
     <Resource Include="Logo_NoText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MVVM\Model\" />
   </ItemGroup>
 
 </Project>

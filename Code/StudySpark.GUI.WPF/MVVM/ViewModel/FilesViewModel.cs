@@ -1,4 +1,9 @@
 ﻿using StudySpark.GUI.WPF.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class FilesViewModel : ObservableObject {
@@ -19,6 +24,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             }
         }
         public FilesViewModel() {
+
             FilesSolutionVM = new FilesSolutionViewModel();
             FilesDownloadVM = new FilesDownloadViewModel();
 
@@ -33,6 +39,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             {
                 CurrentView = FilesDownloadVM;
             });
+
         }
     }
 }

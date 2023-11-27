@@ -7,6 +7,7 @@ using StudySpark.Core.FileManager;
 using StudySpark.GUI.WPF.Core;
 using System.Windows;
 using System.IO;
+
 using System.Windows.Input;
 using System.ComponentModel;
 
@@ -17,13 +18,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         SearchFiles searchFiles = new();
         private object _currentSLNList;
         public object CurrentSLNList {
-            get
-            {
-                return _currentSLNList;
+            get {
+                return currentSLNList;
             }
-            set
-            {
-                _currentSLNList = value;
+            set {
+                currentSLNList = value;
             }
         }
 
@@ -100,7 +99,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     solutionPanel.Children.Add(solutionGrid);
                 }
             }
-            _currentSLNList = solutionPanel;
+            currentSLNList = solutionPanel;
         }
 
         public ImageBrush SetIcon()

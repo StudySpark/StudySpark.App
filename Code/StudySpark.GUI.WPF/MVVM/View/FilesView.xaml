@@ -7,10 +7,6 @@
              xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <UserControl.DataContext>
-        <viewModel:FilesViewModel/>
-    </UserControl.DataContext>
 
     <Grid>
         <Grid>
@@ -18,8 +14,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1*"/>
+
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">

@@ -23,12 +23,15 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="359*" />
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
                 <RowDefinition />
             </Grid.RowDefinitions>
+
 
             <Image Source="/Images/Logo_NoText.png" Margin="7,17,0,17" HorizontalAlignment="Left" Width="42" />
       
@@ -86,7 +89,7 @@
             <Grid MouseLeftButtonDown="WindowDrag"
                   Grid.Column="1"
                   Background="Transparent"
-                  Cursor="Hand">
+                  Cursor="Hand" Grid.ColumnSpan="3">
 
                 <!--<TextBox Width="250"
                          Height="40"
