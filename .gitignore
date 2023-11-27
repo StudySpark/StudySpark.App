@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Code/StudySpark.GUI.WPF/MVVM/Model/User.cs
+/Code/StudySpark.GUI.WPF/MVVM/ViewModel/MVVM - Snelkoppeling.lnk
