@@ -67,6 +67,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             List<GenericFile> difference = files.Except(previousFiles).ToList();
             foreach (GenericFile file in difference)
             {
+                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
+
                 Grid folderGrid = new Grid();
                 folderGrid.RowDefinitions.Add(new RowDefinition());
                 folderGrid.RowDefinitions.Add(new RowDefinition());
@@ -74,6 +76,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 //Create button and add it to grid
                 Button b = ButtonNoHoverEffect();
                 b.Tag = file.Path;
+                b.Style = customButtonStyle;
                 folderGrid.Children.Add(b);
 
                 //Create textbox and add it to grid
