@@ -8,12 +8,12 @@
 
   <Identity
     Name="89d2e8ae-1763-448b-88f0-c6aebf7109a3"
-    Publisher="CN=sven"
+    Publisher="CN=StudySpark"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>StudySpark.Package</DisplayName>
-    <PublisherDisplayName>sven</PublisherDisplayName>
+    <PublisherDisplayName>StudySpark</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
