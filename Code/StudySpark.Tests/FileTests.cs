@@ -9,7 +9,7 @@ namespace StudySpark.Tests {
         {
             SearchFiles searchFiles = new();
             // Arrange
-            var dirPath = "testdir\\";
+            var dirPath = "testdir1\\";
             var extension = ".sln.lnk"; 
             var searchOption = SearchOption.TopDirectoryOnly;
             var expectedFiles = new List<string>();
@@ -50,7 +50,7 @@ namespace StudySpark.Tests {
         {
             SearchFiles searchFiles = new();
             // Arrange
-            var dirPath = "testdir\\";
+            var dirPath = "testdir2\\";
             var extension = ".sln.lnk";
             var searchOption = SearchOption.TopDirectoryOnly;
             var expectedFiles = new List<string>();
