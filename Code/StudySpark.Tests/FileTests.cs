@@ -46,8 +46,7 @@ namespace StudySpark.Tests {
         }
 
         [Test]
-        public void TestGetFilesFromDirNoFiles()
-        {
+        public void TestGetFilesFromDirNoFiles() {
             SearchFiles searchFiles = new();
             // Arrange
             var dirPath = "testdir\\";
@@ -55,15 +54,20 @@ namespace StudySpark.Tests {
             var searchOption = SearchOption.TopDirectoryOnly;
             var expectedFiles = new List<string>();
 
-            if (Directory.Exists(dirPath))
-            {
+            if (Directory.Exists(dirPath)) {
                 DirectoryInfo di = new DirectoryInfo(dirPath);
-                foreach (FileInfo file in di.GetFiles())
-                {
+                foreach (FileInfo file in di.GetFiles()) {
                     file.Delete();
                 }
+
+                // Wait for the file deletion to complete before proceeding
+                while (di.GetFiles().Length > 0) {
+                    System.Threading.Thread.Sleep(100);
+                }
+
                 Directory.Delete(dirPath, true);
             }
+
             Directory.CreateDirectory(dirPath);
 
             // Act
@@ -73,8 +77,7 @@ namespace StudySpark.Tests {
             Assert.That(actualFiles.Count, Is.EqualTo(expectedFiles.Count));
 
             // Check if all expected files are present in the actual result
-            foreach (var actualFile in actualFiles)
-            {
+            foreach (var actualFile in actualFiles) {
                 Assert.Contains(actualFile, expectedFiles);
             }
         }
