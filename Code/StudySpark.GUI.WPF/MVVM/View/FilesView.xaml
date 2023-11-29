@@ -88,6 +88,6 @@
                 Cursor="Hand"
                 Style="{StaticResource RoundButtonTheme}"
                 Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" Height="56" />
+                Command="{Binding FilesFolderVM.OpenFileSelectCommand}" Height="56" />
     </Grid>
 </UserControl>
