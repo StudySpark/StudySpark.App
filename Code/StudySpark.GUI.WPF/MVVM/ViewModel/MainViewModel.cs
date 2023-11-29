@@ -18,6 +18,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand FilesViewCommand { get; set; }
         public RelayCommand TimelineViewCommand { get; set; }
         public RelayCommand ScheduleViewCommand { get; set; }
+        public RelayCommand GitViewCommand { get; set; }
         public RelayCommand OpenSettingsCommand { get; set; }
 
         public RelayCommand MinimizeCommand { get; private set; }
@@ -28,6 +29,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public NotesViewModel NotesVM { get; set; }
         public FilesViewModel FilesVM { get; set; }
         public ScheduleViewModel ScheduleVM { get; set; }
+        public GitViewModel GitVM { get; set; }
         public TimelineViewModel TimelineVM { get; set; }
 
         private object _currentView;
@@ -49,6 +51,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             NotesVM = new NotesViewModel();
             FilesVM = new FilesViewModel();
             ScheduleVM = new ScheduleViewModel();
+            GitVM = new GitViewModel();
             TimelineVM = new TimelineViewModel();
 
             CurrentView = OverviewVM;
@@ -71,6 +74,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             ScheduleViewCommand = new RelayCommand(o => {
                 CurrentView = ScheduleVM;
+            });
+            GitViewCommand = new RelayCommand(o => {
+                CurrentView = GitVM;
             });
 
             OpenSettingsCommand = new RelayCommand(o => {
