@@ -64,6 +64,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             List<GenericGit> difference = repos.Except(previousRepos).ToList();
             foreach (GenericGit repo in difference)
             {
+                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
                 Grid repoGrid = new Grid();
                 repoGrid.RowDefinitions.Add(new RowDefinition());
@@ -72,6 +73,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 //Create button and add it to grid
                 System.Windows.Controls.Button b = ButtonNoHoverEffect();
                 b.Tag = repo.Path;
+                b.Style = customButtonStyle;
                 repoGrid.Children.Add(b);
 
                 //Create textbox and add it to grid
@@ -91,6 +93,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 //
                 Thickness margin = repoGrid.Margin;
                 margin.Bottom = 75;
+                margin.Right = margin.Left = 5;
                 repoGrid.Margin = margin;
 
                 //add grid to panel
@@ -102,9 +105,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         {
             System.Windows.Controls.Button button = new System.Windows.Controls.Button();
 
-            button.Width = 60;
-            button.Height = 60;
-            button.BorderThickness = new Thickness(0, 0, 0, 0);
+            button.Width = 200;
+            button.Height = 50;
+            button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#22202f")); button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Cursor = System.Windows.Input.Cursors.Hand;
             return button;
         }
@@ -153,6 +156,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                             System.Windows.MessageBox.Show("Er is iets fout gegaan!");
                             return;
                         }
+                        UpdateOnChange();
                         System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
                     } else
                     {
