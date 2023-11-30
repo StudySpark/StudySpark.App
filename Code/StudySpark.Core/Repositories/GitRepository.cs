@@ -55,10 +55,10 @@ namespace StudySpark.Core.Repositories
             string path = fullpath.Substring(0, pos - 1);
             string targetname = fullpath.Substring(pos);
 
-            List<GenericGit> files = ReadData();
-            foreach (GenericGit file in files)
+            List<GenericGit> repos = ReadData();
+            foreach (GenericGit repo in repos)
             {
-                if ((file.TargetName).Equals(targetname))
+                if ((repo.TargetName).Equals(targetname))
                 {
                     return false;
                 }
@@ -66,7 +66,7 @@ namespace StudySpark.Core.Repositories
 
             SqliteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"INSERT INTO GitTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}'); ";
+            sqlite_cmd.CommandText = $"INSERT INTO GitTable (path, targetname, type) VALUES('{path}', '{targetname}', '{type}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
 
@@ -79,7 +79,7 @@ namespace StudySpark.Core.Repositories
                 return new List<GenericGit>();
             }
 
-            List<GenericGit> files = new List<GenericGit>();
+            List<GenericGit> repos = new List<GenericGit>();
 
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
@@ -94,10 +94,10 @@ namespace StudySpark.Core.Repositories
                 string dbTargetName = reader.GetString("targetname");
                 string dbType = reader.GetString("type");
 
-                GenericGit file = new GenericGit(1, dbPath, dbTargetName, dbType);
-                files.Add(file);
+                GenericGit repo = new GenericGit(1, dbPath, dbTargetName, dbType);
+                repos.Add(repo);
             }
-            return files;
+            return repos;
         }
     }
 }

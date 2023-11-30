@@ -8,7 +8,17 @@
       d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="303,171,0,0" TextWrapping="Wrap" Text="GitView" VerticalAlignment="Top" Width="120"/>
+        <WrapPanel>
+            <ContentControl Margin="10" Width="650" Content="{Binding CurrentRepoList}"/>
+        </WrapPanel>
+        <Button Content="➕"
+        Width="58"
+        VerticalAlignment="Bottom"
+        HorizontalAlignment="Right"
+        Margin="0,0,20,20"
+        Cursor="Hand"
+        Style="{StaticResource RoundButtonTheme}"
+        Command="{Binding OpenRepoSelectCommand}" Height="56" />
 
     </Grid>
 </UserControl>
