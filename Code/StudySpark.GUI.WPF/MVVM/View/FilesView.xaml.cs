@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -27,6 +28,18 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         {
             // Update the folderPanel width when the size changes
             FilesControl.Width = e.NewSize.Width;
+        }
+
+        private void GeneralSelect_Checked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton rb = (ToggleButton)sender;
+            if ((bool)rb.IsChecked)
+            {
+                rb.IsChecked = false;
+            } else
+            {
+                rb.IsChecked = true;
+            }
         }
     }
 }

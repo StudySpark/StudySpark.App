@@ -21,6 +21,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
     {
         private object _currentFolderList;
         
+        public RelayCommand ButtonViewCommand { get; private set; }
         public RelayCommand OpenFolderSelectCommand { get; private set; }
         public RelayCommand OpenFileSelectCommand { get; private set; }
         

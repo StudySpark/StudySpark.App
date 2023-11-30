@@ -80,14 +80,43 @@
             </ScrollViewer>
         </Grid>
 
-        <Button Content="➕"
-                Width="58"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="0,0,20,20"
-                Cursor="Hand"
-                Style="{StaticResource RoundButtonTheme}"
-                Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                Command="{Binding FilesFolderVM.OpenFileSelectCommand}" Height="56" />
+        <ToggleButton Content="➕"
+                      FontSize="35"
+                      x:Name="GeneralSelect"
+                      Width="58"
+                      Height="58"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,20,20"
+                      Cursor="Hand"
+                      Style="{StaticResource RoundButtonTheme}"
+                      Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Checked="GeneralSelect_Checked" />
+
+        <ToggleButton Content="📄"
+                      FontSize="30"
+                      x:Name="FileSelect"
+                      Width="42"
+                      Height="42"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,95,40"
+                      Cursor="Hand"
+                      Style="{StaticResource RoundButtonTheme}"
+                      Visibility="{Binding ElementName=GeneralSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Command="{Binding FilesFolderVM.OpenFileSelectCommand}" />
+
+        <ToggleButton Content="📁"
+                      FontSize="30"
+                      x:Name="FolderSelect"
+                      Width="42"
+                      Height="42"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,40,95"
+                      Cursor="Hand"
+                      Style="{StaticResource RoundButtonTheme}"
+                      Visibility="{Binding ElementName=GeneralSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" />
     </Grid>
 </UserControl>
