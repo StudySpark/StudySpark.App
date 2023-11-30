@@ -36,6 +36,10 @@
             <DataTemplate DataType="{x:Type viewModel:ScheduleViewModel}">
                 <view:ScheduleView/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:GitViewModel}">
+                <view:GitView/>
+            </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:FilesSolutionViewModel}">
                 <view:FilesSolutionView/>

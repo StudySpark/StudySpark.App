@@ -68,6 +68,13 @@
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding FilesViewCommand}" />
+                <RadioButton Content="Git"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding GitViewCommand}" />
 
                 <!--<RadioButton Content="Tijdlijn"
                              Cursor="Hand"

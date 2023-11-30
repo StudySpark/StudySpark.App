@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="StudySpark.GUI.WPF.MVVM.View.GitView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <WrapPanel>
+            <ContentControl Margin="10" Width="650" Content="{Binding CurrentRepoList}"/>
+        </WrapPanel>
+        <Button Content="➕"
+        Width="58"
+        VerticalAlignment="Bottom"
+        HorizontalAlignment="Right"
+        Margin="0,0,20,20"
+        Cursor="Hand"
+        Style="{StaticResource RoundButtonTheme}"
+        Command="{Binding OpenRepoSelectCommand}" Height="56" />
+
+    </Grid>
+</UserControl>
