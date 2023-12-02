@@ -68,6 +68,15 @@
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding FilesViewCommand}" />
+
+                <RadioButton Content="Cijfers"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding GradesViewCommand}" />
+
                 <RadioButton Content="Git"
                              Cursor="Hand"
                              Height="50"
@@ -157,7 +166,7 @@
                             Grid.Column="1"
                             Margin="10"
                             Content="{Binding CurrentView}" />
-           
+
             <!--<Button Content="⚙"
                     Width="58"
                     Height="56"

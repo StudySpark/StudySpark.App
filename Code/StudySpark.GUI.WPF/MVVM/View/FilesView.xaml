@@ -82,9 +82,11 @@
 
         <Button Content="➕"
                 Width="58"
+                FontSize="30"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
                 Margin="0,0,20,20"
+                Padding="0,6,0,0"
                 Cursor="Hand"
                 Style="{StaticResource RoundButtonTheme}"
                 Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
