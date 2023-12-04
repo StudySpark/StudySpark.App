@@ -1,21 +1,21 @@
-﻿using StudySpark.GUI.WPF.Core;
+﻿using StudySpark.Core.Grades;
+using StudySpark.GUI.WPF.Core;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class GradesViewModel : INotifyPropertyChanged {
         public RelayCommand LogInAction { get; set; }
         public RelayCommand LogOutAction { get; set; }
 
-        public event EventHandler LoginButtonClicked;
-        public event EventHandler LogoutButtonClicked;
+        public event EventHandler? LoginButtonClicked;
+        public event EventHandler? LogoutButtonClicked;
 
         private bool _isStudentLoggedIn;
+
+        public ObservableCollection<GradeElement> GradeViewElements { get; } = new ObservableCollection<GradeElement>();
 
         public bool IsStudentLoggedIn {
             get { return _isStudentLoggedIn; }
@@ -36,6 +36,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public GradesViewModel() {
             LogInAction = new RelayCommand(o => HandleLogIn());
             LogOutAction = new RelayCommand(o => HandleLogOut());
+
+            load();
+        }
+
+        private void load() {
+            foreach (GradeElement gradeElement in DBConnector.Database.ReadGradesData()) {
+                GradeViewElements.Add(gradeElement);
+                Debug.WriteLine(gradeElement.ToString());
+            }
         }
 
         private void HandleLogOut() {

@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
              xmlns:core="clr-namespace:StudySpark.GUI.WPF.Core"
              mc:Ignorable="d"
-             Height="424" Width="700">
+             d:DesignHeight="424" d:DesignWidth="700">
 
     <UserControl.Resources>
         <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -22,108 +22,117 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
               VerticalScrollBarVisibility="Auto">
 
-            <StackPanel>
-                <!--Grade element-->
-                <Grid Height="50"
-                      Background="#BF22212F"
-                      Margin="0,0,0,5">
-                    <Label x:Name="CourseName"
-                           Content="Course Name"
-                           HorizontalAlignment="Left"
-                           Width="200"
-                           Margin="0,-5,0,0"
-                           FontSize="20"
-                           Foreground="#FFFFFF" VerticalAlignment="Top" />
+            <StackPanel x:Name="GradeElementList">
+                <ItemsControl ItemsSource="{Binding GradeViewElements}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="50"
+                                    Background="#BF22212F"
+                                    CornerRadius="8"
+                                    Margin="0,0,0,8">
+                                <Grid>
+                                    <TextBlock Text="{Binding CourseName}"
+                                               HorizontalAlignment="Left"
+                                               Width="300"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="5,0,0,0"
+                                               FontSize="16"
+                                               Foreground="#FFFFFF" VerticalAlignment="Top">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip Content="{Binding CourseName}"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
 
-                    <Label x:Name="CourseCode"
-                           Content="Course Code"
-                           HorizontalAlignment="Left"
-                           Width="200"
-                           Margin="0,20,0,0" 
-                           FontSize="16"
-                           Foreground="#FF929292" VerticalAlignment="Bottom" />
+                                    <Label Content="{Binding CourseCode}"
+                                           HorizontalAlignment="Left"
+                                           Width="200"
+                                           Margin="0,20,0,0" 
+                                           FontSize="12"
+                                           Foreground="#FF929292" VerticalAlignment="Bottom" />
 
-                    <Border x:Name="BackgroundGrade"
-                            Width="40"
-                            Height="40"
-                            Background="#FF158221"
-                            CornerRadius="5,5,5,5"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,5,0">
-                        <Label x:Name="ValueGrade"
-                               Content="10,0"
-                               Width="40"
-                               Height="40"
-                               HorizontalAlignment="Center"
-                               VerticalContentAlignment="Center"
-                               FontSize="16"
-                               Foreground="#FFFFFF" VerticalAlignment="Bottom" />
-                    </Border>
+                                    <Border Background="{Binding GradeColor}"
+                                            Width="40"
+                                            Height="40"
+                                            CornerRadius="5,5,5,5"
+                                            HorizontalAlignment="Right"
+                                            Margin="0,0,5,0">
+                                        <Label Content="{Binding Grade}"
+                                               Width="40"
+                                               Height="40"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalContentAlignment="Center"
+                                               FontSize="16"
+                                               Foreground="#FFFFFF" />
+                                    </Border>
 
-                    <Label Content="EC's"
-                           HorizontalAlignment="Right"
-                           Width="50"
-                           Height="50"
-                           FontSize="16"
-                           Foreground="#FF929292"
-                           Margin="0,0,60,0"
-                           HorizontalContentAlignment="Center"
-                           VerticalAlignment="Center" />
+                                    <Label Content="EC's"
+                                           HorizontalAlignment="Right"
+                                           Width="50"
+                                           Height="50"
+                                           FontSize="16"
+                                           Foreground="#FF929292"
+                                           Margin="0,0,60,0"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalAlignment="Center" />
 
-                    <Label x:Name="CourseECs"
-                           Content="XX"
-                           HorizontalAlignment="Right"
-                           Width="50"
-                           Height="30"
-                           FontSize="16"
-                           Foreground="#FFBDBDBD"
-                           Margin="0,20,60,0"
-                           HorizontalContentAlignment="Center"
-                           VerticalAlignment="Top" />
+                                    <Label Content="{Binding ECs}"
+                                           HorizontalAlignment="Right"
+                                           Width="50"
+                                           Height="30"
+                                           FontSize="16"
+                                           Foreground="#FFBDBDBD"
+                                           Margin="0,20,60,0"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalAlignment="Top" />
 
-                    <Label Content="Toetsdatum"
-                           HorizontalAlignment="Right"
-                           Width="120"
-                           Height="50"
-                           FontSize="16"
-                           Foreground="#FF929292"
-                           Margin="0,0,120,0"
-                           HorizontalContentAlignment="Center"
-                           VerticalAlignment="Center" />
+                                    <Label Content="Toetsdatum"
+                                           HorizontalAlignment="Right"
+                                           Width="120"
+                                           Height="50"
+                                           FontSize="16"
+                                           Foreground="#FF929292"
+                                           Margin="0,0,120,0"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalAlignment="Center" />
 
-                    <Label x:Name="CourseTestDate"
-                           Content="01-01-1970"
-                           HorizontalAlignment="Right"
-                           Width="120"
-                           Height="30"
-                           FontSize="16"
-                           Foreground="#FFBDBDBD"
-                           Margin="0,20,120,0"
-                           HorizontalContentAlignment="Center"
-                           VerticalAlignment="Top" />
+                                    <Label Content="{Binding TestDate}"
+                                           HorizontalAlignment="Right"
+                                           Width="120"
+                                           Height="30"
+                                           FontSize="16"
+                                           Foreground="#FFBDBDBD"
+                                           Margin="0,20,120,0"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalAlignment="Top" />
 
-                    <Label Content="Periode"
-                           HorizontalAlignment="Right"
-                           Width="140"
-                           Height="50"
-                           FontSize="16"
-                           Foreground="#FF929292"
-                           Margin="0,0,240,0"
-                           HorizontalContentAlignment="Center"
-                           VerticalAlignment="Center" />
+                                    <Label Content="Periode"
+                                           HorizontalAlignment="Right"
+                                           Width="140"
+                                           Height="50"
+                                           FontSize="16"
+                                           Foreground="#FF929292"
+                                           Margin="0,0,240,0"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalAlignment="Center" />
 
-                    <Label x:Name="CourseSemester"
-                           Content="XX/XX Semester X"
-                           HorizontalAlignment="Right"
-                           Width="140"
-                           Height="30"
-                           FontSize="14"
-                           Foreground="#FFBDBDBD"
-                           Margin="0,20,240,0"
-                           HorizontalContentAlignment="Center"
-                           VerticalAlignment="Top" />
-                </Grid>
-                <!--Grade element-->
+                                    <Label Content="{Binding Semester}"
+                                           HorizontalAlignment="Right"
+                                           Width="140"
+                                           Height="30"
+                                           FontSize="14"
+                                           Foreground="#FFBDBDBD"
+                                           Margin="0,20,240,0"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalAlignment="Top" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Grid Height="100" />
             </StackPanel>
 
         </ScrollViewer>
@@ -136,63 +145,7 @@
                       HorizontalAlignment="Right"
                       Margin="0,0,20,20"
                       Cursor="Hand"
-                      IsChecked="True"
                       Style="{StaticResource RoundToggleButtonTheme}"
                       Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" />
-
-        <Border Width="100"
-                Height="86"
-                Margin="0,0,83,20"
-                VerticalAlignment="Bottom"
-                Visibility="{Binding ElementName=EducatorAccountSettingsButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                HorizontalAlignment="Right"
-                Style="{StaticResource StackPanelBorderTheme}">
-
-            <Grid Style="{StaticResource GridTheme}">
-                <TextBlock Text="Uitgelogd"
-                           Foreground="#FFB9B9B9"
-                           FontSize="12"
-                           Width="90"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Left"
-                           TextWrapping="Wrap"
-                           Visibility="{Binding IsStudentLoggedIn, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
-
-                <TextBlock Text="Voornaam Achternaam"
-                           Foreground="#FFB9B9B9"
-                           FontSize="12"
-                           Width="90"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Left"
-                           TextWrapping="Wrap"
-                           Visibility="{Binding IsStudentLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                
-                <Button Content="🗝️"
-                        Width="35"
-                        Height="35"
-                        FontSize="18"
-                        Padding="0,0,0,-20"
-                        Margin="0,0,0,0"
-                        Cursor="Hand"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Style="{StaticResource RoundButtonTheme}"
-                        Visibility="{Binding IsStudentLoggedIn, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                        Command="{Binding LogInAction}" />
-
-                <Button Content="🔒"
-                        Width="35"
-                        Height="35"
-                        FontSize="18"
-                        Padding="0,0,0,-20"
-                        Margin="0,0,0,0"
-                        Cursor="Hand"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Style="{StaticResource RoundButtonTheme}"
-                        Visibility="{Binding IsStudentLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Command="{Binding LogOutAction}" />
-            </Grid>
-        </Border>
     </Grid>
 </UserControl>

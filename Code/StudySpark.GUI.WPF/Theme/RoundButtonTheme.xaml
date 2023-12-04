@@ -19,8 +19,7 @@
                                        VerticalAlignment="Center"
                                        Foreground="White"
                                        FontFamily="Ubuntu"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       Margin="{TemplateBinding Padding}"
+                                       FontSize="35"
                                        Height="40"/>
                         </Border>
 

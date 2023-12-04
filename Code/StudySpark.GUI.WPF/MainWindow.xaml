@@ -151,7 +151,20 @@
 
             </Grid>
 
-            <Image Source="/Images/Logo_NoText_NoColor.png" Margin="-102,0,0,-116" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Opacity="0.05" HorizontalAlignment="Left" Width="296" Height="325" VerticalAlignment="Bottom" >
+            <ContentControl Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}" />
+
+            <Image Source="/Images/Logo_NoText_NoColor.png"
+                   Margin="-102,0,0,-116"
+                   Grid.Row="1"
+                   RenderTransformOrigin="0.5,0.5"
+                   Opacity="0.05"
+                   HorizontalAlignment="Left"
+                   Width="296"
+                   Height="325"
+                   VerticalAlignment="Bottom" >
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -161,11 +174,6 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-
-            <ContentControl Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="10"
-                            Content="{Binding CurrentView}" />
 
             <!--<Button Content="⚙"
                     Width="58"
