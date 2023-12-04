@@ -31,6 +31,5 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             // Update the folderPanel width when the size changes
             FilesControl.Width = e.NewSize.Width;
         }
-
     }
 }
