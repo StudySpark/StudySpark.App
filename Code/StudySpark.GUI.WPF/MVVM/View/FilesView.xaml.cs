@@ -20,8 +20,10 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     /// </summary>
     public partial class FilesView : UserControl {
         public FilesView() {
+
             InitializeComponent();
             SizeChanged += UserControl_SizeChanged;
+
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -30,16 +32,5 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             FilesControl.Width = e.NewSize.Width;
         }
 
-        private void GeneralSelect_Checked(object sender, RoutedEventArgs e)
-        {
-            ToggleButton rb = (ToggleButton)sender;
-            if ((bool)rb.IsChecked)
-            {
-                rb.IsChecked = false;
-            } else
-            {
-                rb.IsChecked = true;
-            }
-        }
     }
 }

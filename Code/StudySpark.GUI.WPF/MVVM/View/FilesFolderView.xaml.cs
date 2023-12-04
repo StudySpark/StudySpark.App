@@ -23,6 +23,8 @@ namespace StudySpark.GUI.WPF.MVVM.View
         public FilesFolderView()
         {
             InitializeComponent();
+
         }
+
     }
 }

@@ -52,6 +52,8 @@ namespace StudySpark.Core.Repositories
             string type = "";
             string image = "";
 
+            extension = extension.ToLower();
+
             if (extension == "docx")
             {
                 type = "WordFile";
