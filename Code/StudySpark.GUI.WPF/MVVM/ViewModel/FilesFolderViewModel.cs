@@ -28,9 +28,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public List<GenericFile> files = new List<GenericFile>();
         
         private List<GenericFile> previousFiles;
-        
-        FileRepository repository = new FileRepository();
-        
+                
         public object CurrentFolderList
         {
             get
@@ -60,7 +58,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private void UpdateOnChange()
         {
             previousFiles = files;
-            files = repository.ReadData();
+            files = DBConnector.Database.ReadFileData();
             folderPanel.Children.Clear();
             
             List<GenericFile> difference = files.Except(previousFiles).ToList();
@@ -173,7 +171,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 string path = fbd.SelectedPath;
                 if (!string.IsNullOrEmpty(path))
                 {
-                    bool result = repository.InsertData(path, "folder", "DirectoryIcon.png");
+                    bool result = DBConnector.Database.InsertFileData(path, "folder", "DirectoryIcon.png");
                     if (!result)
                     {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");
