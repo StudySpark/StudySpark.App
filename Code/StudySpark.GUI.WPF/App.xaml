@@ -58,6 +58,9 @@
             <DataTemplate DataType="{x:Type viewModel:FilesFolderViewModel}">
                 <view:FilesFolderView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
+                <view:LoginView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
