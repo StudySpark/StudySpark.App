@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <core:VisibilityMultiConverter x:Key="VisibilityMultiConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -90,8 +91,7 @@
                       Margin="0,0,20,20"
                       Cursor="Hand"
                       Style="{StaticResource RoundButtonTheme}"
-                      Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Checked="GeneralSelect_Checked" />
+                      Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
         <ToggleButton Content="📄"
                       FontSize="30"
@@ -103,8 +103,16 @@
                       Margin="0,0,95,40"
                       Cursor="Hand"
                       Style="{StaticResource RoundButtonTheme}"
-                      Visibility="{Binding ElementName=GeneralSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Command="{Binding FilesFolderVM.OpenFileSelectCommand}" />
+                      Command="{Binding FilesFolderVM.OpenFileSelectCommand}" >
+
+            <ToggleButton.Visibility>
+                <MultiBinding Converter="{StaticResource VisibilityMultiConverter}">
+                    <Binding ElementName="GeneralSelect" Path="IsVisible"/>
+                    <Binding ElementName="GeneralSelect" Path="IsChecked"/>
+                </MultiBinding>
+            </ToggleButton.Visibility>
+
+        </ToggleButton>
 
         <ToggleButton Content="📁"
                       FontSize="30"
@@ -116,7 +124,15 @@
                       Margin="0,0,40,95"
                       Cursor="Hand"
                       Style="{StaticResource RoundButtonTheme}"
-                      Visibility="{Binding ElementName=GeneralSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" />
+                      Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" >
+
+            <ToggleButton.Visibility>
+                <MultiBinding Converter="{StaticResource VisibilityMultiConverter}">
+                    <Binding ElementName="GeneralSelect" Path="IsVisible"/>
+                    <Binding ElementName="GeneralSelect" Path="IsChecked"/>
+                </MultiBinding>
+            </ToggleButton.Visibility>
+            
+        </ToggleButton>
     </Grid>
 </UserControl>
