@@ -75,6 +75,13 @@
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding GitViewCommand}" />
+                <RadioButton Content="Bier Aanbiedingen"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding BierViewCommand}" />
 
                 <!--<RadioButton Content="Tijdlijn"
                              Cursor="Hand"
