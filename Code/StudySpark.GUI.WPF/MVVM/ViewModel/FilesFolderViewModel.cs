@@ -85,8 +85,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
 
                         // Logic to run the file using the buttonFilePath
-                        System.Windows.MessageBox.Show($"Running file: {buttonFilePath}");
-
                         try
                         {
                             using (System.Diagnostics.Process process = new System.Diagnostics.Process())
