@@ -77,37 +77,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 b.Tag = file.Path;
                 b.Style = customButtonStyle;
 
-                RoutedEventHandler ClickHandler = (sender, args) =>
-                {
-                    if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
-                    {
-
-                        string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
-
-                        // Logic to run the file using the buttonFilePath
-                        try
-                        {
-                            using (System.Diagnostics.Process process = new System.Diagnostics.Process())
-                            {
-                                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
-                                {
-                                    FileName = "cmd.exe",
-                                    Arguments = $"/c start \"\" \"{buttonFilePath}\"",
-                                    UseShellExecute = false,
-                                    RedirectStandardOutput = true,
-                                    CreateNoWindow = true
-                                };
-
-                                process.StartInfo = startInfo;
-                                process.Start();
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Windows.MessageBox.Show($"Error: {ex.Message}");
-                        }
-                    }
-                };
+                RoutedEventHandler ClickHandler = createClickHandler(file);
 
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickHandler);
 
@@ -169,6 +139,43 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.IsEnabled = true;
             textBlock.Cursor = System.Windows.Input.Cursors.Hand;
             return textBlock;
+        }
+
+        private RoutedEventHandler createClickHandler(GenericFile file)
+        {
+            RoutedEventHandler ClickHandler = (sender, args) =>
+            {
+                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
+                {
+
+                    string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
+
+                    // Logic to run the file using the buttonFilePath
+                    try
+                    {
+                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
+                        {
+                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = "cmd.exe",
+                                Arguments = $"/c start \"\" \"{buttonFilePath}\"",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                CreateNoWindow = true
+                            };
+
+                            process.StartInfo = startInfo;
+                            process.Start();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            };
+
+            return ClickHandler;
         }
 
         private string TruncateFileName(string fileName, int maxLength)
