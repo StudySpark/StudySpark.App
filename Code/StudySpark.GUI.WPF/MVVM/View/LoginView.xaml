@@ -51,18 +51,22 @@
                 CornerRadius="5" Grid.Column="1" Grid.Row="3">
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <Image Source="../../Images/user.png" Height="18"/>
-                    <TextBox Text="" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
+                    <TextBox Text="{Binding Username }" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
                     <Image Source="../../Images/info.png" Height="18"/>
                 </StackPanel>
             </Border>
-            <Label Content="Password" Foreground="LightGray" Grid.Column="1" Grid.Row="4" Padding="0, 0, 0 0"/>
+            <Label Content="Password"  Foreground="LightGray" Grid.Column="1" Grid.Row="4" Padding="0, 0, 0 0"/>
             <Border BorderBrush="LightGray"
                 BorderThickness="1"
                 VerticalAlignment="Center"
                 CornerRadius="5" Grid.Column="1" Grid.Row="5">
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <Image Source="../../Images/key.png" Height="18"/>
-                    <TextBox Text="" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
+                    <PasswordBox  x:Name="passwordBox" IsTabStop="False" Focusable="False" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
+
+                    
+                    <TextBox Text="{Binding Password}" TextChanged="TextBox_TextChanged" Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="-100 0 0 0" Width="100"/>
+
                     <Image Source="../../Images/info.png" Height="18" />
                 </StackPanel>
             </Border>

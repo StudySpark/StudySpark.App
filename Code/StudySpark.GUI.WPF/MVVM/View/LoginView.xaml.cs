@@ -27,12 +27,9 @@ namespace StudySpark.GUI.WPF.MVVM.View
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            passwordBox.Password = (sender as TextBox).Text;
         }
 
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
+    
     }
 }

@@ -32,7 +32,7 @@ namespace StudySpark.Core.Repositories
                 return;
             }
             SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS User (username VARCHAR(256), password VARCHAR(64))";
+            string Createsql = "CREATE TABLE IF NOT EXISTS Users (username VARCHAR(256), password VARCHAR(64))";
             
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = Createsql;
@@ -40,19 +40,17 @@ namespace StudySpark.Core.Repositories
         }
 
         public void createUser(string username, string password)
-        {
-            string originalString = "Hello, world!";
-            
-            byte[] key = Encoding.UTF8.GetBytes("StudySpark");
-            byte[] iv = Encoding.UTF8.GetBytes("42069");
+        {            
+            byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
+            byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
 
-            string encryptedString = EncryptString(originalString, key, iv);
+            string encryptedString = EncryptString(password, key, iv);
 
             SqliteCommand sqlite_cmd;
-            string createsql = "INSERT INTO Users (Username, Password) VALUES(?,?)";
+            string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
             SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
-            insertSQL.Parameters.Add(username);
-            insertSQL.Parameters.Add(encryptedString);
+            insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
+            insertSQL.Parameters.Add(new SqliteParameter("@Password", encryptedString));
             try
             {
                 insertSQL.ExecuteNonQuery();
