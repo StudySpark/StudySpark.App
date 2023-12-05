@@ -77,7 +77,6 @@
                 <ContentControl Grid.Row="1"
                     Grid.Column="1"
                     Margin="0"
-                    MouseLeftButtonDown="FullScreenElement_Tapped"
                     Content="{Binding CurrentView}"/>
             </ScrollViewer>
         </Grid>
