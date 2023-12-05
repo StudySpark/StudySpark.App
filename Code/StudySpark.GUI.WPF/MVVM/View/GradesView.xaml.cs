@@ -20,18 +20,8 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     /// </summary>
     public partial class GradesView : UserControl {
 
-        private GradesViewModel ViewModel => (GradesViewModel)DataContext;
-
         public GradesView() {
             InitializeComponent();
-
-            ViewModel.LoginButtonClicked += DismissAccountSettingsPopup;
-            ViewModel.LogoutButtonClicked += DismissAccountSettingsPopup;
-        }
-
-        private void DismissAccountSettingsPopup(object sender, EventArgs e) {
-            // Set IsChecked to false
-            EducatorAccountSettingsButton.IsChecked = false;
         }
     }
 }

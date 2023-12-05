@@ -137,7 +137,7 @@
 
         </ScrollViewer>
 
-        <ToggleButton Content="👤"
+        <Button Content="👤"
                       x:Name="EducatorAccountSettingsButton"
                       Width="58"
                       Height="56"
@@ -145,7 +145,7 @@
                       HorizontalAlignment="Right"
                       Margin="0,0,20,20"
                       Cursor="Hand"
-                      Style="{StaticResource RoundToggleButtonTheme}"
-                      Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" />
+                      Style="{StaticResource RoundButtonTheme}"
+                      Command="{Binding OpenAccountSettings}" />
     </Grid>
 </UserControl>
