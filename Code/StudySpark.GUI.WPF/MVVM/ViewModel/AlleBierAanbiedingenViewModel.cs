@@ -38,27 +38,61 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private StackPanel AllePanel = new StackPanel();
 
+        private enum BierEnum
+        {
+            HERTOG_JAN = 0,
+            AMSTEL = 1
+        }
+
         public AlleBierAanbiedingenViewModel()
         {
             //CREATE SCRAPER AND RETRIEVE INFORMATION
             BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
             BiernetScraper scraper = new BiernetScraper(options);
-            var BierInfo = scraper.BierScrape();
 
-            var displayInfo = new StackPanel();
+            List<List<List<object>>> BierList = new();
+            var BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+            var BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
+            var BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
 
-            for (int i = 0; i< BierInfo.Count; i++)
+            BierList.Add(BierInfoHertogJan);
+            BierList.Add(BierInfoAmstel);
+            BierList.Add(BierInfoHeineken);
+
+            for (int z = 0; z < BierList.Count; z++)
             {
-                var info = DisplayInformation(BierInfo, i);
-                
-                displayInfo.Children.Add(info);
+                string name = "";
+                switch (z)
+                {
+                    case 0:
+                        name = "Hertog Jan";
+                        break;
+                    case 1:
+                        name = "Amstel";
+                        break;
+                    case 2:
+                        name = "Heineken";
+                        break;
+                }
+                var displayInfo = new StackPanel();
+                for (int i = 0; i < BierList[z].Count; i++)
+                    //for (int i = 0; i < 1; i++) 
+                {
+                    var info = DisplayInformation(BierList[z], i, z);
+                    displayInfo.Children.Add(info);
+                }
+                AllePanel.Children.Add(new TextBlock()
+                {
+                    Text = name,
+                    FontSize = 30,
+                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                    Height = 40
+                }); 
+                AllePanel.Children.Add(displayInfo);
             }
-
-            AllePanel.Children.Add(displayInfo);
             AlleAanbiedingen = AllePanel;
         }
-
-        private UIElement DisplayInformation(List<List<object>> bierInfo, int index)
+        private UIElement DisplayInformation(List<List<object>> bierInfo, int index, int zIndex)
         {
             var container = new StackPanel()
             {
@@ -77,8 +111,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
                 VerticalAlignment = System.Windows.VerticalAlignment.Center,
             };
-            //logo.Source = GetProductImage(bierInfo, index);
-            logo.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\man.png", UriKind.Relative));
+            logo.Source = GetProductImage(zIndex);
+
             imageGrid.Children.Add(logo);
             container.Children.Add(imageGrid);
 
@@ -100,7 +134,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return container;
         }
-
         private UIElement DisplayInformationOfProduct(List<List<object>> bierInfo, int index)
         {
             var information = new StackPanel()
@@ -123,7 +156,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return information;
         }
-
         private UIElement GetPrices(List<List<object>> bierInfo, int index)
         {
             int SALES = 2;
@@ -147,11 +179,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         Text = $"Van: {van}\nVoor: {voor}\n",
                     };
                     t.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-                    
 
                     priceContainer.Children.Add(img);
                     priceContainer.Children.Add(t);
-                    
                 }
             }
 
@@ -177,15 +207,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return lowestPriceTrim;
         }
 
-        private BitmapImage GetProductImage(List<List<object>> bierInfo, int index)
+        private BitmapImage GetProductImage(int index)
         {
-            int IMAGE_URL_INDEX = 2;
-            string? url = bierInfo[index][IMAGE_URL_INDEX].ToString();
-
-            Uri uri = new Uri(url);
-
-            BitmapImage image = new BitmapImage(uri);
-
+            string name = "";
+            switch (index)
+            {
+                case 0:
+                    name = "HertogJan";
+                    break;
+                case 1:
+                    name = "Amstel";
+                    break;
+                case 2:
+                    name = "Heineken";
+                    break;
+            }
+            BitmapImage image = new BitmapImage(new Uri($"..\\..\\..\\Images\\{name}.png", UriKind.Relative));
             return image;
         }
     }

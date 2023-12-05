@@ -14,15 +14,15 @@ namespace StudySpark.Core.BierScraper
             BiernetScraper.ScraperOptions options = new();
             BiernetScraper scraper = new BiernetScraper(options);
 
-            var bierInfo = scraper.BierScrape();
+            //var bierInfo = scraper.BierScrape();
 
-            for (int i = 0; i < bierInfo.Count; i++)
-            {
-                for (int j = 0; j < bierInfo[i].Count; j++)
-                {
-                    Console.WriteLine(bierInfo[i][j]);
-                }
-            }
+            //for (int i = 0; i < bierInfo.Count; i++)
+            //{
+            //    for (int j = 0; j < bierInfo[i].Count; j++)
+            //    {
+            //        Console.WriteLine(bierInfo[i][j]);
+            //    }
+            //}
         }
 
         private ScraperOptions? scraperOptions;
@@ -80,7 +80,7 @@ namespace StudySpark.Core.BierScraper
         }
 
 
-        public List<List<object>> BierScrape()
+        public List<List<object>> BierScrape(string url)
         {
             //CREATE LIST THAT IS BEING RETURNED
             List<List<object>> BierInformatie = new();
@@ -93,7 +93,7 @@ namespace StudySpark.Core.BierScraper
 
             //MAKE SCRAPEROPTIONS (ONLY URL IN THIS CASE)
             ScraperOptions scraperOptions = new ScraperOptions();
-            scraperOptions.URL = "https://www.biernet.nl/bier/merken/hertog-jan-pilsener";
+            scraperOptions.URL = url;
 
             //CREATE ACTUAL SCRAPER
             BiernetScraper biernetScraper = new BiernetScraper(scraperOptions);
