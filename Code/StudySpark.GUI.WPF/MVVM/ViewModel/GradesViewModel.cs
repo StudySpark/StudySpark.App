@@ -1,5 +1,4 @@
 ﻿using StudySpark.GUI.WPF.Core;
-using StudySpark.GUI.WPF.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class GradesViewModel : INotifyPropertyChanged {
@@ -46,8 +44,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void HandleLogIn() {
-            UserControl login = new LoginView();
-            
             IsStudentLoggedIn = true;
             LoginButtonClicked?.Invoke(this, EventArgs.Empty);
         }
