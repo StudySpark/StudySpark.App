@@ -81,7 +81,8 @@
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding BierViewCommand}" />
+                             Command="{Binding BierViewCommand}" 
+                             Click="TriggerBiernetScraper"/>
 
                 <!--<RadioButton Content="Tijdlijn"
                              Cursor="Hand"

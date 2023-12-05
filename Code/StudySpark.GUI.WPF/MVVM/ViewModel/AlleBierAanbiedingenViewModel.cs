@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using Accessibility;
-using Newtonsoft.Json.Linq;
 using StudySpark.Core.BierScraper;
 using StudySpark.GUI.WPF.Core;
 
@@ -46,6 +44,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public AlleBierAanbiedingenViewModel()
         {
+
+        }
+
+
+        public void DisplayBeerSales() { 
             //CREATE SCRAPER AND RETRIEVE INFORMATION
             BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
             BiernetScraper scraper = new BiernetScraper(options);
@@ -62,6 +65,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             for (int z = 0; z < BierList.Count; z++)
             {
                 string name = "";
+                //CHECK WHICH BRAND SHOULD BE DISPLAYED
                 switch (z)
                 {
                     case 0:
@@ -76,10 +80,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 }
                 var displayInfo = new StackPanel();
                 for (int i = 0; i < BierList[z].Count; i++)
-                    //for (int i = 0; i < 1; i++) 
                 {
-                    var info = DisplayInformation(BierList[z], i, z);
-                    displayInfo.Children.Add(info);
+                    List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)BierList[z][i][2];
+                    if (sales.Count > 0)
+                    {
+                        var info = DisplayInformation(BierList[z], i, z);
+                        displayInfo.Children.Add(info);
+                    }
                 }
                 AllePanel.Children.Add(new TextBlock()
                 {
@@ -94,6 +101,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private UIElement DisplayInformation(List<List<object>> bierInfo, int index, int zIndex)
         {
+            //CREATE RETURN VALUE
             var container = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Center,
@@ -101,9 +109,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             container.Orientation = System.Windows.Controls.Orientation.Horizontal;
             container.Height = ENTRY_HEIGHT;
 
+            //IMAGE OF THE PRODUCT
             Grid imageGrid = new();
             imageGrid.Width = IMAGE_WIDTH;
-            //IMAGE OF THE PRODUCT
             var logo = new Image()
             {
                 Width = IMAGE_WIDTH,
@@ -112,16 +120,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 VerticalAlignment = System.Windows.VerticalAlignment.Center,
             };
             logo.Source = GetProductImage(zIndex);
-
             imageGrid.Children.Add(logo);
-            container.Children.Add(imageGrid);
+
 
             //INFORMATION OF THE PRODUCT
             Grid infoGrid = new();
             infoGrid.Width = INFO_GRID_WIDTH;
             var information = DisplayInformationOfProduct(bierInfo, index);
             infoGrid.Children.Add(information);
-            container.Children.Add(infoGrid);
 
             //SALES
             Grid salesGrid = new();
@@ -130,6 +136,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             salesGrid.ColumnDefinitions.Add(c1);
             var prices = GetPrices(bierInfo, index);
             salesGrid.Children.Add(prices);
+
+            //ADD DIFFERENT GRIDS
+            container.Children.Add(imageGrid);
+            container.Children.Add(infoGrid);
             container.Children.Add(salesGrid);
 
             return container;

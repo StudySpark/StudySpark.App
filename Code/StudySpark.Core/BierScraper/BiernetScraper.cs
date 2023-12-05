@@ -36,9 +36,11 @@ namespace StudySpark.Core.BierScraper
         {
             var options = new ChromeOptions();
             options.AddArgument("--headless");
+            var chromeDriverService = ChromeDriverService.CreateDefaultService();
+            chromeDriverService.HideCommandPromptWindow = true;
             //options.AddArgument("--disable-gpu");
 
-            driver = new ChromeDriver(options);
+            driver = new ChromeDriver(chromeDriverService, options);
             driver?.Navigate().GoToUrl(scraperOptions?.URL);
             driver.Manage().Window.Size = new System.Drawing.Size(100, 800);
         }
@@ -82,14 +84,12 @@ namespace StudySpark.Core.BierScraper
 
         public List<List<object>> BierScrape(string url)
         {
-            //CREATE LIST THAT IS BEING RETURNED
+            //CREATE LIST THAT IS BEING RETURNED 
             List<List<object>> BierInformatie = new();
 
             //VARIABLE NAMES FOR INDECES IN PRODUCTSLIST (NOT FINAL LIST)
             int PRODUCT_NAME = 0;
             int PRODUCT_LOWEST_PRICE = 1;
-            int PRODUCT_SALES = 2;
-            int PRODUCT_IMAGE = 3;
 
             //MAKE SCRAPEROPTIONS (ONLY URL IN THIS CASE)
             ScraperOptions scraperOptions = new ScraperOptions();
@@ -124,7 +124,6 @@ namespace StudySpark.Core.BierScraper
                 productsList.Add(new List<IWebElement>());
                 productsList[i].Add(ProductInformation[i].FindElement(By.ClassName("ppc_verpakking_titel")));
                 productsList[i].Add(ProductInformation[i].FindElement(By.ClassName("BekijkBtn")));
-                productsList[i].Add(ProductImage[i].FindElement(By.ClassName("ppc_images_verpakking")));
             }
 
             //LOOP THROUGH ALL THE AVAILABLE SALES -- PER PRODUCT
