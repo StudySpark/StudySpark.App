@@ -74,9 +74,7 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
-
         }
-
         public List<GenericFile> ReadData()
         {
             if (this.conn == null)

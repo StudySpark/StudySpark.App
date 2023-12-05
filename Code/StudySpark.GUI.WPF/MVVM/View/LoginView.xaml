@@ -6,50 +6,72 @@
              xmlns:vm="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
              xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="424" d:DesignWidth="700">
     <UserControl.DataContext>
         <vm:LoginViewModel/>
     </UserControl.DataContext>
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
+        <Rectangle Grid.Column="1" Grid.Row="1" Fill="Transparent" RadiusX="10" RadiusY="10" Stroke="LightGray" StrokeThickness="2"/>
+        <Label Content="StudySpark" Foreground="LightGray" Grid.Column="1" Grid.Row="1"/>
 
-        <Rectangle RadiusX="10" RadiusY="10" Margin="236,114,236,114" Stroke="DarkSlateGray" StrokeThickness="2"/>
-        <Label x:Name="StudySparkLabel" Content="StudySpark&#xD;&#xA;" HorizontalAlignment="Left" Margin="254,130,0,0" VerticalAlignment="Top" Height="28" Width="106" Foreground="White"/>
-        <Label x:Name="welcomelLabel" Content="Welcome" HorizontalAlignment="Left" Margin="254,175,0,0" VerticalAlignment="Top" Height="28" Width="106" Foreground="White"/>
-        <Label x:Name="label2" Content="Email" HorizontalAlignment="Left" FontSize="8" Margin="333,214,435,216" Foreground="White"/>
-        <TextBox Text="" Margin="333,234,364,200" BorderBrush="Gray" Width="100" Height="25" HorizontalAlignment="Center">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Label x:Name="passwordLabel" Content="Password" HorizontalAlignment="Left" FontSize="8" Margin="333,250,401,180" Foreground="White"/>
-        <PasswordBox x:Name="passwordTextBox" Margin="335,266,365,160" Width="100" BorderBrush="Gray" Height="25" PasswordChar="●">
-            <PasswordBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </PasswordBox.Resources>
-        </PasswordBox>
-
-
-        <Button x:Name="button" Content="Login" Background="White" Margin="333,295,364,137" FontSize="10" FontWeight="SemiBold" BorderBrush="Gray" Command="{Binding LoginCommand}" Width="100" Height="20">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Image Source="../../Images/user.png" Margin="332,236,450,202"/>
-        <Image Source="../../Images/key.png" Margin="332,272,450,166"/>
-        <Image Source="../../Images/info.png" Margin="418,272,364,166"/>
-        <Image Source="/Images/info.png" Margin="418,236,364,202"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.3*"/>
+                <RowDefinition Height="1.3*"/>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Welcome" Foreground="LightGray" Grid.Column="1" Grid.Row="1" FontWeight="SemiBold"/>
+            <Label Content="Email" Foreground="LightGray" Grid.Column="1" Grid.Row="2" Padding="0, 0, 0 0"/>
+            <Border BorderBrush="LightGray"
+                BorderThickness="1"
+                VerticalAlignment="Center"
+                CornerRadius="5" Grid.Column="1" Grid.Row="3">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Image Source="../../Images/user.png" Height="18"/>
+                    <TextBox Text="" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
+                    <Image Source="../../Images/info.png" Height="18"/>
+                </StackPanel>
+            </Border>
+            <Label Content="Password" Foreground="LightGray" Grid.Column="1" Grid.Row="4" Padding="0, 0, 0 0"/>
+            <Border BorderBrush="LightGray"
+                BorderThickness="1"
+                VerticalAlignment="Center"
+                CornerRadius="5" Grid.Column="1" Grid.Row="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Image Source="../../Images/key.png" Height="18"/>
+                    <TextBox Text="" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
+                    <Image Source="../../Images/info.png" Height="18" />
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="LightGray"
+                BorderThickness="1"
+                VerticalAlignment="Center"
+                CornerRadius="5" Grid.Column="1" Grid.Row="7">
+                <Button Content="Login" HorizontalAlignment="Center" Background="Transparent" Foreground="LightGray" Command="{ Binding LoginCommand }" BorderBrush="Transparent" Margin="3 0 0 0" Width="100"/>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>
