@@ -33,6 +33,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public GradesViewModel GradesVM { get; set; }
         public GitViewModel GitVM { get; set; }
         public TimelineViewModel TimelineVM { get; set; }
+        public LoginViewModel LoginVM { get; set; }
 
         private object _currentView;
 
@@ -56,6 +57,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             GradesVM = new GradesViewModel();
             GitVM = new GitViewModel();
             TimelineVM = new TimelineViewModel();
+            LoginVM = new LoginViewModel();
 
             CurrentView = OverviewVM;
 
@@ -112,7 +114,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 }
             }
         }
-
         private void CloseWindow() {
             if (Application.Current.MainWindow != null) {
                 Application.Current.MainWindow.Close();
