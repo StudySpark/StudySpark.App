@@ -34,8 +34,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         }
         public void LoginUser() {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
-                MessageBox.Show("A field is empty");
+            if (string.IsNullOrEmpty(username)) {
+                MessageBox.Show("E-mail is vereist");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password)) {
+                MessageBox.Show("Wachtwoord is vereist");
                 return;
             }
 
