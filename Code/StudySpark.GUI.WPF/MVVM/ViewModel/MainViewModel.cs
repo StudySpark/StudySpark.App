@@ -59,7 +59,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             TimelineVM = new TimelineViewModel();
             LoginVM = new LoginViewModel();
 
-            CurrentView = LoginVM; //OverviewVM
+            CurrentView = OverviewVM;
 
             OverviewViewCommand = new RelayCommand(o => {
                 CurrentView = OverviewVM;
