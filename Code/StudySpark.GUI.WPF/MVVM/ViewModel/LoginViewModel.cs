@@ -39,9 +39,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         public void LoginUser()
         {
-            Debug.WriteLine($"user: '{username}'");
-            Debug.WriteLine($"password: '{password}'");
-
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) 
             {
                 MessageBox.Show("A field is empty");

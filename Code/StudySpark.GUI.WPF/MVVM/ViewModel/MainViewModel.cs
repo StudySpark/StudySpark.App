@@ -114,7 +114,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 }
             }
         }
-
         private void CloseWindow() {
             if (Application.Current.MainWindow != null) {
                 Application.Current.MainWindow.Close();
