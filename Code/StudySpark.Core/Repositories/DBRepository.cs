@@ -31,6 +31,7 @@ namespace StudySpark.Core.Repositories {
 
                 CreateFileTable();
                 CreateGradesTable();
+                CreateUsersTable();
                 CreateGitTable();
             } catch (Exception ex) { }
         }
@@ -54,6 +55,18 @@ namespace StudySpark.Core.Repositories {
 
             SqliteCommand sqlite_cmd;
             string Createsql = "CREATE TABLE IF NOT EXISTS Grades (coursename VARCHAR(64), coursecode VARCHAR(64) PRIMARY KEY, testdate VARCHAR(32), semester VARCHAR(32), ecs INT, grade VARCHAR(5))";
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = Createsql;
+            sqlite_cmd.ExecuteNonQuery();
+        }
+
+        private void CreateUsersTable() {
+            if (this.conn == null) {
+                return;
+            }
+            SqliteCommand sqlite_cmd;
+            string Createsql = "CREATE TABLE IF NOT EXISTS Users (username VARCHAR(256), password VARCHAR(64))";
+
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = Createsql;
             sqlite_cmd.ExecuteNonQuery();
@@ -107,6 +120,25 @@ namespace StudySpark.Core.Repositories {
             sqlite_cmd.CommandText = $"INSERT OR REPLACE INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
             sqlite_cmd.ExecuteNonQuery();
             return true;
+        }
+
+        public void CreateUser(string username, string password) {
+            byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
+            byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
+
+            string encryptedString = Encryption.EncryptString(password, key, iv);
+
+            SqliteCommand sqlite_cmd;
+            string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
+            SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
+            insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
+            insertSQL.Parameters.Add(new SqliteParameter("@Password", encryptedString));
+            try {
+                insertSQL.ExecuteNonQuery();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         public bool InsertGitData(string fullpath, string type) {
