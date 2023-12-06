@@ -84,6 +84,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Image exclaim = MarkAsDeletable(file);
                 containerGrid.Children.Add(exclaim);
 
+                if (CheckIfDeletable(containerGrid, exclaim))
+                {
+                    b.MouseEnter += (sender, e) =>
+                    {
+                        exclaim.Source = SetIcon("Trash_Bin.png").ImageSource;
+                    };
+
+                    b.MouseLeave += (sender, e) =>
+                    {
+                        exclaim.Source = SetIcon("ExclamationMark.png").ImageSource;
+                    };
+                }
+
                 RoutedEventHandler ClickOpenHandler = createClickOpenHandler(file);
                 RoutedEventHandler ClickDelHandler = createClickDelHandler(file);
 
@@ -93,8 +106,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 b.Click += (sender, e) =>
                 {
                     if (b.Tag is string filePath)
-                    {                       
-                        ClickOpenHandler?.Invoke(this, e);
+                    {
+                        if (exclaim.Source != null)
+                        {
+                            if (exclaim.Source.ToString().Equals(SetIcon("Trash_Bin.png").ImageSource.ToString()))
+                            {
+                                ClickDelHandler?.Invoke(this, e);
+                            }
+                            else
+                            {
+                                ClickOpenHandler?.Invoke(this, e);
+                            }
+                        }
+                        else
+                        {
+                            ClickOpenHandler?.Invoke(this, e);
+                        }
                     }
                 };
 
@@ -196,12 +223,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     try
                     {
-
+                        repository.DeleteData(folderPath, fileName);
+                        UpdateOnChange();
+                        System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
                     }
                     catch (Exception ex)
                     {
                         System.Windows.MessageBox.Show($"Error: {ex.Message}");
                     }
+
                 }
             };
 
@@ -247,18 +277,46 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         {
             Image iconImage = new Image();
 
-            if (!File.Exists(file.Path + "\\" + file.TargetName)) {
+            if (!File.Exists(file.Path + "\\" + file.TargetName) && !Directory.Exists(file.Path + "\\" + file.TargetName)) 
+            {
+
                 iconImage.Source = SetIcon("ExclamationMark.png").ImageSource;
-                iconImage.Width = 60;
-                iconImage.Height = 60;
+                iconImage.Width = 30;
+                iconImage.Height = 30;
 
                 // Set the margin to position the image in the upper left corner of the button
                 iconImage.Margin = new Thickness(20, 0, 0, 30);
+
             }
 
             return iconImage;
         }
-        //CheckIfDeletable
+        
+        private bool CheckIfDeletable(Grid grid, Image image)
+        {
+
+            ImageSource rightSource = SetIcon("ExclamationMark.png").ImageSource;
+            if (grid.Children.Contains(image))
+            {
+                if (image.Source == null)
+                {
+                    return false;
+                }
+                else if (image.Source.ToString().Equals(rightSource.ToString()))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
         private void SelectFile()
         {

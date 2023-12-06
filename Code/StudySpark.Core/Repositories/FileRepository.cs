@@ -11,6 +11,7 @@ using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using StudySpark.Core.FileManager;
 using Microsoft.Data.Sqlite;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StudySpark.Core.Repositories
 {
@@ -139,5 +140,13 @@ namespace StudySpark.Core.Repositories
             return files;
         }
 
+        public bool DeleteData(string path, string targetname)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = $"DELETE FROM FileTable WHERE path = '{path}' AND targetname = '{targetname}'; ";
+            sqlite_cmd.ExecuteNonQuery();
+            return true;
+        }
     }
 }
