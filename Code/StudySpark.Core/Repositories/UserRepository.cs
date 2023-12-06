@@ -11,33 +11,7 @@ namespace StudySpark.Core.Repositories
 {
     public class UserRepository
     {
-        private SqliteConnection conn;
-        public UserRepository() 
-        {
-            try
-            {
-                // Create a new database connection:
-                SqliteConnection sqlite_conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
-                // Open the connection:
-                sqlite_conn.Open();
-                this.conn = sqlite_conn;
-                CreateTable();
-            }
-            catch (Exception ex) { }
-        }
-        private void CreateTable()
-        {
-            if (this.conn == null)
-            {
-                return;
-            }
-            SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS Users (username VARCHAR(256), password VARCHAR(64))";
-            
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = Createsql;
-            sqlite_cmd.ExecuteNonQuery();
-        }
+
 
         public void createUser(string username, string password)
         {            
@@ -48,7 +22,7 @@ namespace StudySpark.Core.Repositories
 
             SqliteCommand sqlite_cmd;
             string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
-            SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
+            SqliteCommand insertSQL = new SqliteCommand(createsql, DBRepository.Conn);
             insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
             insertSQL.Parameters.Add(new SqliteParameter("@Password", encryptedString));
             try

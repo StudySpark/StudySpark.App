@@ -1,0 +1,47 @@
+﻿CREATE TABLE IF NOT EXISTS Files (
+	id INT, 
+	path VARCHAR(256), 
+	targetname VARCHAR(64), 
+	type VARCHAR(32), 
+	image VARCHAR(64)
+);
+
+CREATE TABLE IF NOT EXISTS Grades (
+	coursename VARCHAR(64), 
+	coursecode VARCHAR(64) PRIMARY KEY, 
+	testdate VARCHAR(32), 
+	semester VARCHAR(32), 
+	ecs INT, 
+	grade VARCHAR(5)
+);
+
+CREATE TABLE IF NOT EXISTS GitTable (
+	id INT, 
+	path VARCHAR(256), 
+	targetname VARCHAR(64), 
+	type VARCHAR(32)
+);
+
+CREATE TABLE IF NOT EXISTS BeerBrands (
+	id INT(8) NOT NULL,
+	brandname VARCHAR(64) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS BeerProducts (
+	id INT(8) NOT NULL,
+	brandID int(8) NOT NULL,
+	productname VARCHAR(64) NOT NULL,
+	bookmarked int,
+	lowestprice VARCHAR(32) NOT NULL,
+	FOREIGN KEY (brandID) REFERENCES BeerBrands(id)
+);
+
+CREATE TABLE IF NOT EXISTS BeerSales (
+	id INT(8) NOT NULL,
+	productID int(8) NOT NULL,
+	store VARCHAR(256) NOT NULL,
+	oldprice VARCHAR(32) NOT NULL,
+	newprice VARCHAR(32) NOT NULL,
+	FOREIGN KEY (productID) REFERENCES BeerProducts(id)
+);
