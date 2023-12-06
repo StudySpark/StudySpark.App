@@ -117,7 +117,7 @@ namespace StudySpark.Core.Repositories {
 
             SqliteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"INSERT OR REPLACE INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
+            sqlite_cmd.CommandText = $"INSERT INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
             sqlite_cmd.ExecuteNonQuery();
             return true;
         }
@@ -266,6 +266,12 @@ namespace StudySpark.Core.Repositories {
                 repos.Add(repo);
             }
             return repos;
+        }
+
+        public void ClearGradesData() {
+            string deletesql = "DELETE FROM Grades;";
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            deleteCmd.ExecuteNonQuery();
         }
     }
 }

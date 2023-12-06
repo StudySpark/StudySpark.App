@@ -48,25 +48,56 @@ namespace StudySpark.WebScraper.Educator {
                 return true;
             }
 
-            //try {
-            //    if (!GetElementById("errorText").GetAttribute("for").Length.Equals(0)) {
-            //        return false;
-            //    }
-            //} catch (Exception) {
-            //    return false;
-            //}
-            //Debug.WriteLine("Testing login credentials 4");
-
-            //try {
-            //    if (GetElementsByClassName("educator").Count > 0) {
-            //        return true;
-            //    }
-            //} catch (Exception) {
-            //    return false;
-            //}
-
             return false;
+        }
 
+        public List<StudentGrade> FetchGrades() {
+            List<StudentGrade> grades = new List<StudentGrade>();
+
+            WaitForPageLoad();
+
+            foreach (IWebElement item in GetElementsByClassName("studyplanning-unit")) {
+                StudentGrade grade = new StudentGrade();
+
+                grade.CourseName = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.ClassName("btn-link")).Text;
+                grade.CourseCode = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.TagName("small")).Text;
+                grade.ECs = item.FindElement(By.ClassName("exam-unit-workload-amount")).Text;
+                grade.Semester = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[0].FindElement(By.TagName("dd")).Text;
+                grade.TestDate = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[1].FindElement(By.TagName("dd")).Text;
+                grade.Grade = item.FindElement(By.ClassName("grade")).Text.Split("\n")[0];
+
+                grades.Add(grade);
+                Console.WriteLine(item.Text);
+            }
+            //if (!TestLoginCredentials()) {
+            //    return grades;
+            //}
+
+            //driver?.Navigate().GoToUrl("https://educator.windesheim.nl/");
+
+            //WaitForPageLoad();
+
+            //GetElementByClass("educator").Click();
+
+            //WaitForPageLoad();
+
+            //GetElementByClass("cijfers").Click();
+
+            //WaitForPageLoad();
+
+            //ReadOnlyCollection<IWebElement> gradeElements = GetElementsByClass("cijfer");
+
+            //foreach (IWebElement gradeElement in gradeElements) {
+            //    StudentGrade grade = new StudentGrade();
+
+            //    grade.CourseName = gradeElement.FindElement(By.ClassName("vaknaam")).Text;
+            //    grade.Grade = gradeElement.FindElement(By.ClassName("cijferwaarde")).Text;
+            //    grade.GradeDate = gradeElement.FindElement(By.ClassName("cijferdatum")).Text;
+
+            //    grades.Add(grade);
+            //}
+
+            return grades;
         }
     }
 }
