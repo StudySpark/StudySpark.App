@@ -14,6 +14,7 @@ using Button = System.Windows.Controls.Button;
 using System.Windows.Threading;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -22,14 +23,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private object _currentFolderList;
         
         public RelayCommand OpenFolderSelectCommand { get; private set; }
+
         public RelayCommand OpenFileSelectCommand { get; private set; }
         
         WrapPanel folderPanel = new WrapPanel();
         
         public List<GenericFile> files = new List<GenericFile>();
-        
+
         FileRepository repository = new FileRepository();
-        
+
         public object CurrentFolderList
         {
             get
@@ -74,6 +76,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Button b = ButtonNoHoverEffect(file.Image);
                 b.Tag = file.Path;
                 b.Style = customButtonStyle;
+
+                RoutedEventHandler ClickHandler = createClickHandler(file);
+
+                folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickHandler);
+
+                b.Click += (sender, e) =>
+                {
+                    if (b.Tag is string filePath)
+                    {
+                        ClickHandler?.Invoke(this, e);
+                    }
+                };
+
                 folderGrid.Children.Add(b);
 
                 //Create textbox and add it to grid
@@ -125,6 +140,44 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Cursor = System.Windows.Input.Cursors.Hand;
             return textBlock;
         }
+
+        private RoutedEventHandler createClickHandler(GenericFile file)
+        {
+            RoutedEventHandler ClickHandler = (sender, args) =>
+            {
+                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
+                {
+
+                    string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
+
+                    // Logic to run the file using the buttonFilePath
+                    try
+                    {
+                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
+                        {
+                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = "cmd.exe",
+                                Arguments = $"/c start \"\" \"{buttonFilePath}\"",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                CreateNoWindow = true
+                            };
+
+                            process.StartInfo = startInfo;
+                            process.Start();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            };
+
+            return ClickHandler;
+        }
+
         private string TruncateFileName(string fileName, int maxLength)
         {
             if (fileName.Length <= maxLength)
@@ -220,5 +273,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
         }
+
     }
 }
