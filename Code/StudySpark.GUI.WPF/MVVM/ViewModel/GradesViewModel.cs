@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class GradesViewModel : INotifyPropertyChanged {
         public RelayCommand EducatorLoginCommand { get; set; }
+        public static event EventHandler? NoUserLoggedInEvent;
 
 
         public ObservableCollection<GradeElement> GradeViewElements { get; } = new ObservableCollection<GradeElement>();
@@ -33,12 +33,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void load() {
+            GradeViewElements.Clear();
+
             foreach (GradeElement gradeElement in DBConnector.Database.ReadGradesData()) {
                 GradeViewElements.Add(gradeElement);
             }
 
             GenericUser? user = DBConnector.Database.GetUser();
-            if (user == null) {
+            if (user == null || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password)) {
+                NoUserLoggedInEvent?.Invoke(null, EventArgs.Empty);
                 return;
             }
 

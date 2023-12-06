@@ -22,6 +22,16 @@ namespace StudySpark.GUI.WPF.MVVM.View {
 
         public GradesView() {
             InitializeComponent();
+
+            GradesViewModel.NoUserLoggedInEvent += OnNoUserLoggedInEvent;
+
+            NotLoggedInMessage.Visibility = Visibility.Collapsed;
+            GradesItemControl.Visibility = Visibility.Visible;
+        }
+
+        private void OnNoUserLoggedInEvent(object? sender, EventArgs e) {
+            NotLoggedInMessage.Visibility = Visibility.Visible;
+            GradesItemControl.Visibility = Visibility.Collapsed;
         }
     }
 }

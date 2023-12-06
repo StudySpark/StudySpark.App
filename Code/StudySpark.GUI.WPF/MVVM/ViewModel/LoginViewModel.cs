@@ -42,7 +42,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             LoginView.LoginSuccessEvent += LoginView_LoginSuccessEvent;
 
-            GenericUser user = DBConnector.Database.GetUser();
+            GenericUser? user = DBConnector.Database.GetUser();
             if (user != null) {
                 Username = user.Username;
                 Password = user.Password;

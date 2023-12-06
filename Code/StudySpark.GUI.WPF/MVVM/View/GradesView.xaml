@@ -22,8 +22,13 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
               VerticalScrollBarVisibility="Auto">
 
-            <StackPanel x:Name="GradeElementList">
-                <ItemsControl ItemsSource="{Binding GradeViewElements}">
+            <Grid x:Name="GradeElementList">
+                <Label x:Name="NotLoggedInMessage"
+                       Content="Je bent niet ingelogd!"
+                       HorizontalAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       Height="424"/>
+                <ItemsControl x:Name="GradesItemControl" ItemsSource="{Binding GradeViewElements}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Height="50"
@@ -133,7 +138,7 @@
                 </ItemsControl>
 
                 <Grid Height="100" />
-            </StackPanel>
+            </Grid>
 
         </ScrollViewer>
 
