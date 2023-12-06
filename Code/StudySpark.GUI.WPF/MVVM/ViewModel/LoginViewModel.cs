@@ -1,4 +1,5 @@
-﻿using StudySpark.Core.Repositories;
+﻿using StudySpark.Core.Generic;
+using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public LoginViewModel() {
             LoginCommand = new RelayCommand(o => LoginUser());
 
-
+            GenericUser user = DBConnector.Database.GetUser();
+            if (user != null) {
+                Username = user.Username;
+                Password = user.Password;
+            }
         }
+
         public void LoginUser() {
             if (string.IsNullOrEmpty(username)) {
                 MessageBox.Show("E-mail is vereist");

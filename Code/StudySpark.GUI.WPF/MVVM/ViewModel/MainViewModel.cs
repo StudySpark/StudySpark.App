@@ -20,7 +20,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand ScheduleViewCommand { get; set; }
         public RelayCommand GradesViewCommand { get; set; }
         public RelayCommand GitViewCommand { get; set; }
-        public RelayCommand OpenSettingsCommand { get; set; }
 
         public RelayCommand MinimizeCommand { get; private set; }
         public RelayCommand MaximizeCommand { get; private set; }
@@ -33,11 +32,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public GradesViewModel GradesVM { get; set; }
         public GitViewModel GitVM { get; set; }
         public TimelineViewModel TimelineVM { get; set; }
-        public LoginViewModel LoginVM { get; set; }
 
-        private object _currentView;
-
-        public object CurrentView {
+        private object? _currentView;
+        public object? CurrentView {
             get { return _currentView; }
             set {
                 _currentView = value;
@@ -57,7 +54,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             GradesVM = new GradesViewModel();
             GitVM = new GitViewModel();
             TimelineVM = new TimelineViewModel();
-            LoginVM = new LoginViewModel();
+
+            MainViewManager.CurrentMainViewEvent += ViewChangeEvent;
 
             CurrentView = OverviewVM;
 
@@ -89,10 +87,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 CurrentView = GitVM;
             });
 
-            OpenSettingsCommand = new RelayCommand(o => {
-                Debug.WriteLine("Settings!");
-            });
+        }
 
+        private void ViewChangeEvent(object? sender, EventArgs e) {
+            if (CurrentView == MainViewManager.CurrentMainView) {
+                return;
+            }
+
+            CurrentView = MainViewManager.CurrentMainView;
         }
 
         private void MinimizeWindow() {

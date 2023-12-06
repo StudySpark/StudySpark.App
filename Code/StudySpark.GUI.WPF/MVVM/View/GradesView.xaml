@@ -146,6 +146,6 @@
                       Margin="0,0,20,20"
                       Cursor="Hand"
                       Style="{StaticResource RoundButtonTheme}"
-                      Command="{Binding OpenAccountSettings}" />
+                      Command="{Binding EducatorLoginCommand}" />
     </Grid>
 </UserControl>

@@ -16,11 +16,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public FilesFolderViewModel FilesFolderVM { get; set; }
 
         private object _currentView;
-        public object CurrentView
-        {
+        public object CurrentView {
             get { return _currentView; }
-            set
-            {
+            set {
                 _currentView = value;
                 OnPropertyChanged();
             }
@@ -33,17 +31,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             CurrentView = FilesSolutionVM;
 
-            FilesSolutionCommand = new RelayCommand(o =>
-            {
+            FilesSolutionCommand = new RelayCommand(o => {
                 CurrentView = FilesSolutionVM;
             });
 
-            FilesDownloadCommand = new RelayCommand(o =>
-            {
+            FilesDownloadCommand = new RelayCommand(o => {
                 CurrentView = FilesDownloadVM;
             });
-            FilesFolderCommand = new RelayCommand(o =>
-            {
+
+            FilesFolderCommand = new RelayCommand(o => {
                 CurrentView = FilesFolderVM;
             });
         }

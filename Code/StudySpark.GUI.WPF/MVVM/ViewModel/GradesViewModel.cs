@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class GradesViewModel : INotifyPropertyChanged {
+        public RelayCommand EducatorLoginCommand { get; set; }
+
+        public LoginViewModel LoginVM { get; set; }
 
         public ObservableCollection<GradeElement> GradeViewElements { get; } = new ObservableCollection<GradeElement>();
 
@@ -17,13 +20,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         public GradesViewModel() {
+            LoginVM = new LoginViewModel();
+
             load();
+
+            EducatorLoginCommand = new RelayCommand(o => {
+                MainViewManager.CurrentMainView = LoginVM;
+                //CurrentView = LoginVM;
+            });
         }
 
         private void load() {
             foreach (GradeElement gradeElement in DBConnector.Database.ReadGradesData()) {
                 GradeViewElements.Add(gradeElement);
-                Debug.WriteLine(gradeElement.ToString());
             }
         }
     }
