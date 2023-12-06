@@ -138,7 +138,22 @@ namespace StudySpark.Core.Repositories {
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
+        }
 
+        public GenericUser? GetUser() {
+            string query = "SELECT * FROM Users";
+            SqliteCommand cmd = new SqliteCommand(query, conn);
+            try {
+                SqliteDataReader reader = cmd.ExecuteReader();
+                GenericUser user = new GenericUser();
+                while (reader.Read()) {
+                    user.Username = reader.GetString(0);
+                    user.Password = reader.GetString(1);
+                }
+                return user;
+            } catch {
+                return null;
+            }
         }
 
         public bool InsertGitData(string fullpath, string type) {
