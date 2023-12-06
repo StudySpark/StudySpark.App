@@ -397,3 +397,5 @@ FodyWeavers.xsd
 *.sln.iml
 /Code/StudySpark.GUI.WPF/MVVM/Model/User.cs
 /Code/StudySpark.GUI.WPF/MVVM/ViewModel/MVVM - Snelkoppeling.lnk
+/Code/.idea/.idea.StudySpark/.idea/projectSettingsUpdater.xml
+/Code/.idea/.idea.StudySpark/.idea/workspace.xml

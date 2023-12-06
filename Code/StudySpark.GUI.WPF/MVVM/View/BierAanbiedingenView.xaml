@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="StudySpark.GUI.WPF.MVVM.View.BierAanbiedingenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <RadioButton Content="Alle Aanbiedingen"
+                Grid.Column="0"
+                Cursor="Hand"
+                Height="50"
+                Foreground="White"
+                FontSize="14"
+                Style="{StaticResource TabButtonTheme}"
+                Command="{Binding AlleCommand}"/>
+            <RadioButton Content="Bookmarked"
+                Grid.Column="1"
+                Cursor="Hand"
+                Height="50"
+                Foreground="White"
+                FontSize="14"
+                Style="{StaticResource TabButtonTheme}"
+                Command="{Binding BookmarkedCommand}"/>
+            <RadioButton Content="Bijna Verlopen"
+                Grid.Column="2"
+                Cursor="Hand"
+                Height="50"
+                Foreground="White"
+                FontSize="14"
+                Style="{StaticResource TabButtonTheme}"
+                Command="{Binding BijnaVerlopenCommand}"/>
+            <RadioButton Content="Verlopen"
+                Grid.Column="3"
+                Cursor="Hand"
+                Height="50"
+                Foreground="White"
+                FontSize="14"
+                Style="{StaticResource TabButtonTheme}"
+                Command="{Binding VerlopenCommand}"/>
+        </Grid>
+
+        <ContentControl 
+            Grid.Row="1"
+            Content="{Binding CurrentTab}"            
+            />
+    </Grid>
+</UserControl>
