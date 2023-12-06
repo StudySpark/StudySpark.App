@@ -12,6 +12,7 @@ using Application = System.Windows.Application;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class MainViewModel : ObservableObject {
+        
 
         public RelayCommand OverviewViewCommand { get; set; }
         public RelayCommand NotesViewCommand { get; set; }

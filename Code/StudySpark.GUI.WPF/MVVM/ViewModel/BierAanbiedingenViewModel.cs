@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     class BierAanbiedingenViewModel : ObservableObject
     {
+        public static event EventHandler? BierAanbiedingenClickedEvent;
+
         public AlleBierAanbiedingenViewModel AlleVM { get; set; }
         public BookmarkedAanbiedingenViewModel BookmarkedVM { get; set; }
         public BijnaVerlopenBierAanbiedingenViewModel BijnaVerlopenVM {  get; set; }    
@@ -33,6 +36,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
+
         public BierAanbiedingenViewModel()
         {
             AlleVM = new AlleBierAanbiedingenViewModel();
@@ -41,10 +45,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             VerlopenVM = new VerlopenBierAanbiedingenViewModel();
 
             CurrentTab = AlleVM;
-
+            
 
             AlleCommand = new RelayCommand(o =>
             {
+                BierAanbiedingenClickedEvent?.Invoke(null, new EventArgs());
                 CurrentTab = AlleVM;
             }); 
             BookmarkedCommand = new RelayCommand(o =>

@@ -44,11 +44,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         public AlleBierAanbiedingenViewModel()
         {
-
+            BierAanbiedingenViewModel.BierAanbiedingenClickedEvent += DisplayBeerSales;
         }
 
-
-        public void DisplayBeerSales() { 
+        public void DisplayBeerSales(object? sender, EventArgs e) { 
             //CREATE SCRAPER AND RETRIEVE INFORMATION
             BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
             BiernetScraper scraper = new BiernetScraper(options);
