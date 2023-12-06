@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace StudySpark.WebScraper.Educator {
     public class EducatorWebScraper : WebScraper {
@@ -33,6 +34,39 @@ namespace StudySpark.WebScraper.Educator {
             GetElementById("passwordInput").SendKeys(scraperOptions?.Password);
 
             GetElementById("submitButton").Click();
+        }
+
+        public bool TestLoginCredentials() {
+            HandleLogIn();
+            WaitForPageLoad();
+
+            if (CheckIfIdExists("errorText")) {
+                return false;
+            }
+
+            if (CheckIfClassExists("educator")) {
+                return true;
+            }
+
+            //try {
+            //    if (!GetElementById("errorText").GetAttribute("for").Length.Equals(0)) {
+            //        return false;
+            //    }
+            //} catch (Exception) {
+            //    return false;
+            //}
+            //Debug.WriteLine("Testing login credentials 4");
+
+            //try {
+            //    if (GetElementsByClassName("educator").Count > 0) {
+            //        return true;
+            //    }
+            //} catch (Exception) {
+            //    return false;
+            //}
+
+            return false;
+
         }
     }
 }

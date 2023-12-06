@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
-    internal class FilesViewModel : ObservableObject {
+    public class FilesViewModel : ObservableObject {
         public RelayCommand FilesSolutionCommand { get; set; }
         public RelayCommand FilesDownloadCommand { get; set; }
         public RelayCommand FilesFolderCommand { get; set; }

@@ -17,7 +17,7 @@ using System.Diagnostics;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class FilesFolderViewModel : ObservableObject
+    public class FilesFolderViewModel : ObservableObject
     {
         private object _currentFolderList;
         

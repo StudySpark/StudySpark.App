@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
-    class ScheduleViewModel {
+    public class ScheduleViewModel {
     }
 }

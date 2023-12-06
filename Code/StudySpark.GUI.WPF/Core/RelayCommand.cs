@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StudySpark.GUI.WPF.Core {
-    internal class RelayCommand : ICommand {
+    public class RelayCommand : ICommand {
 
         private Action<object> _execute;
         private Func<object, bool>? _canExecute;

@@ -25,14 +25,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand MaximizeCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
 
-        public OverviewViewModel OverviewVM { get; set; }
-        public NotesViewModel NotesVM { get; set; }
-        public FilesViewModel FilesVM { get; set; }
-        public ScheduleViewModel ScheduleVM { get; set; }
-        public GradesViewModel GradesVM { get; set; }
-        public GitViewModel GitVM { get; set; }
-        public TimelineViewModel TimelineVM { get; set; }
-
         private object? _currentView;
         public object? CurrentView {
             get { return _currentView; }
@@ -47,44 +39,36 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             MaximizeCommand = new RelayCommand(o => MaximizeWindow());
             CloseCommand = new RelayCommand(o => CloseWindow());
 
-            OverviewVM = new OverviewViewModel();
-            NotesVM = new NotesViewModel();
-            FilesVM = new FilesViewModel();
-            ScheduleVM = new ScheduleViewModel();
-            GradesVM = new GradesViewModel();
-            GitVM = new GitViewModel();
-            TimelineVM = new TimelineViewModel();
-
             MainViewManager.CurrentMainViewEvent += ViewChangeEvent;
 
-            CurrentView = OverviewVM;
+            CurrentView = MainViewManager.OverviewVM;
 
             OverviewViewCommand = new RelayCommand(o => {
-                CurrentView = OverviewVM;
+                CurrentView = MainViewManager.OverviewVM;
             });
 
             NotesViewCommand = new RelayCommand(o => {
-                CurrentView = NotesVM;
+                CurrentView = MainViewManager.NotesVM;
             });
 
             FilesViewCommand = new RelayCommand(o => {
-                CurrentView = FilesVM;
+                CurrentView = MainViewManager.FilesVM;
             });
 
             TimelineViewCommand = new RelayCommand(o => {
-                CurrentView = TimelineVM;
+                CurrentView = MainViewManager.TimelineVM;
             });
 
             ScheduleViewCommand = new RelayCommand(o => {
-                CurrentView = ScheduleVM;
+                CurrentView = MainViewManager.ScheduleVM;
             });
 
             GradesViewCommand = new RelayCommand(o => {
-                CurrentView = GradesVM;
+                CurrentView = MainViewManager.GradesVM;
             });
 
             GitViewCommand = new RelayCommand(o => {
-                CurrentView = GitVM;
+                CurrentView = MainViewManager.GitVM;
             });
 
         }

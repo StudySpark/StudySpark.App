@@ -35,7 +35,10 @@ namespace StudySpark.WebScraper {
                 options.AddArgument("--profile-directory=Default");
             }
 
-            driver = new ChromeDriver(options);
+            ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
+            chromeDriverService.HideCommandPromptWindow = true;
+
+            driver = new ChromeDriver(chromeDriverService, options);
 
             //LoadCookies();
 
@@ -67,6 +70,18 @@ namespace StudySpark.WebScraper {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
             return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName(element)));
+        }
+
+        public bool CheckIfIdExists(string element) {
+            try {
+                return driver?.FindElement(By.Id(element)) != null;
+            } catch (NoSuchElementException) {
+                return false;
+            }
+        }
+
+        public bool CheckIfClassExists(string element) {
+            return driver?.FindElements(By.ClassName(element)).Count > 0;
         }
 
         //private void SaveCookies() {

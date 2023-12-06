@@ -15,7 +15,7 @@ using StudySpark.Core.Generic;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class GitViewModel : ObservableObject
+    public class GitViewModel : ObservableObject
     {
         private object _currentRepoList;
 

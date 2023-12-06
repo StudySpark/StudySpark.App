@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudySpark.Core\StudySpark.Core.csproj" />
+    <ProjectReference Include="..\StudySpark.WebScraper\StudySpark.WebScraper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -128,7 +128,10 @@ namespace StudySpark.Core.Repositories {
 
             string encryptedString = Encryption.EncryptString(password, key, iv);
 
-            SqliteCommand sqlite_cmd;
+            string deletesql = "DELETE FROM Users;";
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            deleteCmd.ExecuteNonQuery();
+
             string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
             SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
             insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
@@ -141,6 +144,9 @@ namespace StudySpark.Core.Repositories {
         }
 
         public GenericUser? GetUser() {
+            byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
+            byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
+
             string query = "SELECT * FROM Users";
             SqliteCommand cmd = new SqliteCommand(query, conn);
             try {
@@ -148,7 +154,7 @@ namespace StudySpark.Core.Repositories {
                 GenericUser user = new GenericUser();
                 while (reader.Read()) {
                     user.Username = reader.GetString(0);
-                    user.Password = reader.GetString(1);
+                    user.Password = Encryption.DecryptString(reader.GetString(1), key, iv);
                 }
                 return user;
             } catch {
