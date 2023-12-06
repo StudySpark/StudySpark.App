@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
+using System.IO;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -77,19 +78,27 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 b.Tag = file.Path;
                 b.Style = customButtonStyle;
 
-                RoutedEventHandler ClickHandler = createClickHandler(file);
+                Grid containerGrid = new Grid();
+                containerGrid.Children.Add(b);
 
-                folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickHandler);
+                Image exclaim = MarkAsDeletable(file);
+                containerGrid.Children.Add(exclaim);
+
+                RoutedEventHandler ClickOpenHandler = createClickOpenHandler(file);
+                RoutedEventHandler ClickDelHandler = createClickDelHandler(file);
+
+                folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickOpenHandler);
+                folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickDelHandler);
 
                 b.Click += (sender, e) =>
                 {
                     if (b.Tag is string filePath)
-                    {
-                        ClickHandler?.Invoke(this, e);
+                    {                       
+                        ClickOpenHandler?.Invoke(this, e);
                     }
                 };
 
-                folderGrid.Children.Add(b);
+                folderGrid.Children.Add(containerGrid);
 
                 //Create textbox and add it to grid
                 TextBlock t = SubText();
@@ -141,7 +150,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return textBlock;
         }
 
-        private RoutedEventHandler createClickHandler(GenericFile file)
+        private RoutedEventHandler createClickOpenHandler(GenericFile file)
         {
             RoutedEventHandler ClickHandler = (sender, args) =>
             {
@@ -167,6 +176,27 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                             process.StartInfo = startInfo;
                             process.Start();
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            };
+
+            return ClickHandler;
+        }
+
+        private RoutedEventHandler createClickDelHandler(GenericFile file)
+        {
+            RoutedEventHandler ClickHandler = (sender, args) =>
+            {
+                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
+                {
+
+                    try
+                    {
+
                     }
                     catch (Exception ex)
                     {
@@ -212,6 +242,23 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return brush;
         }
+
+        private Image MarkAsDeletable(GenericFile file)
+        {
+            Image iconImage = new Image();
+
+            if (!File.Exists(file.Path + "\\" + file.TargetName)) {
+                iconImage.Source = SetIcon("ExclamationMark.png").ImageSource;
+                iconImage.Width = 60;
+                iconImage.Height = 60;
+
+                // Set the margin to position the image in the upper left corner of the button
+                iconImage.Margin = new Thickness(20, 0, 0, 30);
+            }
+
+            return iconImage;
+        }
+        //CheckIfDeletable
 
         private void SelectFile()
         {
