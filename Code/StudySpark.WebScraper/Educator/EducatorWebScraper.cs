@@ -67,35 +67,7 @@ namespace StudySpark.WebScraper.Educator {
                 grade.Grade = item.FindElement(By.ClassName("grade")).Text.Split("\n")[0];
 
                 grades.Add(grade);
-                Console.WriteLine(item.Text);
             }
-            //if (!TestLoginCredentials()) {
-            //    return grades;
-            //}
-
-            //driver?.Navigate().GoToUrl("https://educator.windesheim.nl/");
-
-            //WaitForPageLoad();
-
-            //GetElementByClass("educator").Click();
-
-            //WaitForPageLoad();
-
-            //GetElementByClass("cijfers").Click();
-
-            //WaitForPageLoad();
-
-            //ReadOnlyCollection<IWebElement> gradeElements = GetElementsByClass("cijfer");
-
-            //foreach (IWebElement gradeElement in gradeElements) {
-            //    StudentGrade grade = new StudentGrade();
-
-            //    grade.CourseName = gradeElement.FindElement(By.ClassName("vaknaam")).Text;
-            //    grade.Grade = gradeElement.FindElement(By.ClassName("cijferwaarde")).Text;
-            //    grade.GradeDate = gradeElement.FindElement(By.ClassName("cijferdatum")).Text;
-
-            //    grades.Add(grade);
-            //}
 
             return grades;
         }
