@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using StudySpark.Core.BierScraper;
+using StudySpark.Core.Generic;
+using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 
 
@@ -53,9 +55,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             BiernetScraper scraper = new BiernetScraper(options);
 
             List<List<List<object>>> BierList = new();
-            var BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
-            var BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
-            var BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
+               var BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+               var BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
+               var BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
 
             BierList.Add(BierInfoHertogJan);
             BierList.Add(BierInfoAmstel);
@@ -83,22 +85,26 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)BierList[z][i][2];
                     if (sales.Count > 0)
                     {
-                        var info = DisplayInformation(BierList[z], i, z);
+                        var info = DisplayInformation(BierList[z], i, z, name);
                         displayInfo.Children.Add(info);
                     }
+                    
                 }
+                
                 AllePanel.Children.Add(new TextBlock()
                 {
                     Text = name,
+
                     FontSize = 30,
                     Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
                     Height = 40
                 }); 
                 AllePanel.Children.Add(displayInfo);
+                
             }
             AlleAanbiedingen = AllePanel;
         }
-        private UIElement DisplayInformation(List<List<object>> bierInfo, int index, int zIndex)
+        private UIElement DisplayInformation(List<List<object>> bierInfo, int index, int zIndex, string name)
         {
             //CREATE RETURN VALUE
             var container = new StackPanel()
@@ -136,10 +142,44 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             var prices = GetPrices(bierInfo, index);
             salesGrid.Children.Add(prices);
 
+            // Bookmark button
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark.png", UriKind.Relative));
+            
+            Button bookmarkBtn = new Button()
+            {
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                BorderBrush = Brushes.Transparent,
+                Width = 50,
+                Height = 50,
+                Content = image,
+            };
+            bookmarkBtn.Click += (sender, e) =>
+            {
+                BeerRepository beerRepository = new BeerRepository();
+                beerRepository.insertBookMarker(name, bierInfo[index][0].ToString(),1, bierInfo[index][1].ToString());
+                string? van = "";
+                string? voor = "";
+                List<GenericBeerProduct> product = beerRepository.getLastBookMarked();
+                for (int i = 0; i < bierInfo[index].Count; i++)
+                {
+                    List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)bierInfo[index][2];
+                    for (int j = 0; j < sales.Count; j++)
+                    {
+                        van = sales[j].ElementAt(0).Key;
+                        voor = sales[j].ElementAt(0).Value;
+                        beerRepository.insertSale(product[0].id, "placeholder", van, voor);
+                    };
+                }
+            };
+
             //ADD DIFFERENT GRIDS
             container.Children.Add(imageGrid);
             container.Children.Add(infoGrid);
+            container.Children.Add(bookmarkBtn);
             container.Children.Add(salesGrid);
+            
 
             return container;
         }

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE IF NOT EXISTS Files (
-	id INT, 
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	path VARCHAR(256), 
 	targetname VARCHAR(64), 
 	type VARCHAR(32), 
@@ -16,20 +16,19 @@ CREATE TABLE IF NOT EXISTS Grades (
 );
 
 CREATE TABLE IF NOT EXISTS GitTable (
-	id INT, 
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	path VARCHAR(256), 
 	targetname VARCHAR(64), 
 	type VARCHAR(32)
 );
 
 CREATE TABLE IF NOT EXISTS BeerBrands (
-	id INT(8) NOT NULL,
-	brandname VARCHAR(64) NOT NULL,
-	PRIMARY KEY (id)
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	brandname VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS BeerProducts (
-	id INT(8) NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	brandID int(8) NOT NULL,
 	productname VARCHAR(64) NOT NULL,
 	bookmarked int,
@@ -38,10 +37,41 @@ CREATE TABLE IF NOT EXISTS BeerProducts (
 );
 
 CREATE TABLE IF NOT EXISTS BeerSales (
-	id INT(8) NOT NULL,
-	productID int(8) NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	productID INTEGER,
 	store VARCHAR(256) NOT NULL,
 	oldprice VARCHAR(32) NOT NULL,
 	newprice VARCHAR(32) NOT NULL,
 	FOREIGN KEY (productID) REFERENCES BeerProducts(id)
 );
+
+INSERT INTO BeerBrands (brandname)
+	SELECT "Hertog Jan"
+	EXCEPT
+	SELECT brandname
+	from BeerBrands
+	WHERE brandname = "Hertog Jan";
+INSERT INTO BeerBrands (brandname)
+	SELECT "Heineken"
+	EXCEPT
+	SELECT brandname
+	from BeerBrands
+	WHERE brandname = "Heineken";
+INSERT INTO BeerBrands (brandname)
+	SELECT "Amstel"
+	EXCEPT
+	SELECT brandname
+	from BeerBrands
+	WHERE brandname = "Amstel";
+INSERT INTO BeerBrands (brandname)
+	SELECT "Grolsch"
+	EXCEPT
+	SELECT brandname
+	from BeerBrands
+	WHERE brandname = "Grolsch";
+INSERT INTO BeerBrands (brandname)
+	SELECT "Jupiler"
+	EXCEPT
+	SELECT brandname
+	from BeerBrands
+	WHERE brandname = "Jupiler";
