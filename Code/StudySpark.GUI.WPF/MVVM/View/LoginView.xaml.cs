@@ -65,5 +65,12 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             }
         }
 
+        private void Button_HelpEmail_Click(object sender, RoutedEventArgs e) {
+            MessageBox.Show("Vul hier je Windesheim account e-mail in");
+        }
+
+        private void Button_HelpPassword_Click(object sender, RoutedEventArgs e) {
+            MessageBox.Show("Vul hier je Windesheim account wachtwoord in");
+        }
     }
 }

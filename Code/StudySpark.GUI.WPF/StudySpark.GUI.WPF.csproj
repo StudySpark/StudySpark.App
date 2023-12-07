@@ -14,6 +14,7 @@
     <None Remove="Images\Icon_VS.png" />
     <None Remove="Images\info.png" />
     <None Remove="Images\key.png" />
+    <None Remove="Images\Loading.png" />
     <None Remove="Images\Logo_NoText.png" />
 	<None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
@@ -36,6 +37,7 @@
     <Resource Include="Images\Icon_VS.png" />
     <Resource Include="Images\info.png" />
     <Resource Include="Images\key.png" />
+    <Resource Include="Images\Loading.png" />
     <Resource Include="Images\Logo_NoText.png" />
 	<Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />

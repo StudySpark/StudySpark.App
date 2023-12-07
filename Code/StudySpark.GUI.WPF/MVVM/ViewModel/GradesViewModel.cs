@@ -1,4 +1,5 @@
-﻿using StudySpark.Core.Generic;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using StudySpark.Core.Generic;
 using StudySpark.Core.Grades;
 using StudySpark.GUI.WPF.Core;
 using StudySpark.WebScraper;
@@ -8,11 +9,33 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
+using System.Windows;
+using static StudySpark.GUI.WPF.Core.LoginViewEventArgs;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class GradesViewModel : INotifyPropertyChanged {
         public RelayCommand EducatorLoginCommand { get; set; }
-        public static event EventHandler? NoUserLoggedInEvent;
+        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, GradesLoadedEvent, EducatorLoadStartedEvent, EducatorLoadFinishedEvent;
+
+        private bool isUserLoggedIn = false, isUserCredentialsValid = false;
+
+        private bool isViewLoaded;
+        public bool IsViewLoaded {
+            get { return isViewLoaded; }
+            set {
+                if (isViewLoaded != value) {
+                    isViewLoaded = value;
+                    OnPropertyChanged(nameof(IsViewLoaded));
+
+                    // Check and raise the event when the view is loaded
+                    if (isViewLoaded && !isUserLoggedIn) {
+                        NoUserLoggedInEvent?.Invoke(null, EventArgs.Empty);
+                    }
+                }
+            }
+        }
 
 
         public ObservableCollection<GradeElement> GradeViewElements { get; } = new ObservableCollection<GradeElement>();
@@ -24,7 +47,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         public GradesViewModel() {
-            load();
+            preload();
 
             EducatorLoginCommand = new RelayCommand(o => {
                 MainViewManager.CurrentMainView = MainViewManager.LoginVM;
@@ -32,18 +55,47 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             });
         }
 
-        private void load() {
+        private void preload() {
             GradeViewElements.Clear();
-
-            foreach (GradeElement gradeElement in DBConnector.Database.ReadGradesData()) {
-                GradeViewElements.Add(gradeElement);
-            }
 
             GenericUser? user = DBConnector.Database.GetUser();
             if (user == null || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password)) {
-                NoUserLoggedInEvent?.Invoke(null, EventArgs.Empty);
+                isUserLoggedIn = false;
                 return;
             }
+            isUserLoggedIn = true;
+
+            Thread thread = new Thread(TestLoginCredentialsThread);
+            thread.Start(user);
+        }
+
+        private void load(GenericUser user, bool loginResult) {
+            if (!loginResult) {
+                InvalidUserCredentialsEvent?.Invoke(null, EventArgs.Empty);
+
+                return;
+            }
+
+            List<GradeElement> cachedGrades = DBConnector.Database.ReadGradesData();
+            foreach (GradeElement gradeElement in cachedGrades) {
+                GradeViewElements.Add(gradeElement);
+            }
+
+            if (cachedGrades.Count > 0) {
+                GradesLoadedEvent?.Invoke(null, EventArgs.Empty);
+            }
+
+            EducatorLoadStartedEvent?.Invoke(null, EventArgs.Empty);
+            Thread thread = new Thread(LoadEducatorData);
+            thread.Start(user);
+        }
+
+        private void LoadEducatorData(object? parameters) {
+            if (parameters == null) {
+                return;
+            }
+
+            GenericUser user = (GenericUser)parameters;
 
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.Username = user.Username;
@@ -55,14 +107,21 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             List<StudentGrade> grades = webScraper.FetchGrades();
             webScraper.CloseDriver();
 
-            if (grades.Count == 0) {
-                return;
+            if (grades.Count != 0) {
+                try {
+                    Application.Current.Dispatcher.Invoke(() => {
+                        showNewEducatorData(grades);
+                    });
+                } catch (NullReferenceException) { }
             }
+        }
+
+        private void showNewEducatorData(List<StudentGrade> grades) {
+            EducatorLoadFinishedEvent?.Invoke(null, EventArgs.Empty);
 
             DBConnector.Database.ClearGradesData();
             GradeViewElements.Clear();
 
-            Debug.WriteLine("Grades: " + grades.Count);
             foreach (StudentGrade grade in grades) {
                 GradeElement gradeElement = new GradeElement();
                 gradeElement.CourseName = grade.CourseName;
@@ -77,6 +136,39 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 DBConnector.Database.InsertGrade(gradeElement);
                 GradeViewElements.Add(gradeElement);
             }
+
+            GradesLoadedEvent?.Invoke(null, EventArgs.Empty);
+        }
+
+        private void TestLoginCredentialsThread(object? parameters) {
+            if (parameters == null) {
+                return;
+            }
+
+            GenericUser user = (GenericUser)parameters;
+
+            bool loginResult = TestLoginCredentials(user.Username, user.Password);
+            try {
+                Application.Current.Dispatcher.Invoke(() => {
+                    load(user, loginResult);
+                });
+            } catch (NullReferenceException) { }
+
+        }
+
+        public bool TestLoginCredentials(string username, string password) {
+            ScraperOptions scraperOptions = new ScraperOptions();
+            scraperOptions.Username = username;
+            scraperOptions.Password = password;
+            scraperOptions.Debug = false;
+
+            EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
+
+            webScraper.SetupDriver();
+            bool result = webScraper.TestLoginCredentials();
+
+            webScraper.CloseDriver();
+            return result;
         }
     }
 }

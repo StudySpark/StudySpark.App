@@ -23,134 +23,223 @@
               VerticalScrollBarVisibility="Auto">
 
             <Grid x:Name="GradeElementList">
-                <Label x:Name="NotLoggedInMessage"
-                       Content="Je bent niet ingelogd!"
-                       HorizontalAlignment="Center"
-                       VerticalContentAlignment="Center"
-                       Height="424"/>
-                <ItemsControl x:Name="GradesItemControl" ItemsSource="{Binding GradeViewElements}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Height="50"
-                                    Background="#BF22212F"
-                                    CornerRadius="8"
-                                    Margin="0,0,0,8">
-                                <Grid>
-                                    <TextBlock Text="{Binding CourseName}"
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0"
+                      x:Name="NotLoggedInMessage"
+                      Width="700"
+                      Height="424"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom">
+                    <Label Content="Je bent niet ingelogd!"
+                           Width="454"
+                           Height="212"
+                           Foreground="#FFC7C7C7"
+                           FontSize="20"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"/>
+                    <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-56.889"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Grid>
+
+                <Grid Grid.Row="0"
+                      x:Name="InvalidCredentialsMessage"
+                      Width="700"
+                      Height="424"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom">
+                    <Label Content="Je account-gegevens zijn onjuist!"
+                           Width="552"
+                           Height="212"
+                           Foreground="#FFC7C7C7"
+                           FontSize="20"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"/>
+                    <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-56.889"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Grid>
+
+                <Grid Grid.Row="0"
+                      x:Name="LoadingMessage"
+                      Width="700"
+                      Height="424"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom">
+                    <Label Content="     Even geduld A.U.B.&#x0a;Educator wordt voorbereid."
+                           Width="700"
+                           Height="424"
+                           Foreground="#FFC7C7C7"
+                           FontSize="20"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                </Grid>
+
+                <StackPanel x:Name="GradesItemControl">
+                    <ItemsControl ItemsSource="{Binding GradeViewElements}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="50"
+                                        Background="#BF22212F"
+                                        CornerRadius="8"
+                                        Margin="0,0,0,8">
+                                    <Grid>
+                                        <TextBlock Text="{Binding CourseName}"
+                                                   HorizontalAlignment="Left"
+                                                   Width="300"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="5,0,0,0"
+                                                   FontSize="16"
+                                                   Foreground="#FFFFFF" VerticalAlignment="Top">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Content="{Binding CourseName}"/>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+
+                                        <Label Content="{Binding CourseCode}"
                                                HorizontalAlignment="Left"
-                                               Width="300"
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="5,0,0,0"
+                                               Width="200"
+                                               Margin="0,20,0,0" 
+                                               FontSize="12"
+                                               Foreground="#FF929292"
+                                               VerticalAlignment="Bottom" />
+
+                                        <Border Background="{Binding GradeColor}"
+                                                Width="40"
+                                                Height="40"
+                                                CornerRadius="5,5,5,5"
+                                                HorizontalAlignment="Right"
+                                                Margin="0,0,5,0">
+                                            <Label Content="{Binding Grade}"
+                                                   Width="40"
+                                                   Height="40"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Bottom"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize="16"
+                                                   Foreground="#FFFFFF" />
+                                        </Border>
+
+                                        <Label Content="EC's"
+                                               HorizontalAlignment="Right"
+                                               Width="50"
+                                               Height="50"
                                                FontSize="16"
-                                               Foreground="#FFFFFF" VerticalAlignment="Top">
-                                        <TextBlock.ToolTip>
-                                            <ToolTip Content="{Binding CourseName}"/>
-                                        </TextBlock.ToolTip>
-                                    </TextBlock>
-
-                                    <Label Content="{Binding CourseCode}"
-                                           HorizontalAlignment="Left"
-                                           Width="200"
-                                           Margin="0,20,0,0" 
-                                           FontSize="12"
-                                           Foreground="#FF929292" VerticalAlignment="Bottom" />
-
-                                    <Border Background="{Binding GradeColor}"
-                                            Width="40"
-                                            Height="40"
-                                            CornerRadius="5,5,5,5"
-                                            HorizontalAlignment="Right"
-                                            Margin="0,0,5,0">
-                                        <Label Content="{Binding Grade}"
-                                               Width="40"
-                                               Height="40"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Bottom"
+                                               Foreground="#FF929292"
+                                               Margin="0,0,60,0"
                                                HorizontalContentAlignment="Center"
-                                               VerticalContentAlignment="Center"
+                                               VerticalAlignment="Center" />
+
+                                        <Label Content="{Binding ECs}"
+                                               HorizontalAlignment="Right"
+                                               Width="50"
+                                               Height="30"
                                                FontSize="16"
-                                               Foreground="#FFFFFF" />
-                                    </Border>
+                                               Foreground="#FFBDBDBD"
+                                               Margin="0,20,60,0"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalAlignment="Top" />
 
-                                    <Label Content="EC's"
-                                           HorizontalAlignment="Right"
-                                           Width="50"
-                                           Height="50"
-                                           FontSize="16"
-                                           Foreground="#FF929292"
-                                           Margin="0,0,60,0"
-                                           HorizontalContentAlignment="Center"
-                                           VerticalAlignment="Center" />
+                                        <Label Content="Toetsdatum"
+                                               HorizontalAlignment="Right"
+                                               Width="120"
+                                               Height="50"
+                                               FontSize="16"
+                                               Foreground="#FF929292"
+                                               Margin="0,0,120,0"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalAlignment="Center" />
 
-                                    <Label Content="{Binding ECs}"
-                                           HorizontalAlignment="Right"
-                                           Width="50"
-                                           Height="30"
-                                           FontSize="16"
-                                           Foreground="#FFBDBDBD"
-                                           Margin="0,20,60,0"
-                                           HorizontalContentAlignment="Center"
-                                           VerticalAlignment="Top" />
+                                        <Label Content="{Binding TestDate}"
+                                               HorizontalAlignment="Right"
+                                               Width="120"
+                                               Height="30"
+                                               FontSize="16"
+                                               Foreground="#FFBDBDBD"
+                                               Margin="0,20,120,0"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalAlignment="Top" />
 
-                                    <Label Content="Toetsdatum"
-                                           HorizontalAlignment="Right"
-                                           Width="120"
-                                           Height="50"
-                                           FontSize="16"
-                                           Foreground="#FF929292"
-                                           Margin="0,0,120,0"
-                                           HorizontalContentAlignment="Center"
-                                           VerticalAlignment="Center" />
+                                        <Label Content="Periode"
+                                               HorizontalAlignment="Right"
+                                               Width="140"
+                                               Height="50"
+                                               FontSize="16"
+                                               Foreground="#FF929292"
+                                               Margin="0,0,240,0"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalAlignment="Center" />
 
-                                    <Label Content="{Binding TestDate}"
-                                           HorizontalAlignment="Right"
-                                           Width="120"
-                                           Height="30"
-                                           FontSize="16"
-                                           Foreground="#FFBDBDBD"
-                                           Margin="0,20,120,0"
-                                           HorizontalContentAlignment="Center"
-                                           VerticalAlignment="Top" />
+                                        <Label Content="{Binding Semester}"
+                                               HorizontalAlignment="Right"
+                                               Width="140"
+                                               Height="30"
+                                               FontSize="14"
+                                               Foreground="#FFBDBDBD"
+                                               Margin="0,20,240,0"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalAlignment="Top" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
-                                    <Label Content="Periode"
-                                           HorizontalAlignment="Right"
-                                           Width="140"
-                                           Height="50"
-                                           FontSize="16"
-                                           Foreground="#FF929292"
-                                           Margin="0,0,240,0"
-                                           HorizontalContentAlignment="Center"
-                                           VerticalAlignment="Center" />
-
-                                    <Label Content="{Binding Semester}"
-                                           HorizontalAlignment="Right"
-                                           Width="140"
-                                           Height="30"
-                                           FontSize="14"
-                                           Foreground="#FFBDBDBD"
-                                           Margin="0,20,240,0"
-                                           HorizontalContentAlignment="Center"
-                                           VerticalAlignment="Top" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <Grid Height="100" />
+                    <Grid Height="100" />
+                </StackPanel>
             </Grid>
 
         </ScrollViewer>
 
+
+        <Grid Grid.Row="0"
+              x:Name="EducatorLoadMessage">
+            <Image Source="/Images/Loading.png"
+                   Width="24"
+                   Height="24"
+                   Margin="0,0,190,2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
+            <Label Content="Informatie ophalen van Educator..."
+                   Foreground="#FFC7C7C7"
+                   FontSize="12"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
+        </Grid>
+
         <Button Content="👤"
-                      x:Name="EducatorAccountSettingsButton"
-                      Width="58"
-                      Height="56"
-                      VerticalAlignment="Bottom"
-                      HorizontalAlignment="Right"
-                      Margin="0,0,20,20"
-                      Cursor="Hand"
-                      Style="{StaticResource RoundButtonTheme}"
-                      Command="{Binding EducatorLoginCommand}" />
+                x:Name="EducatorAccountSettingsButton"
+                Width="58"
+                Height="56"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,20,20"
+                Cursor="Hand"
+                Style="{StaticResource RoundButtonTheme}"
+                Command="{Binding EducatorLoginCommand}" />
     </Grid>
 </UserControl>

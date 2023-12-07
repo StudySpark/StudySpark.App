@@ -7,6 +7,7 @@ using StudySpark.WebScraper.Educator;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -72,9 +73,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             // Thread.Sleep(1000);
 
-            eventArgs = new LoginViewEventArgs();
+            Thread thread = new Thread(TestLoginCredentialsThread);
+            thread.Start();
+        }
+
+        private void TestLoginCredentialsThread() {
+
+            LoginViewEventArgs eventArgs = new LoginViewEventArgs();
             eventArgs.LoginViewEventType = TestLoginCredentials(username, password) ? LoginViewEvent.LOGINSUCCESS : LoginViewEvent.LOGINFAILED;
-            ViewDataChangeEvent?.Invoke(this, eventArgs);
+            try {
+                Application.Current.Dispatcher.Invoke(() => {
+                    ViewDataChangeEvent?.Invoke(this, eventArgs);
+                });
+            } catch (Exception) { }
         }
 
         public bool TestLoginCredentials(string username, string password) {
