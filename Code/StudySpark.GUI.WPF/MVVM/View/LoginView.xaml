@@ -179,6 +179,8 @@
                             Command="{ Binding LoginCommand }"
                             BorderBrush="Transparent"
                             Margin="3 0 0 0"
+                            Style="{StaticResource FileButtonTheme}"
+                            Cursor="Hand"
                             Width="100" />
                 </Border>
             </Grid>
