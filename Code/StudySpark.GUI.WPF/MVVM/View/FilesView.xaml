@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <core:VisibilityMultiConverter x:Key="VisibilityMultiConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -80,16 +81,58 @@
             </ScrollViewer>
         </Grid>
 
-        <Button Content="➕"
-                Width="58"
-                FontSize="30"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="0,0,20,20"
-                Padding="0,6,0,0"
-                Cursor="Hand"
-                Style="{StaticResource RoundButtonTheme}"
-                Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" Height="56" />
+        <ToggleButton Content="➕"
+                      FontSize="35"
+                      x:Name="GeneralSelect"
+                      Width="58"
+                      Height="58"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,20,20"
+                      Cursor="Hand"
+                      Style="{StaticResource RoundToggleButtonTheme}"
+                      Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <ToggleButton Content="📄"
+                      FontSize="30"
+                      x:Name="FileSelect"
+                      Width="42"
+                      Height="42"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,95,40"
+                      Cursor="Hand"
+                      Style="{StaticResource RoundToggleButtonTheme}"
+                      Command="{Binding FilesFolderVM.OpenFileSelectCommand}" >
+
+            <ToggleButton.Visibility>
+                <MultiBinding Converter="{StaticResource VisibilityMultiConverter}">
+                    <Binding ElementName="GeneralSelect" Path="IsVisible"/>
+                    <Binding ElementName="GeneralSelect" Path="IsChecked"/>
+                </MultiBinding>
+            </ToggleButton.Visibility>
+
+        </ToggleButton>
+
+        <ToggleButton Content="📁"
+                      FontSize="30"
+                      x:Name="FolderSelect"
+                      Width="42"
+                      Height="42"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,40,95"
+                      Cursor="Hand"
+                      Style="{StaticResource RoundToggleButtonTheme}"
+                      Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" >
+
+            <ToggleButton.Visibility>
+                <MultiBinding Converter="{StaticResource VisibilityMultiConverter}">
+                    <Binding ElementName="GeneralSelect" Path="IsVisible"/>
+                    <Binding ElementName="GeneralSelect" Path="IsChecked"/>
+                </MultiBinding>
+            </ToggleButton.Visibility>
+            
+        </ToggleButton>
     </Grid>
 </UserControl>

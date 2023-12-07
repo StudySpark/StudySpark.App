@@ -84,6 +84,31 @@ namespace StudySpark.Core.Repositories {
             sqlite_cmd.ExecuteNonQuery();
         }
 
+        public bool InsertFileData(string fullpath, string extension) {
+            string type = "";
+            string image = "";
+
+            extension = extension.ToLower();
+
+            if (extension == "docx") {
+                type = "WordFile";
+                image = "Word.png";
+            } else if (extension == "pptx") {
+                type = "PowerPoint";
+                image = "PowerPoint.png";
+            } else if (extension == "xlsx") {
+                type = "ExcelSheet";
+                image = "Excel.png";
+            } else {
+                type = "File";
+                image = "FileIcon.png";
+            }
+
+            bool result = InsertFileData(fullpath, type, image);
+            return result;
+            
+        }
+
         public bool InsertFileData(string fullpath, string type, string image) {
             if (this.conn == null) {
                 return false;

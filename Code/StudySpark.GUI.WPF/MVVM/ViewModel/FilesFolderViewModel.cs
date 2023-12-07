@@ -14,6 +14,7 @@ using Button = System.Windows.Controls.Button;
 using System.Windows.Threading;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -22,11 +23,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private object _currentFolderList;
         
         public RelayCommand OpenFolderSelectCommand { get; private set; }
+
+        public RelayCommand OpenFileSelectCommand { get; private set; }
         
         WrapPanel folderPanel = new WrapPanel();
         
         public List<GenericFile> files = new List<GenericFile>();
-        
+
         private List<GenericFile> previousFiles;
                 
         public object CurrentFolderList
@@ -44,6 +47,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public FilesFolderViewModel()
         {
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
+            OpenFileSelectCommand = new RelayCommand(o => SelectFile());
 
             UpdateOnChange();
 
@@ -57,12 +61,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private void UpdateOnChange()
         {
-            previousFiles = files;
             files = DBConnector.Database.ReadFileData();
             folderPanel.Children.Clear();
-            
-            List<GenericFile> difference = files.Except(previousFiles).ToList();
-            foreach (GenericFile file in difference)
+
+            foreach (GenericFile file in files)
             {
                 Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
@@ -71,9 +73,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 folderGrid.RowDefinitions.Add(new RowDefinition());
 
                 //Create button and add it to grid
-                Button b = ButtonNoHoverEffect();
+                Button b = ButtonNoHoverEffect(file.Image);
                 b.Tag = file.Path;
                 b.Style = customButtonStyle;
+
+                RoutedEventHandler ClickHandler = createClickHandler(file);
+
+                folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickHandler);
+
+                b.Click += (sender, e) =>
+                {
+                    if (b.Tag is string filePath)
+                    {
+                        ClickHandler?.Invoke(this, e);
+                    }
+                };
+
                 folderGrid.Children.Add(b);
 
                 //Create textbox and add it to grid
@@ -100,14 +115,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        public Button ButtonNoHoverEffect()
+        public Button ButtonNoHoverEffect(string image)
         {
             Button button = new Button();
 
             button.Width = 60;
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
-            button.Background = SetIcon();
+            button.Background = SetIcon(image);
             button.Cursor = System.Windows.Input.Cursors.Hand;
             return button;
         }
@@ -125,6 +140,44 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Cursor = System.Windows.Input.Cursors.Hand;
             return textBlock;
         }
+
+        private RoutedEventHandler createClickHandler(GenericFile file)
+        {
+            RoutedEventHandler ClickHandler = (sender, args) =>
+            {
+                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
+                {
+
+                    string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
+
+                    // Logic to run the file using the buttonFilePath
+                    try
+                    {
+                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
+                        {
+                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = "cmd.exe",
+                                Arguments = $"/c start \"\" \"{buttonFilePath}\"",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                CreateNoWindow = true
+                            };
+
+                            process.StartInfo = startInfo;
+                            process.Start();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            };
+
+            return ClickHandler;
+        }
+
         private string TruncateFileName(string fileName, int maxLength)
         {
             if (fileName.Length <= maxLength)
@@ -138,7 +191,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        public ImageBrush SetIcon()
+        public ImageBrush SetIcon(string image)
         {
 
             ImageBrush? brush = null;
@@ -146,18 +199,53 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             {
                 brush = new ImageBrush
                 {
-                    ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/DirectoryIcon.png", UriKind.Relative))
+                    ImageSource = new BitmapImage(new Uri($"StudySpark.GUI.WPF/Images/{image}", UriKind.Relative))
                 };
             }
             else
             {
                 brush = new ImageBrush
                 {
-                    ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/DirectoryIcon.png"))
+                    ImageSource = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}"))
                 };
             }
 
             return brush;
+        }
+
+        private void SelectFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            
+            DialogResult dr = ofd.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                string path = ofd.FileName;
+                int pos = path.LastIndexOf('.');
+                string ext = path.Substring(pos + 1);
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    bool result = DBConnector.Database.InsertFileData(path, ext);
+                    if (!result)
+                    {
+                        System.Windows.MessageBox.Show("Er is iets fout gegaan!");
+                        return;
+                    }
+                    UpdateOnChange();
+                }
+                System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Er is iets fout gegaan!");
+            }
+
+
         }
 
         private void SelectFolder()
@@ -185,5 +273,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
         }
+
     }
 }
