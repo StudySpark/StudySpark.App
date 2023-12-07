@@ -43,8 +43,10 @@
     <Resource Include="Images\key.png" />
     <Resource Include="Images\Loading.png" />
     <Resource Include="Images\Logo_NoText.png" />
-	<Resource Include="Images\Logo_NoText_NoColor.png" />
+	  <Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
+    <Resource Include="Images\PowerPoint.png" />
+    <Resource Include="Images\Word.png" />
     <Resource Include="Images\user.png" />
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
