@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using StudySpark.Core.BierScraper;
 using StudySpark.GUI.WPF.Core;
 
@@ -47,19 +51,27 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             BierAanbiedingenViewModel.BierAanbiedingenClickedEvent += DisplayBeerSales;
         }
 
-        public void DisplayBeerSales(object? sender, EventArgs e) { 
+
+
+        public void DisplayBeerSales(object? sender, EventArgs e) {
             //CREATE SCRAPER AND RETRIEVE INFORMATION
-            BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
-            BiernetScraper scraper = new BiernetScraper(options);
-
             List<List<List<object>>> BierList = new();
-            var BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
-            var BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
-            var BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
+            Thread t = new Thread(() =>
+            {
+                BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
+                BiernetScraper scraper = new BiernetScraper(options);
 
-            BierList.Add(BierInfoHertogJan);
-            BierList.Add(BierInfoAmstel);
-            BierList.Add(BierInfoHeineken);
+                var BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+                var BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
+                var BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
+
+                BierList.Add(BierInfoHertogJan);
+                BierList.Add(BierInfoAmstel);
+                BierList.Add(BierInfoHeineken);
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            t.Join();
 
             for (int z = 0; z < BierList.Count; z++)
             {
@@ -100,11 +112,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private UIElement DisplayInformation(List<List<object>> bierInfo, int index, int zIndex)
         {
+            var container = new StackPanel();
+
             //CREATE RETURN VALUE
-            var container = new StackPanel()
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-            };
+            container.VerticalAlignment = VerticalAlignment.Center;
             container.Orientation = System.Windows.Controls.Orientation.Horizontal;
             container.Height = ENTRY_HEIGHT;
 
@@ -133,7 +144,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             ColumnDefinition c1 = new ColumnDefinition();
             c1.Width = new GridLength(1, GridUnitType.Star);
             salesGrid.ColumnDefinitions.Add(c1);
-            var prices = GetPrices(bierInfo, index);
+            var prices = GetPrices(bierInfo, index, zIndex);
             salesGrid.Children.Add(prices);
 
             //ADD DIFFERENT GRIDS
@@ -165,22 +176,30 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return information;
         }
-        private UIElement GetPrices(List<List<object>> bierInfo, int index)
+        private UIElement GetPrices(List<List<object>> bierInfo, int index, int zIndex)
         {
             int SALES = 2;
+            int IMAGES = 3;
             var priceContainer = new WrapPanel();
             string? van = "";
             string? voor = "";
             for(int i = 0; i < bierInfo[index].Count; i++)
             {
                 List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)bierInfo[index][SALES];
+                List<List<string>> image = (List<List<string>>)bierInfo[index][IMAGES];
                 for(int j=0; j < sales.Count; j++)
                 {
                     van = sales[j].ElementAt(0).Key;
                     voor = sales[j].ElementAt(0).Value;
-                    
+
                     Image img = new Image();
-                    img.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\FileIcon.png", UriKind.Relative));
+                    try
+                    {
+                        img.Source = GetStoreImage(bierInfo, index, zIndex);
+                    } catch (Exception e)
+                    {
+                        img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
+                    }
                     img.Width = 40;
                    
                     TextBlock t = new TextBlock()
@@ -214,6 +233,18 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             string lowestPriceTrim = lowestPriceTrimFirstHalf.Substring(0, charLocationStop);
 
             return lowestPriceTrim;
+        }
+
+        private BitmapImage GetStoreImage(List<List<object>> bierInfo, int index, int zIndex)
+        {
+            int IMAGE_INDEX = 3;
+            List<List<string>> images = (List<List<string>>)bierInfo[zIndex][IMAGE_INDEX];
+
+            string temp = images[index][0];
+            string url = "https://www.biernet.nl/"+temp;
+
+            BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
+            return image;
         }
 
         private BitmapImage GetProductImage(int index)
