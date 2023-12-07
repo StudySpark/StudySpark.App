@@ -12,9 +12,12 @@
     <None Remove="Images\DirectoryIcon.png" />
     <None Remove="Images\FileIcon.png" />
     <None Remove="Images\Icon_VS.png" />
+    <None Remove="Images\info.png" />
+    <None Remove="Images\key.png" />
     <None Remove="Images\Logo_NoText.png" />
 	<None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
+    <None Remove="Images\user.png" />
     <None Remove="Logo_NoText.png" />
   </ItemGroup>
 
@@ -31,9 +34,12 @@
     <Resource Include="Images\DirectoryIcon.png" />
     <Resource Include="Images\FileIcon.png" />
     <Resource Include="Images\Icon_VS.png" />
+    <Resource Include="Images\info.png" />
+    <Resource Include="Images\key.png" />
     <Resource Include="Images\Logo_NoText.png" />
 	<Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
+    <Resource Include="Images\user.png" />
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
 
