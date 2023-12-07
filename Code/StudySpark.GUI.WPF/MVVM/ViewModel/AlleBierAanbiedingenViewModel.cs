@@ -39,39 +39,33 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
         private StackPanel AllePanel = new StackPanel();
-
-        private enum BierEnum
-        {
-            HERTOG_JAN = 0,
-            AMSTEL = 1
-        }
-
         public AlleBierAanbiedingenViewModel()
         {
             BierAanbiedingenViewModel.BierAanbiedingenClickedEvent += DisplayBeerSales;
         }
 
-
+        public List<List<object>> BierInfoHertogJan;
+        public List<List<object>> BierInfoAmstel;
+        public List<List<object>> BierInfoHeineken;
 
         public void DisplayBeerSales(object? sender, EventArgs e) {
             //CREATE SCRAPER AND RETRIEVE INFORMATION
             List<List<List<object>>> BierList = new();
-            Thread t = new Thread(() =>
+            
+            BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
+            BiernetScraper scraper = new BiernetScraper(options);
+
+            if (AllePanel.Children.Count == 0)
             {
-                BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
-                BiernetScraper scraper = new BiernetScraper(options);
+                BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+                BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
+                BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
+            }
 
-                var BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
-                var BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
-                var BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
-
-                BierList.Add(BierInfoHertogJan);
-                BierList.Add(BierInfoAmstel);
-                BierList.Add(BierInfoHeineken);
-            });
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
-            t.Join();
+            BierList.Add(BierInfoHertogJan);
+            BierList.Add(BierInfoAmstel);
+            BierList.Add(BierInfoHeineken);
+           
 
             for (int z = 0; z < BierList.Count; z++)
             {
@@ -92,7 +86,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 var displayInfo = new StackPanel();
                 for (int i = 0; i < BierList[z].Count; i++)
                 {
-                    List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)BierList[z][i][2];
+                    var sales = (List<Dictionary<string, string>>)BierList[z][i][2];
                     if (sales.Count > 0)
                     {
                         var info = DisplayInformation(BierList[z], i, z);
@@ -179,39 +173,37 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private UIElement GetPrices(List<List<object>> bierInfo, int index, int zIndex)
         {
             int SALES = 2;
-            int IMAGES = 3;
             var priceContainer = new WrapPanel();
             string? van = "";
             string? voor = "";
-            for(int i = 0; i < bierInfo[index].Count; i++)
+            List<List<string>> images = (List<List<string>>) bierInfo[index][3];
+
+            var sales = (List<Dictionary<string, string>>)bierInfo[index][SALES];
+            for(int j=0; j < sales.Count; j++)
             {
-                List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)bierInfo[index][SALES];
-                List<List<string>> image = (List<List<string>>)bierInfo[index][IMAGES];
-                for(int j=0; j < sales.Count; j++)
+                van = sales[j].ElementAt(0).Key;
+                voor = sales[j].ElementAt(0).Value;
+
+                Image img = new Image();
+                try
                 {
-                    van = sales[j].ElementAt(0).Key;
-                    voor = sales[j].ElementAt(0).Value;
-
-                    Image img = new Image();
-                    try
-                    {
-                        img.Source = GetStoreImage(bierInfo, index, zIndex);
-                    } catch (Exception e)
-                    {
-                        img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
-                    }
-                    img.Width = 40;
-                   
-                    TextBlock t = new TextBlock()
-                    {
-                        Text = $"Van: {van}\nVoor: {voor}\n",
-                    };
-                    t.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-
-                    priceContainer.Children.Add(img);
-                    priceContainer.Children.Add(t);
+                    img.Source = GetStoreImage(bierInfo, index, j);
+                } catch (Exception e)
+                {
+                    img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
                 }
+                img.Width = 40;
+                   
+                TextBlock t = new TextBlock()
+                {
+                    Text = $"Van: {van}\nVoor: {voor}\n",
+                };
+                t.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
+                priceContainer.Children.Add(img);
+                priceContainer.Children.Add(t);
             }
+
 
             return priceContainer;
         }
@@ -235,12 +227,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return lowestPriceTrim;
         }
 
-        private BitmapImage GetStoreImage(List<List<object>> bierInfo, int index, int zIndex)
+        private BitmapImage GetStoreImage(List<List<object>> bierInfo, int index, int jIndex)
         {
-            int IMAGE_INDEX = 3;
-            List<List<string>> images = (List<List<string>>)bierInfo[zIndex][IMAGE_INDEX];
+            int IMAGES = 3;
+            var images = (List<List<string>>)bierInfo[index][IMAGES];
 
-            string temp = images[index][0];
+            string temp = images[jIndex][0];
             string url = "https://www.biernet.nl/"+temp;
 
             BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
