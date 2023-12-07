@@ -18,7 +18,7 @@ using System.Threading;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class FilesFolderViewModel : ObservableObject
+    public class FilesFolderViewModel : ObservableObject
     {
         private object _currentFolderList;
         
@@ -30,8 +30,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         
         public List<GenericFile> files = new List<GenericFile>();
 
-        FileRepository repository = new FileRepository();
-
+        private List<GenericFile> previousFiles;
+                
         public object CurrentFolderList
         {
             get
@@ -61,7 +61,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private void UpdateOnChange()
         {
-            files = repository.ReadData();
+            files = DBConnector.Database.ReadFileData();
             folderPanel.Children.Clear();
 
             foreach (GenericFile file in files)
@@ -230,7 +230,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    bool result = repository.InsertData(path, ext);
+                    bool result = DBConnector.Database.InsertFileData(path, ext);
                     if (!result)
                     {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");
@@ -259,7 +259,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 string path = fbd.SelectedPath;
                 if (!string.IsNullOrEmpty(path))
                 {
-                    bool result = repository.InsertData(path, "folder", "DirectoryIcon.png");
+                    bool result = DBConnector.Database.InsertFileData(path, "folder", "DirectoryIcon.png");
                     if (!result)
                     {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");

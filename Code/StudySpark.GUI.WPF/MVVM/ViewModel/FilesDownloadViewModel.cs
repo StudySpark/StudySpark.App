@@ -13,7 +13,7 @@ using StudySpark.GUI.WPF.Core;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class FilesDownloadViewModel
+    public class FilesDownloadViewModel
     {
         private object currentDownloadList;
         public object CurrentDownloadList

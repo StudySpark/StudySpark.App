@@ -15,7 +15,7 @@ using StudySpark.Core.Generic;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class GitViewModel : ObservableObject
+    public class GitViewModel : ObservableObject
     {
         private object _currentRepoList;
 
@@ -26,8 +26,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public List<GenericGit> repos = new List<GenericGit>();
 
         private List<GenericGit> previousRepos;
-
-        GitRepository repository = new GitRepository();
 
         public object CurrentRepoList
         {
@@ -58,7 +56,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private void UpdateOnChange()
         {
             previousRepos = repos;
-            repos = repository.ReadData();
+            repos = DBConnector.Database.ReadGitData();
             repoPanel.Children.Clear();
 
             List<GenericGit> difference = repos.Except(previousRepos).ToList();
@@ -150,7 +148,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 {
                     if (Directory.Exists(Path.Combine(path, ".git")))
                     {
-                        bool result = repository.InsertData(path, "repository");
+                        bool result = DBConnector.Database.InsertGitData(path, "repository");
                         if (!result)
                         {
                             System.Windows.MessageBox.Show("Er is iets fout gegaan!");

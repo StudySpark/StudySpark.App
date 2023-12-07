@@ -90,7 +90,7 @@
                       HorizontalAlignment="Right"
                       Margin="0,0,20,20"
                       Cursor="Hand"
-                      Style="{StaticResource RoundButtonTheme}"
+                      Style="{StaticResource RoundToggleButtonTheme}"
                       Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
         <ToggleButton Content="📄"
@@ -102,7 +102,7 @@
                       HorizontalAlignment="Right"
                       Margin="0,0,95,40"
                       Cursor="Hand"
-                      Style="{StaticResource RoundButtonTheme}"
+                      Style="{StaticResource RoundToggleButtonTheme}"
                       Command="{Binding FilesFolderVM.OpenFileSelectCommand}" >
 
             <ToggleButton.Visibility>
@@ -123,7 +123,7 @@
                       HorizontalAlignment="Right"
                       Margin="0,0,40,95"
                       Cursor="Hand"
-                      Style="{StaticResource RoundButtonTheme}"
+                      Style="{StaticResource RoundToggleButtonTheme}"
                       Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" >
 
             <ToggleButton.Visibility>

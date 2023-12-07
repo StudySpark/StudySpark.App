@@ -18,23 +18,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand FilesViewCommand { get; set; }
         public RelayCommand TimelineViewCommand { get; set; }
         public RelayCommand ScheduleViewCommand { get; set; }
+        public RelayCommand GradesViewCommand { get; set; }
         public RelayCommand GitViewCommand { get; set; }
-        public RelayCommand OpenSettingsCommand { get; set; }
 
         public RelayCommand MinimizeCommand { get; private set; }
         public RelayCommand MaximizeCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
 
-        public OverviewViewModel OverviewVM { get; set; }
-        public NotesViewModel NotesVM { get; set; }
-        public FilesViewModel FilesVM { get; set; }
-        public ScheduleViewModel ScheduleVM { get; set; }
-        public GitViewModel GitVM { get; set; }
-        public TimelineViewModel TimelineVM { get; set; }
-
-        private object _currentView;
-
-        public object CurrentView {
+        private object? _currentView;
+        public object? CurrentView {
             get { return _currentView; }
             set {
                 _currentView = value;
@@ -47,42 +39,46 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             MaximizeCommand = new RelayCommand(o => MaximizeWindow());
             CloseCommand = new RelayCommand(o => CloseWindow());
 
-            OverviewVM = new OverviewViewModel();
-            NotesVM = new NotesViewModel();
-            FilesVM = new FilesViewModel();
-            ScheduleVM = new ScheduleViewModel();
-            GitVM = new GitViewModel();
-            TimelineVM = new TimelineViewModel();
+            MainViewManager.CurrentMainViewEvent += ViewChangeEvent;
 
-            CurrentView = OverviewVM;
+            CurrentView = MainViewManager.OverviewVM;
 
             OverviewViewCommand = new RelayCommand(o => {
-                CurrentView = OverviewVM;
+                CurrentView = MainViewManager.OverviewVM;
             });
 
             NotesViewCommand = new RelayCommand(o => {
-                CurrentView = NotesVM;
+                CurrentView = MainViewManager.NotesVM;
             });
 
             FilesViewCommand = new RelayCommand(o => {
-                CurrentView = FilesVM;
+                CurrentView = MainViewManager.FilesVM;
             });
 
             TimelineViewCommand = new RelayCommand(o => {
-                CurrentView = TimelineVM;
+                CurrentView = MainViewManager.TimelineVM;
             });
 
             ScheduleViewCommand = new RelayCommand(o => {
-                CurrentView = ScheduleVM;
+                CurrentView = MainViewManager.ScheduleVM;
             });
+
+            GradesViewCommand = new RelayCommand(o => {
+                CurrentView = MainViewManager.GradesVM;
+            });
+
             GitViewCommand = new RelayCommand(o => {
-                CurrentView = GitVM;
+                CurrentView = MainViewManager.GitVM;
             });
 
-            OpenSettingsCommand = new RelayCommand(o => {
-                Debug.WriteLine("Settings!");
-            });
+        }
 
+        private void ViewChangeEvent(object? sender, EventArgs e) {
+            if (CurrentView == MainViewManager.CurrentMainView) {
+                return;
+            }
+
+            CurrentView = MainViewManager.CurrentMainView;
         }
 
         private void MinimizeWindow() {
@@ -104,7 +100,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 }
             }
         }
-
         private void CloseWindow() {
             if (Application.Current.MainWindow != null) {
                 Application.Current.MainWindow.Close();
