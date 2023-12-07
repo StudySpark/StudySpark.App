@@ -14,7 +14,7 @@ namespace StudySpark.WebScraper.Educator {
         }
 
         public EducatorWebScraper(ScraperOptions scraperOptions) : base(scraperOptions) {
-            scraperOptions.URL = "https://educator.windesheim.nl";
+            scraperOptions.URL = "https://educator.windesheim.nl/studyprogress";
         }
 
         public void Load() {
