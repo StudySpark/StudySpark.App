@@ -20,5 +20,10 @@ namespace StudySpark.GUI.WPF.Core
         {
             get; set;
         } = true;
+        public bool? GrolschChecked
+        {
+            get; set;
+        } = true;
+
     }
 }

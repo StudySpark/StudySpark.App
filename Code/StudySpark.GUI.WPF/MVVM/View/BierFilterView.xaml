@@ -11,6 +11,7 @@
             <CheckBox Content="Hertog Jan" Foreground="White" Unchecked="CheckBox_Checked_HertogJan" Checked="CheckBox_Checked_HertogJan" x:Name="CheckboxHertogJan" IsChecked="true"/>
             <CheckBox Content="Amstel" Foreground="White" Unchecked="CheckBox_Checked_Amstel" Checked="CheckBox_Checked_Amstel" x:Name="CheckboxAmstel" IsChecked="true"/>
             <CheckBox Content="Heineken" Foreground="White" Unchecked="CheckBox_Checked_Heineken" Checked="CheckBox_Checked_Heineken" x:Name="CheckboxHeineken" IsChecked="true"/>
+            <CheckBox Content="Grolsch" Foreground="White" Unchecked="CheckBox_Checked_Grolsch" Checked="CheckBox_Checked_Grolsch" x:Name="CheckboxGrolsch" IsChecked="true"/>
         </StackPanel>
     </Grid>
 </UserControl>

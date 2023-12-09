@@ -12,6 +12,7 @@
     <None Remove="Images\Amstel.png" />
     <None Remove="Images\DirectoryIcon.png" />
     <None Remove="Images\FileIcon.png" />
+    <None Remove="Images\Grolsch.png" />
     <None Remove="Images\Heineken.png" />
     <None Remove="Images\HertogJan.png" />
     <None Remove="Images\Icon_VS.png" />
@@ -33,6 +34,7 @@
     <Resource Include="Images\Amstel.png" />
     <Resource Include="Images\DirectoryIcon.png" />
     <Resource Include="Images\FileIcon.png" />
+    <Resource Include="Images\Grolsch.png" />
     <Resource Include="Images\Heineken.png" />
     <Resource Include="Images\HertogJan.png" />
     <Resource Include="Images\Icon_VS.png" />

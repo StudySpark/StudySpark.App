@@ -16,6 +16,7 @@ namespace StudySpark.GUI.WPF.MVVM.View
         private bool? _hertogJanChecked = false;
         private bool? _amstelChecked = false;
         private bool? _heinekenChecked = false;
+        private bool? _grolschChecked = false;
 
         public BierFilterView()
         {
@@ -38,8 +39,13 @@ namespace StudySpark.GUI.WPF.MVVM.View
             _heinekenChecked = CheckboxHeineken.IsChecked;
             FireEvent();
         }
+        private void CheckBox_Checked_Grolsch(object sender, RoutedEventArgs e)
+        {
+            _grolschChecked = CheckboxGrolsch.IsChecked;
+            FireEvent();
+        }
 
-        
+
         private void FireEvent()
         {
             BierFilterEventArgs bierFilterEventArgs = new BierFilterEventArgs();
@@ -47,7 +53,7 @@ namespace StudySpark.GUI.WPF.MVVM.View
             bierFilterEventArgs.HertogJanChecked = _hertogJanChecked;
             bierFilterEventArgs.AmstelChecked = _amstelChecked;
             bierFilterEventArgs.HeinekenChecked = _heinekenChecked;
-
+            bierFilterEventArgs.GrolschChecked = _grolschChecked;
 
             ViewDataChangeEvent?.Invoke(this, bierFilterEventArgs);
         }

@@ -12,7 +12,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     class BierFilterViewModel
     {
-        public static bool? hertogIsChecked, amstelIsChecked, heinekenIsChecked = true;
+        public static bool? hertogIsChecked, amstelIsChecked, heinekenIsChecked, grolschIsChecked = true;
         public BierFilterViewModel()
         {
             BierFilterView.ViewDataChangeEvent += GetFilters;
@@ -23,6 +23,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             hertogIsChecked = e.HertogJanChecked;
             amstelIsChecked = e.AmstelChecked;
             heinekenIsChecked = e.HeinekenChecked;
+            grolschIsChecked = e.GrolschChecked;
         }
     }
 }
