@@ -445,7 +445,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
             }
-            if ((bool)HeinekenChecked)
+            if ((bool)GrolschIsChecked)
             {
                 if (!FilteredList.Contains("Grolsch"))
                 {
