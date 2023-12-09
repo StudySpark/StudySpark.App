@@ -73,6 +73,10 @@
                 <view:VerlopenBierAanbiedingenView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:BierFilterViewModel}">
+                <view:BierFilterView/>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
