@@ -11,14 +11,14 @@
                   VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Hidden"
                   Height="444">
-        <StackPanel>
-            <TextBlock x:Name="UserGreetingText"  Text="%GREETING%"
-                     Foreground="White"
-                     FontSize="28"
-                     HorizontalAlignment="Left"
-                     Margin="0,0,0,20"/>
+        <Grid>
+            <TextBlock x:Name="UserGreetingText"
+                       Text="%GREETING%"
+                       Foreground="White"
+                       FontSize="28"
+                       HorizontalAlignment="Center" />
 
-            <StackPanel Visibility="Hidden">
+            <StackPanel Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal"
                Margin="0,0,0,10">
                     <Border Width="400"
@@ -182,6 +182,6 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </UserControl>

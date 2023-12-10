@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +24,20 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         public OverviewView() {
             InitializeComponent();
 
-            UserGreetingText.Text = GetGreeting(DateTime.Now.Hour, CapitalizeFirstLetter(Environment.UserName));
+            Thread thread = new Thread(() => {
+                string greetingText = GetGreeting(DateTime.Now.Hour, CapitalizeFirstLetter(Environment.UserName));
+                int index = 0;
+                while (index <= greetingText.Length) {
+                    try {
+                        Application.Current.Dispatcher.Invoke(() => {
+                            UserGreetingText.Text = greetingText.Substring(0, index);
+                        });
+                    } catch (NullReferenceException) { }
+                    index++;
+                    Thread.Sleep(25);
+                }
+            });
+            thread.Start();
         }
 
         private string GetGreeting(int hour, string name) {
