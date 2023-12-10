@@ -89,18 +89,20 @@
                       VerticalAlignment="Bottom"
                       HorizontalAlignment="Right"
                       Margin="0,0,20,20"
+                      Padding="0,0,0,-18"
                       Cursor="Hand"
                       Style="{StaticResource RoundToggleButtonTheme}"
                       Visibility="{Binding ElementName=TabButtonFiles, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
         <ToggleButton Content="📄"
-                      FontSize="30"
+                      FontSize="25"
                       x:Name="FileSelect"
                       Width="42"
                       Height="42"
                       VerticalAlignment="Bottom"
                       HorizontalAlignment="Right"
                       Margin="0,0,95,40"
+                      Padding="0,0,0,-13"
                       Cursor="Hand"
                       Style="{StaticResource RoundToggleButtonTheme}"
                       Command="{Binding FilesFolderVM.OpenFileSelectCommand}" >
@@ -115,13 +117,14 @@
         </ToggleButton>
 
         <ToggleButton Content="📁"
-                      FontSize="30"
+                      FontSize="25"
                       x:Name="FolderSelect"
                       Width="42"
                       Height="42"
                       VerticalAlignment="Bottom"
                       HorizontalAlignment="Right"
                       Margin="0,0,40,95"
+                      Padding="0,0,0,-13"
                       Cursor="Hand"
                       Style="{StaticResource RoundToggleButtonTheme}"
                       Command="{Binding FilesFolderVM.OpenFolderSelectCommand}" >
