@@ -82,6 +82,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 }
                 else { t.Text = repo.Path; }
                 t.ToolTip = repo.Path;
+                t.IsHitTestVisible = false;
                 repoGrid.Children.Add(t);
 
                 //set row defenitions for button and text
