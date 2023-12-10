@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows;
 using System;
 using StudySpark.Core.FileManager;
@@ -30,6 +31,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         WrapPanel folderPanel = new WrapPanel();
         
         public List<GenericFile> files = new List<GenericFile>();
+
+        public List<Button> deletableButtons = new List<Button>();
 
         FileRepository repository = new FileRepository();
 
@@ -102,6 +105,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickOpenHandler);
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickDelHandler);
+
+                b.MouseRightButtonDown += clickMarkHandler;
 
                 b.Click += (sender, e) =>
                 {
@@ -179,7 +184,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private RoutedEventHandler createClickOpenHandler(GenericFile file)
         {
-            RoutedEventHandler ClickHandler = (sender, args) =>
+            return (sender, args) =>
             {
                 if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
                 {
@@ -210,13 +215,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
             };
-
-            return ClickHandler;
         }
 
         private RoutedEventHandler createClickDelHandler(GenericFile file)
         {
-            RoutedEventHandler ClickHandler = (sender, args) =>
+            return (sender, args) =>
             {
                 if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
                 {
@@ -234,8 +237,31 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 }
             };
+        }
 
-            return ClickHandler;
+        private void clickMarkHandler(object sender, System.Windows.Input.MouseEventArgs args)
+        {
+            if (sender is Button button)
+            {
+                if (!deletableButtons.Contains(button))
+                {
+                    // Add a semi-transparent overlay with a light red hue
+                    var overlay = new Rectangle
+                    {
+                        Fill = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0)),
+                        Width = button.ActualWidth,
+                        Height = button.ActualHeight
+                    };
+
+                    deletableButtons.Add(button);
+                    button.Content = overlay;
+                }
+                else
+                {
+                    deletableButtons.Remove(button);
+                    button.Content = null;
+                }
+            }
         }
 
         private string TruncateFileName(string fileName, int maxLength)
