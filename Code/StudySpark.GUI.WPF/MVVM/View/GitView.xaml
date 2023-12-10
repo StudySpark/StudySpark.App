@@ -12,13 +12,15 @@
             <ContentControl Margin="10" Width="650" Content="{Binding CurrentRepoList}"/>
         </WrapPanel>
         <Button Content="➕"
-        Width="58"
-        VerticalAlignment="Bottom"
-        HorizontalAlignment="Right"
-        Margin="0,0,20,20"
-        Cursor="Hand"
-        Style="{StaticResource RoundButtonTheme}"
-        Command="{Binding OpenRepoSelectCommand}" Height="56" />
+                FontSize="35"
+                Width="58"
+                Height="58"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,20,20"
+                Cursor="Hand"
+                Style="{StaticResource RoundButtonTheme}"
+                Command="{Binding OpenRepoSelectCommand}" />
 
     </Grid>
 </UserControl>
