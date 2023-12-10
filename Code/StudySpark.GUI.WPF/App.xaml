@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Theme/ScrollViewTheme.xaml" />
                 <ResourceDictionary Source="Theme/RoundButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/RoundToggleButtonTheme.xaml" />
+                <ResourceDictionary Source="Theme/SquareButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/StackPanelBorderTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
