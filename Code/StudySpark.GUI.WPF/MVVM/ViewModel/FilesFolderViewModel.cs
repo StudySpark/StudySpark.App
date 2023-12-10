@@ -17,6 +17,8 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using System.IO;
+using System.Windows.Controls.Primitives;
+using System.Collections;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -32,7 +34,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         
         public List<GenericFile> files = new List<GenericFile>();
 
-        public List<Button> deletableButtons = new List<Button>();
+        public Hashtable fileIDs = new Hashtable();
+
+        private List<Button> DeletableButtons = new List<Button>();
+
+        private ToggleButton DeleteButton;
 
         FileRepository repository = new FileRepository();
 
@@ -67,6 +73,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         {
             files = repository.ReadData();
             folderPanel.Children.Clear();
+            fileIDs.Clear();
+            int fileID = 0;
 
             foreach (GenericFile file in files)
             {
@@ -79,6 +87,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 //Create button and add it to grid
                 Button b = ButtonNoHoverEffect(file.Image);
                 b.Tag = file.Path;
+
+                fileIDs.Add("file_" + fileID.ToString(), file.TargetName);
+                b.Name = "file_" + fileID.ToString();
+                fileID++;
                 b.Style = customButtonStyle;
 
                 Grid containerGrid = new Grid();
@@ -100,13 +112,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     };
                 }
 
-                RoutedEventHandler ClickOpenHandler = createClickOpenHandler(file);
-                RoutedEventHandler ClickDelHandler = createClickDelHandler(file);
+                RoutedEventHandler ClickOpenHandler = CreateClickOpenHandler(file);
+                RoutedEventHandler ClickDelHandler = CreateClickDelHandler(file);
 
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickOpenHandler);
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickDelHandler);
 
-                b.MouseRightButtonDown += clickMarkHandler;
+                b.MouseRightButtonDown += ClickMarkHandler;
 
                 b.Click += (sender, e) =>
                 {
@@ -154,6 +166,23 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 //add grid to panel
                 folderPanel.Children.Add(folderGrid);
             }
+
+            DeleteButton = new ToggleButton
+            {
+                Content = "🗑️",
+                FontSize = 35,
+                Width = 58,
+                Height = 58,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
+                Cursor = System.Windows.Input.Cursors.Hand,
+                Style = (Style)System.Windows.Application.Current.TryFindResource("RoundButtonTheme"),
+                Visibility = Visibility.Collapsed
+            };
+
+            DeleteButton.Click += OnDeleteButtonClick;
+
+            folderPanel.Children.Add(DeleteButton);
         }
 
         public Button ButtonNoHoverEffect(string image)
@@ -182,7 +211,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return textBlock;
         }
 
-        private RoutedEventHandler createClickOpenHandler(GenericFile file)
+        private RoutedEventHandler CreateClickOpenHandler(GenericFile file)
         {
             return (sender, args) =>
             {
@@ -217,7 +246,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
         }
 
-        private RoutedEventHandler createClickDelHandler(GenericFile file)
+        private RoutedEventHandler CreateClickDelHandler(GenericFile file)
         {
             return (sender, args) =>
             {
@@ -239,11 +268,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
         }
 
-        private void clickMarkHandler(object sender, System.Windows.Input.MouseEventArgs args)
+        private void ClickMarkHandler(object sender, System.Windows.Input.MouseEventArgs args)
         {
             if (sender is Button button)
             {
-                if (!deletableButtons.Contains(button))
+                if (!DeletableButtons.Contains(button))
                 {
                     // Add a semi-transparent overlay with a light red hue
                     var overlay = new Rectangle
@@ -253,15 +282,40 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         Height = button.ActualHeight
                     };
 
-                    deletableButtons.Add(button);
+                    DeletableButtons.Add(button);
                     button.Content = overlay;
                 }
                 else
                 {
-                    deletableButtons.Remove(button);
+                    DeletableButtons.Remove(button);
                     button.Content = null;
                 }
+
+                DeleteButton.Visibility = DeletableButtons.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        private void OnDeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            foreach (Button button in DeletableButtons) 
+            { 
+                if (button.Tag is string folderPath && button.Name is string ID)
+                {
+                    if (fileIDs.Contains(ID))
+                    {
+                        try
+                        {
+                            String fileName = fileIDs[ID].ToString();
+                            repository.DeleteData(folderPath, fileName);
+                        }
+                        catch (Exception exc) 
+                        { }
+                    }
+                }
+            }
+
+            UpdateOnChange();
+            System.Windows.MessageBox.Show("All files deleted");
         }
 
         private string TruncateFileName(string fileName, int maxLength)
