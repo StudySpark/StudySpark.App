@@ -315,7 +315,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
 
             UpdateOnChange();
-            System.Windows.MessageBox.Show("All files deleted");
+            System.Windows.MessageBox.Show("Geselecteerde bestanden verwijderd");
         }
 
         private string TruncateFileName(string fileName, int maxLength)
