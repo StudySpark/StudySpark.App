@@ -87,11 +87,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 //Create button and add it to grid
                 Button b = ButtonNoHoverEffect(file.Image);
                 b.Tag = file.Path;
+                b.ToolTip = "Linker muisknop om te openen | Rechter muisknop om te verwijderen";
+                b.Style = customButtonStyle;
 
                 fileIDs.Add("file_" + fileID.ToString(), file.TargetName);
                 b.Name = "file_" + fileID.ToString();
                 fileID++;
-                b.Style = customButtonStyle;
 
                 Grid containerGrid = new Grid();
                 containerGrid.Children.Add(b);
