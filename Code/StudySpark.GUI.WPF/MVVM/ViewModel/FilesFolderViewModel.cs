@@ -40,6 +40,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private ToggleButton DeleteButton;
 
+        private static FileWatcher fileWatcher;
+
         FileRepository repository = new FileRepository();
 
         public object CurrentFolderList
@@ -54,8 +56,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        public FilesFolderViewModel()
-        {
+        public FilesFolderViewModel() {
+
+            if (fileWatcher == null) {
+                fileWatcher = new FileWatcher();
+                fileWatcher.FileChangedOnFSEvent += UpdateOnChange;
+            }
+
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
             OpenFileSelectCommand = new RelayCommand(o => SelectFile());
 
@@ -69,12 +76,20 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         }
 
+
+        private void UpdateOnChange(object? sender, EventArgs e)
+        {
+            UpdateOnChange();
+        }
+
         private void UpdateOnChange()
         {
             files = repository.ReadData();
             folderPanel.Children.Clear();
             fileIDs.Clear();
             int fileID = 0;
+
+            fileWatcher.SetFilesToWatch(files);
 
             foreach (GenericFile file in files)
             {
@@ -98,7 +113,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 containerGrid.Children.Add(b);
 
                 Image exclaim = MarkAsDeletable(file);
-                exclaim.IsHitTestVisible = false;
+                //exclaim.IsHitTestVisible = false;
                 containerGrid.Children.Add(exclaim);
 
                 if (CheckIfDeletable(containerGrid, exclaim))
