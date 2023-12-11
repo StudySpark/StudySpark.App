@@ -146,7 +146,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     {
                         int totalCommits = gitRepo.Commits.Count();
                         int commitsToShow = Math.Min(MaxCommitsToShow, gitRepo.Commits.Count());
-                        if(MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
+                        if (MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
                         for (int i = 0; i < commitsToShow; i++)
                         {
                             DisplayCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
@@ -270,7 +270,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
 
 
- 
+
     }
 
 

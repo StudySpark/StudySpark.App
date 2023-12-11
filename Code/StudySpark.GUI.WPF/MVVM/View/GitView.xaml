@@ -24,7 +24,7 @@
                 Cursor="Hand"
                 Style="{StaticResource RoundButtonTheme}"
                 Command="{Binding OpenRepoSelectCommand}" Height="56" />
-        <Slider x:Name="commitSlider" Minimum="7" Maximum="{Binding MaxCommitsForCurrentRepo}" Width="300" Value="{Binding MaxCommitsToShow}" />
+        <Slider x:Name="commitSlider" Minimum="1" Maximum="{Binding MaxCommitsForCurrentRepo}" Width="300" Height="20" Value="{Binding MaxCommitsToShow}" VerticalAlignment="Top" />
         <TextBlock Text="{Binding MaxCommitsToShow, UpdateSourceTrigger=PropertyChanged}" Width="30" Height="20" VerticalAlignment="Top" Margin="0,18,0,0" Foreground="White" />
     </Grid>
 </UserControl>
