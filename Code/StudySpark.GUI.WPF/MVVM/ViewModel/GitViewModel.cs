@@ -19,6 +19,7 @@ using ListViewItem = System.Windows.Controls.ListViewItem;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using Orientation = System.Windows.Controls.Orientation;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -94,49 +95,67 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             previousRepos = repos;
             repos = DBConnector.Database.ReadGitData();
             repoPanel.Children.Clear();
-
+            repoPanel.Orientation = Orientation.Vertical;
             foreach (GenericGit repo in repos)
             {
-                // Display repositories as buttons (your existing code)
-                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
-                Grid repoGrid = new Grid();
-                repoGrid.RowDefinitions.Add(new RowDefinition());
-                repoGrid.RowDefinitions.Add(new RowDefinition());
+                // Create a new instance of a StackPanel for each repository
+                StackPanel repositoryBar = new StackPanel();
+                repositoryBar.Orientation = Orientation.Horizontal;
+                repositoryBar.Background = Brushes.DarkGray; // Set background color as needed
 
-                //Create button and add it to grid
-                System.Windows.Controls.Button b = ButtonNoHoverEffect();
-                b.Tag = repo.Path;
-                b.Style = customButtonStyle;
-                repoGrid.Children.Add(b);
+                // Add TextBlock with repository name to the bar
+                TextBlock repoNameTextBlock = new TextBlock();
+                repoNameTextBlock.Text = repo.TargetName; // Set repository name
+                repoNameTextBlock.Foreground = Brushes.White; // Set text color as needed
+                repoNameTextBlock.Margin = new Thickness(10, 5, 10, 5); // Set margins as needed
 
-                //Create textbox and add it to grid
-                TextBlock t = SubText();
-                if (repo.TargetName.Length > 0)
-                {
-                    t.Text = TruncateFileName(repo.TargetName, 15);
-                }
-                else { t.Text = repo.Path; }
-                t.ToolTip = repo.Path;
-                repoGrid.Children.Add(t);
+                repositoryBar.Children.Add(repoNameTextBlock);
 
-                //set row definitions for button and text
-                Grid.SetRow(b, 0);
-                Grid.SetRow(t, 0);
+                // Add the repository bar to the view
+                repoPanel.Children.Add(repositoryBar);
+                /*                // Display repositories as buttons (your existing code)
+                                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
-                Thickness margin = repoGrid.Margin;
-                margin.Bottom = 75;
-                margin.Right = margin.Left = 5;
-                repoGrid.Margin = margin;
+                                Grid repoGrid = new Grid();
+                                repoGrid.RowDefinitions.Add(new RowDefinition());
+                                repoGrid.RowDefinitions.Add(new RowDefinition());
 
-                // Add grid to panel
-                repoPanel.Children.Add(repoGrid);
+                                //Create button and add it to grid
+                                System.Windows.Controls.Button b = ButtonNoHoverEffect();
+                                b.Tag = repo.Path;
+                                b.Style = customButtonStyle;
+                                repoGrid.Children.Add(b);
+
+                                //Create textbox and add it to grid
+                                TextBlock t = SubText();
+                                if (repo.TargetName.Length > 0)
+                                {
+                                    t.Text = TruncateFileName(repo.TargetName, 15);
+                                }
+                                else { t.Text = repo.Path; }
+                                t.ToolTip = repo.Path;
+                                repoGrid.Children.Add(t);
+
+                                //set row definitions for button and text
+                                Grid.SetRow(b, 0);
+                                Grid.SetRow(t, 0);
+
+                                Thickness margin = repoGrid.Margin;
+                                margin.Bottom = 75;
+                                margin.Right = margin.Left = 5;
+                                repoGrid.Margin = margin;
+
+                                // Add grid to panel
+                                repoPanel.Children.Add(repoGrid);*/
 
                 // Create a new instance of ListView for each repository
                 ListView commitListView = new ListView();
                 commitListView.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272537"));
                 commitListView.Foreground = Brushes.White;
-
+                commitListView.MinWidth = 550;
+                // Set the margin to create a small gap between ListView elements
+                commitListView.Margin = new Thickness(0, 0, 0, 10);
 
                 // Display commit information in the ListView
                 using (var gitRepo = new Repository($"{repo.Path}\\{repo.TargetName}"))
@@ -146,7 +165,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     {
                         int totalCommits = gitRepo.Commits.Count();
                         int commitsToShow = Math.Min(MaxCommitsToShow, gitRepo.Commits.Count());
-                        if (MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
+                        if(MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
                         for (int i = 0; i < commitsToShow; i++)
                         {
                             DisplayCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
@@ -270,7 +289,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
 
 
-
+ 
     }
 
 
