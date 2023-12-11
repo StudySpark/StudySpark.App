@@ -98,10 +98,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 containerGrid.Children.Add(b);
 
                 Image exclaim = MarkAsDeletable(file);
+                exclaim.IsHitTestVisible = false;
                 containerGrid.Children.Add(exclaim);
 
                 if (CheckIfDeletable(containerGrid, exclaim))
                 {
+                    b.ToolTip = "Bestand niet gevonden > linker muisknop om te verwijderen";
+
                     b.MouseEnter += (sender, e) =>
                     {
                         exclaim.Source = SetIcon("Trash_Bin.png").ImageSource;
