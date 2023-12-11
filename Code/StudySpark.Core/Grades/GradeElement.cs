@@ -12,7 +12,8 @@ namespace StudySpark.Core.Grades {
         public string? TestDate { get; set; }
         public string? Semester { get; set; }
         public string? ECs { get; set; }
-        public string? Grade { get; set; }
+        private string? _grade;
+        public string? Grade { get { return _grade; } set { _grade = value?.Replace("Voldaan", "V"); } }
         public string? GradeColor {
             get {
 
@@ -23,7 +24,7 @@ namespace StudySpark.Core.Grades {
                         return "#FF821521"; // Magenta
                     }
                 } else {
-                    return "#828282"; // Dark Gray
+                    return Grade.StartsWith("V") ? "#FF158221" : "#828282"; // Green : Dark Gray
                 }
             }
         }

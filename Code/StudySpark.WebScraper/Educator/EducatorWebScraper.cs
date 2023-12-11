@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace StudySpark.WebScraper.Educator {
     public class EducatorWebScraper : WebScraper {
@@ -13,7 +14,7 @@ namespace StudySpark.WebScraper.Educator {
         }
 
         public EducatorWebScraper(ScraperOptions scraperOptions) : base(scraperOptions) {
-            scraperOptions.URL = "https://educator.windesheim.nl";
+            scraperOptions.URL = "https://educator.windesheim.nl/studyprogress";
         }
 
         public void Load() {
@@ -33,6 +34,42 @@ namespace StudySpark.WebScraper.Educator {
             GetElementById("passwordInput").SendKeys(scraperOptions?.Password);
 
             GetElementById("submitButton").Click();
+        }
+
+        public bool TestLoginCredentials() {
+            HandleLogIn();
+            WaitForPageLoad();
+
+            if (CheckIfIdExists("errorText")) {
+                return false;
+            }
+
+            if (CheckIfClassExists("educator")) {
+                return true;
+            }
+
+            return false;
+        }
+
+        public List<StudentGrade> FetchGrades() {
+            List<StudentGrade> grades = new List<StudentGrade>();
+
+            WaitForPageLoad();
+
+            foreach (IWebElement item in GetElementsByClassName("studyplanning-unit")) {
+                StudentGrade grade = new StudentGrade();
+
+                grade.CourseName = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.ClassName("btn-link")).Text;
+                grade.CourseCode = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.TagName("small")).Text;
+                grade.ECs = item.FindElement(By.ClassName("exam-unit-workload-amount")).Text;
+                grade.Semester = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[0].FindElement(By.TagName("dd")).Text;
+                grade.TestDate = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[1].FindElement(By.TagName("dd")).Text;
+                grade.Grade = item.FindElement(By.ClassName("grade")).Text.Split("\n")[0];
+
+                grades.Add(grade);
+            }
+
+            return grades;
         }
     }
 }

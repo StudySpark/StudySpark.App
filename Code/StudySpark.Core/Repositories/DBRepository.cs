@@ -44,9 +44,49 @@ namespace StudySpark.Core.Repositories {
 
             SqliteCommand sqlite_cmd;
             sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"INSERT OR REPLACE INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
+            sqlite_cmd.CommandText = $"INSERT INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
             sqlite_cmd.ExecuteNonQuery();
             return true;
+        }
+
+        public void CreateUser(string username, string password) {
+            byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
+            byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
+
+            string encryptedString = Encryption.EncryptString(password, key, iv);
+
+            string deletesql = "DELETE FROM Users;";
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            deleteCmd.ExecuteNonQuery();
+
+            string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
+            SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
+            insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
+            insertSQL.Parameters.Add(new SqliteParameter("@Password", encryptedString));
+            try {
+                insertSQL.ExecuteNonQuery();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public GenericUser? GetUser() {
+            byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
+            byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
+
+            string query = "SELECT * FROM Users";
+            SqliteCommand cmd = new SqliteCommand(query, conn);
+            try {
+                SqliteDataReader reader = cmd.ExecuteReader();
+                GenericUser user = new GenericUser();
+                while (reader.Read()) {
+                    user.Username = reader.GetString(0);
+                    user.Password = Encryption.DecryptString(reader.GetString(1), key, iv);
+                }
+                return user;
+            } catch {
+                return null;
+            }
         }
 
         public bool InsertGitData(string fullpath, string type) {
@@ -129,6 +169,21 @@ namespace StudySpark.Core.Repositories {
                 repos.Add(repo);
             }
             return repos;
+        }
+
+        public void ClearGradesData() {
+            string deletesql = "DELETE FROM Grades;";
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            deleteCmd.ExecuteNonQuery();
+        }
+
+        public bool DeleteFileData(string path, string targetname)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = $"DELETE FROM FileTable WHERE path = '{path}' AND targetname = '{targetname}'; ";
+            sqlite_cmd.ExecuteNonQuery();
+            return true;
         }
     }
 }

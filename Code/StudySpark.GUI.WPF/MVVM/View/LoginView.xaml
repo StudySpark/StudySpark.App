@@ -16,66 +16,174 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="3*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Column="1" Grid.Row="1" Fill="Transparent" RadiusX="10" RadiusY="10" Stroke="LightGray" StrokeThickness="2"/>
-        <Label Content="StudySpark" Foreground="LightGray" Grid.Column="1" Grid.Row="1"/>
+        <Rectangle Grid.Column="1"
+                   Grid.Row="1"
+                   Fill="Transparent"
+                   RadiusX="10"
+                   RadiusY="10"
+                   Stroke="LightGray"
+                   StrokeThickness="2"/>
+        <Label Content="Windesheim Educator login"
+               Foreground="LightGray"
+               Grid.Row="1"
+               Grid.ColumnSpan="3"
+               Margin="233,0,233,221"
+               HorizontalContentAlignment="Center"
+               FontWeight="Bold"
+               FontSize="16" />
 
         <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1.3*"/>
-                <RowDefinition Height="1.3*"/>
-                <RowDefinition Height="0.6*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="0.6*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Label Content="Welcome" Foreground="LightGray" Grid.Column="1" Grid.Row="1" FontWeight="SemiBold"/>
-            <Label Content="Email" Foreground="LightGray" Grid.Column="1" Grid.Row="2" Padding="0, 0, 0 0"/>
-            <Border BorderBrush="LightGray"
-                BorderThickness="1"
-                VerticalAlignment="Center"
-                CornerRadius="5" Grid.Column="1" Grid.Row="3">
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <Image Source="../../Images/user.png" Height="18"/>
-                    <TextBox Text="{Binding Username }" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
-                    <Image Source="../../Images/info.png" Height="18"/>
-                </StackPanel>
-            </Border>
-            <Label Content="Password"  Foreground="LightGray" Grid.Column="1" Grid.Row="4" Padding="0, 0, 0 0"/>
-            <Border BorderBrush="LightGray"
-                BorderThickness="1"
-                VerticalAlignment="Center"
-                CornerRadius="5" Grid.Column="1" Grid.Row="5">
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <Image Source="../../Images/key.png" Height="18"/>
-                    <PasswordBox  x:Name="passwordBox" IsTabStop="False" Focusable="False" Background="Transparent" Foreground="LightGray" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="3 0 0 0" Width="100"/>
 
-                    
-                    <TextBox Text="{Binding Password}" TextChanged="TextBox_TextChanged" Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" SelectionBrush="Transparent" Margin="-100 0 0 0" Width="100"/>
+            <Grid x:Name="TestConnection"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Visibility="Collapsed">
+                <Label Content="        Even geduld A.U.B.&#x0a;De verbinding wordt getest."
+                       Foreground="LightGray"
+                       Padding="0,5,0,0"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       FontWeight="SemiBold" />
+            </Grid>
 
-                    <Image Source="../../Images/info.png" Height="18" />
-                </StackPanel>
-            </Border>
-            <Border BorderBrush="LightGray"
-                BorderThickness="1"
-                VerticalAlignment="Center"
-                CornerRadius="5" Grid.Column="1" Grid.Row="7">
-                <Button Content="Login" HorizontalAlignment="Center" Background="Transparent" Foreground="LightGray" Command="{ Binding LoginCommand }" BorderBrush="Transparent" Margin="3 0 0 0" Width="100"/>
-            </Border>
+            <Grid x:Name="LoginFailed"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Visibility="Collapsed">
+                <Label Content="   Connectie met educator mislukt!&#x0a;Controlleer de ingevoerde gegevens."
+                       Foreground="#FFCE5151"
+                       Padding="0,5,0,0"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       FontWeight="SemiBold" Margin="0,187,0,-9" />
+            </Grid>
+
+            <Grid x:Name="LoginGrid"
+                  Grid.Row="0"
+                  Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="Welcome"
+                       Foreground="LightGray"
+                       Padding="0,5,0,0"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       FontWeight="SemiBold"/>
+                <Label Content="Email"
+                       Foreground="LightGray"
+                       Grid.Column="1"
+                       Grid.Row="2"
+                       Padding="0, 0, 0, 0"/>
+                <Border BorderBrush="LightGray"
+                        BorderThickness="1"
+                        VerticalAlignment="Center"
+                        CornerRadius="5"
+                        Grid.Column="1"
+                        Grid.Row="3">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="18"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Images/user.png" Height="18"/>
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding Username }"
+                                 Background="Transparent"
+                                 Foreground="LightGray"
+                                 BorderBrush="Transparent"
+                                 SelectionBrush="Transparent"
+                                 Margin="0 0 0 0"/>
+                        <Button Grid.Column="2"
+                                Background="#00DDDDDD"
+                                BorderBrush="#00707070"
+                                Foreground="#00000000"
+                                Padding="0"
+                                Click="Button_HelpEmail_Click">
+                            <Image Source="/Images/info.png" Width="18" Height="18"/>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Label Content="Password"  Foreground="LightGray" Grid.Column="1" Grid.Row="4" Padding="0, 0, 0 0"/>
+                <Border BorderBrush="LightGray"
+                        BorderThickness="1"
+                        VerticalAlignment="Center"
+                        CornerRadius="5"
+                        Grid.Column="1"
+                        Grid.Row="5">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="18"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Images/key.png" Height="18"/>
+                        <PasswordBox Grid.Column="1" x:Name="passwordBox"
+                                     IsTabStop="False"
+                                     Focusable="False"
+                                     Background="Transparent"
+                                     Foreground="LightGray"
+                                     BorderBrush="Transparent"
+                                     SelectionBrush="Transparent"
+                                     Margin="0 0 0 0"/>
+                        <TextBox Grid.Column="1" Text="{Binding Password}"
+                                 TextChanged="TextBox_TextChanged"
+                                 Background="Transparent"
+                                 Foreground="Transparent"
+                                 BorderBrush="Transparent"
+                                 SelectionBrush="Transparent"
+                                 Margin="0 0 0 0"/>
+                        <Button Grid.Column="2"
+                                Background="#00DDDDDD"
+                                BorderBrush="#00707070"
+                                Foreground="#00000000"
+                                Padding="0"
+                                Click="Button_HelpPassword_Click">
+                            <Image Source="/Images/info.png" Width="18" Height="18"/>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Border BorderBrush="LightGray"
+                        BorderThickness="1"
+                        VerticalAlignment="Center"
+                        CornerRadius="5"
+                        Grid.Column="1"
+                        Grid.Row="7">
+                    <Button Content="Login"
+                            HorizontalAlignment="Center"
+                            Background="Transparent"
+                            Foreground="LightGray"
+                            Command="{ Binding LoginCommand }"
+                            BorderBrush="Transparent"
+                            Margin="3 0 0 0"
+                            Style="{StaticResource FileButtonTheme}"
+                            Cursor="Hand"
+                            Width="100" />
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

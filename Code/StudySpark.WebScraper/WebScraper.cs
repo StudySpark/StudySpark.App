@@ -35,9 +35,10 @@ namespace StudySpark.WebScraper {
                 options.AddArgument("--profile-directory=Default");
             }
 
-            driver = new ChromeDriver(options);
+            ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
+            chromeDriverService.HideCommandPromptWindow = true;
 
-            //LoadCookies();
+            driver = new ChromeDriver(chromeDriverService, options);
 
             driver?.Navigate().GoToUrl(scraperOptions?.URL);
         }
@@ -47,66 +48,36 @@ namespace StudySpark.WebScraper {
                 return;
             }
 
-            //SaveCookies();
-
             driver.Close();
         }
 
-        public void WaitForPageLoad(uint timeout = 10) {
+        public void WaitForPageLoad(uint timeout = 30) {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
             wait.Until(ExpectedConditions.ElementExists(By.TagName("body")));
         }
 
-        public IWebElement GetElementById(string element, uint timeout = 10) {
+        public IWebElement GetElementById(string element, uint timeout = 30) {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
             return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(element)));
         }
 
-        public ReadOnlyCollection<IWebElement> GetElementsByClassName(string element, uint timeout = 10) {
+        public ReadOnlyCollection<IWebElement> GetElementsByClassName(string element, uint timeout = 30) {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
             return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName(element)));
         }
 
-        //private void SaveCookies() {
-        //    if (scraperOptions.CookieStorageFilePath.Length == 0 || driver == null) {
-        //        return;
-        //    }
+        public bool CheckIfIdExists(string element) {
+            try {
+                return driver?.FindElement(By.Id(element)) != null;
+            } catch (NoSuchElementException) {
+                return false;
+            }
+        }
 
-        //    // Get the cookies
-        //    var cookies = driver.Manage().Cookies.AllCookies;
-
-        //    // Convert cookies to serializable format
-        //    var serializableCookies = cookies.Select(c => new SerializableCookie(c)).ToList();
-
-        //    // Serialize cookies to a file (e.g., using JSON)
-        //    string cookieJson = Newtonsoft.Json.JsonConvert.SerializeObject(serializableCookies);
-        //    File.WriteAllText(scraperOptions.CookieStorageFilePath, cookieJson);
-        //}
-
-        //private void LoadCookies() {
-        //    if (scraperOptions.CookieStorageFilePath.Length == 0 || driver == null) {
-        //        return;
-        //    }
-
-        //    driver.Manage().Cookies.DeleteAllCookies();
-
-        //    try {
-        //        // Read cookies from the file
-        //        string cookieJson = File.ReadAllText(scraperOptions.CookieStorageFilePath);
-        //        var serializableCookies = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SerializableCookie>>(cookieJson);
-
-        //        // Add cookies to the driver
-        //        if (serializableCookies != null) {
-        //            foreach (var serializableCookie in serializableCookies) {
-        //                driver.Manage().Cookies.AddCookie(serializableCookie.ToCookie());
-        //            }
-        //        }
-        //    } catch (Exception ex) {
-        //        // Handle exceptions (e.g., file not found, invalid JSON, etc.)
-        //        Console.WriteLine($"Error loading cookies: {ex.Message}");
-        //    }
-        //}
+        public bool CheckIfClassExists(string element) {
+            return driver?.FindElements(By.ClassName(element)).Count > 0;
+        }
     }
 }
