@@ -24,5 +24,6 @@
                 Cursor="Hand"
                 Style="{StaticResource RoundButtonTheme}"
                 Command="{Binding OpenRepoSelectCommand}" Height="56" />
+        <Slider x:Name="commitSlider" Minimum="1" Maximum="50" Width="100" Value="{Binding MaxCommitsToShow}" />
     </Grid>
 </UserControl>

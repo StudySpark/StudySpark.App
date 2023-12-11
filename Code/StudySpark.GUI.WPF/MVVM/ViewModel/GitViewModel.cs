@@ -45,6 +45,20 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 _currentRepoList = value;
             }
         }
+        private int _maxCommitsToShow = 10;
+        public int MaxCommitsToShow
+        {
+            get { return _maxCommitsToShow; }
+            set
+            {
+                if (_maxCommitsToShow != value)
+                {
+                    _maxCommitsToShow = value;
+                    OnPropertyChanged(nameof(MaxCommitsToShow));
+                    UpdateOnChange(); // Call the method to update the UI when the value changes
+                }
+            }
+        }
 
         public GitViewModel()
         {
@@ -114,9 +128,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     // Check if there are any commits
                     if (gitRepo.Commits.Any())
                     {
-                        foreach (var commit in gitRepo.Commits)
+                        int commitsToShow = Math.Min(MaxCommitsToShow, gitRepo.Commits.Count());
+
+                        for (int i = 0; i < commitsToShow; i++)
                         {
-                            DisplayCommitInfo(commitListView, repo, commit);
+                            DisplayCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
                         }
                     }
                     else
