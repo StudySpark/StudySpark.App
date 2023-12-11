@@ -13,6 +13,7 @@
         <viewModel:FilesViewModel/>
     </UserControl.DataContext>
 
+
     <UserControl.Resources>
         <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <core:VisibilityMultiConverter x:Key="VisibilityMultiConverter" />

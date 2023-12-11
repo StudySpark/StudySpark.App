@@ -22,7 +22,6 @@
                                        FontSize="{TemplateBinding FontSize}"
                                        Height="40"/>
                         </Border>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

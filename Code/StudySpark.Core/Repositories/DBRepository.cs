@@ -20,123 +20,25 @@ namespace StudySpark.Core.Repositories {
     // Collection of logic-methods
     // for the SQLite DB
     public class DBRepository {
-        private SqliteConnection conn;
-        public DBRepository() {
-            try {
-                // Create a new database connection:
-                SqliteConnection sqlite_conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
-                // Open the connection:
-                sqlite_conn.Open();
-                this.conn = sqlite_conn;
+        private static SqliteConnection conn;   
+        public static SqliteConnection Conn {
+            get {
+                if (conn == null)
+                {
+                    conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
+                    conn.Open();
 
-                CreateFileTable();
-                CreateGradesTable();
-                CreateUsersTable();
-                CreateGitTable();
-            } catch (Exception ex) { }
-        }
-
-        private void CreateFileTable() {
-            if (this.conn == null) {
-                return;
-            }
-
-            SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS FileTable (id INT, path VARCHAR(256), targetname VARCHAR(64), type VARCHAR(32), image VARCHAR(64))";
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = Createsql;
-            sqlite_cmd.ExecuteNonQuery();
-        }
-
-        private void CreateGradesTable() {
-            if (this.conn == null) {
-                return;
-            }
-
-            SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS Grades (coursename VARCHAR(64), coursecode VARCHAR(64) PRIMARY KEY, testdate VARCHAR(32), semester VARCHAR(32), ecs INT, grade VARCHAR(5))";
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = Createsql;
-            sqlite_cmd.ExecuteNonQuery();
-        }
-
-        private void CreateUsersTable() {
-            if (this.conn == null) {
-                return;
-            }
-            SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS Users (username VARCHAR(256), password VARCHAR(64))";
-
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = Createsql;
-            sqlite_cmd.ExecuteNonQuery();
-        }
-
-        private void CreateGitTable() {
-            if (this.conn == null) {
-                return;
-            }
-
-            SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS GitTable (id INT, path VARCHAR(256), targetname VARCHAR(64), type VARCHAR(32))";
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = Createsql;
-            sqlite_cmd.ExecuteNonQuery();
-        }
-
-        public bool InsertFileData(string fullpath, string extension) {
-            string type = "";
-            string image = "";
-
-            extension = extension.ToLower();
-
-            if (extension == "docx") {
-                type = "WordFile";
-                image = "Word.png";
-            } else if (extension == "pptx") {
-                type = "PowerPoint";
-                image = "PowerPoint.png";
-            } else if (extension == "xlsx") {
-                type = "ExcelSheet";
-                image = "Excel.png";
-            } else {
-                type = "File";
-                image = "FileIcon.png";
-            }
-
-            bool result = InsertFileData(fullpath, type, image);
-            return result;
-            
-        }
-
-        public bool InsertFileData(string fullpath, string type, string image) {
-            if (this.conn == null) {
-                return false;
-            }
-
-            int pos = fullpath.LastIndexOf('\\') + 1;
-            fullpath = new FileInfo(fullpath).ToString();
-
-            string path = fullpath.Substring(0, pos - 1);
-            string targetname = fullpath.Substring(pos);
-
-            List<GenericFile> files = ReadFileData();
-            foreach (GenericFile file in files) {
-                if ((file.TargetName).Equals(targetname)) {
-                    return false;
+                    string command = File.ReadAllText("initDB.txt");
+                    SqliteCommand sqlite_cmd = conn.CreateCommand();
+                    sqlite_cmd.CommandText = command;
+                    sqlite_cmd.ExecuteNonQuery();
                 }
+                return conn;
             }
-
-            SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
-            sqlite_cmd.ExecuteNonQuery();
-            return true;
-
         }
 
         public bool InsertGrade(GradeElement gradeElement) {
-            if (this.conn == null) {
+            if (Conn == null) {
                 return false;
             }
 
@@ -188,7 +90,7 @@ namespace StudySpark.Core.Repositories {
         }
 
         public bool InsertGitData(string fullpath, string type) {
-            if (this.conn == null) {
+            if (Conn == null) {
                 return false;
             }
 
@@ -213,34 +115,10 @@ namespace StudySpark.Core.Repositories {
 
         }
 
-        public List<GenericFile> ReadFileData() {
-            if (this.conn == null) {
-                return new List<GenericFile>();
-            }
-
-            List<GenericFile> files = new List<GenericFile>();
-
-            SqliteDataReader reader;
-            SqliteCommand sqlite_cmd;
-
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM FileTable";
-
-            reader = sqlite_cmd.ExecuteReader();
-            while (reader.Read()) {
-                string dbPath = reader.GetString("path");
-                string dbTargetName = reader.GetString("targetname");
-                string dbType = reader.GetString("type");
-                string dbImage = reader.GetString("image");
-
-                GenericFile file = new GenericFile(1, dbPath, dbTargetName, dbType, dbImage);
-                files.Add(file);
-            }
-            return files;
-        }
+        
 
         public List<GradeElement> ReadGradesData() {
-            if (this.conn == null) {
+            if (Conn == null) {
                 return new List<GradeElement>();
             }
 
@@ -269,7 +147,7 @@ namespace StudySpark.Core.Repositories {
         }
 
         public List<GenericGit> ReadGitData() {
-            if (this.conn == null) {
+            if (Conn == null) {
                 return new List<GenericGit>();
             }
 
