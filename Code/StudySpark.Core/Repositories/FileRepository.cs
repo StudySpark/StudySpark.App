@@ -18,38 +18,101 @@ namespace StudySpark.Core.Repositories
     // for the SQLite DB
     public class FileRepository
     {
-        private SqliteConnection conn;
-        public FileRepository()
+        public bool InsertFileData(string fullpath, string type, string image)
         {
-            try
+            if (DBRepository.Conn == null)
             {
-                // Create a new database connection:
-                SqliteConnection sqlite_conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
-                // Open the connection:
-                sqlite_conn.Open();
-                this.conn = sqlite_conn;
-                CreateTable();
+                return false;
             }
-            catch (Exception ex) { }
-        }
 
-        private void CreateTable()
-        {
-            if (this.conn == null)
+            int pos = fullpath.LastIndexOf('\\') + 1;
+            fullpath = new FileInfo(fullpath).ToString();
+
+            string path = fullpath.Substring(0, pos - 1);
+            string targetname = fullpath.Substring(pos);
+
+            List<GenericFile> files = ReadFileData();
+            foreach (GenericFile file in files)
             {
-                return;
+                if ((file.TargetName).Equals(targetname))
+                {
+                    return false;
+                }
             }
 
             SqliteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE IF NOT EXISTS FileTable (id INT, path VARCHAR(256), targetname VARCHAR(64), type VARCHAR(32), image VARCHAR(64))";
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = Createsql;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = $"INSERT INTO Files (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
+            return true;
+
+        }
+
+        public bool InsertData(string fullpath, string extension)
+        {
+            string type = "";
+            string image = "";
+
+            extension = extension.ToLower();
+
+            if (extension == "docx")
+            {
+                type = "WordFile";
+                image = "Word.png";
+            }
+            else if (extension == "pptx")
+            {
+                type = "PowerPoint";
+                image = "PowerPoint.png";
+            }
+            else if (extension == "xlsx")
+            {
+                type = "ExcelSheet";
+                image = "Excel.png";
+            } 
+            else
+            {
+                type = "File";
+                image = "FileIcon.png";
+            }
+
+            bool result = InsertData(fullpath, type, image);
+            return result;
+            
+        }
+        public List<GenericFile> ReadFileData()
+        {
+
+            if (DBRepository.Conn == null)
+            {
+                return new List<GenericFile>();
+            }
+
+            List<GenericFile> files = new List<GenericFile>();
+
+            SqliteDataReader reader;
+            SqliteCommand sqlite_cmd;
+
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM Files";
+
+            reader = sqlite_cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string dbPath = reader.GetString("path");
+                string dbTargetName = reader.GetString("targetname");
+                string dbType = reader.GetString("type");
+                string dbImage = reader.GetString("image");
+
+                GenericFile file = new GenericFile(1, dbPath, dbTargetName, dbType, dbImage);
+                files.Add(file);
+            }
+            return files;
         }
 
         public bool InsertData(string fullpath, string type, string image)
         {
-            if (this.conn == null)
+            if (DBRepository.Conn == null)
             {
                 return false;
             }
@@ -70,8 +133,8 @@ namespace StudySpark.Core.Repositories
             }
 
             SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"INSERT INTO FileTable (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = $"INSERT INTO Files(path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
 
@@ -79,7 +142,7 @@ namespace StudySpark.Core.Repositories
 
         public List<GenericFile> ReadData()
         {
-            if (this.conn == null)
+            if (DBRepository.Conn == null)
             {
                 return new List<GenericFile>();
             }
@@ -89,8 +152,8 @@ namespace StudySpark.Core.Repositories
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
 
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM FileTable";
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM Files";
 
             reader = sqlite_cmd.ExecuteReader();
             while (reader.Read())

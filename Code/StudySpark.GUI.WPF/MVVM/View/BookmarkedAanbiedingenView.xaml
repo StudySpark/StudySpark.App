@@ -7,8 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock FontSize="200" Foreground="White">
-            BOOKAMRKAED
-        </TextBlock>
+        <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ContentControl
+            Content="{Binding AlleBookmarks}"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>

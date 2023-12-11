@@ -12,13 +12,13 @@ using Application = System.Windows.Application;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class MainViewModel : ObservableObject {
-        
 
         public RelayCommand OverviewViewCommand { get; set; }
         public RelayCommand NotesViewCommand { get; set; }
         public RelayCommand FilesViewCommand { get; set; }
         public RelayCommand TimelineViewCommand { get; set; }
         public RelayCommand ScheduleViewCommand { get; set; }
+        public RelayCommand GradesViewCommand { get; set; }
         public RelayCommand GitViewCommand { get; set; }
         public RelayCommand BierViewCommand { get; set; }
         public RelayCommand OpenSettingsCommand { get; set; }
@@ -31,9 +31,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public NotesViewModel NotesVM { get; set; }
         public FilesViewModel FilesVM { get; set; }
         public ScheduleViewModel ScheduleVM { get; set; }
+        public GradesViewModel GradesVM { get; set; }
         public GitViewModel GitVM { get; set; }
         public BierAanbiedingenViewModel BierVM { get; set; }
         public TimelineViewModel TimelineVM { get; set; }
+        public LoginViewModel LoginVM { get; set; }
 
         private object _currentView;
 
@@ -54,10 +56,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             NotesVM = new NotesViewModel();
             FilesVM = new FilesViewModel();
             ScheduleVM = new ScheduleViewModel();
+            GradesVM = new GradesViewModel();
             GitVM = new GitViewModel();
             TimelineVM = new TimelineViewModel();
+            LoginVM = new LoginViewModel();
             BierVM = new BierAanbiedingenViewModel();
-
 
             CurrentView = OverviewVM;
 
@@ -80,7 +83,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             ScheduleViewCommand = new RelayCommand(o => {
                 CurrentView = ScheduleVM;
             });
-            
+
+            GradesViewCommand = new RelayCommand(o => {
+                CurrentView = GradesVM;
+            });
+
             GitViewCommand = new RelayCommand(o => {
                 CurrentView = GitVM;
             });
@@ -114,7 +121,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 }
             }
         }
-
         private void CloseWindow() {
             if (Application.Current.MainWindow != null) {
                 Application.Current.MainWindow.Close();

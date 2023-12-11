@@ -1,11 +1,11 @@
-﻿using System;
+﻿using StudySpark.GUI.WPF.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -16,20 +16,12 @@ using System.Windows.Shapes;
 
 namespace StudySpark.GUI.WPF.MVVM.View {
     /// <summary>
-    /// Interaction logic for DiscoveryView.xaml
+    /// Interaction logic for GradesView.xaml
     /// </summary>
-    public partial class FilesView : UserControl {
-        public FilesView() {
+    public partial class GradesView : UserControl {
 
+        public GradesView() {
             InitializeComponent();
-            SizeChanged += UserControl_SizeChanged;
-
-        }
-
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            // Update the folderPanel width when the size changes
-            FilesControl.Width = e.NewSize.Width;
         }
     }
 }

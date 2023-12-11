@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -14,22 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StudySpark.GUI.WPF.MVVM.View {
+namespace StudySpark.GUI.WPF.MVVM.View
+{
     /// <summary>
-    /// Interaction logic for DiscoveryView.xaml
+    /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class FilesView : UserControl {
-        public FilesView() {
-
-            InitializeComponent();
-            SizeChanged += UserControl_SizeChanged;
-
-        }
-
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+    public partial class LoginView : UserControl
+    {
+        public LoginView()
         {
-            // Update the folderPanel width when the size changes
-            FilesControl.Width = e.NewSize.Width;
+            InitializeComponent();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            passwordBox.Password = (sender as TextBox).Text;
+        }
+
+    
     }
 }

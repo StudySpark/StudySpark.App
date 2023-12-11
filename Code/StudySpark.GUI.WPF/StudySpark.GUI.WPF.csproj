@@ -10,7 +10,9 @@
 
   <ItemGroup>
     <None Remove="Images\Amstel.png" />
+    <None Remove="Images\bookmark.png" />
     <None Remove="Images\DirectoryIcon.png" />
+    <None Remove="Images\Excel.png" />
     <None Remove="Images\FileIcon.png" />
     <None Remove="Images\Grolsch.png" />
     <None Remove="Images\Heineken.png" />
@@ -19,7 +21,16 @@
     <None Remove="Images\Logo_NoText.png" />
 	<None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
+    <None Remove="Images\PowerPoint.png" />
+    <None Remove="Images\Trash_Bin.png" />
+    <None Remove="Images\Word.png" />
     <None Remove="Logo_NoText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\bookmark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +44,7 @@
   <ItemGroup>
     <Resource Include="Images\Amstel.png" />
     <Resource Include="Images\DirectoryIcon.png" />
+    <Resource Include="Images\Excel.png" />
     <Resource Include="Images\FileIcon.png" />
     <Resource Include="Images\Grolsch.png" />
     <Resource Include="Images\Heineken.png" />
@@ -41,6 +53,9 @@
     <Resource Include="Images\Logo_NoText.png" />
 	<Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
+    <Resource Include="Images\PowerPoint.png" />
+    <Resource Include="Images\Trash_Bin.png" />
+    <Resource Include="Images\Word.png" />
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
 

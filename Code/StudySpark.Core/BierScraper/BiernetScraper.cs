@@ -118,7 +118,7 @@ namespace StudySpark.Core.BierScraper
             //GET THE PRODUCT INFORMATION (NAME AND LOWEST PRICE) -- PER PRODUCT
             ReadOnlyCollection<IWebElement> ProductInformation = mobielDiv.FindElements(By.ClassName("ppc_text_verpakking"));
 
-            
+
 
 
 
@@ -158,9 +158,10 @@ namespace StudySpark.Core.BierScraper
                     try
                     {
                         storeImages[i].Add(winkelsInformation[j].FindElement(By.ClassName("PakketFoto")));
-                    } catch (Exception e) { }
-                   
-                    
+                    }
+                    catch (Exception e) { }
+
+
                 }
             }
 
