@@ -306,9 +306,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         {
                             String fileName = fileIDs[ID].ToString();
                             DBConnector.Database.DeleteFileData(folderPath, fileName);
+                            UpdateOnChange();
                         }
-                        catch (Exception exc) 
-                        { }
+                        catch (Exception exc)
+                        {
+                            System.Windows.MessageBox.Show($"An error occured: {exc.ToString()}");
+                        }
                     }
                 }
             }

@@ -180,8 +180,8 @@ namespace StudySpark.Core.Repositories {
         public bool DeleteFileData(string path, string targetname)
         {
             SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"DELETE FROM FileTable WHERE path = '{path}' AND targetname = '{targetname}'; ";
+            sqlite_cmd = Conn.CreateCommand();
+            sqlite_cmd.CommandText = $"DELETE FROM Files WHERE path = '{path}' AND targetname = '{targetname}'; ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
         }
