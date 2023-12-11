@@ -73,10 +73,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void UpdateOnChange(object? sender, EventArgs e) {
-            Application.Current.Dispatcher.InvokeAsync(() => {
-                UpdateOnChange();
-                //Application.Current.MainWindow.UpdateLayout();
-            });
+            Debug.WriteLine("// TODO");
+            //Application.Current.Dispatcher.InvokeAsync(() => {
+            //    UpdateOnChange();
+            //    //Application.Current.MainWindow.UpdateLayout();
+            //});
         }
 
         private void UpdateOnChange() {
