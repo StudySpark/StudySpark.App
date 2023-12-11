@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Images\DirectoryIcon.png" />
     <None Remove="Images\Excel.png" />
+    <None Remove="Images\ExclamationMark.png" />
     <None Remove="Images\FileIcon.png" />
     <None Remove="Images\Icon_VS.png" />
     <None Remove="Images\info.png" />
@@ -21,6 +22,7 @@
     <None Remove="Images\man.png" />
     <None Remove="Images\PowerPoint.png" />
     <None Remove="Images\user.png" />
+    <None Remove="Images\Trash_Bin.png" />
     <None Remove="Images\Word.png" />
     <None Remove="Logo_NoText.png" />
   </ItemGroup>
@@ -37,6 +39,7 @@
   <ItemGroup>
     <Resource Include="Images\DirectoryIcon.png" />
     <Resource Include="Images\Excel.png" />
+    <Resource Include="Images\ExclamationMark.png" />
     <Resource Include="Images\FileIcon.png" />
     <Resource Include="Images\Icon_VS.png" />
     <Resource Include="Images\info.png" />
@@ -46,6 +49,7 @@
 	  <Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
     <Resource Include="Images\PowerPoint.png" />
+    <Resource Include="Images\Trash_Bin.png" />
     <Resource Include="Images\Word.png" />
     <Resource Include="Images\user.png" />
     <Resource Include="Logo_NoText.png" />
