@@ -76,7 +76,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             foreach (GenericFile file in files)
             {
-                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileToggleButtonTheme");
+                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
                 Grid folderGrid = new Grid();
                 folderGrid.RowDefinitions.Add(new RowDefinition());
@@ -175,7 +175,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 VerticalAlignment = VerticalAlignment.Bottom,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
                 Cursor = System.Windows.Input.Cursors.Hand,
-                Style = (Style)System.Windows.Application.Current.TryFindResource("RoundButtonTheme"),
+                Style = (Style)System.Windows.Application.Current.TryFindResource("RoundToggleButtonTheme"),
                 Visibility = Visibility.Collapsed
             };
 
