@@ -31,14 +31,29 @@ namespace StudySpark.GUI.WPF.MVVM.View {
 
             LoginViewModel.ViewDataChangeEvent += OnViewChangeEvent;
 
+            LoginViewModel.FormResetErrorsEvent += ((object? sender, EventArgs a) => {
+                EmailRequiredText.Visibility = Visibility.Hidden;
+                PasswordRequiredText.Visibility = Visibility.Hidden;
+            });
+
+            LoginViewModel.FormMissingEmailEvent += ((object? sender, EventArgs a) => {
+                EmailRequiredText.Visibility = Visibility.Visible;
+            });
+
+            LoginViewModel.FormMissingPasswordEvent += ((object? sender, EventArgs a) => {
+                PasswordRequiredText.Visibility = Visibility.Visible;
+            });
+
 
             LoginGrid.Visibility = Visibility.Visible;
             TestConnection.Visibility = Visibility.Hidden;
             LoginFailed.Visibility = Visibility.Hidden;
+            EmailRequiredText.Visibility = Visibility.Hidden;
+            PasswordRequiredText.Visibility = Visibility.Hidden;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            passwordBox.Password = (sender as TextBox).Text;
+            passwordBox.Password = (sender as TextBox)?.Text;
         }
 
         private void OnViewChangeEvent(object? sender, LoginViewEventArgs ea) {

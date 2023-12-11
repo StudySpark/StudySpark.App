@@ -19,6 +19,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class LoginViewModel : ObservableObject {
         public delegate void LoginViewEventHandler(object sender, LoginViewEventArgs e);
         public static event LoginViewEventHandler? ViewDataChangeEvent;
+        public static event EventHandler? FormResetErrorsEvent, FormMissingEmailEvent, FormMissingPasswordEvent;
 
         private string username;
 
@@ -55,13 +56,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         public void LoginUser() {
-            if (string.IsNullOrEmpty(username)) {
-                MessageBox.Show("E-mail is vereist");
-                return;
-            }
+            FormResetErrorsEvent?.Invoke(this, EventArgs.Empty);
 
-            if (string.IsNullOrEmpty(password)) {
-                MessageBox.Show("Wachtwoord is vereist");
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
+                if (string.IsNullOrEmpty(username)) {
+                    FormMissingEmailEvent?.Invoke(this, EventArgs.Empty);
+                }
+
+                if (string.IsNullOrEmpty(password)) {
+                    FormMissingPasswordEvent?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
                 return;
             }
 

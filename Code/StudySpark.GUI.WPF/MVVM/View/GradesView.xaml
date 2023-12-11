@@ -19,6 +19,73 @@
     </UserControl.DataContext>
 
     <Grid>
+        <Grid Grid.Row="0"
+              x:Name="NotLoggedInMessage"
+              Width="700"
+              Height="424"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom">
+            <Label Content="Je bent niet ingelogd!"
+                   Width="454"
+                   Height="212"
+                   Foreground="#FFC7C7C7"
+                   FontSize="20"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
+            <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-56.889"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Grid>
+
+        <Grid Grid.Row="0"
+              x:Name="InvalidCredentialsMessage"
+              Width="700"
+              Height="424"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom">
+            <Label Content="Je account-gegevens zijn onjuist!"
+                   Width="552"
+                   Height="212"
+                   Foreground="#FFC7C7C7"
+                   FontSize="20"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
+            <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-56.889"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Grid>
+
+        <Grid Grid.Row="0"
+              x:Name="LoadingMessage"
+              Width="700"
+              Height="424"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom">
+            <Label Content="      Even geduld A.U.B.&#x0a;Educator wordt voorbereid."
+                   Width="700"
+                   Height="424"
+                   Foreground="#FFC7C7C7"
+                   FontSize="20"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        </Grid>
+
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
               VerticalScrollBarVisibility="Auto">
 
@@ -30,73 +97,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-
-                <Grid Grid.Row="0"
-                      x:Name="NotLoggedInMessage"
-                      Width="700"
-                      Height="424"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Bottom">
-                    <Label Content="Je bent niet ingelogd!"
-                           Width="454"
-                           Height="212"
-                           Foreground="#FFC7C7C7"
-                           FontSize="20"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Bottom"/>
-                    <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
-                        <Rectangle.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-56.889"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
-                </Grid>
-
-                <Grid Grid.Row="0"
-                      x:Name="InvalidCredentialsMessage"
-                      Width="700"
-                      Height="424"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Bottom">
-                    <Label Content="Je account-gegevens zijn onjuist!"
-                           Width="552"
-                           Height="212"
-                           Foreground="#FFC7C7C7"
-                           FontSize="20"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Bottom"/>
-                    <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
-                        <Rectangle.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-56.889"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
-                </Grid>
-
-                <Grid Grid.Row="0"
-                      x:Name="LoadingMessage"
-                      Width="700"
-                      Height="424"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Bottom">
-                    <Label Content="     Even geduld A.U.B.&#x0a;Educator wordt voorbereid."
-                           Width="700"
-                           Height="424"
-                           Foreground="#FFC7C7C7"
-                           FontSize="20"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Center"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                </Grid>
 
                 <StackPanel x:Name="GradesItemControl">
                     <ItemsControl ItemsSource="{Binding GradeViewElements}">

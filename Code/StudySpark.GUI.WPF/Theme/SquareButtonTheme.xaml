@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}" x:Key="RoundToggleButtonTheme">
+    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}" x:Key="SquareButtonTheme">
         <Style.Setters>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
+                    <ControlTemplate TargetType="Button">
 
-                        <Border CornerRadius="50,50,50,50" >
+                        <Border CornerRadius="5">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
                                     <GradientStop Color="#FFCEA204" Offset="1" />
@@ -19,9 +19,7 @@
                                        VerticalAlignment="Center"
                                        Foreground="White"
                                        FontFamily="Ubuntu"
-                                       Margin="{TemplateBinding Padding}"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       Height="{TemplateBinding Height}"/>
+                                       FontSize="{TemplateBinding FontSize}"/>
                         </Border>
 
                     </ControlTemplate>
