@@ -102,13 +102,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 // Create a new instance of a StackPanel for each repository
                 StackPanel repositoryBar = new StackPanel();
                 repositoryBar.Orientation = Orientation.Horizontal;
-                repositoryBar.Background = Brushes.DarkGray; // Set background color as needed
+                repositoryBar.Background = Brushes.DarkGray;
+                repositoryBar.Margin= new Thickness(0, 25, 0, 0);
 
                 // Add TextBlock with repository name to the bar
                 TextBlock repoNameTextBlock = new TextBlock();
-                repoNameTextBlock.Text = repo.TargetName; // Set repository name
-                repoNameTextBlock.Foreground = Brushes.White; // Set text color as needed
-                repoNameTextBlock.Margin = new Thickness(10, 5, 10, 5); // Set margins as needed
+                repoNameTextBlock.Text = repo.TargetName;
+                repoNameTextBlock.Foreground = Brushes.White;
+                repoNameTextBlock.Margin = new Thickness(10, 5, 10, 5);
 
                 repositoryBar.Children.Add(repoNameTextBlock);
 
