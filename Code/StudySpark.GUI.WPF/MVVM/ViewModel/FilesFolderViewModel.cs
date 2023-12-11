@@ -76,7 +76,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             foreach (GenericFile file in files)
             {
-                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
+                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileToggleButtonTheme");
 
                 Grid folderGrid = new Grid();
                 folderGrid.RowDefinitions.Add(new RowDefinition());
