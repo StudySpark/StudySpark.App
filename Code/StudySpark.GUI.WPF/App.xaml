@@ -15,8 +15,6 @@
                 <ResourceDictionary Source="Theme/FileButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/ScrollViewTheme.xaml" />
                 <ResourceDictionary Source="Theme/RoundButtonTheme.xaml" />
-                <ResourceDictionary Source="Theme/RoundToggleButtonTheme.xaml" />
-                <ResourceDictionary Source="Theme/StackPanelBorderTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:OverviewViewModel}">
@@ -38,11 +36,7 @@
             <DataTemplate DataType="{x:Type viewModel:ScheduleViewModel}">
                 <view:ScheduleView/>
             </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewModel:GradesViewModel}">
-                <view:GradesView/>
-            </DataTemplate>
-
+            
             <DataTemplate DataType="{x:Type viewModel:GitViewModel}">
                 <view:GitView/>
             </DataTemplate>
@@ -58,9 +52,7 @@
             <DataTemplate DataType="{x:Type viewModel:FilesFolderViewModel}">
                 <view:FilesFolderView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
-                <view:LoginView/>
-            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModel:BierAanbiedingenViewModel}">
                 <view:BierAanbiedingenView/>
             </DataTemplate>
@@ -80,6 +72,11 @@
             <DataTemplate DataType="{x:Type viewModel:VerlopenBierAanbiedingenViewModel}">
                 <view:VerlopenBierAanbiedingenView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:BierFilterViewModel}">
+                <view:BierFilterView/>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
