@@ -25,7 +25,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
     public class FilesFolderViewModel : ObservableObject
     {
         private object _currentFolderList;
-        
+        private FileRepository fileRepository = new FileRepository();
         public RelayCommand OpenFolderSelectCommand { get; private set; }
 
         public RelayCommand OpenFileSelectCommand { get; private set; }
@@ -69,7 +69,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private void UpdateOnChange()
         {
-            files = DBConnector.Database.ReadFileData();
+            files = fileRepository.ReadFileData();
             folderPanel.Children.Clear();
             fileIDs.Clear();
             int fileID = 0;
@@ -414,7 +414,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    bool result = DBConnector.Database.InsertFileData(path, ext);
+                    bool result = fileRepository.InsertData(path, ext);
                     if (!result)
                     {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");
@@ -443,7 +443,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 string path = fbd.SelectedPath;
                 if (!string.IsNullOrEmpty(path))
                 {
-                    bool result = DBConnector.Database.InsertFileData(path, "folder", "DirectoryIcon.png");
+                    bool result = fileRepository.InsertFileData(path, "folder", "DirectoryIcon.png");
                     if (!result)
                     {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");

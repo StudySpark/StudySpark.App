@@ -78,6 +78,10 @@
                 <view:BierFilterView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:GradesViewModel}">
+                <view:GradesView/>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

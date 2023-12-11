@@ -16,7 +16,7 @@ using System.Xml.Linq;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    class BookmarkedAanbiedingenViewModel : ObservableObject
+    public class BookmarkedAanbiedingenViewModel : ObservableObject
     {
         public int IMAGE_WIDTH = 100;
         public int IMAGE_HEIGHT = 100;

@@ -15,7 +15,7 @@ using StudySpark.GUI.WPF.MVVM.View;
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
     
-    class AlleBierAanbiedingenViewModel : ObservableObject
+    public class AlleBierAanbiedingenViewModel : ObservableObject
     {
         private event EventHandler ScraperHasFinished;
 

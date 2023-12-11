@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    class BierAanbiedingenViewModel : ObservableObject
+    public class BierAanbiedingenViewModel : ObservableObject
     {
         public static event EventHandler? BierAanbiedingenClickedEvent;
 
@@ -64,8 +64,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             {
                 CurrentTab = VerlopenVM;
             });
-
-
         }
     }
 }

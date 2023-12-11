@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    class BijnaVerlopenBierAanbiedingenViewModel
+    public class BijnaVerlopenBierAanbiedingenViewModel
     {
     }
 }

@@ -46,8 +46,12 @@ namespace StudySpark.GUI.WPF.Core {
 
         private static GitViewModel? _gitVM;
         public static GitViewModel? GitVM { get { if (_gitVM == null) { _gitVM = new GitViewModel(); } return _gitVM; } set { _gitVM = value; } }
+        
+        
+        private static BierAanbiedingenViewModel? _bierVM;
+        public static BierAanbiedingenViewModel? BierVM { get { if (_bierVM == null) { _bierVM = new BierAanbiedingenViewModel(); } return _bierVM; } set { _bierVM = value; } }
 
-
+       
         private static TimelineViewModel? _timelineVM;
         public static TimelineViewModel? TimelineVM { get { if (_timelineVM == null) { _timelineVM = new TimelineViewModel(); } return _timelineVM; } set { _timelineVM = value; } }
     }

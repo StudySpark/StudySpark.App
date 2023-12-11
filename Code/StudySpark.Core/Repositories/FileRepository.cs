@@ -45,7 +45,6 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.CommandText = $"INSERT INTO Files (path, targetname, type, image) VALUES('{path}', '{targetname}', '{type}', '{image}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
-
         }
 
         public bool InsertData(string fullpath, string extension)

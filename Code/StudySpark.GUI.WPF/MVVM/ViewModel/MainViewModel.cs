@@ -20,6 +20,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand ScheduleViewCommand { get; set; }
         public RelayCommand GradesViewCommand { get; set; }
         public RelayCommand GitViewCommand { get; set; }
+        public RelayCommand BierViewCommand { get; set; }
 
         public RelayCommand MinimizeCommand { get; private set; }
         public RelayCommand MaximizeCommand { get; private set; }
@@ -71,6 +72,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 CurrentView = MainViewManager.GitVM;
             });
 
+            BierViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = MainViewManager.BierVM;
+            });
+                
         }
 
         private void ViewChangeEvent(object? sender, EventArgs e) {
