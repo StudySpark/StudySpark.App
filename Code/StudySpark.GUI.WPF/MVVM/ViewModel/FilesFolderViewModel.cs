@@ -40,8 +40,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private ToggleButton DeleteButton;
 
-        FileRepository repository = new FileRepository();
-
         public object CurrentFolderList
         {
             get
@@ -256,7 +254,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     try
                     {
-                        repository.DeleteData(folderPath, fileName);
+                        DBConnector.Database.DeleteFileData(folderPath, fileName);
                         UpdateOnChange();
                         System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
                     }
@@ -307,7 +305,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         try
                         {
                             String fileName = fileIDs[ID].ToString();
-                            repository.DeleteData(folderPath, fileName);
+                            DBConnector.Database.DeleteFileData(folderPath, fileName);
                         }
                         catch (Exception exc) 
                         { }

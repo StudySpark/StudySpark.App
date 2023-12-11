@@ -298,5 +298,14 @@ namespace StudySpark.Core.Repositories {
             SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
             deleteCmd.ExecuteNonQuery();
         }
+
+        public bool DeleteFileData(string path, string targetname)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = $"DELETE FROM FileTable WHERE path = '{path}' AND targetname = '{targetname}'; ";
+            sqlite_cmd.ExecuteNonQuery();
+            return true;
+        }
     }
 }
