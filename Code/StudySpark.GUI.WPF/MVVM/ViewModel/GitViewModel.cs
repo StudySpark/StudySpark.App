@@ -35,7 +35,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private List<GenericGit> previousRepos;
 
-        private ListView commitListView = new ListView(); // Add ListView
+        private ListView commitListView = new ListView();
 
         public object CurrentRepoList
         {
@@ -58,7 +58,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 {
                     _maxCommitsToShow = value;
                     OnPropertyChanged(nameof(MaxCommitsToShow));
-                    UpdateOnChange(); // Call the method to update the UI when the value changes
+                    UpdateOnChange(); 
                 }
             }
         }

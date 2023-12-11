@@ -8,14 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <!-- Place the ScrollViewer for the content -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <WrapPanel>
                 <ContentControl Margin="10" Width="650" Content="{Binding CurrentRepoList}"/>
             </WrapPanel>
         </ScrollViewer>
 
-        <!-- Place the Button outside the ScrollViewer -->
         <Button Content="➕"
                 Width="58"
                 VerticalAlignment="Bottom"
