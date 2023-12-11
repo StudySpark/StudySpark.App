@@ -59,6 +59,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public void createBookMarkPanel(object? sender, EventArgs e)
         {
             bookmarkPanel.Children.Clear();
+            bookmarkPanel.VerticalAlignment = VerticalAlignment.Top;
+            bookmarkPanel.HorizontalAlignment = HorizontalAlignment.Center;
             List<GenericBeerProduct> bookmarks = beerRepository.getBookMarked();
             int z = 0;
             foreach (GenericBeerProduct bookmark in bookmarks)
@@ -97,7 +99,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Orientation = Orientation.Horizontal,
                 Height = PRODUCT_INFORMATION_HEIGHT,
-                Width = 650,
+                Width = 850,
             };
 
             //IMAGE OF THE PRODUCT
@@ -306,6 +308,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 case 2:
                     name = "Heineken";
                     break;
+                case 3:
+                    name = "Grolsch";
+                    break; 
             }
             BitmapImage image = new BitmapImage(new Uri($"..\\..\\..\\Images\\{name}.png", UriKind.Relative));
             return image;

@@ -120,7 +120,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 else {
                     AllePanel.Children.Clear();
                     AllePanel.VerticalAlignment = VerticalAlignment.Center;
-                    AllePanel.HorizontalAlignment = HorizontalAlignment.Left;
+                    AllePanel.HorizontalAlignment = HorizontalAlignment.Center;
                     for (int z = 0; z < BierList.Count; z++)
                     {
                         string name = "";
@@ -142,10 +142,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         }
                         var displayInfo = new StackPanel();
 
-                        StackPanel info = DisplayInformation(BierList[z], i, z, name);
-                        info.VerticalAlignment = VerticalAlignment.Center;
-                        info.HorizontalAlignment = HorizontalAlignment.Left;    
-                        displayInfo.Children.Add(info);
+                        //StackPanel info = DisplayInformation(BierList[z], i, z, name);
+                        //info.VerticalAlignment = VerticalAlignment.Center;
+                        //info.HorizontalAlignment = HorizontalAlignment.Left;    
+                        //displayInfo.Children.Add(info);
 
 
                         for (int i = 0; i < BierList[z].Count; i++)
@@ -155,7 +155,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                             {
                                 if (FilteredList.Contains(name))
                                 {
-                                    StackPanel info = DisplayInformation(BierList[z], i, z);
+                                    StackPanel info = DisplayInformation(BierList[z], i, z, name);
                                     info.VerticalAlignment = VerticalAlignment.Center;
                                     info.HorizontalAlignment = HorizontalAlignment.Left;
                                     displayInfo.Children.Add(info);
@@ -188,15 +188,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Orientation = Orientation.Vertical,
                 Height = PRODUCT_INFORMATION_HEIGHT + 15,
+                //Width = double.NaN,
             };
 
-            var container = new StackPanel
+            var container = new DockPanel
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Horizontal,
                 Height = PRODUCT_INFORMATION_HEIGHT,
-                Width = 650,
+                Width = 850,
             };
 
             //IMAGE OF THE PRODUCT

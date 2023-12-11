@@ -22,7 +22,6 @@
                                        FontSize="35"
                                        Height="40"/>
                         </Border>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
