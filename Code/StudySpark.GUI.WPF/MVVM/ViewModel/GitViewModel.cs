@@ -16,6 +16,7 @@ using LibGit2Sharp;
 using System.Windows.Controls;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -110,9 +111,25 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 // Display commit information in the ListView
                 using (var gitRepo = new Repository($"{repo.Path}\\{repo.TargetName}"))
                 {
-                    foreach (var commit in gitRepo.Commits)
+                    // Check if there are any commits
+                    if (gitRepo.Commits.Any())
                     {
-                        DisplayCommitInfo(commitListView, repo, commit);
+                        foreach (var commit in gitRepo.Commits)
+                        {
+                            DisplayCommitInfo(commitListView, repo, commit);
+                        }
+                    }
+                    else
+                    {
+                        // If there are no commits, display a message
+                        var noCommitsMessage = new TextBlock
+                        {
+                            Text = "No commits in this repository.",
+                            Foreground = Brushes.Gray,
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center
+                        };
+                        commitListView.Items.Add(noCommitsMessage);
                     }
                 }
 
