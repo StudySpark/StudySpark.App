@@ -1,5 +1,7 @@
-﻿using System;
+﻿using StudySpark.GUI.WPF.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +22,15 @@ namespace StudySpark.GUI.WPF.MVVM.View
     /// </summary>
     public partial class FilesFolderView : UserControl
     {
+
+        private FilesFolderViewModel viewModel;
         public FilesFolderView()
         {
             InitializeComponent();
 
-        }
+            viewModel = new FilesFolderViewModel();
+            DataContext = viewModel;
 
+        }
     }
 }

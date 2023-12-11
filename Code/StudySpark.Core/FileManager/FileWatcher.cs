@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StudySpark.Core.FileManager {
     public class FileWatcher {
@@ -13,23 +14,24 @@ namespace StudySpark.Core.FileManager {
 
         private List<GenericFile> filesToWatch = new List<GenericFile>();
         private bool watcherRunning = false;
-        private Thread watcherThread;
+        private Thread? watcherThread;
         private ManualResetEvent resetEvent = new ManualResetEvent(false);
-
-        int index = 0;
+        private static bool globalStopRequested = false;
+        private Dictionary<string, bool> fileExistsBuffer = new Dictionary<string, bool>();
 
         public FileWatcher() {
             watcherThread = new Thread(Tick);
             watcherRunning = true;
             resetEvent.Set();
-            watcherThread.Start(index);
+            watcherThread.Start();
         }
 
         public void SetFilesToWatch(List<GenericFile> files) {
             watcherRunning = false;
             resetEvent.Reset();
-            watcherThread.Join();
+            watcherThread?.Join();
 
+            fileExistsBuffer.Clear();
             filesToWatch.Clear();
             foreach (var item in files) {
                 filesToWatch.Add(item);
@@ -37,21 +39,33 @@ namespace StudySpark.Core.FileManager {
 
             watcherThread = new Thread(Tick);
             watcherRunning = true;
-            index++;
             resetEvent.Set();
-            watcherThread.Start(index);
+            watcherThread.Start();
         }
 
-        private void Tick(object? i) {
-            int? j = (int)i;
+        private void Tick() {
+            while (watcherRunning && !globalStopRequested) {
+                bool doUpdate = false;
 
-            while (watcherRunning) {
-                Debug.WriteLine("==========");
                 filesToWatch.ForEach(item => {
-                    Debug.WriteLine($"{j}: {item.TargetName}");
+                    string identifier = item.Path + (item.Path.EndsWith("\\") ? "" : "\\") + item.TargetName;
+                    if (!fileExistsBuffer.ContainsKey(identifier)) {
+                        fileExistsBuffer.Add(identifier, File.Exists(identifier));
+                    }
+
+                    if (fileExistsBuffer[identifier] != File.Exists(identifier)) {
+                        fileExistsBuffer[identifier] = File.Exists(identifier);
+                        Debug.WriteLine($">>>>>> {identifier} changed");
+                        doUpdate = true;
+                    }
                 });
-                Debug.WriteLine("==========");
-                Debug.WriteLine("");
+
+                if (doUpdate) {
+                    Thread t = new Thread(() => {
+                        FileChangedOnFSEvent?.Invoke(this, EventArgs.Empty);
+                    });
+                    t.Start();
+                }
 
                 if (!resetEvent.WaitOne(1000)) {
                     break; // Exit the loop if the event is signaled
@@ -59,6 +73,17 @@ namespace StudySpark.Core.FileManager {
 
                 Thread.Sleep(1000);
             }
+        }
+
+        public void Stop() {
+            watcherRunning = false;
+            resetEvent.Reset();
+            watcherThread?.Join();
+            watcherThread = null;
+        }
+
+        public static void GlobalStop() {
+            globalStopRequested = true;
         }
     }
 }

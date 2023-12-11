@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudySpark.Core.FileManager;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,5 +13,10 @@ namespace StudySpark.GUI.WPF {
     /// </summary>
     public partial class App : Application {
 
+        protected override void OnExit(ExitEventArgs e) {
+            FileWatcher.GlobalStop();
+
+            base.OnExit(e);
+        }
     }
 }
