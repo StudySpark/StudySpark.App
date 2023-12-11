@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Images\Amstel.png" />
     <None Remove="Images\bookmark.png" />
+    <None Remove="Images\bookmark_checked.png" />
     <None Remove="Images\DirectoryIcon.png" />
     <None Remove="Images\Excel.png" />
     <None Remove="Images\ExclamationMark.png" />
@@ -47,6 +48,7 @@
 
   <ItemGroup>
     <Resource Include="Images\Amstel.png" />
+    <Resource Include="Images\bookmark_checked.png" />
     <Resource Include="Images\DirectoryIcon.png" />
     <Resource Include="Images\Excel.png" />
     <Resource Include="Images\ExclamationMark.png" />

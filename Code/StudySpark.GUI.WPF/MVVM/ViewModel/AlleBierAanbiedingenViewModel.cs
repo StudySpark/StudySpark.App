@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using StudySpark.Core.BierScraper;
@@ -181,6 +182,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private StackPanel DisplayInformation(List<List<object>> bierInfo, int index, int zIndex, string name)
         {
+            BeerRepository beerRepository = new BeerRepository();
+
             //CREATE RETURN VALUE
             var containerDivider = new StackPanel()
             {
@@ -216,8 +219,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             {
                 Height = IMAGE_HEIGHT,
                 Width = IMAGE_WIDTH,
-                BorderBrush = new SolidColorBrush(Colors.DarkGray),
-                BorderThickness = new Thickness(1),
+                //BorderBrush = new SolidColorBrush(Colors.DarkGray),
+                //BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(10),
             };
             b.Child = logo;
@@ -254,7 +257,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             // Bookmark button
             Image image = new Image();
-            image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark.png", UriKind.Relative));
+            if (beerRepository.checkBookMark(bierInfo[index][0].ToString(), name)) {
+                image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark_checked.png", UriKind.Relative));
+            } else {
+                image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark.png", UriKind.Relative));
+            }
+
+
 
             Button bookmarkBtn = new Button()
             {
@@ -283,6 +292,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         voor = sales[j].ElementAt(0).Value;
                         beerRepository.insertSale(product[0].id, GetStoreImageString(bierInfo, index, j), van, voor);
                     };
+
+                    (bookmarkBtn.Content as Image).Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark_checked.png", UriKind.Relative));
                     // invoke event
                     bookmarkAddedEvent?.Invoke(this, new EventArgs());
                     MessageBox.Show("Bookmark added!");
@@ -394,12 +405,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     CornerRadius = new CornerRadius(10),
                 };
                 b.Child = img; ;
-                   
-                TextBlock t = new TextBlock()
-                {
-                    Text = $"Van: {van}\nVoor: {voor}\n",
-                };
-                t.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
+                TextBlock t = new TextBlock();
+
+                Run run1 = new Run($"{van}\n");
+                run1.Foreground = new SolidColorBrush(Color.FromRgb(255, 160, 160));
+                run1.TextDecorations = TextDecorations.Strikethrough;
+                t.Inlines.Add(run1);
+
+                Run run2 = new Run($"{voor}\n");
+                run2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                t.Inlines.Add(run2);
 
 
                 priceContainer.Children.Add(b);
