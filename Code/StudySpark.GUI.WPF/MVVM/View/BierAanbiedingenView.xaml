@@ -16,8 +16,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <!--<ColumnDefinition/>
+                <ColumnDefinition/>-->
             </Grid.ColumnDefinitions>
             <RadioButton Content="Alle Aanbiedingen"
                 Grid.Column="0"
@@ -35,7 +35,7 @@
                 FontSize="14"
                 Style="{StaticResource TabButtonTheme}"
                 Command="{Binding BookmarkedCommand}"/>
-            <RadioButton Content="Bijna Verlopen"
+            <!--<RadioButton Content="Bijna Verlopen"
                 Grid.Column="2"
                 Cursor="Hand"
                 Height="50"
@@ -50,7 +50,7 @@
                 Foreground="White"
                 FontSize="14"
                 Style="{StaticResource TabButtonTheme}"
-                Command="{Binding VerlopenCommand}"/>
+                Command="{Binding VerlopenCommand}"/>-->
         </Grid>
 
         <ContentControl 
