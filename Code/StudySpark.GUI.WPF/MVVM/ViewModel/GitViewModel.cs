@@ -12,6 +12,10 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using StudySpark.Core.FileManager;
 using StudySpark.Core.Generic;
+using LibGit2Sharp;
+using System.Windows.Controls;
+using ListView = System.Windows.Controls.ListView;
+using ListViewItem = System.Windows.Controls.ListViewItem;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -26,6 +30,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public List<GenericGit> repos = new List<GenericGit>();
 
         private List<GenericGit> previousRepos;
+
+        private ListView commitListView = new ListView(); // Add ListView
 
         public object CurrentRepoList
         {
@@ -59,9 +65,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             repos = DBConnector.Database.ReadGitData();
             repoPanel.Children.Clear();
 
-            List<GenericGit> difference = repos.Except(previousRepos).ToList();
-            foreach (GenericGit repo in difference)
+            foreach (GenericGit repo in repos)
             {
+                // Display repositories as buttons (your existing code)
                 Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
                 Grid repoGrid = new Grid();
@@ -84,21 +90,64 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 t.ToolTip = repo.Path;
                 repoGrid.Children.Add(t);
 
-                //set row defenitions for button and text
+                //set row definitions for button and text
                 Grid.SetRow(b, 0);
                 Grid.SetRow(t, 0);
 
-                //
                 Thickness margin = repoGrid.Margin;
                 margin.Bottom = 75;
                 margin.Right = margin.Left = 5;
                 repoGrid.Margin = margin;
 
-                //add grid to panel
+                // Add grid to panel
                 repoPanel.Children.Add(repoGrid);
+
+                // Create a new instance of ListView for each repository
+                ListView commitListView = new ListView();
+                commitListView.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272537"));
+                commitListView.Foreground = Brushes.White;
+
+                // Display commit information in the ListView
+                using (var gitRepo = new Repository($"{repo.Path}\\{repo.TargetName}"))
+                {
+                    foreach (var commit in gitRepo.Commits)
+                    {
+                        DisplayCommitInfo(commitListView, repo, commit);
+                    }
+                }
+
+                Style itemStyle = new Style(typeof(ListViewItem));
+                itemStyle.Setters.Add(new Setter(ListViewItem.BorderBrushProperty, Brushes.White));
+                itemStyle.Setters.Add(new Setter(ListViewItem.BorderThicknessProperty, new Thickness(0, 0, 0, 1)));
+                commitListView.ItemContainerStyle = itemStyle;
+                // Add the ListView to the view after processing each repository
+                repoPanel.Children.Add(commitListView);
             }
         }
 
+
+
+        private void DisplayCommitInfo(ListView commitListView, GenericGit repo, Commit commit)
+        {
+            // Create ListViewItem to hold commit information
+            var listViewItem = new ListViewItem();
+
+            // Add subitems with commit information
+            listViewItem.Content = new StackPanel();
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Commit ID: {commit.Id.Sha}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Author: {commit.Author.Name}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Changed Files: {GetChangedFiles(commit)}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Message: {commit.Message}" });
+
+            // Add ListViewItem to the ListView
+            commitListView.Items.Add(listViewItem);
+        }
+
+        private string GetChangedFiles(Commit commit)
+        {
+            return string.Join(", ", commit.Tree.Select(entry => entry.Path));
+        }
         public System.Windows.Controls.Button ButtonNoHoverEffect()
         {
             System.Windows.Controls.Button button = new System.Windows.Controls.Button();
@@ -143,7 +192,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             if (dialogResult == DialogResult.OK)
             {
-                    string path = folderBrowserDialog.SelectedPath;
+                string path = folderBrowserDialog.SelectedPath;
                 if (!string.IsNullOrEmpty(path))
                 {
                     if (Directory.Exists(Path.Combine(path, ".git")))
@@ -156,7 +205,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         }
                         UpdateOnChange();
                         System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
-                    } else
+                    }
+                    else
                     {
                         System.Windows.MessageBox.Show("De geselecteerde map bevat geen repository");
                     }
