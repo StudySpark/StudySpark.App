@@ -75,7 +75,7 @@ namespace StudySpark.Core.Repositories {
             byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
 
             string query = "SELECT * FROM Users";
-            SqliteCommand cmd = new SqliteCommand(query, conn);
+            SqliteCommand cmd = new SqliteCommand(query, Conn);
             try {
                 SqliteDataReader reader = cmd.ExecuteReader();
                 GenericUser user = new GenericUser();
