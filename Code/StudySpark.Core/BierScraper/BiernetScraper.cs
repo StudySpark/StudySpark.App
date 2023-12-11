@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using System.Collections.ObjectModel;
-using OpenQA.Selenium.DevTools.V117.Accessibility;
+
 
 
 namespace StudySpark.Core.BierScraper
@@ -105,6 +105,10 @@ namespace StudySpark.Core.BierScraper
             //LIST OF ALL THE SALES PER PRODUCT (ALSO ADDED TO FINAL LIST IN THE END)
             List<Dictionary<IWebElement, IWebElement>> salesList = new();
 
+            //STORE IMAGES
+            List<List<IWebElement>> storeImages = new();
+
+
             //GET THE RIGHT DIV, IN THIS CASE MOBILE -- EASIER ACCESS
             IWebElement mobielDiv = biernetScraper.GetElementById("verpakkingen_mobiel");
 
@@ -114,7 +118,7 @@ namespace StudySpark.Core.BierScraper
             //GET THE PRODUCT INFORMATION (NAME AND LOWEST PRICE) -- PER PRODUCT
             ReadOnlyCollection<IWebElement> ProductInformation = mobielDiv.FindElements(By.ClassName("ppc_text_verpakking"));
 
-            ReadOnlyCollection<IWebElement> ProductImage = mobielDiv.FindElements(By.ClassName("linkImgPPC"));
+
 
 
 
@@ -141,7 +145,7 @@ namespace StudySpark.Core.BierScraper
                 //ADD AN EMPTY DICTIONARY TO SALESLIST -- WE PUT THE SALE IN THIS DICTIONARY
                 //FOR EVERY SALE, A DICTIONARY IS CREATED
                 salesList.Add(new Dictionary<IWebElement, IWebElement>());
-
+                storeImages.Add(new List<IWebElement>());
                 for (int j = 0; j < winkelsInformation.Count; j++)
                 {
                     //IF THERE IS A SALE AVAILABLE -- ADD IT
@@ -151,6 +155,13 @@ namespace StudySpark.Core.BierScraper
                     }
                     //ELSE DON'T DO ANYTHING
                     catch (Exception e) { }
+                    try
+                    {
+                        storeImages[i].Add(winkelsInformation[j].FindElement(By.ClassName("PakketFoto")));
+                    }
+                    catch (Exception e) { }
+
+
                 }
             }
 
@@ -183,9 +194,18 @@ namespace StudySpark.Core.BierScraper
                 }
                 BierInformatie[i].Add(aanbiedingen);
 
+
+
                 //GET THE IMAGE
-                //string image = productsList[i][PRODUCT_IMAGE].GetAttribute("src");
-                //BierInformatie[i].Add(image);
+                List<List<string>> images = new();
+                for (int j = 0; j < storeImages[i].Count; j++)
+                {
+                    List<string> image = new();
+                    string? imageUrl = storeImages[i].ElementAt(j).GetAttribute("data-src");
+                    image.Add(imageUrl);
+                    images.Add(image);
+                }
+                BierInformatie[i].Add(images);
             }
 
             //CLOSE DRIVER AND RETURN FINAL LIST WITH INFORMATION

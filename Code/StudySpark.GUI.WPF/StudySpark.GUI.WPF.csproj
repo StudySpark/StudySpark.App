@@ -22,6 +22,7 @@
 	<None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
     <None Remove="Images\PowerPoint.png" />
+    <None Remove="Images\Trash_Bin.png" />
     <None Remove="Images\Word.png" />
     <None Remove="Logo_NoText.png" />
   </ItemGroup>
@@ -53,6 +54,7 @@
 	<Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
     <Resource Include="Images\PowerPoint.png" />
+    <Resource Include="Images\Trash_Bin.png" />
     <Resource Include="Images\Word.png" />
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>

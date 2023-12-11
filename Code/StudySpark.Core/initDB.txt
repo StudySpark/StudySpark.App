@@ -45,18 +45,12 @@ CREATE TABLE IF NOT EXISTS BeerSales (
 	FOREIGN KEY (productID) REFERENCES BeerProducts(id)
 );
 
-INSERT INTO BeerBrands (brandname)
-	SELECT "Hertog Jan"
+INSERT INTO BeerBrands (id, brandname)
+	SELECT 0, "Hertog Jan"
 	EXCEPT
-	SELECT brandname
+	SELECT id, brandname
 	from BeerBrands
 	WHERE brandname = "Hertog Jan";
-INSERT INTO BeerBrands (brandname)
-	SELECT "Heineken"
-	EXCEPT
-	SELECT brandname
-	from BeerBrands
-	WHERE brandname = "Heineken";
 INSERT INTO BeerBrands (brandname)
 	SELECT "Amstel"
 	EXCEPT
@@ -64,14 +58,14 @@ INSERT INTO BeerBrands (brandname)
 	from BeerBrands
 	WHERE brandname = "Amstel";
 INSERT INTO BeerBrands (brandname)
+	SELECT "Heineken"
+	EXCEPT
+	SELECT brandname
+	from BeerBrands
+	WHERE brandname = "Heineken";
+INSERT INTO BeerBrands (brandname)
 	SELECT "Grolsch"
 	EXCEPT
 	SELECT brandname
 	from BeerBrands
 	WHERE brandname = "Grolsch";
-INSERT INTO BeerBrands (brandname)
-	SELECT "Jupiler"
-	EXCEPT
-	SELECT brandname
-	from BeerBrands
-	WHERE brandname = "Jupiler";

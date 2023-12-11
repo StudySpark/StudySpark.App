@@ -18,27 +18,73 @@ namespace StudySpark.Core.Repositories
             switch (brand)
             {
                 case "Hertog Jan":
+                    brandID = 0;
+                    break;
+                case "Amstel":
                     brandID = 1;
                     break;
                 case "Heineken":
                     brandID = 2;
                     break;
-                case "Amstel":
+                case "Grolsch":
                     brandID = 3;
                     break;
-                case "Grolsch":
+                case "Jupiler":
                     brandID = 4;
                     break;
-                case "Jupiler":
-                    brandID = 5;
-                    break;
                 default:
-                    brandID = 0;
+                    brandID = -1;
                     break;
             }
             return brandID;
         }
-        public void insertBookMarker(string brand, string productname, int bookmarked, string lowestprice)
+
+        public bool checkBookMark(string productname, string brandname)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            SqliteDataReader reader;
+            int brandID = getBrandId(brandname);
+
+            sqlite_cmd.CommandText = "SELECT bookmarked FROM BeerProducts WHERE productname = @param1 AND brandID = @param2";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productname));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param2", brandID));
+
+            reader = sqlite_cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader.GetInt32(0) == 1)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void removeBookMark(int productID)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+
+            sqlite_cmd.CommandText = "DELETE FROM BeerSales WHERE ProductID = @param1";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+
+            sqlite_cmd.ExecuteNonQuery();
+            removeProduct(productID);
+
+        }
+        public void removeProduct(int productID)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+
+            sqlite_cmd.CommandText = "DELETE FROM BeerProducts WHERE id = @param1";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+
+            sqlite_cmd.ExecuteNonQuery();
+
+        }
+
+        public void insertBookMark(string brand, string productname, int bookmarked, string lowestprice)
         {
             int brandID = getBrandId(brand);
             SqliteCommand sqlite_cmd;
@@ -63,6 +109,7 @@ namespace StudySpark.Core.Repositories
 
             sqlite_cmd.ExecuteNonQuery();
         }
+
         public List<GenericBeerProduct> getBookMarked()
         {
             
@@ -139,7 +186,7 @@ namespace StudySpark.Core.Repositories
             SqliteCommand sqlite_cmd;
 
             sqlite_cmd = DBRepository.Conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM BeerProducts WHERE bookmarked = @param1 ORDER BY id LIMIT 1";
+            sqlite_cmd.CommandText = "SELECT * FROM BeerProducts WHERE bookmarked = @param1 ORDER BY id DESC LIMIT 1";
             sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", 1));
 
             reader = sqlite_cmd.ExecuteReader();

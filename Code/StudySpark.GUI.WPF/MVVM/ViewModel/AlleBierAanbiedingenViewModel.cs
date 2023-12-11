@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using StudySpark.Core.BierScraper;
+using StudySpark.Core.Generic;
+using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using StudySpark.GUI.WPF.MVVM.View;
 
@@ -61,6 +63,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
+        public static event EventHandler bookmarkAddedEvent;
 
         private StackPanel AllePanel = new StackPanel();
         public AlleBierAanbiedingenViewModel()
@@ -132,7 +135,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     {
                         if (FilteredList.Contains(name))
                         {
-                            StackPanel info = DisplayInformation(BierList[z], i, z);
+                            StackPanel info = DisplayInformation(BierList[z], i, z, name);
                             info.VerticalAlignment = VerticalAlignment.Center;
                             info.HorizontalAlignment = HorizontalAlignment.Left;    
                             displayInfo.Children.Add(info);
@@ -154,7 +157,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
             AlleAanbiedingen = AllePanel;
         }
-        private StackPanel DisplayInformation(List<List<object>> bierInfo, int index, int zIndex)
+        private StackPanel DisplayInformation(List<List<object>> bierInfo, int index, int zIndex, string name)
         {
             //CREATE RETURN VALUE
             var containerDivider = new StackPanel()
@@ -227,10 +230,51 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(10),
             };
+            // Bookmark button
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark.png", UriKind.Relative));
 
+            Button bookmarkBtn = new Button()
+            {
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                BorderBrush = Brushes.Transparent,
+                Width = 50,
+                Height = 50,
+                Content = image,
+            };
+
+            bookmarkBtn.Click += (sender, e) =>
+            {
+                BeerRepository beerRepository = new BeerRepository();
+                if (!beerRepository.checkBookMark(bierInfo[index][0].ToString(), name))
+                {
+                    beerRepository.insertBookMark(name, bierInfo[index][0].ToString(), 1, bierInfo[index][1].ToString());
+                    string? van = "";
+                    string? voor = "";
+                    List<GenericBeerProduct> product = beerRepository.getLastBookMarked();
+
+                    List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)bierInfo[index][2];
+                    for (int j = 0; j < sales.Count; j++)
+                    {
+                        van = sales[j].ElementAt(0).Key;
+                        voor = sales[j].ElementAt(0).Value;
+                        beerRepository.insertSale(product[0].id, GetStoreImageString(bierInfo, index, j), van, voor);
+                    };
+                    // invoke event
+                    bookmarkAddedEvent?.Invoke(this, new EventArgs());
+                    MessageBox.Show("Bookmark added!");
+                }
+                else
+                {
+                    MessageBox.Show("Bookmark already added!");
+                }
+                
+            };
             //ADD DIFFERENT GRIDS
             container.Children.Add(imageGrid);
             container.Children.Add(infoGrid);
+            container.Children.Add(bookmarkBtn);
             container.Children.Add(salesGrid);
 
             border.Child = container;
@@ -363,6 +407,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
             return image;
+        }
+        private string GetStoreImageString(List<List<object>> bierInfo, int index, int jIndex)
+        {
+            int IMAGES = 3;
+            var images = (List<List<string>>)bierInfo[index][IMAGES];
+
+            string temp = images[jIndex][0];
+            string url = "https://www.biernet.nl/" + temp;
+
+            BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
+            return url;
         }
         private BitmapImage GetProductImage(int index)
         {
