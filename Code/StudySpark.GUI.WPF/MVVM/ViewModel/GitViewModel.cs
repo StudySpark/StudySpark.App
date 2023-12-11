@@ -17,6 +17,8 @@ using System.Windows.Controls;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -56,6 +58,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     _maxCommitsToShow = value;
                     OnPropertyChanged(nameof(MaxCommitsToShow));
                     UpdateOnChange(); // Call the method to update the UI when the value changes
+                }
+            }
+        }
+        private int _maxCommitsForCurrentRepo;
+        public int MaxCommitsForCurrentRepo
+        {
+            get { return _maxCommitsForCurrentRepo; }
+            set
+            {
+                if (_maxCommitsForCurrentRepo != value)
+                {
+                    _maxCommitsForCurrentRepo = value;
+                    OnPropertyChanged(nameof(MaxCommitsForCurrentRepo));
                 }
             }
         }
@@ -122,14 +137,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 commitListView.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272537"));
                 commitListView.Foreground = Brushes.White;
 
+
                 // Display commit information in the ListView
                 using (var gitRepo = new Repository($"{repo.Path}\\{repo.TargetName}"))
                 {
                     // Check if there are any commits
                     if (gitRepo.Commits.Any())
                     {
+                        int totalCommits = gitRepo.Commits.Count();
                         int commitsToShow = Math.Min(MaxCommitsToShow, gitRepo.Commits.Count());
-
+                        if(MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
                         for (int i = 0; i < commitsToShow; i++)
                         {
                             DisplayCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
@@ -250,5 +267,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
         }
+
+
+
+ 
     }
+
+
+
 }
