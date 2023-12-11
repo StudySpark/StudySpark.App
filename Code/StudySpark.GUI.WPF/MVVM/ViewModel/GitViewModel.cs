@@ -115,40 +115,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 // Add the repository bar to the view
                 repoPanel.Children.Add(repositoryBar);
-                /*                // Display repositories as buttons (your existing code)
-                                Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
-
-                                Grid repoGrid = new Grid();
-                                repoGrid.RowDefinitions.Add(new RowDefinition());
-                                repoGrid.RowDefinitions.Add(new RowDefinition());
-
-                                //Create button and add it to grid
-                                System.Windows.Controls.Button b = ButtonNoHoverEffect();
-                                b.Tag = repo.Path;
-                                b.Style = customButtonStyle;
-                                repoGrid.Children.Add(b);
-
-                                //Create textbox and add it to grid
-                                TextBlock t = SubText();
-                                if (repo.TargetName.Length > 0)
-                                {
-                                    t.Text = TruncateFileName(repo.TargetName, 15);
-                                }
-                                else { t.Text = repo.Path; }
-                                t.ToolTip = repo.Path;
-                                repoGrid.Children.Add(t);
-
-                                //set row definitions for button and text
-                                Grid.SetRow(b, 0);
-                                Grid.SetRow(t, 0);
-
-                                Thickness margin = repoGrid.Margin;
-                                margin.Bottom = 75;
-                                margin.Right = margin.Left = 5;
-                                repoGrid.Margin = margin;
-
-                                // Add grid to panel
-                                repoPanel.Children.Add(repoGrid);*/
 
                 // Create a new instance of ListView for each repository
                 ListView commitListView = new ListView();
