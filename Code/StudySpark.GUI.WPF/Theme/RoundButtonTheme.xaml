@@ -19,10 +19,9 @@
                                        VerticalAlignment="Center"
                                        Foreground="White"
                                        FontFamily="Ubuntu"
-                                       FontSize="35"
+                                       FontSize="{TemplateBinding FontSize}"
                                        Height="40"/>
                         </Border>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

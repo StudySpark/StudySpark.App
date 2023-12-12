@@ -47,5 +47,11 @@ namespace StudySpark.GUI.WPF {
                 DragMove();
             }
         }
+
+        public bool bierAanbiedingenIsClicked = false;
+        private void TriggerBiernetScraper(object sender, RoutedEventArgs e)
+        {
+            bierAanbiedingenIsClicked = true;
+        }
     }
 }

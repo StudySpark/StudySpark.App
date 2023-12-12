@@ -19,7 +19,7 @@ using System.Reflection.Metadata;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    internal class FilesSolutionViewModel : ObservableObject
+    public class FilesSolutionViewModel : ObservableObject
     { 
         private object currentSLNList;
         public object CurrentSLNList {

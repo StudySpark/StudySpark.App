@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace StudySpark.GUI.WPF.Core {
-    internal class ObservableObject : INotifyPropertyChanged {
+    public class ObservableObject : INotifyPropertyChanged {
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
