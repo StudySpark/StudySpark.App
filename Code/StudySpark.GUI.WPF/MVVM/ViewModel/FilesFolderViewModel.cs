@@ -172,6 +172,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 FontSize = 35,
                 Width = 58,
                 Height = 58,
+                Padding = new Thickness(0, 0, 0, -19),
                 VerticalAlignment = VerticalAlignment.Bottom,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
                 Cursor = System.Windows.Input.Cursors.Hand,
