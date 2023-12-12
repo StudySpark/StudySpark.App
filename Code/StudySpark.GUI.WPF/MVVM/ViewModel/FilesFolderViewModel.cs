@@ -21,6 +21,7 @@ using System.Windows.Controls.Primitives;
 using System.Collections;
 using Microsoft.VisualBasic.ApplicationServices;
 using Application = System.Windows.Application;
+using System.Reflection.Emit;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     internal class FilesFolderViewModel : ObservableObject {
@@ -73,14 +74,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void UpdateOnChange(object? sender, EventArgs e) {
-            Debug.WriteLine("// TODO");
-            //Application.Current.Dispatcher.InvokeAsync(() => {
-            //    UpdateOnChange();
-            //    //Application.Current.MainWindow.UpdateLayout();
-            //});
+            Debug.WriteLine("// TODO: Update die spul");
+            Application.Current.Dispatcher.Invoke(
+                System.Windows.Threading.DispatcherPriority.Render,
+                () => {
+                UpdateOnChange();
+                Application.Current.MainWindow.UpdateLayout();                
+            });
         }
 
         private void UpdateOnChange() {
+            Debug.WriteLine("// Updating...");
             files = repository.ReadData();
             folderPanel.Children.Clear();
             fileIDs.Clear();
@@ -109,6 +113,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 Image exclaim = MarkAsDeletable(file);
                 exclaim.IsHitTestVisible = false;
                 containerGrid.Children.Add(exclaim);
+                containerGrid.UpdateLayout();
+                Debug.Write($"Result of adding exclaim: {containerGrid.Children.Contains(exclaim)} ");
+                if (exclaim.Source != null)
+                {
+                    Debug.WriteLine($"and result of exclaim source: {exclaim.Source.ToString()}");
+                } else
+                {
+                    Debug.WriteLine($"and result of exclaim source: null");
+                }
 
                 if (CheckIfDeletable(containerGrid, exclaim)) {
                     b.ToolTip = "Bestand niet gevonden > linker muisknop om te verwijderen";
@@ -362,20 +375,25 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 int pos = path.LastIndexOf('.');
                 string ext = path.Substring(pos + 1);
 
-                if (!string.IsNullOrEmpty(path)) {
+                if (!string.IsNullOrEmpty(path))
+                {
                     bool result = repository.InsertData(path, ext);
-                    if (!result) {
+                    if (!result)
+                    {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");
                         return;
                     }
-                    UpdateOnChange();
                 }
-                System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
+                else
+                {
+                    System.Windows.MessageBox.Show("Er is iets foutgegaan");
+                }
             } else {
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
 
-
+            UpdateOnChange();
+            System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
         }
 
         private void SelectFolder() {

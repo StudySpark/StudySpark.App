@@ -61,6 +61,7 @@ namespace StudySpark.Core.FileManager {
                 });
 
                 if (doUpdate) {
+                    Debug.WriteLine($"DoUpdate called");
                     Thread t = new Thread(() => {
                         FileChangedOnFSEvent?.Invoke(this, EventArgs.Empty);
                     });
