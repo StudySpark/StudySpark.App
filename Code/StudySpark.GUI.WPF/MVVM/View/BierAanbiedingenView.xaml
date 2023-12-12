@@ -20,21 +20,22 @@
                 <ColumnDefinition/>-->
             </Grid.ColumnDefinitions>
             <RadioButton Content="Alle Aanbiedingen"
-                Grid.Column="0"
-                Cursor="Hand"
-                Height="50"
-                Foreground="White"
-                FontSize="14"
-                Style="{StaticResource TabButtonTheme}"
-                Command="{Binding AlleCommand}"/>
+                         Grid.Column="0"
+                         Cursor="Hand"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource TabButtonTheme}"
+                         IsChecked="True"
+                         Command="{Binding AlleCommand}"/>
             <RadioButton Content="Bookmarked"
-                Grid.Column="1"
-                Cursor="Hand"
-                Height="50"
-                Foreground="White"
-                FontSize="14"
-                Style="{StaticResource TabButtonTheme}"
-                Command="{Binding BookmarkedCommand}"/>
+                         Grid.Column="1"
+                         Cursor="Hand"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource TabButtonTheme}"
+                         Command="{Binding BookmarkedCommand}"/>
             <!--<RadioButton Content="Bijna Verlopen"
                 Grid.Column="2"
                 Cursor="Hand"

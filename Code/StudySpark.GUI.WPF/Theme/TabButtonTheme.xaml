@@ -5,17 +5,82 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}" ClipToBounds="True">
+                            <Border Background="#15000000" Margin="-45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50">
+                                <Border.LayoutTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Border.LayoutTransform>
+
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Border Background="#15000000" Margin="-35,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Height="50">
+                                <Border.LayoutTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Border.LayoutTransform>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            <Border Background="#15000000" Margin="0,0,-45,0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="50" Height="50">
+                                <Border.LayoutTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Border.LayoutTransform>
+
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <Border Background="#15000000" Margin="0,0,-35,0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="50" Height="50">
+                                <Border.LayoutTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Border.LayoutTransform>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
                             <TextBlock Text="{TemplateBinding Property=Content}"
                                        VerticalAlignment="Center"
-                                       Margin="50,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,0"
                                        FontFamily="/Fonts/#Ubuntu" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
 
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="#6622202f" />
             <Setter Property="BorderThickness" Value="0" />
         </Style.Setters>
 
