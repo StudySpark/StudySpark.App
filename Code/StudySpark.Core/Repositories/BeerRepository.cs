@@ -3,6 +3,7 @@ using StudySpark.Core.FileManager;
 using StudySpark.Core.Generic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
@@ -82,6 +83,21 @@ namespace StudySpark.Core.Repositories
 
             sqlite_cmd.ExecuteNonQuery();
 
+        }
+
+        public void insertBeersale(string brand, string productname, int bookmarked, string lowestprice, DateTime date)
+        {
+            int brandID = getBrandId(brand);
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice, expirationdate) VALUES(@brandID, @productname, @bookmarked, @lowestprice, @expirationdate)";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", brandID));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", productname));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", bookmarked));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", lowestprice));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", date));
+
+            sqlite_cmd.ExecuteNonQuery();
         }
 
         public void insertBookMark(string brand, string productname, int bookmarked, string lowestprice)
@@ -188,6 +204,36 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd = DBRepository.Conn.CreateCommand();
             sqlite_cmd.CommandText = "SELECT * FROM BeerProducts WHERE bookmarked = @param1 ORDER BY id DESC LIMIT 1";
             sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", 1));
+
+            reader = sqlite_cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                int brandID = reader.GetInt32(1);
+                string productname = reader.GetString(2);
+                int bookmarked = reader.GetInt32(3);
+                string lowestprice = reader.GetString(4);
+
+                GenericBeerProduct product = new GenericBeerProduct(id, brandID, productname, bookmarked, lowestprice);
+                products.Add(product);
+            }
+            return products;
+        }
+        public List<GenericBeerProduct> getLastInserted()
+        {
+
+            if (DBRepository.Conn == null)
+            {
+                return new List<GenericBeerProduct>();
+            }
+
+            List<GenericBeerProduct> products = new List<GenericBeerProduct>();
+
+            SqliteDataReader reader;
+            SqliteCommand sqlite_cmd;
+
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM BeerProducts ORDER BY id DESC LIMIT 1";
 
             reader = sqlite_cmd.ExecuteReader();
             while (reader.Read())
