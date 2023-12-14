@@ -7,9 +7,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer
+            ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+            ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            Grid.Row="0">
+            <ContentControl
+                Content="{Binding FilterAanbiedingen}"/>
+        </ScrollViewer>
+        
+        <ScrollViewer 
+            ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            Grid.Row="1">
             <ContentControl
                 Content="{Binding AlleAanbiedingen}"/>
         </ScrollViewer>
+        
     </Grid>
 </UserControl>
