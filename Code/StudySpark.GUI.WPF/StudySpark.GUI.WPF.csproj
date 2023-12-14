@@ -26,6 +26,11 @@
     <None Remove="Images\Logo_NoText.png" />
 	  <None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
+    <None Remove="Images\NoteBack.png" />
+    <None Remove="Images\NoteEdit.png" />
+    <None Remove="Images\NoteTrash.png" />
+    <None Remove="Images\NoteTrashConfirm.png" />
+    <None Remove="Images\NoteView.png" />
     <None Remove="Images\PowerPoint.png" />
     <None Remove="Images\Word.png" />
     <None Remove="Logo_NoText.png" />
@@ -63,6 +68,11 @@
     <Resource Include="Images\Logo_NoText.png" />
 	  <Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
+    <Resource Include="Images\NoteBack.png" />
+    <Resource Include="Images\NoteEdit.png" />
+    <Resource Include="Images\NoteTrash.png" />
+    <Resource Include="Images\NoteTrashConfirm.png" />
+    <Resource Include="Images\NoteView.png" />
     <Resource Include="Images\PowerPoint.png" />
     <Resource Include="Images\Trash_Bin.png" />
     <Resource Include="Images\Word.png" />
