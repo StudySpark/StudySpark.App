@@ -7,6 +7,11 @@
              xmlns:vm="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.DataContext>
+        <vm:NotesEditorViewModel/>
+    </UserControl.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -32,7 +37,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorBackCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -46,7 +53,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorSaveCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -56,13 +65,19 @@
                 </Border>
             </Button>
 
-            <!-- Text -->
+            <Label x:Name="EditorNoteName"
+                   Content="{Binding CurrentEditingNote.NoteName}"
+                   VerticalAlignment="Center"
+                   Foreground="#FFF"
+                   Grid.Column="2" />
 
             <Button Grid.Column="3"
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorImageCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -76,7 +91,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorColorCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -90,7 +107,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorFontCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -104,7 +123,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorTextSizeMinCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -114,13 +135,20 @@
                 </Border>
             </Button>
 
-            <!-- Text Size -->
+            <Label x:Name="EditorTextSize"
+                   Content="{Binding TextSize}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="#FFF"
+                   Grid.Column="7" />
 
             <Button Grid.Column="8"
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorTextSizePlusCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -134,7 +162,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorAlignLeftCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -148,7 +178,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorAlignCenterCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -162,7 +194,9 @@
                     Cursor="Hand"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Style="{StaticResource HoverableButtonTheme}">
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Command="{Binding EditorAlignRightCommand}"
+                    CommandParameter="{Binding ElementName=rtfEditor}">
                 <Border CornerRadius="5"
                         BorderThickness="1"
                         Margin="2"
@@ -173,5 +207,12 @@
             </Button>
 
         </Grid>
+
+        <RichTextBox x:Name="rtfEditor"
+                     Grid.Row="1"
+                     Background="Transparent"
+                     Foreground="#FFF"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch" CaretBrush="White" SelectionBrush="#FFA042CE" />
     </Grid>
 </UserControl>

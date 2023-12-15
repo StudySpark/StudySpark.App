@@ -26,6 +26,7 @@
     <None Remove="Images\Logo_NoText.png" />
 	  <None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
+    <None Remove="Images\NoteAccept.png" />
     <None Remove="Images\NoteAlignCenter.png" />
     <None Remove="Images\NoteAlignLeft.png" />
     <None Remove="Images\NoteAlignRight.png" />
@@ -77,6 +78,7 @@
     <Resource Include="Images\Logo_NoText.png" />
 	  <Resource Include="Images\Logo_NoText_NoColor.png" />
     <Resource Include="Images\man.png" />
+    <Resource Include="Images\NoteAccept.png" />
     <Resource Include="Images\NoteAlignCenter.png" />
     <Resource Include="Images\NoteAlignLeft.png" />
     <Resource Include="Images\NoteAlignRight.png" />

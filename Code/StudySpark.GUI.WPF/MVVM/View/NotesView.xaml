@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
              xmlns:vm="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
+             xmlns:core="clr-namespace:StudySpark.GUI.WPF.Core"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance vm:NotesViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -12,6 +13,10 @@
     <UserControl.DataContext>
         <vm:NotesViewModel/>
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -129,5 +134,63 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
+
+        <ToggleButton Content="➕"
+              FontSize="35"
+              x:Name="NewNoteButton"
+              Width="58"
+              Height="58"
+              VerticalAlignment="Bottom"
+              HorizontalAlignment="Right"
+              Margin="0,0,20,20"
+              Padding="0,0,0,-18"
+              Cursor="Hand"
+              Style="{StaticResource RoundToggleButtonTheme}" />
+
+        <Grid HorizontalAlignment="Right"
+              VerticalAlignment="Bottom"
+              Margin="0,0,70,70"
+              Width="200"
+              Height="50"
+              Visibility="{Binding ElementName=NewNoteButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
+
+            <Rectangle Fill="#FF20202A"
+                       RadiusX="10"
+                       RadiusY="10"
+                       StrokeThickness="2">
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FFCEA204"/>
+                        <GradientStop Color="#FFEC2F63" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+            </Rectangle>
+
+            <TextBox x:Name="NewNoteNameInput"
+                     Text="Nieuwe Notitie"
+                     VerticalContentAlignment="Center"
+                     Width="150"
+                     Height="30"
+                     Background="Transparent"
+                     Margin="-38,0,0,0" BorderBrush="#FF20202A" Foreground="White"/>
+            <Button Width="32"
+                    Height="32"
+                    Margin="0,0,-150,0"
+                    Cursor="Hand"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Grid.Column="2"
+                    Command="{Binding NoteCreateCommand}"
+                    CommandParameter="{Binding ElementName=NewNoteNameInput}">
+                <Border CornerRadius="5"
+                        BorderThickness="1"
+                        Margin="-2"
+                        Padding="4"
+                        BorderBrush="#0CFFFFFF">
+                    <Image Source="/Images/NoteAccept.png" />
+                </Border>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

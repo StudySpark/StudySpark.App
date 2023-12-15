@@ -1,4 +1,6 @@
-﻿using StudySpark.Core.Generic;
+﻿using LibGit2Sharp;
+using StudySpark.Core.Generic;
+using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -7,17 +9,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class NotesViewModel {
-
         public ObservableCollection<GenericNoteListItem> NoteListViewElements { get; set; } = new ObservableCollection<GenericNoteListItem>();
 
         public RelayCommand NoteViewClick { get; private set; }
         public RelayCommand NoteEditClick { get; private set; }
         public RelayCommand NotePreDeleteClick { get; private set; }
+        public RelayCommand NoteCreateCommand { get; private set; }
 
         public NotesViewModel() {
+            NoteListViewElements = NotesRepository.Instance.NoteListViewElements;
+
             NoteViewClick = new RelayCommand((o) => {
                 GenericNoteListItem? note = o as GenericNoteListItem;
                 Debug.WriteLine($"NoteViewClick: {note?.NoteName}");
@@ -25,7 +31,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             NoteEditClick = new RelayCommand((o) => {
                 GenericNoteListItem? note = o as GenericNoteListItem;
-                MainViewManager.NotesEditorVM.currentEditingNote = note;
+                NotesEditorViewModel.CurrentEditingNote = note;
                 MainViewManager.CurrentMainView = MainViewManager.NotesEditorVM;
             });
 
@@ -34,51 +40,30 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 Debug.WriteLine($"NotePreDeleteClick: {note?.NoteName}");
             });
 
+            NoteCreateCommand = new RelayCommand((o) => {
+                string noteName = (o as TextBox).Text;
+                string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
 
-            NoteListViewElements.Clear();
+                if (noteName.Length == 0) {
+                    MessageBox.Show("Een naam is verplicht!");
+                    return;
+                }
 
-            NoteListViewElements = new ObservableCollection<GenericNoteListItem>
-            {
-                new GenericNoteListItem { NoteName = "Dummy Note 1", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 2", NoteDate = "2023-02-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 3", NoteDate = "2023-03-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 4", NoteDate = "2023-04-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 5", NoteDate = "2023-05-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 6", NoteDate = "2023-06-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 7 With a long name", NoteDate = "2023-07-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 8", NoteDate = "2023-08-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 9", NoteDate = "2023-09-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 10", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 11", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 12", NoteDate = "2023-02-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 13", NoteDate = "2023-03-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 14", NoteDate = "2023-04-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 15", NoteDate = "2023-05-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 16", NoteDate = "2023-06-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 17", NoteDate = "2023-07-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 18", NoteDate = "2023-08-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 19", NoteDate = "2023-09-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 20", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 21", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 22", NoteDate = "2023-02-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 23", NoteDate = "2023-03-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 24", NoteDate = "2023-04-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 25", NoteDate = "2023-05-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 26", NoteDate = "2023-06-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 27", NoteDate = "2023-07-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 28", NoteDate = "2023-08-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 29", NoteDate = "2023-09-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 30", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 31", NoteDate = "2023-01-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 32", NoteDate = "2023-02-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 33", NoteDate = "2023-03-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 34", NoteDate = "2023-04-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 35", NoteDate = "2023-05-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 36", NoteDate = "2023-06-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 37", NoteDate = "2023-07-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 38", NoteDate = "2023-08-01" },
-                new GenericNoteListItem { NoteName = "Dummy Note 39", NoteDate = "2023-09-01" },
-            };
+                foreach (GenericNoteListItem existingNote in NotesRepository.Instance.NoteListViewElements) {
+                    if (existingNote.NoteName.Equals(noteName)) {
+                        MessageBox.Show("Een notitie met de opgegeven naam bestaat al!");
+                        return;
+                    }
+                }
+
+                GenericNoteListItem newNote = new GenericNoteListItem { NoteName = noteName, NoteDate = currentDate };
+                NotesRepository.Instance.NoteListViewElements.Add(newNote);
+                NotesEditorViewModel.CurrentEditingNote = newNote;
+                MainViewManager.CurrentMainView = MainViewManager.NotesEditorVM;
+            });
+
+
+            //NoteListViewElements.Clear();
         }
     }
 }
