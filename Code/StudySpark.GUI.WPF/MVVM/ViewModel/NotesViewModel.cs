@@ -19,15 +19,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public NotesViewModel() {
             NoteViewClick = new RelayCommand((o) => {
-                Debug.WriteLine($"NoteViewClick: {(o as GenericNoteListItem)?.NoteName}");
+                GenericNoteListItem? note = o as GenericNoteListItem;
+                Debug.WriteLine($"NoteViewClick: {note?.NoteName}");
             });
 
             NoteEditClick = new RelayCommand((o) => {
-                Debug.WriteLine($"NoteEditClick: {(o as GenericNoteListItem)?.NoteName}");
+                GenericNoteListItem? note = o as GenericNoteListItem;
+                MainViewManager.NotesEditorVM.currentEditingNote = note;
+                MainViewManager.CurrentMainView = MainViewManager.NotesEditorVM;
             });
 
             NotePreDeleteClick = new RelayCommand((o) => {
-                Debug.WriteLine($"NotePreDeleteClick: {(o as GenericNoteListItem)?.NoteName}");
+                GenericNoteListItem? note = o as GenericNoteListItem;
+                Debug.WriteLine($"NotePreDeleteClick: {note?.NoteName}");
             });
 
 

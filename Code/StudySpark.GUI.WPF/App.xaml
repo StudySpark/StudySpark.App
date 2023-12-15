@@ -28,6 +28,10 @@
                 <view:NotesView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:NotesEditorViewModel}">
+                <view:NotesEditorView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModel:FilesViewModel}">
                 <view:FilesView/>
             </DataTemplate>

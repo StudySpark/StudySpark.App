@@ -15,10 +15,10 @@ using System.Windows.Shapes;
 
 namespace StudySpark.GUI.WPF.MVVM.View {
     /// <summary>
-    /// Interaction logic for NotesView.xaml
+    /// Interaction logic for NotesEditorView.xaml
     /// </summary>
-    public partial class NotesView : UserControl {
-        public NotesView() {
+    public partial class NotesEditorView : UserControl {
+        public NotesEditorView() {
             InitializeComponent();
         }
     }
