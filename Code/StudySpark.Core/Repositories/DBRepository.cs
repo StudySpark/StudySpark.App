@@ -25,12 +25,16 @@ namespace StudySpark.Core.Repositories {
             get {
                 if (conn == null)
                 {
-                    conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
+                    string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.db");
+                    conn = new SqliteConnection($"Data Source={databasePath}");
                     conn.Open();
 
-                    string command = File.ReadAllText("initDB.txt");
                     SqliteCommand sqlite_cmd = conn.CreateCommand();
-                    sqlite_cmd.CommandText = command;
+                    try {
+                        sqlite_cmd.CommandText = File.ReadAllText("initDB.txt");
+                    } catch {
+                        sqlite_cmd.CommandText = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "initDB.txt"));
+                    }
                     sqlite_cmd.ExecuteNonQuery();
                 }
                 return conn;
@@ -43,7 +47,7 @@ namespace StudySpark.Core.Repositories {
             }
 
             SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = $"INSERT INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
             sqlite_cmd.ExecuteNonQuery();
             return true;
@@ -56,11 +60,11 @@ namespace StudySpark.Core.Repositories {
             string encryptedString = Encryption.EncryptString(password, key, iv);
 
             string deletesql = "DELETE FROM Users;";
-            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, Conn);
             deleteCmd.ExecuteNonQuery();
 
             string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
-            SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
+            SqliteCommand insertSQL = new SqliteCommand(createsql, Conn);
             insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
             insertSQL.Parameters.Add(new SqliteParameter("@Password", encryptedString));
             try {
@@ -108,7 +112,7 @@ namespace StudySpark.Core.Repositories {
             }
 
             SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = $"INSERT INTO GitTable (path, targetname, type) VALUES('{path}', '{targetname}', '{type}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
@@ -127,7 +131,7 @@ namespace StudySpark.Core.Repositories {
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
 
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = "SELECT * FROM Grades";
 
             reader = sqlite_cmd.ExecuteReader();
@@ -156,7 +160,7 @@ namespace StudySpark.Core.Repositories {
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
 
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = "SELECT * FROM GitTable";
 
             reader = sqlite_cmd.ExecuteReader();
@@ -173,7 +177,7 @@ namespace StudySpark.Core.Repositories {
 
         public void ClearGradesData() {
             string deletesql = "DELETE FROM Grades;";
-            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, Conn);
             deleteCmd.ExecuteNonQuery();
         }
 
