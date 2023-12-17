@@ -1,4 +1,5 @@
-﻿using StudySpark.GUI.WPF.Core;
+﻿using StudySpark.Core;
+using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,6 +37,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         public MainViewModel() {
+            Logger.Info("Starting application.");
+
             MinimizeCommand = new RelayCommand(o => MinimizeWindow());
             MaximizeCommand = new RelayCommand(o => MaximizeWindow());
             CloseCommand = new RelayCommand(o => CloseWindow());
@@ -107,6 +110,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             }
         }
         private void CloseWindow() {
+            Logger.Info("Stopping application.");
+
             if (Application.Current.MainWindow != null) {
                 Application.Current.MainWindow.Close();
             }

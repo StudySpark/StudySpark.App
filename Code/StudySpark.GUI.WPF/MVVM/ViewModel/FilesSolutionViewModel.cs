@@ -16,11 +16,10 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Reflection.Metadata;
+using StudySpark.Core;
 
-namespace StudySpark.GUI.WPF.MVVM.ViewModel
-{
-    public class FilesSolutionViewModel : ObservableObject
-    { 
+namespace StudySpark.GUI.WPF.MVVM.ViewModel {
+    public class FilesSolutionViewModel : ObservableObject {
         private object currentSLNList;
         public object CurrentSLNList {
             get {
@@ -35,23 +34,20 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         WrapPanel solutionPanel = new();
         Grid solutionGrid;
 
-        public FilesSolutionViewModel()
-        {
+        public FilesSolutionViewModel() {
             SearchFiles searchFiles = new();
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
             string extension = ".sln.lnk";
             SearchOption searchOption = SearchOption.TopDirectoryOnly;
             List<string> _recentSLNFiles = searchFiles.GetFilesFromDir(path, extension, searchOption);
-            
-            for (int i = 0; i < AmountToShow; i++)
-            {
+
+            for (int i = 0; i < AmountToShow; i++) {
                 //create a grid for every iteration
                 solutionGrid = new();
                 solutionGrid.RowDefinitions.Add(new RowDefinition());
                 solutionGrid.RowDefinitions.Add(new RowDefinition());
-                if (i < _recentSLNFiles.Count)
-                {
+                if (i < _recentSLNFiles.Count) {
                     // First use Path.GetFileName to get only the file name part
                     string fileName = Path.GetFileName(_recentSLNFiles[i]);
                     fileName = fileName.Substring(0, fileName.IndexOf(".lnk"));
@@ -73,7 +69,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     //set alignment for panel
                     solutionPanel.HorizontalAlignment = HorizontalAlignment.Center;
                     solutionPanel.VerticalAlignment = VerticalAlignment.Top;
-                    
+
                     //set margin top -- in the middle of screen --> delete when more than
                     //5 solutions need to be displayed
                     Thickness margin = solutionPanel.Margin;
@@ -83,19 +79,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     //add grid to panel
                     solutionPanel.Children.Add(solutionGrid);
-                }
-                else
-                {
+                } else {
                     // If there are fewer than 5 files, create blank buttons or handle it as needed
-                    solutionGrid.Children.Add(new Button
-                    {
+                    solutionGrid.Children.Add(new Button {
                         Width = 50,
                         Height = 50,
                         IsEnabled = false, // Disable the button if no file is associated
                     });
 
-                    solutionGrid.Children.Add(new TextBox
-                    {
+                    solutionGrid.Children.Add(new TextBox {
                         TextAlignment = TextAlignment.Center,
                         Width = 100,
                         Height = 20,
@@ -108,45 +100,44 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             currentSLNList = solutionPanel;
         }
 
-        public ImageBrush SetIcon()
-        {
+        public ImageBrush SetIcon() {
             ImageBrush? brush = null;
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                brush = new ImageBrush
-                {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                brush = new ImageBrush {
                     ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/Icon_VS.png", UriKind.Relative))
                 };
-            }
-            else
-            {
-                brush = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
-                };
+            } else {
+                try {
+                    Logger.Warning($"Loading '{new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative).AbsoluteUri.ToString()}' in VS mode");
+                    brush = new ImageBrush {
+                        ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
+                    };
+                } catch {
+                    string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "Icon_VS.png");
+                    Logger.Warning($"Loading '{new Uri(imagePath).AbsoluteUri.ToString()}' in System mode");
+                    brush = new ImageBrush { ImageSource = new BitmapImage(new Uri(imagePath)) };
+                }
             }
             return brush;
         }
 
-        public Button ButtonNoHoverEffect()
-        {
+        public Button ButtonNoHoverEffect() {
             Button button = new Button();
             Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
-            
+
             button.Width = 60;
             button.Height = 60;
             button.BorderThickness = new Thickness(0, 0, 0, 0);
             button.Background = SetIcon();
 
-            button.Cursor = Cursors.Hand; 
+            button.Cursor = Cursors.Hand;
             button.MouseDoubleClick += btn_Click;
             button.Style = customButtonStyle;
 
             return button;
         }
 
-        public TextBlock SubText()
-        {
+        public TextBlock SubText() {
             TextBlock textBlock = new TextBlock();
             textBlock.TextAlignment = TextAlignment.Center;
             textBlock.Width = 100;
@@ -158,11 +149,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.Cursor = Cursors.Hand;
             return textBlock;
         }
-        private void btn_Click(object sender, RoutedEventArgs e)
-        {
+        private void btn_Click(object sender, RoutedEventArgs e) {
             Button? button = sender as Button;
-            if (button != null)
-            {
+            if (button != null) {
                 //TODO actually implementing feature for on-click
             }
         }

@@ -25,17 +25,30 @@ namespace StudySpark.Core.Repositories {
             get {
                 if (conn == null)
                 {
-                    string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.db");
+                    Logger.Info("Creating databse connection");
+
+                    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "StudySpark"));
+
+                    string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "StudySpark", "database.db");
+
+                    Logger.Info($"Databse path: {databasePath}");
+
                     conn = new SqliteConnection($"Data Source={databasePath}");
                     conn.Open();
 
-                    SqliteCommand sqlite_cmd = conn.CreateCommand();
-                    try {
-                        sqlite_cmd.CommandText = File.ReadAllText("initDB.txt");
-                    } catch {
-                        sqlite_cmd.CommandText = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "initDB.txt"));
+                    string commandPath = "initDB.txt";
+                    if (!File.Exists(commandPath)) {
+                        commandPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "initDB.txt");
                     }
+                    Logger.Info($"SQL init file path: {commandPath}");
+
+                    SqliteCommand sqlite_cmd = conn.CreateCommand();
+                    sqlite_cmd.CommandText = File.ReadAllText(commandPath);
                     sqlite_cmd.ExecuteNonQuery();
+
+
+                    string connCreatedSuccessfullyMessage = conn != null ? "Yes" : "No";
+                    Logger.Info($"Connection created: {connCreatedSuccessfullyMessage}");
                 }
                 return conn;
             }

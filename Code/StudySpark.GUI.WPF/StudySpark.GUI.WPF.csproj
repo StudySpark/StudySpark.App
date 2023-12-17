@@ -34,13 +34,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\logo.ico" />
+    <Content Include="Images\logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\bookmark.png">
+    <Content Include="Images\bookmark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -53,26 +55,66 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Amstel.png" />
-    <Resource Include="Images\bookmark_checked.png" />
-    <Resource Include="Images\DirectoryIcon.png" />
-    <Resource Include="Images\Excel.png" />
-    <Resource Include="Images\ExclamationMark.png" />
-    <Resource Include="Images\FileIcon.png" />
-    <Resource Include="Images\Grolsch.png" />
-    <Resource Include="Images\Heineken.png" />
-    <Resource Include="Images\HertogJan.png" />
-    <Resource Include="Images\Icon_VS.png" />
-    <Resource Include="Images\info.png" />
-    <Resource Include="Images\key.png" />
-    <Resource Include="Images\Loading.png" />
-    <Resource Include="Images\Logo_NoText.png" />
-	  <Resource Include="Images\Logo_NoText_NoColor.png" />
-    <Resource Include="Images\man.png" />
-    <Resource Include="Images\PowerPoint.png" />
-    <Resource Include="Images\Trash_Bin.png" />
-    <Resource Include="Images\Word.png" />
-    <Resource Include="Images\user.png" />
+    <Content Include="Images\Amstel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\bookmark_checked.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\DirectoryIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Excel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ExclamationMark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\FileIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Grolsch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Heineken.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HertogJan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Icon_VS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\info.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\key.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Loading.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Logo_NoText.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+	  <Content Include="Images\Logo_NoText_NoColor.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+    <Content Include="Images\man.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PowerPoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Trash_Bin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Word.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
 

@@ -19,19 +19,18 @@ using System.Threading;
 using System.IO;
 using System.Windows.Controls.Primitives;
 using System.Collections;
+using StudySpark.Core;
 
-namespace StudySpark.GUI.WPF.MVVM.ViewModel
-{
-    public class FilesFolderViewModel : ObservableObject
-    {
+namespace StudySpark.GUI.WPF.MVVM.ViewModel {
+    public class FilesFolderViewModel : ObservableObject {
         private object _currentFolderList;
         private FileRepository fileRepository = new FileRepository();
         public RelayCommand OpenFolderSelectCommand { get; private set; }
 
         public RelayCommand OpenFileSelectCommand { get; private set; }
-        
+
         WrapPanel folderPanel = new WrapPanel();
-        
+
         public List<GenericFile> files = new List<GenericFile>();
 
         public Hashtable fileIDs = new Hashtable();
@@ -40,20 +39,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private ToggleButton DeleteButton;
 
-        public object CurrentFolderList
-        {
-            get
-            {
+        public object CurrentFolderList {
+            get {
                 return _currentFolderList;
             }
-            set
-            {
+            set {
                 _currentFolderList = value;
             }
         }
 
-        public FilesFolderViewModel()
-        {
+        public FilesFolderViewModel() {
             OpenFolderSelectCommand = new RelayCommand(o => SelectFolder());
             OpenFileSelectCommand = new RelayCommand(o => SelectFile());
 
@@ -67,15 +62,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         }
 
-        private void UpdateOnChange()
-        {
+        private void UpdateOnChange() {
             files = fileRepository.ReadFileData();
             folderPanel.Children.Clear();
             fileIDs.Clear();
             int fileID = 0;
 
-            foreach (GenericFile file in files)
-            {
+            foreach (GenericFile file in files) {
                 Style customButtonStyle = (Style)System.Windows.Application.Current.TryFindResource("FileButtonTheme");
 
                 Grid folderGrid = new Grid();
@@ -98,15 +91,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Image exclaim = MarkAsDeletable(file);
                 containerGrid.Children.Add(exclaim);
 
-                if (CheckIfDeletable(containerGrid, exclaim))
-                {
-                    b.MouseEnter += (sender, e) =>
-                    {
+                if (CheckIfDeletable(containerGrid, exclaim)) {
+                    b.MouseEnter += (sender, e) => {
                         exclaim.Source = SetIcon("Trash_Bin.png").ImageSource;
                     };
 
-                    b.MouseLeave += (sender, e) =>
-                    {
+                    b.MouseLeave += (sender, e) => {
                         exclaim.Source = SetIcon("ExclamationMark.png").ImageSource;
                     };
                 }
@@ -119,23 +109,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 b.MouseRightButtonDown += ClickMarkHandler;
 
-                b.Click += (sender, e) =>
-                {
-                    if (b.Tag is string filePath)
-                    {
-                        if (exclaim.Source != null)
-                        {
-                            if (exclaim.Source.ToString().Equals(SetIcon("Trash_Bin.png").ImageSource.ToString()))
-                            {
+                b.Click += (sender, e) => {
+                    if (b.Tag is string filePath) {
+                        if (exclaim.Source != null) {
+                            if (exclaim.Source.ToString().Equals(SetIcon("Trash_Bin.png").ImageSource.ToString())) {
                                 ClickDelHandler?.Invoke(this, e);
-                            }
-                            else
-                            {
+                            } else {
                                 ClickOpenHandler?.Invoke(this, e);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             ClickOpenHandler?.Invoke(this, e);
                         }
                     }
@@ -145,11 +127,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 //Create textbox and add it to grid
                 TextBlock t = SubText();
-                if (file.TargetName.Length > 0) 
-                { 
-                t.Text = TruncateFileName(file.TargetName, 15);
-                }
-                else { t.Text = file.Path; }
+                if (file.TargetName.Length > 0) {
+                    t.Text = TruncateFileName(file.TargetName, 15);
+                } else { t.Text = file.Path; }
                 t.ToolTip = file.Path;
                 folderGrid.Children.Add(t);
 
@@ -166,8 +146,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 folderPanel.Children.Add(folderGrid);
             }
 
-            DeleteButton = new ToggleButton
-            {
+            DeleteButton = new ToggleButton {
                 Content = "🗑️",
                 FontSize = 35,
                 Width = 58,
@@ -185,8 +164,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             folderPanel.Children.Add(DeleteButton);
         }
 
-        public Button ButtonNoHoverEffect(string image)
-        {
+        public Button ButtonNoHoverEffect(string image) {
             Button button = new Button();
 
             button.Width = 60;
@@ -197,8 +175,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return button;
         }
 
-        public TextBlock SubText()
-        {
+        public TextBlock SubText() {
             TextBlock textBlock = new TextBlock();
             textBlock.TextAlignment = TextAlignment.Center;
             textBlock.Width = 100;
@@ -211,22 +188,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return textBlock;
         }
 
-        private RoutedEventHandler CreateClickOpenHandler(GenericFile file)
-        {
-            return (sender, args) =>
-            {
-                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
-                {
+        private RoutedEventHandler CreateClickOpenHandler(GenericFile file) {
+            return (sender, args) => {
+                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName) {
 
                     string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
 
                     // Logic to run the file using the buttonFilePath
-                    try
-                    {
-                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
-                        {
-                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
-                            {
+                    try {
+                        using (System.Diagnostics.Process process = new System.Diagnostics.Process()) {
+                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo {
                                 FileName = "cmd.exe",
                                 Arguments = $"/c start \"\" \"{buttonFilePath}\"",
                                 UseShellExecute = false,
@@ -237,30 +208,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                             process.StartInfo = startInfo;
                             process.Start();
                         }
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         System.Windows.MessageBox.Show($"Error: {ex.Message}");
                     }
                 }
             };
         }
 
-        private RoutedEventHandler CreateClickDelHandler(GenericFile file)
-        {
-            return (sender, args) =>
-            {
-                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
-                {
+        private RoutedEventHandler CreateClickDelHandler(GenericFile file) {
+            return (sender, args) => {
+                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName) {
 
-                    try
-                    {
+                    try {
                         DBConnector.Database.DeleteFileData(folderPath, fileName);
                         UpdateOnChange();
                         System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         System.Windows.MessageBox.Show($"Error: {ex.Message}");
                     }
 
@@ -268,15 +231,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
         }
 
-        private void ClickMarkHandler(object sender, System.Windows.Input.MouseEventArgs args)
-        {
-            if (sender is Button button)
-            {
-                if (!DeletableButtons.Contains(button))
-                {
+        private void ClickMarkHandler(object sender, System.Windows.Input.MouseEventArgs args) {
+            if (sender is Button button) {
+                if (!DeletableButtons.Contains(button)) {
                     // Add a semi-transparent overlay with a light red hue
-                    var overlay = new Rectangle
-                    {
+                    var overlay = new Rectangle {
                         Fill = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0)),
                         Width = button.ActualWidth,
                         Height = button.ActualHeight
@@ -284,9 +243,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     DeletableButtons.Add(button);
                     button.Content = overlay;
-                }
-                else
-                {
+                } else {
                     DeletableButtons.Remove(button);
                     button.Content = null;
                 }
@@ -295,22 +252,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        private void OnDeleteButtonClick(object sender, RoutedEventArgs e)
-        {
-            foreach (Button button in DeletableButtons) 
-            { 
-                if (button.Tag is string folderPath && button.Name is string ID)
-                {
-                    if (fileIDs.Contains(ID))
-                    {
-                        try
-                        {
+        private void OnDeleteButtonClick(object sender, RoutedEventArgs e) {
+            foreach (Button button in DeletableButtons) {
+                if (button.Tag is string folderPath && button.Name is string ID) {
+                    if (fileIDs.Contains(ID)) {
+                        try {
                             String fileName = fileIDs[ID].ToString();
                             DBConnector.Database.DeleteFileData(folderPath, fileName);
                             UpdateOnChange();
-                        }
-                        catch (Exception exc)
-                        {
+                        } catch (Exception exc) {
                             System.Windows.MessageBox.Show($"An error occured: {exc.ToString()}");
                         }
                     }
@@ -321,47 +271,42 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             System.Windows.MessageBox.Show("Geselecteerde bestanden verwijderd");
         }
 
-        private string TruncateFileName(string fileName, int maxLength)
-        {
-            if (fileName.Length <= maxLength)
-            {
+        private string TruncateFileName(string fileName, int maxLength) {
+            if (fileName.Length <= maxLength) {
                 return fileName;
-            }
-            else
-            {
+            } else {
                 // If the file name is too long, truncate it and add "..." at the end
                 return fileName.Substring(0, maxLength - 3) + "...";
             }
         }
 
-        public ImageBrush SetIcon(string image)
-        {
+        public ImageBrush SetIcon(string image) {
 
             ImageBrush? brush = null;
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                brush = new ImageBrush
-                {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                brush = new ImageBrush {
                     ImageSource = new BitmapImage(new Uri($"StudySpark.GUI.WPF/Images/{image}", UriKind.Relative))
                 };
-            }
-            else
-            {
-                brush = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}"))
-                };
+            } else {
+                try {
+                    Logger.Warning($"Loading '{new Uri($"pack://application:,,,/Images/{image}").AbsoluteUri.ToString()}' in VS mode");
+                    brush = new ImageBrush {
+                        ImageSource = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}"))
+                    };
+                } catch {
+                    string imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", image);
+                    Logger.Warning($"Loading '{new Uri(imagePath).AbsoluteUri.ToString()}' in System mode");
+                    brush = new ImageBrush { ImageSource = new BitmapImage(new Uri(imagePath)) };
+                }
             }
 
             return brush;
         }
 
-        private Image MarkAsDeletable(GenericFile file)
-        {
+        private Image MarkAsDeletable(GenericFile file) {
             Image iconImage = new Image();
 
-            if (!File.Exists(file.Path + "\\" + file.TargetName) && !Directory.Exists(file.Path + "\\" + file.TargetName)) 
-            {
+            if (!File.Exists(file.Path + "\\" + file.TargetName) && !Directory.Exists(file.Path + "\\" + file.TargetName)) {
 
                 iconImage.Source = SetIcon("ExclamationMark.png").ImageSource;
                 iconImage.Width = 30;
@@ -374,90 +319,70 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return iconImage;
         }
-        
-        private bool CheckIfDeletable(Grid grid, Image image)
-        {
+
+        private bool CheckIfDeletable(Grid grid, Image image) {
 
             ImageSource rightSource = SetIcon("ExclamationMark.png").ImageSource;
-            if (grid.Children.Contains(image))
-            {
-                if (image.Source == null)
-                {
+            if (grid.Children.Contains(image)) {
+                if (image.Source == null) {
                     return false;
-                }
-                else if (image.Source.ToString().Equals(rightSource.ToString()))
-                {
+                } else if (image.Source.ToString().Equals(rightSource.ToString())) {
                     return true;
-                }
-                else
-                {
+                } else {
                     return false;
                 }
-            }
-            else
-            {
+            } else {
                 return false;
             }
 
         }
 
-        private void SelectFile()
-        {
+        private void SelectFile() {
             OpenFileDialog ofd = new OpenFileDialog();
 
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            
+
             DialogResult dr = ofd.ShowDialog();
 
-            if (dr == DialogResult.OK)
-            {
+            if (dr == DialogResult.OK) {
                 string path = ofd.FileName;
                 int pos = path.LastIndexOf('.');
                 string ext = path.Substring(pos + 1);
 
-                if (!string.IsNullOrEmpty(path))
-                {
+                if (!string.IsNullOrEmpty(path)) {
                     bool result = fileRepository.InsertData(path, ext);
-                    if (!result)
-                    {
+                    if (!result) {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");
                         return;
                     }
                     UpdateOnChange();
                 }
                 System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
-            }
-            else
-            {
+            } else {
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
 
 
         }
 
-        private void SelectFolder()
-        {
+        private void SelectFolder() {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            
+
             DialogResult dr = fbd.ShowDialog();
-            
-            if (dr == DialogResult.OK) 
-            {
+
+            if (dr == DialogResult.OK) {
                 string path = fbd.SelectedPath;
-                if (!string.IsNullOrEmpty(path))
-                {
+                if (!string.IsNullOrEmpty(path)) {
                     bool result = fileRepository.InsertFileData(path, "folder", "DirectoryIcon.png");
-                    if (!result)
-                    {
+                    if (!result) {
                         System.Windows.MessageBox.Show("Er is iets fout gegaan!");
                         return;
                     }
                     UpdateOnChange();
                 }
                 System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
-            } else
-            {
+            } else {
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
             }
         }
