@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudySpark.Tests", "StudySp
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "StudySpark.Package", "StudySpark.Package\StudySpark.Package.wapproj", "{20D2DFEE-9193-41FD-8EF2-EA6B8386A21C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudySpark.WebScraper", "StudySpark.WebScraper\StudySpark.WebScraper.csproj", "{32C79DA9-2F7E-44F1-8440-82DF035FCEF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudySpark.WebScraper", "StudySpark.WebScraper\StudySpark.WebScraper.csproj", "{32C79DA9-2F7E-44F1-8440-82DF035FCEF3}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StudySpark.Installer", "StudySpark.Installer\StudySpark.Installer.vdproj", "{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,16 @@ Global
 		{32C79DA9-2F7E-44F1-8440-82DF035FCEF3}.Release|x64.Build.0 = Release|Any CPU
 		{32C79DA9-2F7E-44F1-8440-82DF035FCEF3}.Release|x86.ActiveCfg = Release|Any CPU
 		{32C79DA9-2F7E-44F1-8440-82DF035FCEF3}.Release|x86.Build.0 = Release|Any CPU
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Debug|Any CPU.ActiveCfg = Debug
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Debug|ARM.ActiveCfg = Debug
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Debug|ARM64.ActiveCfg = Debug
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Debug|x64.ActiveCfg = Debug
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Debug|x86.ActiveCfg = Debug
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Release|Any CPU.ActiveCfg = Release
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Release|ARM.ActiveCfg = Release
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Release|ARM64.ActiveCfg = Release
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Release|x64.ActiveCfg = Release
+		{93ACCDEB-85E1-4B2E-8F5A-D4561752B7A1}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

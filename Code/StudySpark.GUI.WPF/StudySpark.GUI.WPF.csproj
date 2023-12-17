@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
+	<StartupObject>StudySpark.GUI.WPF.App</StartupObject>
+	<PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +31,10 @@
     <None Remove="Images\PowerPoint.png" />
     <None Remove="Images\Word.png" />
     <None Remove="Logo_NoText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
