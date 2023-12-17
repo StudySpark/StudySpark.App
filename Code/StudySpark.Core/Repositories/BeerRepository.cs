@@ -84,7 +84,6 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
 
         }
-
         public void insertBeersale(string brand, string productname, int bookmarked, string lowestprice, DateTime date)
         {
             int brandID = getBrandId(brand);
@@ -99,7 +98,6 @@ namespace StudySpark.Core.Repositories
 
             sqlite_cmd.ExecuteNonQuery();
         }
-
         public void insertBookMark(string brand, string productname, int bookmarked, string lowestprice)
         {
             int brandID = getBrandId(brand);
@@ -125,10 +123,8 @@ namespace StudySpark.Core.Repositories
 
             sqlite_cmd.ExecuteNonQuery();
         }
-
         public List<GenericBeerProduct> getBookMarked()
-        {
-            
+        { 
             if (DBRepository.Conn == null)
             {
                 return new List<GenericBeerProduct>();
@@ -187,7 +183,35 @@ namespace StudySpark.Core.Repositories
             }
             return sales;
         }
+        public List<GenericBeerProduct> getBeerSales()
+        {
+            if (DBRepository.Conn == null)
+            {
+                return new List<GenericBeerProduct>();
+            }
 
+            List<GenericBeerProduct> products = new List<GenericBeerProduct>();
+
+            SqliteDataReader reader;
+            SqliteCommand sqlite_cmd;
+
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM BeerProducts";
+
+            reader = sqlite_cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                int brandID = reader.GetInt32(1);
+                string productname = reader.GetString(2);
+                int bookmarked = reader.GetInt32(3);
+                string lowestprice = reader.GetString(4);
+
+                GenericBeerProduct product = new GenericBeerProduct(id, brandID, productname, bookmarked, lowestprice);
+                products.Add(product);
+            }
+            return products;
+        }
         public List<GenericBeerProduct> getLastBookMarked()
         {
 

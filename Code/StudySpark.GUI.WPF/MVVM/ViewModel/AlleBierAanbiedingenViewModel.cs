@@ -24,6 +24,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private List<string> FilteredList = new();
         private BierFilterViewModel BierFilterVM;
 
+        //GLOBAL VALUES
         private int IMAGE_WIDTH = 100;
         private int IMAGE_HEIGHT = 100;
         private int PRODUCT_INFORMATION_WIDTH = 300;
@@ -65,11 +66,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private List<List<object>> BierInfoGrolsch;
 
         private List<List<List<object>>> BierList = new();
+        private List<GenericBeerProduct> BierListFromDB;
+
         public static event EventHandler bookmarkAddedEvent;
 
         private StackPanel AllePanel = new StackPanel();
         public AlleBierAanbiedingenViewModel()
         {
+            BierListFromDB = RetrieveBeersalesFromDB();
+
             BierFilterVM = new BierFilterViewModel();
             FilterAanbiedingen = BierFilterVM;
 
@@ -80,6 +85,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             BierFilterView.ViewDataChangeEvent += DisplayBeerSales;
            
             BierAanbiedingenViewModel.BierAanbiedingenClickedEvent += DisplayBeerSales;
+
             ScraperHasFinished += DisplayBeerSales;
         }
 
@@ -101,14 +107,18 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             BierList.Add(BierInfoHeineken);
             BierList.Add(BierInfoGrolsch);
 
-            AddBeersalesToDB(BierList);
+            var salesInDB = RetrieveBeersalesFromDB();
+            if (salesInDB.Count == 0)
+            {
+                AddBeersalesToDB(BierList);
+            }
 
             ScraperHasFinished?.Invoke(this, new EventArgs());
         }
         private void DisplayBeerSales(object? sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() => {
-                if (BierList.Count == 0)
+                if (BierListFromDB.Count == 0)
                 {
                     AllePanel.Children.Clear();
                     AllePanel.VerticalAlignment = VerticalAlignment.Top;
@@ -125,65 +135,56 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     AllePanel.Children.Clear();
                     AllePanel.VerticalAlignment = VerticalAlignment.Center;
                     AllePanel.HorizontalAlignment = HorizontalAlignment.Center;
-                    for (int z = 0; z < BierList.Count; z++)
+                    var displayInfo = new StackPanel();
+
+                    for (int i = 0; i < BierListFromDB.Count; i++)
                     {
-                        string name = "";
+                        GenericBeerProduct beerSale = BierListFromDB[i];
+
                         //CHECK WHICH BRAND SHOULD BE DISPLAYED
-                        switch (z)
+                        string brandName = "";
+                        switch (beerSale.brandID)
                         {
                             case 0:
-                                name = "Hertog Jan";
+                                brandName = "Hertog Jan";
                                 break;
                             case 1:
-                                name = "Amstel";
+                                brandName = "Amstel";
                                 break;
                             case 2:
-                                name = "Heineken";
+                                brandName = "Heineken";
                                 break;
                             case 3:
-                                name = "Grolsch";
+                                brandName = "Grolsch";
                                 break;
                         }
-                        var displayInfo = new StackPanel();
 
-                        //StackPanel info = DisplayInformation(BierList[z], i, z, name);
-                        //info.VerticalAlignment = VerticalAlignment.Center;
-                        //info.HorizontalAlignment = HorizontalAlignment.Left;    
-                        //displayInfo.Children.Add(info);
-
-
-                        for (int i = 0; i < BierList[z].Count; i++)
+                        if (FilteredList.Contains(brandName))
                         {
-                            var sales = (List<Dictionary<string, string>>)BierList[z][i][2];
-                            if (sales.Count > 0)
-                            {
-                                if (FilteredList.Contains(name))
-                                {
-                                    StackPanel info = DisplayInformation(BierList[z], i, z, name);
-                                    info.VerticalAlignment = VerticalAlignment.Center;
-                                    info.HorizontalAlignment = HorizontalAlignment.Left;
-                                    displayInfo.Children.Add(info);
+                            StackPanel info = DisplayInformation(beerSale, i, brandName);
+                            info.VerticalAlignment = VerticalAlignment.Center;
+                            info.HorizontalAlignment = HorizontalAlignment.Left;
+                            displayInfo.Children.Add(info);
 
-                                    if (i == 0)
-                                    {
-                                        AllePanel.Children.Add(new TextBlock()
-                                        {
-                                            Text = name,
-                                            FontSize = 30,
-                                            Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                                            Height = 40
-                                        });
-                                    }
-                                }
+                            if (i == 0)
+                            {
+                                AllePanel.Children.Add(new TextBlock()
+                                {
+                                    Text = brandName,
+                                    FontSize = 30,
+                                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                                    Height = 40
+                                });
                             }
                         }
-                        AllePanel.Children.Add(displayInfo);
+                       
                     }
-                    AlleAanbiedingen = AllePanel;
+                    AllePanel.Children.Add(displayInfo);
                 }
+                AlleAanbiedingen = AllePanel;
             });
         }
-        private StackPanel DisplayInformation(List<List<object>> bierInfo, int index, int zIndex, string name)
+        private StackPanel DisplayInformation(GenericBeerProduct bierInfo, int index, string brandName)
         {
             //CREATE RETURN VALUE
             var containerDivider = new StackPanel()
@@ -194,7 +195,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Height = PRODUCT_INFORMATION_HEIGHT + 15,
                 //Width = double.NaN,
             };
-
             var container = new DockPanel
             {
                 VerticalAlignment = VerticalAlignment.Center,
@@ -214,7 +214,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Height = IMAGE_HEIGHT,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
-                Source = GetProductImage(zIndex)
+                Source = GetProductImage(bierInfo.brandID)
             };
             Border b = new Border()
             {
@@ -226,7 +226,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             b.Child = logo;
             imageGrid.Children.Add(b);
-
 
             //INFORMATION OF THE PRODUCT
             Grid infoGrid = new()
@@ -245,7 +244,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Width = new GridLength(1, GridUnitType.Star)
             };
             salesGrid.ColumnDefinitions.Add(c1);
-            var prices = GetPrices(bierInfo, index, zIndex);
+            var prices = GetPrices(bierInfo, index);
             salesGrid.Children.Add(prices);
 
             //BORDER
@@ -258,13 +257,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             };
             // Bookmark button
             Image image = new Image();
-            if (beerRepository.checkBookMark(bierInfo[index][0].ToString(), name)) {
+            if (beerRepository.checkBookMark(bierInfo.productname, brandName)) {
                 image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark_checked.png", UriKind.Relative));
             } else {
                 image.Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark.png", UriKind.Relative));
             }
-
-
 
             Button bookmarkBtn = new Button()
             {
@@ -279,19 +276,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             bookmarkBtn.Click += (sender, e) =>
             {
                 BeerRepository beerRepository = new BeerRepository();
-                if (!beerRepository.checkBookMark(bierInfo[index][0].ToString(), name))
+                if (!beerRepository.checkBookMark(bierInfo.productname, brandName))
                 {
-                    beerRepository.insertBookMark(name, bierInfo[index][0].ToString(), 1, bierInfo[index][1].ToString());
-                    string? van = "";
-                    string? voor = "";
+                    beerRepository.insertBookMark(brandName, bierInfo.productname, 1, bierInfo.lowestprice);
                     List<GenericBeerProduct> product = beerRepository.getLastBookMarked();
 
-                    List<Dictionary<string, string>> sales = (List<Dictionary<string, string>>)bierInfo[index][2];
+                    List<GenericBeerSale> sales = beerRepository.getSales(bierInfo.id);
                     for (int j = 0; j < sales.Count; j++)
                     {
-                        van = sales[j].ElementAt(0).Key;
-                        voor = sales[j].ElementAt(0).Value;
-                        beerRepository.insertSale(product[0].id, GetStoreImageString(bierInfo, index, j), van, voor);
+                        beerRepository.insertSale(product[0].id, GetStoreImageString(sales[j], index, j), sales[j].oldprice, sales[j].newprice);
                     };
 
                     (bookmarkBtn.Content as Image).Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark_checked.png", UriKind.Relative));
@@ -317,7 +310,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return containerDivider;
         }
-        private Grid DisplayInformationOfProduct(List<List<object>> bierInfo, int index)
+        private Grid DisplayInformationOfProduct(GenericBeerProduct bierInfo, int index)
         {
             var information = new Grid
             {
@@ -343,28 +336,25 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Bottom,
-                Text = GetProductName(bierInfo, index),
+                Text = bierInfo.productname,
                 Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
             };
-
             var laagstePrijs = new TextBlock
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Top,
-                Text = $"laagste prijs: {GetLowestPrice(bierInfo, index)}",
+                Text = $"laagste prijs: {bierInfo.lowestprice}",
                 Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
             };
-
 
             information.Children.Add(productNaam);
             Grid.SetRow(productNaam, 0);
             information.Children.Add(laagstePrijs);
             Grid.SetRow(laagstePrijs, 1);
             
-
             return information;
         }
-        private UIElement GetPrices(List<List<object>> bierInfo, int index, int zIndex)
+        private UIElement GetPrices(GenericBeerProduct bierInfo, int index)
         {
             int SALES = 2;
             var scrollViewer = new ScrollViewer()
@@ -380,20 +370,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
-            string? van = "";
-            string? voor = "";
-            List<List<string>> images = (List<List<string>>) bierInfo[index][3];
 
-            var sales = (List<Dictionary<string, string>>)bierInfo[index][SALES];
+            var sales = beerRepository.getSales(bierInfo.id);
+
             for(int j=0; j < sales.Count; j++)
             {
-                van = sales[j].ElementAt(0).Key;
-                voor = sales[j].ElementAt(0).Value;
 
                 Image img = new Image();
                 try
                 {
-                    img.Source = GetStoreImage(bierInfo, index, j);
+                    img.Source = GetStoreImage(sales[j], index, j);
                 } catch (Exception e)
                 {
                     img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
@@ -409,12 +395,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                 TextBlock t = new TextBlock();
 
-                Run run1 = new Run($"{van}\n");
+                Run run1 = new Run($"{sales[j].oldprice}\n");
                 run1.Foreground = new SolidColorBrush(Color.FromRgb(255, 160, 160));
                 run1.TextDecorations = TextDecorations.Strikethrough;
                 t.Inlines.Add(run1);
 
-                Run run2 = new Run($"{voor}\n");
+                Run run2 = new Run($"{sales[j].newprice}\n");
                 run2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 t.Inlines.Add(run2);
 
@@ -426,44 +412,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
             return scrollViewer;
         }
-        private string GetProductName(List<List<object>> bierInfo, int index)
+        private BitmapImage GetStoreImage(GenericBeerSale sale, int index, int jIndex)
         {
-            int NAME_INDEX = 0;
-            string? name = bierInfo[index][NAME_INDEX].ToString();
-            return name;
-        }
-        private string GetLowestPrice(List<List<object>> bierInfo, int index)
-        {
-            int LOWEST_PRICE_INDEX = 1;
-            string? lowestPrice = bierInfo[index][LOWEST_PRICE_INDEX].ToString();
-
-            int charLocationStart = lowestPrice.IndexOf("€");
-            string lowestPriceTrimFirstHalf = lowestPrice.Substring(charLocationStart);
-            int charLocationStop = lowestPriceTrimFirstHalf.IndexOf(":");
-            string lowestPriceTrim = lowestPriceTrimFirstHalf.Substring(0, charLocationStop);
-
-            return lowestPriceTrim;
-        }
-        private BitmapImage GetStoreImage(List<List<object>> bierInfo, int index, int jIndex)
-        {
-            int IMAGES = 3;
-            var images = (List<List<string>>)bierInfo[index][IMAGES];
-
-            string temp = images[jIndex][0];
-            string url = "https://www.biernet.nl/"+temp;
+            string url = "https://www.biernet.nl/" + sale.store;
 
             BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
             return image;
         }
-        private string GetStoreImageString(List<List<object>> bierInfo, int index, int jIndex)
+        private string GetStoreImageString(GenericBeerSale sale, int index, int jIndex)
         {
-            int IMAGES = 3;
-            var images = (List<List<string>>)bierInfo[index][IMAGES];
-
-            string temp = images[jIndex][0];
-            string url = "https://www.biernet.nl/" + temp;
-
-            BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
+            string url = "https://www.biernet.nl/" + sale.store;
             return url;
         }
         private BitmapImage GetProductImage(int index)
@@ -614,6 +572,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
             }
+        }
+        private List<GenericBeerProduct> RetrieveBeersalesFromDB()
+        {
+            return beerRepository.getBeerSales();
         }
     }
 }
