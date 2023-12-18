@@ -21,6 +21,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private event EventHandler ScraperHasFinished;
         private event EventHandler RetrieveFromDBHasFinished;
+        private event EventHandler UpdateDataBase;
 
         private List<string> FilteredList = new();
         private BierFilterViewModel BierFilterVM;
@@ -67,17 +68,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private List<List<object>> BierInfoGrolsch;
 
         private List<List<List<object>>> BierList = new();
-        private List<GenericBeerProduct>? BierListFromDB = null;
+        private List<GenericBeerProduct>? BierListFromDB;
 
         public static event EventHandler bookmarkAddedEvent;
 
         private StackPanel AllePanel = new StackPanel();
         public AlleBierAanbiedingenViewModel()
         {
-            if (BierListFromDB == null)
-            {
-                BierListFromDB = RetrieveBeersalesFromDB();
-            }
+            BierListFromDB = RetrieveBeersalesFromDB();
 
             BierFilterVM = new BierFilterViewModel();
             FilterAanbiedingen = BierFilterVM;
@@ -85,41 +83,36 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             Thread BierScrapeThread = new Thread(new ThreadStart(RetrieveBeerSales));
             BierScrapeThread.Start();
 
-
             //SUBSCRIBING TO EVENTS
             BierFilterView.ViewDataChangeEvent += SetFilteredList;   
             BierFilterView.ViewDataChangeEvent += DisplayBeerSales;
            
             BierAanbiedingenViewModel.BierAanbiedingenClickedEvent += DisplayBeerSales;
 
-            RetrieveFromDBHasFinished += DisplayBeerSales;
-            
             ScraperHasFinished += (object sender, EventArgs e) =>
             {
                 BierListFromDB = RetrieveBeersalesFromDB();
             };
+            ScraperHasFinished += DisplayBeerSales;
         }
 
         private void RetrieveBeerSales()
         {
             BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
             BiernetScraper scraper = new BiernetScraper(options);
-            var salesInDB = RetrieveBeersalesFromDB();
 
-            if (salesInDB.Count == 0)
-            {
-                BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
-                BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
-                BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
-                BierInfoGrolsch = scraper.BierScrape("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner");
- 
-                BierList.Add(BierInfoHertogJan);
-                BierList.Add(BierInfoAmstel);
-                BierList.Add(BierInfoHeineken);
-                BierList.Add(BierInfoGrolsch);
+            BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+            BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
+            BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
+            BierInfoGrolsch = scraper.BierScrape("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner");
 
-                AddBeersalesToDB(BierList);
-            }
+            BierList.Clear();
+            BierList.Add(BierInfoHertogJan);
+            BierList.Add(BierInfoAmstel);
+            BierList.Add(BierInfoHeineken);
+            BierList.Add(BierInfoGrolsch);
+
+            AddBeersalesToDB(BierList);
 
             ScraperHasFinished?.Invoke(this, new EventArgs());
         }
@@ -533,6 +526,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private void AddBeersalesToDB(List<List<List<object>>> bierList)
         {
+            beerRepository.removeAll();
             for (int z = 0; z < bierList.Count; z++)
             {
                 string brandName = "";

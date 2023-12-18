@@ -84,6 +84,26 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
 
         }
+        public void removeAll()
+        {
+            removeAllSales();
+
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+
+            sqlite_cmd.CommandText = "DELETE FROM BeerProducts";
+
+            sqlite_cmd.ExecuteNonQuery();
+        }
+        public void removeAllSales()
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+
+            sqlite_cmd.CommandText = "DELETE FROM BeerSales";
+
+            sqlite_cmd.ExecuteNonQuery();
+        }
         public void insertBeersale(string brand, string productname, int bookmarked, string lowestprice, DateTime date)
         {
             int brandID = getBrandId(brand);
