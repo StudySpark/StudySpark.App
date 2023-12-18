@@ -34,8 +34,10 @@
     <None Remove="Images\NoteColor.png" />
     <None Remove="Images\NoteEdit.png" />
     <None Remove="Images\NoteFont.png" />
+    <None Remove="Images\NoteHightlight.png" />
     <None Remove="Images\NoteImage.png" />
     <None Remove="Images\NoteSave.png" />
+    <None Remove="Images\NoteTextList.png" />
     <None Remove="Images\NoteTextSizeMin.png" />
     <None Remove="Images\NoteTextSizePlus.png" />
     <None Remove="Images\NoteTrash.png" />
@@ -86,8 +88,10 @@
     <Resource Include="Images\NoteColor.png" />
     <Resource Include="Images\NoteEdit.png" />
     <Resource Include="Images\NoteFont.png" />
+    <Resource Include="Images\NoteHightlight.png" />
     <Resource Include="Images\NoteImage.png" />
     <Resource Include="Images\NoteSave.png" />
+    <Resource Include="Images\NoteTextList.png" />
     <Resource Include="Images\NoteTextSizeMin.png" />
     <Resource Include="Images\NoteTextSizePlus.png" />
     <Resource Include="Images\NoteTrash.png" />
