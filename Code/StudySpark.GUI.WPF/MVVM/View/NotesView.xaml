@@ -19,6 +19,20 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid x:Name="NoNotesMessage"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Visibility="{Binding IsNoteListViewEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Label Content="Geen opgeslagen notities"
+                   Foreground="#FFC7C7C7"
+                   FontSize="20"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+            
+        </Grid>
+
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <ItemsControl ItemsSource="{Binding NoteListViewElements}">
                 <ItemsControl.ItemTemplate>

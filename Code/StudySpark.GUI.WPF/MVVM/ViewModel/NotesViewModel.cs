@@ -15,6 +15,7 @@ using System.Windows.Controls;
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class NotesViewModel {
         public ObservableCollection<GenericNoteListItem> NoteListViewElements { get; set; } = new ObservableCollection<GenericNoteListItem>();
+        public bool IsNoteListViewEmpty => NoteListViewElements.Count == 0;
 
         public RelayCommand NoteViewClick { get; private set; }
         public RelayCommand NoteEditClick { get; private set; }
@@ -23,6 +24,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public NotesViewModel() {
             NoteListViewElements = NotesRepository.Instance.NoteListViewElements;
+
+
 
             NoteViewClick = new RelayCommand((o) => {
                 GenericNoteListItem? note = o as GenericNoteListItem;
