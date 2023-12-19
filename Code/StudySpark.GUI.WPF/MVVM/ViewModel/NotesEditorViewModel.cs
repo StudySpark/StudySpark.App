@@ -203,11 +203,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 TextPointer textPointer = rtfEditor.CaretPosition;
                 if (textPointer != null) {
-                    //textPointer.Paragraph.prop
-                    Paragraph paragraph = textPointer.Paragraph;
+                    Inline inline = textPointer.Parent as Inline;
 
-                    if (paragraph != null) {
-                        TextSize = paragraph.FontSize;
+                    if (inline != null) {
+                        TextSize = (double)inline.GetValue(TextElement.FontSizeProperty);
                         OnPropertyChanged(nameof(TextSize));
                     }
                 }
