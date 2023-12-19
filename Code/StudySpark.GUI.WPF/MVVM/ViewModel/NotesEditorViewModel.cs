@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -38,6 +39,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand EditorAlignLeftCommand { get; private set; }
         public RelayCommand EditorAlignCenterCommand { get; private set; }
         public RelayCommand EditorAlignRightCommand { get; private set; }
+
+        public RelayCommand rtfEditor_SelectionChangedCommand { get; private set; }
 
         public NotesEditorViewModel() {
 
@@ -194,6 +197,21 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
+
+            rtfEditor_SelectionChangedCommand = new RelayCommand((o) => {
+                RichTextBox rtfEditor = o as RichTextBox;
+
+                TextPointer textPointer = rtfEditor.CaretPosition;
+                if (textPointer != null) {
+                    //textPointer.Paragraph.prop
+                    Paragraph paragraph = textPointer.Paragraph;
+
+                    if (paragraph != null) {
+                        TextSize = paragraph.FontSize;
+                        OnPropertyChanged(nameof(TextSize));
+                    }
+                }
+            });
         }
 
         private bool ChangeLineFontSize(RichTextBox richTextBox, double newSize) {
@@ -250,16 +268,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             }
         }
 
-        public void rtfEditor_SelectionChanged(object sender, RoutedEventArgs e) {
-            if (sender is RichTextBox richTextBox) {
-                TextPointer textPointer = richTextBox.Selection.Start;
+        //public void rtfEditor_SelectionChanged(object sender, RoutedEventArgs e) {
+        //    if (sender is RichTextBox richTextBox) {
+        //        TextPointer textPointer = richTextBox.Selection.Start;
 
-                if (textPointer != null) {
-                    Paragraph paragraph = textPointer.Paragraph;
-                    TextSize = paragraph.FontSize;
-                    OnPropertyChanged(nameof(TextSize));
-                }
-            }
-        }
+        //        if (textPointer != null) {
+        //            Paragraph paragraph = textPointer.Paragraph;
+        //            TextSize = paragraph.FontSize;
+        //            OnPropertyChanged(nameof(TextSize));
+        //        }
+        //    }
+        //}
     }
 }

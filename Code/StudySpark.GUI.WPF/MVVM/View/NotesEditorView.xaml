@@ -345,6 +345,7 @@
                      CaretBrush="White"
                      SelectionBrush="#FFA042CE"
                      Panel.ZIndex="1"
-                     core:RichTextBoxBehavior.SelectionChangedCommand="{Binding rtfEditor_SelectionChanged}"/>
+                     core:RichTextBoxBehavior.SelectionChangedCommand="{Binding rtfEditor_SelectionChangedCommand}"
+                     core:RichTextBoxBehavior.CommandParameter="{Binding ElementName=rtfEditor}" />
     </Grid>
 </UserControl>

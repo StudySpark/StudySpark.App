@@ -27,10 +27,26 @@ namespace StudySpark.GUI.WPF.Core {
             }
         }
 
+        public static readonly DependencyProperty CommandParameterProperty =
+        DependencyProperty.RegisterAttached(
+            "CommandParameter",
+            typeof(object),
+            typeof(RichTextBoxBehavior),
+            new PropertyMetadata(null));
+
+        public static object GetCommandParameter(DependencyObject obj) {
+            return obj.GetValue(CommandParameterProperty);
+        }
+
+        public static void SetCommandParameter(DependencyObject obj, object value) {
+            obj.SetValue(CommandParameterProperty, value);
+        }
+
         private static void RichTextBox_SelectionChanged(object sender, RoutedEventArgs e) {
             if (sender is RichTextBox richTextBox) {
                 var command = GetSelectionChangedCommand(richTextBox);
-                command?.Execute(richTextBox.Selection);
+                var commandParameter = GetCommandParameter(richTextBox);
+                command?.Execute(commandParameter);
             }
         }
     }
