@@ -13,11 +13,9 @@ namespace StudySpark.GUI.WPF.MVVM.View
         public delegate void FilterViewEventHandler(object sender, BierFilterEventArgs e);
         public static event FilterViewEventHandler? ViewDataChangeEvent;
 
-        private bool? _hertogJanChecked = false;
-        private bool? _amstelChecked = false;
-        private bool? _heinekenChecked = false;
-        private bool? _grolschChecked = false;
-
+        private bool? _hertogJanChecked, _amstelChecked, _heinekenChecked, _grolschChecked = true;
+        private bool? _kratChecked, _blikChecked, _flesChecked, _fustChecked = true;
+  
         public BierFilterView()
         {
             InitializeComponent();
@@ -45,7 +43,26 @@ namespace StudySpark.GUI.WPF.MVVM.View
             FireEvent();
         }
 
-
+        private void CheckBox_Checked_Krat(object sender, RoutedEventArgs e)
+        {
+            _kratChecked = CheckboxKrat.IsChecked;
+            FireEvent();
+        }
+        private void CheckBox_Checked_Blik(object sender, RoutedEventArgs e)
+        {
+            _blikChecked = CheckboxBlik.IsChecked;
+            FireEvent();
+        }
+        private void CheckBox_Checked_Fles(object sender, RoutedEventArgs e)
+        {
+            _flesChecked = CheckboxFles.IsChecked;
+            FireEvent();
+        }
+        private void CheckBox_Checked_Fust(object sender, RoutedEventArgs e)
+        {
+            _fustChecked = CheckboxFust.IsChecked;
+            FireEvent();
+        }
         private void FireEvent()
         {
             BierFilterEventArgs bierFilterEventArgs = new BierFilterEventArgs();
@@ -54,6 +71,10 @@ namespace StudySpark.GUI.WPF.MVVM.View
             bierFilterEventArgs.AmstelChecked = _amstelChecked;
             bierFilterEventArgs.HeinekenChecked = _heinekenChecked;
             bierFilterEventArgs.GrolschChecked = _grolschChecked;
+            bierFilterEventArgs.KratIsChecked = _kratChecked;
+            bierFilterEventArgs.BlikIsChecked = _blikChecked;
+            bierFilterEventArgs.FlesIsChecked = _flesChecked;
+            bierFilterEventArgs.FustIsChecked = _fustChecked;
 
             ViewDataChangeEvent?.Invoke(this, bierFilterEventArgs);
         }

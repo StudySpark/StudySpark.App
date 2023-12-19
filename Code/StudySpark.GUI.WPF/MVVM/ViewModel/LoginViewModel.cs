@@ -97,9 +97,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.Username = username;
             scraperOptions.Password = password;
-            scraperOptions.Debug = false;
+            scraperOptions.Debug = true;
 
             EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
+ 
 
             webScraper.SetupDriver();
             bool result = webScraper.TestLoginCredentials();

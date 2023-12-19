@@ -7,11 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="75" d:DesignWidth="800">
     <Grid>
-        <StackPanel Orientation="Vertical">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Column="0">
             <CheckBox Content="Hertog Jan" Foreground="White" Unchecked="CheckBox_Checked_HertogJan" Checked="CheckBox_Checked_HertogJan" x:Name="CheckboxHertogJan" IsChecked="true"/>
             <CheckBox Content="Amstel" Foreground="White" Unchecked="CheckBox_Checked_Amstel" Checked="CheckBox_Checked_Amstel" x:Name="CheckboxAmstel" IsChecked="true"/>
             <CheckBox Content="Heineken" Foreground="White" Unchecked="CheckBox_Checked_Heineken" Checked="CheckBox_Checked_Heineken" x:Name="CheckboxHeineken" IsChecked="true"/>
             <CheckBox Content="Grolsch" Foreground="White" Unchecked="CheckBox_Checked_Grolsch" Checked="CheckBox_Checked_Grolsch" x:Name="CheckboxGrolsch" IsChecked="true"/>
         </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+            <CheckBox Content="Kratten" Foreground="White" Unchecked="CheckBox_Checked_Krat" Checked="CheckBox_Checked_Krat" x:Name="CheckboxKrat" IsChecked="true"/>
+            <CheckBox Content="Blikken" Foreground="White" Unchecked="CheckBox_Checked_Blik" Checked="CheckBox_Checked_Blik" x:Name="CheckboxBlik" IsChecked="true"/>
+            <CheckBox Content="Flessen" Foreground="White" Unchecked="CheckBox_Checked_Fles" Checked="CheckBox_Checked_Fles" x:Name="CheckboxFles" IsChecked="true"/>
+            <CheckBox Content="Fusten" Foreground="White" Unchecked="CheckBox_Checked_Fust" Checked="CheckBox_Checked_Fust" x:Name="CheckboxFust" IsChecked="true"/>
+        </StackPanel>
+        
     </Grid>
 </UserControl>

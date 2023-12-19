@@ -132,7 +132,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     });
                     AlleAanbiedingen = AllePanel;
                 }
-                else {
+                else 
+                {
                     AllePanel.Children.Clear();
                     AllePanel.VerticalAlignment = VerticalAlignment.Center;
                     AllePanel.HorizontalAlignment = HorizontalAlignment.Center;
@@ -160,7 +161,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                                 break;
                         }
 
-                        if (FilteredList.Contains(brandName))
+                        var productName = beerSale.productname;
+
+                        if (FilteredList.Contains(brandName) && FilteredList.Contains(productName))
                         {
                             StackPanel info = DisplayInformation(beerSale, i, brandName);
                             info.VerticalAlignment = VerticalAlignment.Center;
@@ -176,10 +179,25 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                                     Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
                                     Height = 40
                                 });
-                            }
+                            } 
+
                         }
-                       
                     }
+
+                    if (displayInfo.Children.Count == 0)
+                    {
+                        displayInfo.Children.Add(new TextBlock()
+                        {
+                            Text = "Geen aanbiedingen gevonden met de gekozen filters",
+                            Width = 554,
+                            Height = 212,
+                            Foreground = new SolidColorBrush(Color.FromRgb(199,199,199)),
+                            FontSize = 20,
+                            HorizontalAlignment = HorizontalAlignment.Right,
+                            VerticalAlignment = VerticalAlignment.Bottom
+                        });
+                    }
+
                     AllePanel.Children.Add(displayInfo);
                 }
                 AlleAanbiedingen = AllePanel;
@@ -448,10 +466,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private void SetFilteredList(object sender, EventArgs e)
         {
-            bool? HertogJanChecked = BierFilterViewModel.hertogIsChecked;
-            bool? AmstelChecked = BierFilterViewModel.amstelIsChecked;
-            bool? HeinekenChecked = BierFilterViewModel.heinekenIsChecked;
-            bool? GrolschIsChecked = BierFilterViewModel.grolschIsChecked;
+            bool? HertogJanChecked = BierFilterViewModel.hertogIsChecked ?? true;
+            bool? AmstelChecked = BierFilterViewModel.amstelIsChecked ?? true;
+            bool? HeinekenChecked = BierFilterViewModel.heinekenIsChecked ?? true;
+            bool? GrolschIsChecked = BierFilterViewModel.grolschIsChecked ?? true;
+            bool? KratIsChecked = BierFilterViewModel.kratIsChecked ?? true;
+            bool? BlikIsChecked = BierFilterViewModel.blikIsChecked ?? true;
+            bool? FlesIsChecked = BierFilterViewModel.flesIsChecked ?? true;
+            bool ?FustIsChecked = BierFilterViewModel.fustIsChecked ?? true;
 
             if ((bool)HertogJanChecked)
             {
@@ -462,9 +484,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
             else
             {
-                for(int i=0; i< FilteredList.Count; i++)
+                for (int i = 0; i < FilteredList.Count; i++)
                 {
-                    if(FilteredList[i].Equals("Hertog Jan"))
+                    if (FilteredList[i].Equals("Hertog Jan"))
                     {
                         FilteredList.RemoveAt(i);
                     }
@@ -477,7 +499,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 {
                     FilteredList.Add("Amstel");
                 }
-            } 
+            }
             else
             {
                 for (int i = 0; i < FilteredList.Count; i++)
@@ -488,8 +510,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
             }
-
-            if((bool)HeinekenChecked) 
+        
+            if ((bool)HeinekenChecked)
             {
                 if (!FilteredList.Contains("Heineken"))
                 {
@@ -506,6 +528,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
             }
+
             if ((bool)GrolschIsChecked)
             {
                 if (!FilteredList.Contains("Grolsch"))
@@ -523,6 +546,218 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
             }
+
+            if ((bool)KratIsChecked)
+            {
+                if (!FilteredList.Contains("Krat van 24 flesjes á 0,30 liter"))
+                {
+                    FilteredList.Add("Krat van 24 flesjes á 0,30 liter");
+                }
+                if(!FilteredList.Contains("Krat van 18 flesjes á 0,50 liter"))
+                {
+                    FilteredList.Add("Krat van 18 flesjes á 0,50 liter");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < FilteredList.Count; i++)
+                {
+                    if (FilteredList[i].Equals("Krat van 24 flesjes á 0,30 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Krat van 18 flesjes á 0,50 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                }
+            }
+
+            if ((bool)FlesIsChecked)
+            {
+                if (!FilteredList.Contains("Flesje á 0,25 liter"))
+                {
+                    FilteredList.Add("Flesje á 0,25 liter");
+                }
+                if (!FilteredList.Contains("Fles á 0,30 liter"))
+                {
+                    FilteredList.Add("Fles á 0,30 liter");
+                }
+                if (!FilteredList.Contains("Fles á 0,50 liter"))
+                {
+                    FilteredList.Add("Fles á 0,50 liter");
+                }
+
+                if (!FilteredList.Contains("Set van 6 flesjes á 0,25 liter"))
+                {
+                    FilteredList.Add("Set van 6 flesjes á 0,25 liter");
+                }
+                if (!FilteredList.Contains("Set van 6 flesjes á 0,30 liter"))
+                {
+                    FilteredList.Add("Set van 6 flesjes á 0,30 liter");
+                }
+                if (!FilteredList.Contains("Set van 8 flesjes á 0,25 liter"))
+                {
+                    FilteredList.Add("Set van 8 flesjes á 0,25 liter");
+                }
+                if (!FilteredList.Contains("Set van 10 flesjes á 0,25 liter"))
+                {
+                    FilteredList.Add("Set van 10 flesjes á 0,25 liter");
+                }
+                if (!FilteredList.Contains("Doos van 12 flesjes 0,25 liter"))
+                {
+                    FilteredList.Add("Doos van 12 flesjes 0,25 liter");
+                }
+                if (!FilteredList.Contains("Doos met 20 flesjes van 0,25 liter"))
+                {
+                    FilteredList.Add("Doos met 20 flesjes van 0,25 liter");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < FilteredList.Count; i++)
+                {
+                    if (FilteredList[i].Equals("Flesje á 0,25 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Fles á 0,30 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Fles á 0,50 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+
+                    if (FilteredList[i].Equals("Set van 6 flesjes á 0,25 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 6 flesjes á 0,30 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 8 flesjes á 0,25 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 10 flesjes á 0,25 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Doos van 12 flesjes 0,25 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Doos met 20 flesjes van 0,25 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                }
+            }
+           
+            if ((bool)BlikIsChecked)
+            {
+                if(!FilteredList.Contains("Blik van 0,50 liter"))
+                {
+                    FilteredList.Add("Blik van 0,50 liter");
+                }
+                if(!FilteredList.Contains("Blikje van 0,33 liter"))
+                {
+                    FilteredList.Add("Blikje van 0,33 liter");
+                }
+
+                if (!FilteredList.Contains("Set van 6 blikjes 0,33 liter"))
+                {
+                    FilteredList.Add("Set van 6 blikjes 0,33 liter");
+                }
+                if (!FilteredList.Contains("Set van 6 blikken á 0,50 liter"))
+                {
+                    FilteredList.Add("Set van 6 blikken á 0,50 liter");
+                }
+                if(!FilteredList.Contains("Set van 8 blikken á 0,50 liter"))
+                {
+                    FilteredList.Add("Set van 8 blikken á 0,50 liter");
+                }
+                if(!FilteredList.Contains("Set van 12 blikjes á 0,33 liter"))
+                {
+                    FilteredList.Add("Set van 12 blikjes á 0,33 liter");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < FilteredList.Count; i++)
+                {
+                    if (FilteredList[i].Equals("Blik van 0,50 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Blikje van 0,33 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 6 blikjes 0,33 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 6 blikken á 0,50 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 8 blikken á 0,50 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Set van 12 blikjes á 0,33 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                }
+            }
+
+            if ((bool)FustIsChecked)
+            {
+                if (!FilteredList.Contains("Fust van 50 liter"))
+                {
+                    FilteredList.Add("Fust van 50 liter");
+                }
+                if(!FilteredList.Contains("Torp van 2 liter"))
+                {
+                    FilteredList.Add("Torp van 2 liter");
+                }
+                if(!FilteredList.Contains("Fust van 20 liter"))
+                {
+                    FilteredList.Add("Fust van 20 liter");
+                }
+                if(!FilteredList.Contains("Perfect Draft fust"))
+                {
+                    FilteredList.Add("Perfect Draft fust");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < FilteredList.Count; i++)
+                {
+                    if (FilteredList[i].Equals("Fust van 50 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Torp van 2 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Fust van 20 liter"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                    if (FilteredList[i].Equals("Perfect Draft fust"))
+                    {
+                        FilteredList.RemoveAt(i);
+                    }
+                }
+            }
+            
         }
         private void AddBeersalesToDB(List<List<List<object>>> bierList)
         {
