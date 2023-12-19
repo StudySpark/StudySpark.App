@@ -138,11 +138,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     AllePanel.VerticalAlignment = VerticalAlignment.Center;
                     AllePanel.HorizontalAlignment = HorizontalAlignment.Center;
                     var displayInfo = new StackPanel();
+                    
+                    int currentBrandID = 0;
 
                     for (int i = 0; i < BierListFromDB.Count; i++)
                     {
                         GenericBeerProduct beerSale = BierListFromDB[i];
-
                         //CHECK WHICH BRAND SHOULD BE DISPLAYED
                         string brandName = "";
                         switch (beerSale.brandID)
@@ -168,19 +169,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                             StackPanel info = DisplayInformation(beerSale, i, brandName);
                             info.VerticalAlignment = VerticalAlignment.Center;
                             info.HorizontalAlignment = HorizontalAlignment.Left;
-                            displayInfo.Children.Add(info);
-
-                            if (i == 0)
-                            {
-                                AllePanel.Children.Add(new TextBlock()
-                                {
-                                    Text = brandName,
-                                    FontSize = 30,
-                                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                                    Height = 40
-                                });
-                            } 
-
+                            displayInfo.Children.Add(info); 
                         }
                     }
 
