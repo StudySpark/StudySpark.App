@@ -19,7 +19,6 @@ namespace StudySpark.WebScraper.Biernet
         int PRODUCT_NAME = 0;
         int PRODUCT_LOWEST_PRICE = 1;
 
-
         public List<List<object>> BierScrape()
         {
             List<List<object>> BierInformatie = new();
@@ -92,6 +91,7 @@ namespace StudySpark.WebScraper.Biernet
                 }
                 BierInformatie[i].Add(images);
             }
+            CloseDriver();
             return BierInformatie;
         }
         public static string getStoreID(int i)

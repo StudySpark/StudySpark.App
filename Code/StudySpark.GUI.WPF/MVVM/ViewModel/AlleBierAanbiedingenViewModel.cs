@@ -11,6 +11,7 @@ using StudySpark.Core.Generic;
 using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using StudySpark.GUI.WPF.MVVM.View;
+using StudySpark.WebScraper;
 using StudySpark.WebScraper.Biernet;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel

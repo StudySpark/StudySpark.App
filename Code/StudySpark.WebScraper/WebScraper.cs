@@ -42,12 +42,13 @@ namespace StudySpark.WebScraper {
             driver?.Navigate().GoToUrl(scraperOptions?.URL);
         }
 
-        public void CloseDriver() {
+        public void CloseDriver() {            
             if (driver == null) {
                 return;
             }
 
             driver.Close();
+            driver.Quit();
         }
 
         public void WaitForPageLoad(uint timeout = 30) {
