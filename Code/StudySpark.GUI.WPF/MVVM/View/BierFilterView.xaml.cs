@@ -14,7 +14,7 @@ namespace StudySpark.GUI.WPF.MVVM.View
         public static event FilterViewEventHandler? ViewDataChangeEvent;
 
         private bool? _hertogJanChecked, _amstelChecked, _heinekenChecked, _grolschChecked = true;
-        private bool? _kratChecked, _blikChecked, _flesChecked, _fustChecked = true;
+        private bool? _kratChecked, _blikChecked, _flesChecked, _fustChecked, _trayChecked = true;
   
         public BierFilterView()
         {
@@ -63,6 +63,12 @@ namespace StudySpark.GUI.WPF.MVVM.View
             _fustChecked = CheckboxFust.IsChecked;
             FireEvent();
         }
+
+        private void CheckBox_Checked_Tray(object sender, RoutedEventArgs e)
+        {
+            _trayChecked = CheckboxTray.IsChecked;
+            FireEvent();
+        }
         private void FireEvent()
         {
             BierFilterEventArgs bierFilterEventArgs = new BierFilterEventArgs();
@@ -75,6 +81,7 @@ namespace StudySpark.GUI.WPF.MVVM.View
             bierFilterEventArgs.BlikIsChecked = _blikChecked;
             bierFilterEventArgs.FlesIsChecked = _flesChecked;
             bierFilterEventArgs.FustIsChecked = _fustChecked;
+            bierFilterEventArgs.TrayIsChecked = _trayChecked;
 
             ViewDataChangeEvent?.Invoke(this, bierFilterEventArgs);
         }

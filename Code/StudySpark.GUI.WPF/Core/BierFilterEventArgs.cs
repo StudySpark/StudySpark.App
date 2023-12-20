@@ -16,5 +16,6 @@ namespace StudySpark.GUI.WPF.Core
         public bool? BlikIsChecked { get; set; } = true;
         public bool? FlesIsChecked { get; set; } = true;
         public bool? FustIsChecked { get; set; } = true;
+        public bool? TrayIsChecked { get; set; } = true;
     }
 }

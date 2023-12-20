@@ -20,6 +20,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         public static bool? blikIsChecked { get; set; } = true;
         public static bool? flesIsChecked { get; set; } = true;
         public static bool? fustIsChecked { get; set; } = true;
+        public static bool? trayIsChecked { get; set; } = true;
 
 
         public BierFilterViewModel()
@@ -37,6 +38,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             blikIsChecked = e.BlikIsChecked;
             flesIsChecked = e.FlesIsChecked;
             fustIsChecked = e.FustIsChecked;
+            trayIsChecked = e.TrayIsChecked;
         }
     }
 }
