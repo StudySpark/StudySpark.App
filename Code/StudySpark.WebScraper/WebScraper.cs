@@ -56,7 +56,7 @@ namespace StudySpark.WebScraper {
             wait.Until(ExpectedConditions.ElementExists(By.TagName("body")));
         }
 
-        public IWebElement GetElementById(string element, uint timeout = 300) {
+        public IWebElement GetElementById(string element, uint timeout = 30) {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
             return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(element)));
