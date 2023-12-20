@@ -1,11 +1,6 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using SeleniumExtras.WaitHelpers;
 
@@ -19,7 +14,7 @@ namespace StudySpark.WebScraper {
             this.scraperOptions = scraperOptions;
         }
 
-        public void SetupDriver() {
+        public void SetupDriver(bool mobileView = false) {
             var options = new ChromeOptions();
             if (!scraperOptions.Debug) {
                 options.AddArgument("--headless");
@@ -40,6 +35,10 @@ namespace StudySpark.WebScraper {
 
             driver = new ChromeDriver(chromeDriverService, options);
 
+            if(mobileView)
+            {
+                driver.Manage().Window.Size = new System.Drawing.Size(100, 800);
+            }
             driver?.Navigate().GoToUrl(scraperOptions?.URL);
         }
 
@@ -56,7 +55,7 @@ namespace StudySpark.WebScraper {
             wait.Until(ExpectedConditions.ElementExists(By.TagName("body")));
         }
 
-        public IWebElement GetElementById(string element, uint timeout = 30) {
+        public IWebElement GetElementById(string element, uint timeout = 300) {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
             return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(element)));

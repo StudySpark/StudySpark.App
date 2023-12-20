@@ -7,11 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using StudySpark.Core.BierScraper;
 using StudySpark.Core.Generic;
 using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using StudySpark.GUI.WPF.MVVM.View;
+using StudySpark.WebScraper.Biernet;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -98,13 +98,20 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
         private void RetrieveBeerSales()
         {
-            BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
+            WebScraper.ScraperOptions options = new();
             BiernetScraper scraper = new BiernetScraper(options);
 
-            BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
-            BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
-            BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
-            BierInfoGrolsch = scraper.BierScrape("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner");
+            scraper.Load("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+            BierInfoHertogJan = scraper.BierScrape();
+
+            scraper.Load("https://www.biernet.nl/bier/merken/amstel-pilsener");
+            BierInfoAmstel = scraper.BierScrape();
+
+            scraper.Load("https://www.biernet.nl/bier/merken/heineken-pilsener");
+            BierInfoHeineken = scraper.BierScrape();
+
+            scraper.Load("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner");
+            BierInfoGrolsch = scraper.BierScrape();
 
             BierList.Clear();
             BierList.Add(BierInfoHertogJan);
