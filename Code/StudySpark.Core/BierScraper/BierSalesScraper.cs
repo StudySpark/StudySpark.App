@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using StudySpark.Core.Generic;
 
 namespace StudySpark.Core.BierScraper
 {
@@ -73,85 +75,60 @@ namespace StudySpark.Core.BierScraper
         {
             public string? URL { get; set; }
         }
-        //LIST OF ALL THE SALES PER PRODUCT (ALSO ADDED TO FINAL LIST IN THE END)
-        public List<Dictionary<IWebElement, IWebElement>> salesList = new();
 
-        //STORE IMAGES
-        public List<List<IWebElement>> storeImages = new();
 
-        public void BierSaleScrape(string url)
+        public List<GenericBeerSale> BierSaleScrape(string url)
         {
-            //CREATE LIST THAT IS BEING RETURNED 
+            
             List<List<object>> BierInformatie = new();
+            List<GenericBeerSale> salesList = new List<GenericBeerSale>();
 
-            //VARIABLE NAMES FOR INDECES IN PRODUCTSLIST (NOT FINAL LIST)
             int PRODUCT_NAME = 0;
             int PRODUCT_LOWEST_PRICE = 1;
 
-            //MAKE SCRAPEROPTIONS (ONLY URL IN THIS CASE)
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.URL = url;
 
-            //CREATE ACTUAL SCRAPER
             BierSalesScraper biernetScraper = new BierSalesScraper(scraperOptions);
             biernetScraper.SetupDriver();
 
-
-            //GET THE RIGHT DIV, IN THIS CASE ajaxdiv -- EASIER ACCESS
             IWebElement ajaxdiv = biernetScraper.GetElementById("inhoud_ajaxdiv");
 
-            //Get aanbiedingen div
             IWebElement aanbiedingenDiv = ajaxdiv.FindElement(By.ClassName("aanbiedingen"));
 
-            //GET THE LIST of all sales
             ReadOnlyCollection<IWebElement> StoreInformationGlobal = aanbiedingenDiv.FindElements(By.ClassName("cardStyle"));
 
+            string oldprice = "";
+            string newprice = "";
             //LOOP THROUGH ALL THE AVAILABLE SALES -- PER PRODUCT
             for (int i = 0; i < StoreInformationGlobal.Count; i++)
             {
+
+                IWebElement prijsinfo = null;
+
                 //GET ALL THE STORES WITH A SALE BASED ON WHICH PRODUCT IT IS LOOKING AT
                 IWebElement winkelsInformation = StoreInformationGlobal[i].FindElement(By.ClassName("informatie"));
-                ReadOnlyCollection<IWebElement> prijsinfo;
                 try
                 {
-                    prijsinfo = winkelsInformation.FindElements(By.ClassName("prijss"));
-                } catch (NoSuchElementException ex)
+                    prijsinfo = winkelsInformation.FindElement(By.ClassName("prijss"));
+                    oldprice = prijsinfo.FindElement(By.ClassName("van_prijss")).Text;
+                    newprice = prijsinfo.FindElement(By.ClassName("voor_prijss")).Text;
+                } catch (NoSuchElementException) 
                 {
-                    prijsinfo = winkelsInformation.FindElements(By.ClassName("prijsss"));
+                    prijsinfo = winkelsInformation.FindElement(By.ClassName("prijsss"));
+                    oldprice = prijsinfo.FindElement(By.ClassName("van_prijsss")).Text;
+                    newprice = prijsinfo.FindElement(By.ClassName("voor_prijsss")).Text;
                 }
-                
 
-                //ADD AN EMPTY DICTIONARY TO SALESLIST -- WE PUT THE SALE IN THIS DICTIONARY
-                //FOR EVERY SALE, A DICTIONARY IS CREATED
-                salesList.Add(new Dictionary<IWebElement, IWebElement>());
-                storeImages.Add(new List<IWebElement>());
-                for (int j = 0; j < prijsinfo.Count; j++)
+                try
                 {
-                    //IF THERE IS A SALE AVAILABLE -- ADD IT
-                    try
-                    {
-                        salesList[i].Add(prijsinfo[j].FindElement(By.ClassName("van_prijss")), prijsinfo[j].FindElement(By.ClassName("voor_prijsss")));
-                    }
-                    //ELSE DON'T DO ANYTHING
-                    catch (Exception e) { }
-                    try
-                    {
-                        storeImages[i].Add(StoreInformationGlobal[j].FindElement(By.ClassName("lazyloading")));
-                    }
-                    catch (Exception e) { }
-
-
+                    string img = StoreInformationGlobal[i].FindElement(By.ClassName("lazyloading")).Text;
                 }
+                catch (Exception e) { }
+                salesList.Add(new GenericBeerSale(oldprice, newprice));
             }
-        }
-
-        public List<Dictionary<IWebElement, IWebElement>> GetSalesList()
-        {
+            
             return salesList;
-        }
-        public List<List<IWebElement>> getStoreImages()
-        {
-            return storeImages;
         }
     }
 }

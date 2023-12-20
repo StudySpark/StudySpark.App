@@ -13,12 +13,18 @@ namespace StudySpark.Core.Generic
         public string store;
         public string oldprice;
         public string newprice;
+        public string img;
 
         public GenericBeerSale(int id, int productID, string store, string oldprice, string newprice)
         {
             this.id = id;
             this.productID = productID;
             this.store = store;
+            this.oldprice = oldprice;
+            this.newprice = newprice;
+        }
+        public GenericBeerSale(string oldprice, string newprice)
+        {
             this.oldprice = oldprice;
             this.newprice = newprice;
         }

@@ -84,19 +84,31 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
 
         }
-        public void insertBeersale(string brand, string productname, int bookmarked, string lowestprice, DateTime date)
+        public void insertBeersale(List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> products)
         {
-            int brandID = getBrandId(brand);
-            SqliteCommand sqlite_cmd;
-            sqlite_cmd = DBRepository.Conn.CreateCommand();
-            sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice, expirationdate) VALUES(@brandID, @productname, @bookmarked, @lowestprice, @expirationdate)";
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", brandID));
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", productname));
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", bookmarked));
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", lowestprice));
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", date));
+            foreach(Dictionary<GenericBeerProduct, List<GenericBeerSale>> dict in products) {
+                foreach(var (key, value)  in dict)
+                {
+                    int brandID = getBrandId(key.productname);
 
-            sqlite_cmd.ExecuteNonQuery();
+                    //foreach(GenericBeerSale sale in value)
+                    //{
+                    //    insertSale(sale.)
+                    //}
+                    
+                }
+            }
+            
+            //SqliteCommand sqlite_cmd;
+            //sqlite_cmd = DBRepository.Conn.CreateCommand();
+            //sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice, expirationdate) VALUES(@brandID, @productname, @bookmarked, @lowestprice, @expirationdate)";
+            //sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", brandID));
+            //sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", productname));
+            //sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", bookmarked));
+            //sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", lowestprice));
+            //sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", date));
+
+            //sqlite_cmd.ExecuteNonQuery();
         }
         public void insertBookMark(string brand, string productname, int bookmarked, string lowestprice)
         {

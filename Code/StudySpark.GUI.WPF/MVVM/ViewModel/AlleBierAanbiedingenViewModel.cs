@@ -108,17 +108,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             if (salesInDB.Count == 0)
             {
-                BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
-                BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
-                BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
-                BierInfoGrolsch = scraper.BierScrape("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner");
- 
-                BierList.Add(BierInfoHertogJan);
-                BierList.Add(BierInfoAmstel);
-                BierList.Add(BierInfoHeineken);
-                BierList.Add(BierInfoGrolsch);
+                
+                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener");
+                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener");
+                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener");
+                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoGrolsch = scraper.BierScrape("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner");
 
-                AddBeersalesToDB(BierList);
             }
 
             ScraperHasFinished?.Invoke(this, new EventArgs());
@@ -531,56 +526,56 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 }
             }
         }
-        private void AddBeersalesToDB(List<List<List<object>>> bierList)
-        {
-            for (int z = 0; z < bierList.Count; z++)
-            {
-                string brandName = "";
-                //CHECK WHICH BRAND SHOULD BE DISPLAYED
-                switch (z)
-                {
-                    case 0:
-                        brandName = "Hertog Jan";
-                        break;
-                    case 1:
-                        brandName = "Amstel";
-                        break;
-                    case 2:
-                        brandName = "Heineken";
-                        break;
-                    case 3:
-                        brandName = "Grolsch";
-                        break;
-                }
+        //private void AddBeersalesToDB(List<List<List<object>>> bierList)
+        //{
+        //    for (int z = 0; z < bierList.Count; z++)
+        //    {
+        //        string brandName = "";
+        //        //CHECK WHICH BRAND SHOULD BE DISPLAYED
+        //        switch (z)
+        //        {
+        //            case 0:
+        //                brandName = "Hertog Jan";
+        //                break;
+        //            case 1:
+        //                brandName = "Amstel";
+        //                break;
+        //            case 2:
+        //                brandName = "Heineken";
+        //                break;
+        //            case 3:
+        //                brandName = "Grolsch";
+        //                break;
+        //        }
 
-                for (int i = 0; i < bierList[z].Count; i++)
-                {
-                    var productname = bierList[z][i][0].ToString();
-                    var lowestPrice = bierList[z][i][1].ToString();
-                    var bookmarked = 0;
-                    var date = DateTime.Now;
+        //        for (int i = 0; i < bierList[z].Count; i++)
+        //        {
+        //            var productname = bierList[z][i][0].ToString();
+        //            var lowestPrice = bierList[z][i][1].ToString();
+        //            var bookmarked = 0;
+        //            var date = DateTime.Now;
                     
-                    var storeURLs = (List<List<string>>)bierList[z][i][3];
-                    var sales = (List<Dictionary<string, string>>)bierList[z][i][2];
+        //            var storeURLs = (List<List<string>>)bierList[z][i][3];
+        //            var sales = (List<Dictionary<string, string>>)bierList[z][i][2];
 
-                    if (sales.Count > 0)
-                    {
-                        beerRepository.insertBeersale(brandName, productname, bookmarked, lowestPrice, date);
-                    }
+        //            if (sales.Count > 0)
+        //            {
+        //                beerRepository.insertBeersale(brandName, productname, bookmarked, lowestPrice, date);
+        //            }
 
-                    var lastInserted = beerRepository.getLastInserted();
+        //            var lastInserted = beerRepository.getLastInserted();
 
-                    for (int j = 0; j < sales.Count; j++) {
-                        var storeURL = storeURLs[j][0];
-                        var van = sales[j].ElementAt(0).Key;
-                        var voor = sales[j].ElementAt(0).Value;
-                        var lastInsertedID = lastInserted[0].id;
+        //            for (int j = 0; j < sales.Count; j++) {
+        //                var storeURL = storeURLs[j][0];
+        //                var van = sales[j].ElementAt(0).Key;
+        //                var voor = sales[j].ElementAt(0).Value;
+        //                var lastInsertedID = lastInserted[0].id;
 
-                        beerRepository.insertSale(lastInsertedID, storeURL, van, voor);
-                    }
-                }
-            }
-        }
+        //                beerRepository.insertSale(lastInsertedID, storeURL, van, voor);
+        //            }
+        //        }
+        //    }
+        //}
         private List<GenericBeerProduct> RetrieveBeersalesFromDB()
         {
             var list = beerRepository.getBeerSales();
