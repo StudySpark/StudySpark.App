@@ -21,8 +21,6 @@ namespace StudySpark.GUI.WPF.MVVM.View
     public partial class ScheduleView : UserControl
     {
 
-        private Grid ScheduleGrid;
-
         public ScheduleView()
         {
             InitializeComponent();
@@ -31,21 +29,19 @@ namespace StudySpark.GUI.WPF.MVVM.View
 
         public void CreateGrid()
         {
-            ScheduleGrid = new Grid();
 
             for (int row = 0; row < 6; row++)
             {
-                ScheduleGrid.RowDefinitions.Add(new RowDefinition());
+                RowDefinition rowDefinition = new RowDefinition();
+                MainSchedule.RowDefinitions.Add(rowDefinition);
+
+                ColumnDefinition columnDefinition = new ColumnDefinition();
+                MainSchedule.ColumnDefinitions.Add(columnDefinition);
+
                 for (int col = 0; col < 6; col++)
                 {
-                    ScheduleGrid.ColumnDefinitions.Add(new ColumnDefinition());
-
                     // Create a Border control for each square
-                    Border border = new Border
-                    {
-                        BorderBrush = Brushes.Gray,
-                        BorderThickness = new Thickness(1),
-                    };
+                    Border border = CreateBorder(row, col);
 
                     // Add the Border control to the mainGrid
                     MainSchedule.Children.Add(border);
@@ -53,8 +49,76 @@ namespace StudySpark.GUI.WPF.MVVM.View
                     // Set the row and column for the Border control
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, col);
+
+                    if ((row == 3 && col == 5) || (row == 4 && col == 2))
+                    {
+                        // Create a Grid to hold both Rectangle and TextBlock
+                        Grid cellGrid = new Grid();
+
+                        // Create a Rectangle control
+                        Rectangle rectangle = new Rectangle
+                        {
+                            Fill = Brushes.DarkGray, // Set the fill color as per your requirement
+                        };
+
+                        // Add the Rectangle control to the cell's Grid
+                        cellGrid.Children.Add(rectangle);
+
+                        // Set the row and column for the Rectangle control
+                        Grid.SetRow(rectangle, 0);
+                        Grid.SetColumn(rectangle, 0);
+
+                        // Create a TextBlock for multiple lines of text
+                        TextBlock textBlock = new TextBlock
+                        {
+                            Text = "[Vak] \n [Docent] \n [Lokaal]",
+                            TextWrapping = TextWrapping.Wrap,
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                            VerticalAlignment = VerticalAlignment.Top,
+                        };
+
+                        // Add the TextBlock control to the cell's Grid
+                        cellGrid.Children.Add(textBlock);
+
+                        // Set the row and column for the TextBlock control
+                        Grid.SetRow(textBlock, 0);
+                        Grid.SetColumn(textBlock, 0);
+
+                        // Add the cell's Grid to the mainGrid
+                        MainSchedule.Children.Add(cellGrid);
+
+                        // Set the row and column for the cell's Grid
+                        Grid.SetRow(cellGrid, row);
+                        Grid.SetColumn(cellGrid, col);
+                        Grid.SetRowSpan(cellGrid, 2);
+                    }
                 }
             }
+        }
+
+        private Border CreateBorder(int row, int column)
+        {
+            Border border = new Border
+            {
+                BorderBrush = Brushes.Gray,
+                BorderThickness = new Thickness(1),
+            };
+
+            // Set background color for the upper row and leftmost column
+            if (row == 0)
+            {
+                border.Background = Brushes.CadetBlue;
+            }
+            else if (column == 0 && row != 0)
+            {
+                border.Background = Brushes.LightBlue;
+            }
+            else
+            {
+                border.Background = Brushes.White;
+            }
+
+            return border;
         }
     }
 }

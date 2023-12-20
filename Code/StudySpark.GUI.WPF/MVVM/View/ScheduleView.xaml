@@ -12,7 +12,8 @@
         <vm:ScheduleViewModel />
     </UserControl.DataContext>
 
-    <Grid x:Name="MainSchedule">
+    <Grid x:Name="MainSchedule"
+          Margin="20, 0, 20, 20">
         
     </Grid>
 </UserControl>
