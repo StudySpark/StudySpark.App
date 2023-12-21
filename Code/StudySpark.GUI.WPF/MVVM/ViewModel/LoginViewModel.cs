@@ -19,7 +19,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class LoginViewModel : ObservableObject {
         public delegate void LoginViewEventHandler(object sender, LoginViewEventArgs e);
         public static event LoginViewEventHandler? ViewDataChangeEvent;
-        public static event EventHandler? FormResetErrorsEvent, FormMissingEmailEvent, FormMissingPasswordEvent;
+        public static event EventHandler? FormResetErrorsEvent, FormMissingEmailEvent, FormMissingPasswordEvent, FormMissingTwoFAEvent;
 
         private string username;
 
@@ -30,7 +30,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(Username));
             }
         }
+
         private string password;
+
         public string Password {
             get { return password; }
             set {
@@ -38,6 +40,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(password));
             }
         }
+
+        private string twoFA;
+
+        public string TwoFA {
+            get { return twoFA; } 
+            set { 
+                twoFA = value;
+                OnPropertyChanged(nameof(TwoFA));
+            }
+        }
+
         public RelayCommand LoginCommand { get; set; }
         public LoginViewModel() {
             LoginCommand = new RelayCommand(o => LoginUser());
@@ -48,6 +61,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             if (user != null) {
                 Username = user.Username;
                 Password = user.Password;
+                
             }
         }
 
@@ -65,6 +79,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 if (string.IsNullOrEmpty(password)) {
                     FormMissingPasswordEvent?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(twoFA))
+                {
+                    FormMissingTwoFAEvent?.Invoke(this, EventArgs.Empty);
                     return;
                 }
                 return;
@@ -85,7 +105,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         private void TestLoginCredentialsThread() {
 
             LoginViewEventArgs eventArgs = new LoginViewEventArgs();
-            eventArgs.LoginViewEventType = TestLoginCredentials(username, password) ? LoginViewEvent.LOGINSUCCESS : LoginViewEvent.LOGINFAILED;
+            eventArgs.LoginViewEventType = TestLoginCredentials(username, password, twoFA) ? LoginViewEvent.LOGINSUCCESS : LoginViewEvent.LOGINFAILED;
             try {
                 Application.Current.Dispatcher.Invoke(() => {
                     ViewDataChangeEvent?.Invoke(this, eventArgs);
@@ -93,10 +113,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             } catch (Exception) { }
         }
 
-        public bool TestLoginCredentials(string username, string password) {
+        public bool TestLoginCredentials(string username, string password, string twoFA) {
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.Username = username;
             scraperOptions.Password = password;
+            scraperOptions.TwoFACode = twoFA;
             scraperOptions.Debug = false;
 
             EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);

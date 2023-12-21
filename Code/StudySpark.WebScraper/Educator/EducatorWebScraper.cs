@@ -34,6 +34,13 @@ namespace StudySpark.WebScraper.Educator {
             GetElementById("passwordInput").SendKeys(scraperOptions?.Password);
 
             GetElementById("submitButton").Click();
+
+            if (CheckIfIdExists("verificationCodeInput"))
+            {
+                GetElementById("verificationCodeInput").SendKeys(scraperOptions?.TwoFACode);
+
+                GetElementById("signInButton").Click();
+            }
         }
 
         public bool TestLoginCredentials() {
