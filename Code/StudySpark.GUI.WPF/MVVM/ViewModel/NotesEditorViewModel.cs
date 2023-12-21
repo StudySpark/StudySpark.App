@@ -19,8 +19,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         private const int MIN_TEXT_SIZE = 6;
         private const int MAX_TEXT_SIZE = 96;
+        private const string HIGHLIGHT_TRANSPARENT_HEX = "#FF2B2A3C";
 
         public bool IsColorSelectorHighlightVisible { get; set; } = false;
+        public bool IsColorSelectorTextVisible { get; set; } = false;
 
         public static GenericNoteListItem? CurrentEditingNote { get; set; }
         public double TextSize { get; set; } = 12;
@@ -30,6 +32,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public RelayCommand ToggleEditorHightlightColorSelectorCommand { get; private set; }
         public RelayCommand EditorColorCommand { get; private set; }
+        public RelayCommand EditorSetTextColorCommand { get; private set; }
         public RelayCommand EditorHightlightCommand { get; private set; }
         public RelayCommand EditorFontCommand { get; private set; }
         public RelayCommand EditorTextSizeMinCommand { get; private set; }
@@ -66,26 +69,39 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorColorCommand = new RelayCommand((o) => {
-                RichTextBox rtfEditor = o as RichTextBox;
+                IsColorSelectorHighlightVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = !IsColorSelectorTextVisible;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+            });
 
-                var colorDialog = new System.Windows.Forms.ColorDialog();
-                if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                    System.Drawing.Color selectedColor = colorDialog.Color;
-                    Color wpfColor = Color.FromArgb(selectedColor.A, selectedColor.R, selectedColor.G, selectedColor.B);
-                    SolidColorBrush selectedBrush = new SolidColorBrush(wpfColor);
+            EditorSetTextColorCommand = new RelayCommand((o) => {
+                object[] parameters = o as object[];
+
+                if (parameters != null && parameters.Length == 2) {
+                    RichTextBox rtfEditor = parameters[0] as RichTextBox;
+                    Brush buttonBackground = parameters[1] as Brush;
+
+                    SolidColorBrush selectedBrush = new SolidColorBrush((buttonBackground as SolidColorBrush).Color);
                     ChangeSelectedTextColor(rtfEditor, selectedBrush);
                 }
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             ToggleEditorHightlightColorSelectorCommand = new RelayCommand((o) => {
                 IsColorSelectorHighlightVisible = !IsColorSelectorHighlightVisible;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorHightlightCommand = new RelayCommand((o) => {
@@ -101,6 +117,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorFontCommand = new RelayCommand((o) => {
@@ -110,6 +128,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorTextSizeMinCommand = new RelayCommand((o) => {
@@ -127,6 +147,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorTextSizePlusCommand = new RelayCommand((o) => {
@@ -144,6 +166,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorBulletListCommand = new RelayCommand((o) => {
@@ -153,6 +177,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorImageCommand = new RelayCommand((o) => {
@@ -169,6 +195,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorAlignLeftCommand = new RelayCommand((o) => {
@@ -178,6 +206,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorAlignCenterCommand = new RelayCommand((o) => {
@@ -187,6 +217,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             EditorAlignRightCommand = new RelayCommand((o) => {
@@ -196,6 +228,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
             });
 
             rtfEditor_SelectionChangedCommand = new RelayCommand((o) => {
@@ -241,6 +275,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         private bool HighlightSelectedTextRichTextBox(RichTextBox richTextBox, SolidColorBrush color) {
             if (richTextBox.Selection.IsEmpty) {
                 return false;
+            }
+            if (color.Color.ToString() == HIGHLIGHT_TRANSPARENT_HEX) {
+                color = Brushes.Transparent;
             }
             TextRange selectedText = new TextRange(richTextBox.Selection.Start, richTextBox.Selection.End);
             selectedText.ApplyPropertyValue(TextElement.BackgroundProperty, color);

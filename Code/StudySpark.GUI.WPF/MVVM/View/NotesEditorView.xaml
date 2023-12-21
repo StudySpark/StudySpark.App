@@ -24,16 +24,16 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="ColorSelectorHighlight"
+        <Grid x:Name="ColorSelectorText"
               Grid.Row="0"
               Grid.RowSpan="2"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Width="50"
+              Width="150"
               Height="150"
               Margin="0,50,300,0"
               Panel.ZIndex="2"
-              Visibility="{Binding IsColorSelectorHighlightVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+              Visibility="{Binding IsColorSelectorTextVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
 
             <Rectangle Fill="#FF20202A"
                        Grid.Row="0"
@@ -49,17 +49,632 @@
                 </Rectangle.Stroke>
             </Rectangle>
 
-            <StackPanel Margin="3">
+            <Grid Margin="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
                 <Button Grid.Row="0"
-                        Width="35"
+                        Grid.Column="0"
+                        Width="20"
                         Height="20"
                         Margin="0,2,0,2"
                         Style="{StaticResource HoverableButtonTheme}"
                         Cursor="Hand"
-                        Background="#FF2B2A3C"
+                        Background="#000000"
                         BorderBrush="Transparent"
-                        Foreground="#FFDE6A6A"
-                        Command="{Binding EditorHightlightCommand}">
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#333333"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="0"
+                        Grid.Column="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#666666"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="0"
+                        Grid.Column="3"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#999999"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="0"
+                        Grid.Column="4"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#FFFFFF"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="1"
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#3B0000"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="1"
+                        Grid.Column="1"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#6B0000"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="1"
+                        Grid.Column="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#9B0000"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="1"
+                        Grid.Column="3"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#CB0000"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="1"
+                        Grid.Column="4"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#FF0000"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="2"
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#003B00"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="2"
+                        Grid.Column="1"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#006B00"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="2"
+                        Grid.Column="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#009B00"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="2"
+                        Grid.Column="3"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#00CB00"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="2"
+                        Grid.Column="4"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#00FF00"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="3"
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#00003B"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="3"
+                        Grid.Column="1"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#00006B"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="3"
+                        Grid.Column="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#00009B"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="3"
+                        Grid.Column="3"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#0000CB"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="3"
+                        Grid.Column="4"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#0000FF"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="4"
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#FFFF77"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="4"
+                        Grid.Column="1"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#77FF92"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="4"
+                        Grid.Column="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#77C9FF"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="4"
+                        Grid.Column="3"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#C977FF"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="4"
+                        Grid.Column="4"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#FF7792"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="5"
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#93931d"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="5"
+                        Grid.Column="1"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#1d9334"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="5"
+                        Grid.Column="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#1d6493"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="5"
+                        Grid.Column="3"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#641d93"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Grid.Row="5"
+                        Grid.Column="4"
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#931d34"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorSetTextColorCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                            <Binding ElementName="rtfEditor" />
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Background" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="ColorSelectorHighlight"
+      Grid.Row="0"
+      Grid.RowSpan="2"
+      HorizontalAlignment="Right"
+      VerticalAlignment="Top"
+      Width="50"
+      Height="150"
+      Margin="0,50,300,0"
+      Panel.ZIndex="2"
+      Visibility="{Binding IsColorSelectorHighlightVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <Rectangle Fill="#FF20202A"
+               Grid.Row="0"
+               Grid.RowSpan="6"
+               RadiusX="10"
+               RadiusY="10"
+               StrokeThickness="2">
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FFCEA204"/>
+                        <GradientStop Color="#FFEC2F63" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+            </Rectangle>
+
+            <StackPanel Margin="3">
+                <Button Grid.Row="0"
+                Width="35"
+                Height="20"
+                Margin="0,2,0,2"
+                Style="{StaticResource HoverableButtonTheme}"
+                Cursor="Hand"
+                Background="#FF2B2A3C"
+                BorderBrush="Transparent"
+                Foreground="#FFDE6A6A"
+                Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
@@ -70,15 +685,15 @@
                 </Button>
 
                 <Button Grid.Row="0"
-                        Width="35"
-                        Height="20"
-                        Margin="0,2,0,2"
-                        Style="{StaticResource HoverableButtonTheme}"
-                        Cursor="Hand"
-                        Background="#FFFF77"
-                        BorderBrush="Transparent"
-                        Foreground="White"
-                        Command="{Binding EditorHightlightCommand}">
+                Width="35"
+                Height="20"
+                Margin="0,2,0,2"
+                Style="{StaticResource HoverableButtonTheme}"
+                Cursor="Hand"
+                Background="#FFFF77"
+                BorderBrush="Transparent"
+                Foreground="White"
+                Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
@@ -88,15 +703,15 @@
                 </Button>
 
                 <Button Grid.Row="0"
-                        Width="35"
-                        Height="20"
-                        Margin="0,2,0,2"
-                        Style="{StaticResource HoverableButtonTheme}"
-                        Cursor="Hand"
-                        Background="#77FF92"
-                        BorderBrush="Transparent"
-                        Foreground="White"
-                        Command="{Binding EditorHightlightCommand}">
+                Width="35"
+                Height="20"
+                Margin="0,2,0,2"
+                Style="{StaticResource HoverableButtonTheme}"
+                Cursor="Hand"
+                Background="#77FF92"
+                BorderBrush="Transparent"
+                Foreground="White"
+                Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
@@ -106,15 +721,15 @@
                 </Button>
 
                 <Button Grid.Row="0"
-                        Width="35"
-                        Height="20"
-                        Margin="0,2,0,2"
-                        Style="{StaticResource HoverableButtonTheme}"
-                        Cursor="Hand"
-                        Background="#77C9FF"
-                        BorderBrush="Transparent"
-                        Foreground="White"
-                        Command="{Binding EditorHightlightCommand}">
+                Width="35"
+                Height="20"
+                Margin="0,2,0,2"
+                Style="{StaticResource HoverableButtonTheme}"
+                Cursor="Hand"
+                Background="#77C9FF"
+                BorderBrush="Transparent"
+                Foreground="White"
+                Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
@@ -124,15 +739,15 @@
                 </Button>
 
                 <Button Grid.Row="0"
-                        Width="35"
-                        Height="20"
-                        Margin="0,2,0,2"
-                        Style="{StaticResource HoverableButtonTheme}"
-                        Cursor="Hand"
-                        Background="#C977FF"
-                        BorderBrush="Transparent"
-                        Foreground="White"
-                        Command="{Binding EditorHightlightCommand}">
+                Width="35"
+                Height="20"
+                Margin="0,2,0,2"
+                Style="{StaticResource HoverableButtonTheme}"
+                Cursor="Hand"
+                Background="#C977FF"
+                BorderBrush="Transparent"
+                Foreground="White"
+                Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
@@ -142,15 +757,15 @@
                 </Button>
 
                 <Button Grid.Row="0"
-                        Width="35"
-                        Height="20"
-                        Margin="0,2,0,2"
-                        Style="{StaticResource HoverableButtonTheme}"
-                        Cursor="Hand"
-                        Background="#FF7792"
-                        BorderBrush="Transparent"
-                        Foreground="White"
-                        Command="{Binding EditorHightlightCommand}">
+                Width="35"
+                Height="20"
+                Margin="0,2,0,2"
+                Style="{StaticResource HoverableButtonTheme}"
+                Cursor="Hand"
+                Background="#FF7792"
+                BorderBrush="Transparent"
+                Foreground="White"
+                Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
