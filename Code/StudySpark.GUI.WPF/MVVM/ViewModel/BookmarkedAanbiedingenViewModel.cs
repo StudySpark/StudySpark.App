@@ -230,7 +230,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private UIElement GetPrices(List<GenericBeerSale> sales, int index)
         {
-            int SALES = 2;
             var priceContainer = new WrapPanel()
             {
                 VerticalAlignment = VerticalAlignment.Center,
@@ -276,14 +275,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private string GetProductName(GenericBeerProduct product, int index)
         {
-            int NAME_INDEX = 0;
             string? name = product.productname;
             return name;
         }
 
         private string GetLowestPrice(string sale, int index)
         {
-            int LOWEST_PRICE_INDEX = 1;
             string? lowestPrice = sale;
 
             int charLocationStart = lowestPrice.IndexOf("€");

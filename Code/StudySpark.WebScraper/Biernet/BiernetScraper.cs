@@ -52,12 +52,12 @@ namespace StudySpark.WebScraper.Biernet
                     {
                         salesList[i].Add(winkelsInformation[j].FindElement(By.ClassName("van_prijs")), winkelsInformation[j].FindElement(By.ClassName("aanbiedingPrijsPPC")));
                     }
-                    catch (Exception e) { }
+                    catch (Exception) { }
                     try
                     {
                         storeImages[i].Add(winkelsInformation[j].FindElement(By.ClassName("PakketFoto")));
                     }
-                    catch (Exception e) { }
+                    catch (Exception) { }
                 }
             }
             for (int i = 0; i < productsList.Count; i++)

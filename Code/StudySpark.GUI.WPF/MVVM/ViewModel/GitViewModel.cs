@@ -1,24 +1,17 @@
-﻿using StudySpark.Core.Repositories;
-using StudySpark.GUI.WPF.Core;
+﻿using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
-using StudySpark.Core.FileManager;
 using StudySpark.Core.Generic;
 using LibGit2Sharp;
-using System.Windows.Controls;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
 using Orientation = System.Windows.Controls.Orientation;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel

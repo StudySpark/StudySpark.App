@@ -148,8 +148,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     AllePanel.HorizontalAlignment = HorizontalAlignment.Center;
                     var displayInfo = new StackPanel();
                     
-                    int currentBrandID = 0;
-
                     for (int i = 0; i < BierListFromDB.Count; i++)
                     {
                         GenericBeerProduct beerSale = BierListFromDB[i];

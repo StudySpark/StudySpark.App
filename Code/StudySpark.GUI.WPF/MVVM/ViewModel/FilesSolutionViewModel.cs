@@ -7,15 +7,9 @@ using StudySpark.Core.FileManager;
 using StudySpark.GUI.WPF.Core;
 using System.Windows;
 using System.IO;
-using System.Windows.Markup;
-using System.Windows.Input;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
-using static System.Net.Mime.MediaTypeNames;
-
 using System.Windows.Input;
 using System.ComponentModel;
-using System.Reflection.Metadata;
+
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
