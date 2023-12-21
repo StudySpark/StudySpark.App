@@ -103,7 +103,7 @@ namespace StudySpark.Core.Repositories
                     foreach (GenericBeerSale sale in value)
                     {
                         GenericBeerProduct lastProd = getLastInserted();
-                        insertSale(lastProd.id, sale.store, sale.storeImage, sale.oldprice, sale.newprice);
+                        insertSale(lastProd.id, sale.store, sale.storeImage, sale.oldprice, sale.newprice, sale.expirationdate);
                     }
 
                 }
@@ -125,7 +125,7 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
 
         }
-        public void insertSale(int productID, string store, string storeimage, string oldprice, string newprice)
+        public void insertSale(int productID, string store, string storeimage, string oldprice, string newprice, string expirationdate)
         {
 
             SqliteCommand sqlite_cmd = DBRepository.Conn.CreateCommand();
@@ -135,7 +135,7 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.Parameters.Add(new SqliteParameter("@storeimage", storeimage));
             sqlite_cmd.Parameters.Add(new SqliteParameter("@oldprice", oldprice));
             sqlite_cmd.Parameters.Add(new SqliteParameter("@newprice", newprice));
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", "temp"));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", expirationdate));
 
             sqlite_cmd.ExecuteNonQuery();
         }
@@ -194,8 +194,9 @@ namespace StudySpark.Core.Repositories
                 string storeimage = reader.GetString(3);
                 string oldprice = reader.GetString(4);
                 string newprice = reader.GetString(5);
+                string expirationdate = reader.GetString(5);
 
-                GenericBeerSale sale = new GenericBeerSale(id, prodID, store, storeimage, oldprice, newprice);
+                GenericBeerSale sale = new GenericBeerSale(id, prodID, store, storeimage, oldprice, newprice, expirationdate);
                 sales.Add(sale);
             }
             return sales;

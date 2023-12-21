@@ -102,6 +102,7 @@ namespace StudySpark.Core.BierScraper
             string newprice = "";
             string store = "";
             string storeimage = "";
+            string expiration_date = "";
             //LOOP THROUGH ALL THE AVAILABLE SALES -- PER PRODUCT
             for (int i = 0; i < StoreInformationGlobal.Count; i++)
             {
@@ -121,16 +122,17 @@ namespace StudySpark.Core.BierScraper
                     prijsinfo = winkelsInformation.FindElement(By.ClassName("prijsss"));
                     oldprice = prijsinfo.FindElement(By.ClassName("van_prijsss")).Text;
                     newprice = prijsinfo.FindElement(By.ClassName("voor_prijsss")).Text;
-                }
 
-                try
-                {
                     IWebElement imageDiv = StoreInformationGlobal[i].FindElement(By.ClassName("logo_image"));
                     store = imageDiv.FindElement(By.TagName("img")).GetAttribute("alt");
                     storeimage = "https://www.biernet.nl" + imageDiv.FindElement(By.TagName("img")).GetAttribute("data-src");
+
+                    IWebElement footer = StoreInformationGlobal[i].FindElement(By.ClassName("footer-item"));
+                    expiration_date = footer.FindElement(By.ClassName("laatste_regel")).Text.Replace("t/m", "");
                 }
-                catch (Exception e) { }
-                salesList.Add(new GenericBeerSale(store, storeimage, oldprice, newprice));
+
+              
+                salesList.Add(new GenericBeerSale(store, storeimage, oldprice, newprice, expiration_date));
             }
 
             return salesList;

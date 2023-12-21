@@ -292,7 +292,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     List<GenericBeerSale> sales = beerRepository.getSales(bierInfo.id);
                     for (int j = 0; j < sales.Count; j++)
                     {
-                        beerRepository.insertSale(product[0].id, sales[j].store, sales[j].storeImage, sales[j].oldprice, sales[j].newprice);
+                        beerRepository.insertSale(product[0].id, sales[j].store, sales[j].storeImage, sales[j].oldprice, sales[j].newprice, sales[j].expirationdate);
                     };
 
                     (bookmarkBtn.Content as Image).Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark_checked.png", UriKind.Relative));
