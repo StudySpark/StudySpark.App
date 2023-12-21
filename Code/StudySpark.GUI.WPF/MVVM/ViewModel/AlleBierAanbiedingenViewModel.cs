@@ -173,7 +173,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                         var productName = beerSale.productname;
 
-                        if (FilteredList.Contains(brandName) && FilteredList.Contains(productName))
+                        if (FilterActive(brandName, productName))
                         {
                             StackPanel info = DisplayInformation(beerSale, brandName);
                             info.VerticalAlignment = VerticalAlignment.Center;
@@ -486,6 +486,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             checkedFilters.Add(TrayIsChecked);
 
             FilteredList = filters.SetFilteredList(checkedFilters);
+        }
+        private bool FilterActive(string brandName, string productName)
+        {
+            var productNameToLower = productName.ToLower();
+            var brandNameToLower = brandName.ToLower();
+            if (FilteredList.Contains(brandNameToLower))
+            {
+                foreach(var filter in FilteredList)
+                {
+                    if (productNameToLower.Contains(filter))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         private void AddBeersalesToDB(List<List<List<object>>> bierList)
         {
