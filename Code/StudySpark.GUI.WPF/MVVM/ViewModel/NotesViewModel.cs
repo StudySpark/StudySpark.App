@@ -6,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class NotesViewModel {
@@ -23,16 +25,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand NoteCreateCommand { get; private set; }
 
         public NotesViewModel() {
+
+
             NoteListViewElements = NotesRepository.Instance.NoteListViewElements;
-
-
 
             NoteViewClick = new RelayCommand((o) => {
                 GenericNoteListItem? note = o as GenericNoteListItem;
                 Debug.WriteLine($"NoteViewClick: {note?.NoteName}");
             });
 
-            NoteEditClick = new RelayCommand((o) => {
+            NoteEditClick = new RelayCommand((o) =>
+            {
                 GenericNoteListItem? note = o as GenericNoteListItem;
                 NotesEditorViewModel.CurrentEditingNote = note;
                 MainViewManager.CurrentMainView = MainViewManager.NotesEditorVM;
@@ -59,7 +62,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                     }
                 }
 
-                GenericNoteListItem newNote = new GenericNoteListItem { NoteName = noteName, NoteDate = currentDate };
+                GenericNoteListItem newNote = new GenericNoteListItem { NoteName = noteName, NoteDate = currentDate, Content = string.Empty };
                 NotesRepository.Instance.NoteListViewElements.Add(newNote);
                 NotesEditorViewModel.CurrentEditingNote = newNote;
                 MainViewManager.CurrentMainView = MainViewManager.NotesEditorVM;

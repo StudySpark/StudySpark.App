@@ -1,4 +1,5 @@
-﻿using StudySpark.Core.Generic;
+﻿using LibGit2Sharp;
+using StudySpark.Core.Generic;
 using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,7 +22,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         private const int MAX_TEXT_SIZE = 96;
 
         public bool IsColorSelectorHighlightVisible { get; set; } = false;
-
         public static GenericNoteListItem? CurrentEditingNote { get; set; }
         public double TextSize { get; set; } = 12;
 
@@ -39,10 +40,24 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand EditorAlignCenterCommand { get; private set; }
         public RelayCommand EditorAlignRightCommand { get; private set; }
 
-        public NotesEditorViewModel() {
+        public static RichTextBox rtfEditor = new RichTextBox();
 
+        public NotesEditorViewModel() {
             //var textRange = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
             //textRange.Load(stream, DataFormats.Rtf);
+
+            if (CurrentEditingNote != null && CurrentEditingNote.Content != null) {
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(CurrentEditingNote.Content)))
+                {
+                    if (stream.Length != 0)
+                    {
+                        TextRange text = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
+                        text.Load(stream, DataFormats.Rtf);
+                    }
+                }
+            }
+
 
             TextSize = GetDefaultFontSize();
             OnPropertyChanged(nameof(TextSize));
@@ -56,10 +71,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             EditorSaveCommand = new RelayCommand((o) => {
                 RichTextBox rtfEditor = o as RichTextBox;
 
-                TextRange textRange = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
-                // textRange.Save(stream, DataFormats.Rtf);
-                Debug.WriteLine(textRange.Text);
-                MessageBox.Show("Opslaan is niet mogelijk.");
+                // Get the RTF text from the RichTextBox
+                string rtfText;
+                TextRange tr = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    tr.Save(ms, DataFormats.Rtf);
+                    rtfText = Encoding.ASCII.GetString(ms.ToArray());
+                }
+
+                CurrentEditingNote.Content = rtfText;
+                // Create a new GenericNoteListItem and set the content
+
+                MessageBox.Show("Opgeslagen.");
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
@@ -69,7 +93,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 var colorDialog = new System.Windows.Forms.ColorDialog();
-                if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
                     System.Drawing.Color selectedColor = colorDialog.Color;
                     Color wpfColor = Color.FromArgb(selectedColor.A, selectedColor.R, selectedColor.G, selectedColor.B);
                     SolidColorBrush selectedBrush = new SolidColorBrush(wpfColor);
@@ -102,8 +127,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             EditorFontCommand = new RelayCommand((o) => {
                 RichTextBox rtfEditor = o as RichTextBox;
-
-                Debug.WriteLine("Font");
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
@@ -155,11 +178,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             EditorImageCommand = new RelayCommand((o) => {
                 RichTextBox rtfEditor = o as RichTextBox;
 
-                System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog {
+                System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
+                {
                     Filter = "Image Files |*.jpg; *.jpeg; *.png; *.gif; *.bmp|All files (*.*)|*.*"
                 };
 
-                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
                     string imagePath = openFileDialog.FileName;
                     AddImageToRichTextBox(rtfEditor, imagePath);
                 }
@@ -229,7 +254,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             selectedText.ApplyPropertyValue(TextElement.BackgroundProperty, color);
             return true;
         }
-
+        private void ChangeSelectedFontSize(RichTextBox richTextBox, double newSize)
+        {
+            if (richTextBox.Selection.IsEmpty)
+            {
+                return;
+            }
+            richTextBox.Selection.ApplyPropertyValue(TextElement.FontSizeProperty, newSize);
+        }
         private void AddImageToRichTextBox(RichTextBox richTextBox, string imagePath) {
             BitmapImage bitmapImage = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
 
