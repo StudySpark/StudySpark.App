@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using StudySpark.Core.Generic;
+using static System.Net.Mime.MediaTypeNames;
+using System.Globalization;
 
 namespace StudySpark.Core.BierScraper
 {
@@ -123,19 +125,72 @@ namespace StudySpark.Core.BierScraper
                     oldprice = prijsinfo.FindElement(By.ClassName("van_prijsss")).Text;
                     newprice = prijsinfo.FindElement(By.ClassName("voor_prijsss")).Text;
 
+                    
+                }
+                try
+                {
                     IWebElement imageDiv = StoreInformationGlobal[i].FindElement(By.ClassName("logo_image"));
                     store = imageDiv.FindElement(By.TagName("img")).GetAttribute("alt");
                     storeimage = "https://www.biernet.nl" + imageDiv.FindElement(By.TagName("img")).GetAttribute("data-src");
 
                     IWebElement footer = StoreInformationGlobal[i].FindElement(By.ClassName("footer-item"));
-                    expiration_date = footer.FindElement(By.ClassName("laatste_regel")).Text.Replace("t/m", "");
-                }
+                    string raw_expiration_date = footer.FindElement(By.ClassName("laatste_regel")).Text.Replace("t/m", "");
+                    expiration_date = convertToDate(raw_expiration_date);
+                } catch (NoSuchElementException e) { }
 
               
                 salesList.Add(new GenericBeerSale(store, storeimage, oldprice, newprice, expiration_date));
             }
 
             return salesList;
+        }
+        public string convertToDate(string date)
+        {
+            if (string.IsNullOrEmpty(date))
+            {
+                return "";
+            }
+
+            string dateString;
+            
+            var translations = new Dictionary<string, string>
+            {
+                {"maandag", "Monday"},
+                {"dinsdag", "Tuesday"},
+                {"woensdag", "Wednesday"},
+                {"donderdag", "Thursday"},
+                {"vrijdag", "Friday"},
+                {"zaterdag", "Saturday"},
+                {"zondag", "Sunday"},
+                {"januari", "January"},
+                {"februari", "February"},
+                {"maart", "March"},
+                {"april", "April"},
+                {"mei", "May"},
+                {"juni", "June"},
+                {"juli", "July"},
+                {"augustus", "August"},
+                {"september", "September"},
+                {"oktober", "October"},
+                {"november", "November"},
+                {"december", "December"}
+            };
+
+            
+            
+            string[] words = date.Split(' ');
+
+            
+            string day = translations[words[1]];
+            string dayNum = words[2];
+            string month = translations[words[3]];
+            dateString = $"{day}, {month} {dayNum} {DateTime.Now.Year}";
+
+            if (DateTime.TryParseExact(dateString, "dddd, MMMM d yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
+            {
+                return result.ToString("MM/dd");
+            }
+            return "";
         }
     }
 }
