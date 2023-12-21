@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -81,8 +82,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             BierFilterVM = new BierFilterViewModel();
             FilterAanbiedingen = BierFilterVM;
 
-            Thread BierScrapeThread = new Thread(new ThreadStart(RetrieveBeerSales));
-            BierScrapeThread.Start();
+            var cts = new CancellationTokenSource();
+            RecurringTask(() => StartScaper(), 60, cts.Token);  //interval in minutes
 
             //SUBSCRIBING TO EVENTS
             BierFilterView.ViewDataChangeEvent += SetFilteredList;   
@@ -97,6 +98,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             ScraperHasFinished += DisplayBeerSales;
         }
 
+        private void StartScaper()
+        {
+            Thread BierScrapeThread = new Thread(new ThreadStart(RetrieveBeerSales));
+            BierScrapeThread.IsBackground = true;
+            BierScrapeThread.Start();
+        }
         private void RetrieveBeerSales()
         {
             WebScraper.ScraperOptions options = new();
@@ -545,7 +552,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         var storeURL = storeURLs[j][0];
                         var van = sales[j].ElementAt(0).Key;
                         var voor = sales[j].ElementAt(0).Value;
-                        var lastInsertedID = lastInserted[0].id;
+                        var lastInsertedID = lastInserted.id;
 
                         beerRepository.insertSale(lastInsertedID, storeURL, van, voor);
                     }
@@ -556,6 +563,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         {
             var list = beerRepository.getBeerSales();
             return list;
+        }
+        static void RecurringTask(Action action, int interval, CancellationToken cancellationToken)
+        {
+            if (action == null)
+            {
+                return;
+            }
+
+            Task.Run(async () =>
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    action();
+                    await Task.Delay(TimeSpan.FromMinutes(interval), cancellationToken);
+                }
+            }, cancellationToken);
         }
     }
 }

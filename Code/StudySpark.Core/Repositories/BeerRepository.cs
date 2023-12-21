@@ -263,15 +263,13 @@ namespace StudySpark.Core.Repositories
             }
             return products;
         }
-        public List<GenericBeerProduct> getLastInserted()
+        public GenericBeerProduct getLastInserted()
         {
-
+            GenericBeerProduct? product = null;
             if (DBRepository.Conn == null)
             {
-                return new List<GenericBeerProduct>();
+                return product;
             }
-
-            List<GenericBeerProduct> products = new List<GenericBeerProduct>();
 
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
@@ -288,10 +286,9 @@ namespace StudySpark.Core.Repositories
                 int bookmarked = reader.GetInt32(3);
                 string lowestprice = reader.GetString(4);
 
-                GenericBeerProduct product = new GenericBeerProduct(id, brandID, productname, bookmarked, lowestprice);
-                products.Add(product);
+                product = new GenericBeerProduct(id, brandID, productname, bookmarked, lowestprice);
             }
-            return products;
+            return product;
         }
     }
 }
