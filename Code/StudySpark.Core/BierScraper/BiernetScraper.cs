@@ -85,7 +85,7 @@ namespace StudySpark.Core.BierScraper
 
         private BierSalesScraper scraper;
 
-        public List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierScrape(string url)
+        public List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierScrape(string url, string brand)
         {
             //CREATE LIST THAT IS BEING RETURNED 
             List<List<object>> BierInformatie = new();
@@ -135,13 +135,11 @@ namespace StudySpark.Core.BierScraper
                 {
                     productsList[i].Add(ProductInformation[i].FindElement(By.ClassName("ppc_verpakking_titel")));
                     productsList[i].Add(ProductInformation[i].FindElement(By.ClassName("BekijkBtn")));
-                    productsList[i].Add(ProductInformation[i].FindElement(By.TagName("a")));
                     link = ProductInformation[i].FindElement(By.TagName("a")).GetAttribute("href");
-
                     List<GenericBeerSale> sales = scraper.BierSaleScrape(link);
-                    GenericBeerProduct prod = getBeerProduct(i, productsList);
+                    GenericBeerProduct prod = getBeerProduct(i, productsList, brand);
 
-
+                    BeerProductSales.Add(new Dictionary<GenericBeerProduct, List<GenericBeerSale>>());
                     BeerProductSales[i].Add(prod , sales);
                 }
                 catch (NoSuchElementException ex) { }
@@ -150,15 +148,40 @@ namespace StudySpark.Core.BierScraper
             }
             return BeerProductSales;
         }
-        public GenericBeerProduct getBeerProduct(int i, List<List<IWebElement>> productsList)
+        public GenericBeerProduct getBeerProduct(int i, List<List<IWebElement>> productsList, string brand)
         {
             string productname = productsList[i][0].Text;
             string lowestprice = productsList[i][1].Text;
-
-            GenericBeerProduct product = new GenericBeerProduct(productname, lowestprice);
+            int brandID = getBrandId(brand);
+            GenericBeerProduct product = new GenericBeerProduct(brandID, productname, lowestprice);
             return product;
         }
-
+        public int getBrandId(string brand)
+        {
+            int brandID;
+            switch (brand)
+            {
+                case "Hertog Jan":
+                    brandID = 0;
+                    break;
+                case "Amstel":
+                    brandID = 1;
+                    break;
+                case "Heineken":
+                    brandID = 2;
+                    break;
+                case "Grolsch":
+                    brandID = 3;
+                    break;
+                case "Jupiler":
+                    brandID = 4;
+                    break;
+                default:
+                    brandID = -1;
+                    break;
+            }
+            return brandID;
+        }
         //    //AT THIS POINT WE HAVE AL THE INFORMATION WE NEED, SO WE CAN ADD IT TO THE FINAL LIST!
         //    for (int i = 0; i < productsList.Count; i++)
         //    {

@@ -79,7 +79,7 @@ namespace StudySpark.Core.BierScraper
 
         public List<GenericBeerSale> BierSaleScrape(string url)
         {
-            
+
             List<List<object>> BierInformatie = new();
             List<GenericBeerSale> salesList = new List<GenericBeerSale>();
 
@@ -100,10 +100,12 @@ namespace StudySpark.Core.BierScraper
 
             string oldprice = "";
             string newprice = "";
+            string store = "";
+            string storeimage = "";
             //LOOP THROUGH ALL THE AVAILABLE SALES -- PER PRODUCT
             for (int i = 0; i < StoreInformationGlobal.Count; i++)
             {
-
+                
                 IWebElement prijsinfo = null;
 
                 //GET ALL THE STORES WITH A SALE BASED ON WHICH PRODUCT IT IS LOOKING AT
@@ -113,7 +115,8 @@ namespace StudySpark.Core.BierScraper
                     prijsinfo = winkelsInformation.FindElement(By.ClassName("prijss"));
                     oldprice = prijsinfo.FindElement(By.ClassName("van_prijss")).Text;
                     newprice = prijsinfo.FindElement(By.ClassName("voor_prijss")).Text;
-                } catch (NoSuchElementException) 
+                }
+                catch (NoSuchElementException)
                 {
                     prijsinfo = winkelsInformation.FindElement(By.ClassName("prijsss"));
                     oldprice = prijsinfo.FindElement(By.ClassName("van_prijsss")).Text;
@@ -122,12 +125,14 @@ namespace StudySpark.Core.BierScraper
 
                 try
                 {
-                    string img = StoreInformationGlobal[i].FindElement(By.ClassName("lazyloading")).Text;
+                    IWebElement imageDiv = StoreInformationGlobal[i].FindElement(By.ClassName("logo_image"));
+                    store = imageDiv.FindElement(By.TagName("img")).GetAttribute("alt");
+                    storeimage = "https://www.biernet.nl" + imageDiv.FindElement(By.TagName("img")).GetAttribute("data-src");
                 }
                 catch (Exception e) { }
-                salesList.Add(new GenericBeerSale(oldprice, newprice));
+                salesList.Add(new GenericBeerSale(store, storeimage, oldprice, newprice));
             }
-            
+
             return salesList;
         }
     }

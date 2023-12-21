@@ -86,29 +86,30 @@ namespace StudySpark.Core.Repositories
         }
         public void insertBeersale(List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> products)
         {
-            foreach(Dictionary<GenericBeerProduct, List<GenericBeerSale>> dict in products) {
-                foreach(var (key, value)  in dict)
-                {
-                    int brandID = getBrandId(key.productname);
+            SqliteCommand sqlite_cmd;
 
-                    //foreach(GenericBeerSale sale in value)
-                    //{
-                    //    insertSale(sale.)
-                    //}
-                    
+            foreach (Dictionary<GenericBeerProduct, List<GenericBeerSale>> dict in products) {
+                foreach(var (key, value)  in dict)
+                {        
+                    sqlite_cmd = DBRepository.Conn.CreateCommand();
+                    sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice) VALUES(@brandID, @productname, @bookmarked, @lowestprice)";
+                    sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", key.brandID));
+                    sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", key.productname));
+                    sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", key.bookmarked));
+                    sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", key.lowestprice));
+
+                    sqlite_cmd.ExecuteNonQuery();
+
+                    foreach (GenericBeerSale sale in value)
+                    {
+                        GenericBeerProduct lastProd = getLastInserted();
+                        insertSale(lastProd.id, sale.store, sale.storeImage, sale.oldprice, sale.newprice);
+                    }
+
                 }
             }
-            
-            //SqliteCommand sqlite_cmd;
-            //sqlite_cmd = DBRepository.Conn.CreateCommand();
-            //sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice, expirationdate) VALUES(@brandID, @productname, @bookmarked, @lowestprice, @expirationdate)";
-            //sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", brandID));
-            //sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", productname));
-            //sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", bookmarked));
-            //sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", lowestprice));
-            //sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", date));
 
-            //sqlite_cmd.ExecuteNonQuery();
+
         }
         public void insertBookMark(string brand, string productname, int bookmarked, string lowestprice)
         {
@@ -124,14 +125,17 @@ namespace StudySpark.Core.Repositories
             sqlite_cmd.ExecuteNonQuery();
 
         }
-        public void insertSale(int productID, string store, string oldprice, string newprice)
+        public void insertSale(int productID, string store, string storeimage, string oldprice, string newprice)
         {
+
             SqliteCommand sqlite_cmd = DBRepository.Conn.CreateCommand();
-            sqlite_cmd.CommandText = "INSERT INTO BeerSales (productID, store, oldprice, newprice) VALUES(@productID, @store, @oldprice, @newprice)";
+            sqlite_cmd.CommandText = "INSERT INTO BeerSales (productID, store, storeimage, oldprice, newprice, expirationdate) VALUES(@productID, @store, @storeimage, @oldprice, @newprice, @expirationdate)";
             sqlite_cmd.Parameters.Add(new SqliteParameter("@productID", productID));
             sqlite_cmd.Parameters.Add(new SqliteParameter("@store", store));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@storeimage", storeimage));
             sqlite_cmd.Parameters.Add(new SqliteParameter("@oldprice", oldprice));
             sqlite_cmd.Parameters.Add(new SqliteParameter("@newprice", newprice));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@expirationdate", "temp"));
 
             sqlite_cmd.ExecuteNonQuery();
         }
@@ -187,10 +191,11 @@ namespace StudySpark.Core.Repositories
                 int id = reader.GetInt32(0);
                 int prodID = reader.GetInt32(1);
                 string store = reader.GetString(2);
-                string oldprice = reader.GetString(3);
-                string newprice = reader.GetString(4);
+                string storeimage = reader.GetString(3);
+                string oldprice = reader.GetString(4);
+                string newprice = reader.GetString(5);
 
-                GenericBeerSale sale = new GenericBeerSale(id, prodID, store, oldprice, newprice);
+                GenericBeerSale sale = new GenericBeerSale(id, prodID, store, storeimage, oldprice, newprice);
                 sales.Add(sale);
             }
             return sales;
@@ -255,15 +260,13 @@ namespace StudySpark.Core.Repositories
             }
             return products;
         }
-        public List<GenericBeerProduct> getLastInserted()
+        public GenericBeerProduct getLastInserted()
         {
-
+            GenericBeerProduct? product = null;
             if (DBRepository.Conn == null)
             {
-                return new List<GenericBeerProduct>();
+                return product;
             }
-
-            List<GenericBeerProduct> products = new List<GenericBeerProduct>();
 
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
@@ -280,10 +283,9 @@ namespace StudySpark.Core.Repositories
                 int bookmarked = reader.GetInt32(3);
                 string lowestprice = reader.GetString(4);
 
-                GenericBeerProduct product = new GenericBeerProduct(id, brandID, productname, bookmarked, lowestprice);
-                products.Add(product);
+                product = new GenericBeerProduct(id, brandID, productname, bookmarked, lowestprice);
             }
-            return products;
+            return product;
         }
     }
 }
