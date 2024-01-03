@@ -4,6 +4,7 @@ using StudySpark.GUI.WPF.Core;
 using StudySpark.GUI.WPF.MVVM.View;
 using StudySpark.WebScraper;
 using StudySpark.WebScraper.Educator;
+using StudySpark.WebScraper.WIP;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -120,10 +121,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.TwoFACode = twoFA;
             scraperOptions.Debug = false;
 
-            EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
+            //EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
+            WIPWebScraper webScraper = new WIPWebScraper(scraperOptions);
 
             webScraper.SetupDriver();
-            bool result = webScraper.TestLoginCredentials();
+            bool result = webScraper.TestLoginCredentials(scraperOptions.TwoFACode);
 
             webScraper.CloseDriver();
             return result;
