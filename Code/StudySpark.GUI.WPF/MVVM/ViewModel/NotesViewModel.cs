@@ -25,8 +25,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public NotesViewModel() {
             NoteListViewElements = NotesRepository.Instance.NoteListViewElements;
 
-
-
             NoteViewClick = new RelayCommand((o) => {
                 GenericNoteListItem? note = o as GenericNoteListItem;
                 Debug.WriteLine($"NoteViewClick: {note?.NoteName}");
@@ -40,6 +38,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             NotePreDeleteClick = new RelayCommand((o) => {
                 GenericNoteListItem? note = o as GenericNoteListItem;
+                foreach (GenericNoteListItem item in NoteListViewElements) {
+                    if (item.NoteName == note?.NoteName) {
+                        NoteListViewElements.Remove(item);
+                        break;
+                    }
+                }
                 Debug.WriteLine($"NotePreDeleteClick: {note?.NoteName}");
             });
 

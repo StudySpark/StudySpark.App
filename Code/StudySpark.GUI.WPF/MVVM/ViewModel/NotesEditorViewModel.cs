@@ -2,6 +2,7 @@
 using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -173,7 +174,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             EditorBulletListCommand = new RelayCommand((o) => {
                 RichTextBox rtfEditor = o as RichTextBox;
 
-                Debug.WriteLine("Bullet List");
+                InsertBulletList(rtfEditor);
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
@@ -287,10 +288,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         private void AddImageToRichTextBox(RichTextBox richTextBox, string imagePath) {
             BitmapImage bitmapImage = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
 
+            double aspectRatio = bitmapImage.Height / bitmapImage.Width;
+
             Image image = new Image {
                 Source = bitmapImage,
-                Width = bitmapImage.Width,
-                Height = bitmapImage.Height
+                Width = Math.Min(400, bitmapImage.Width),
+                Height = Math.Min(400, bitmapImage.Width) * aspectRatio
             };
 
             InlineUIContainer container = new InlineUIContainer(image);
@@ -301,6 +304,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 var paragraph = new Paragraph(container);
 
                 richTextBox.Document.Blocks.InsertBefore(insertionPosition.Paragraph, paragraph);
+            }
+        }
+
+        private void InsertBulletList(RichTextBox richTextBox) {
+            TextPointer insertionPosition = richTextBox.CaretPosition;
+
+            if (insertionPosition != null) {
+                var newParagraph = new Paragraph(new Run("• "));
+
+                richTextBox.Document.Blocks.InsertAfter(insertionPosition.Paragraph, newParagraph);
             }
         }
 
