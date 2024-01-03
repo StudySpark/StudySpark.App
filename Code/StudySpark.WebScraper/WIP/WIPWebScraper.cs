@@ -61,33 +61,28 @@ namespace StudySpark.WebScraper.WIP
             subButton.Click();
         }
 
-        public bool TestLoginCredentials(string authCode)
+        public bool TestLoginCredentials()
         {
-            HandleLogIn(authCode);
+            HandleLogIn();
             WaitForPageLoad();
 
             if (CheckIfIdExists("usernameError"))
             {
-                Debug.WriteLine("False - Username");
                 return false;
             }
             else if (CheckIfIdExists("errorText"))
             {
-                Debug.WriteLine("False - Password");
                 return false;
             }
             else if (CheckIfIdExists("idSpan_SAOTCC_Error_OTC"))
             {
-                Debug.WriteLine("False - 2FA");
                 return false;
             }
             else
             {
-                Debug.WriteLine("True");
                 return true;
             }
 
-            Debug.WriteLine("False - Other");
             return false;
         }
     }

@@ -67,7 +67,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void LoginView_LoginSuccessEvent(object? sender, EventArgs e) {
-            MainViewManager.CurrentMainView = MainViewManager.GradesVM;
+            //MainViewManager.CurrentMainView = MainViewManager.GradesVM;
+            MainViewManager.CurrentMainView = MainViewManager.ScheduleVM;
         }
 
         public void LoginUser() {
@@ -125,7 +126,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             WIPWebScraper webScraper = new WIPWebScraper(scraperOptions);
 
             webScraper.SetupDriver();
-            bool result = webScraper.TestLoginCredentials(scraperOptions.TwoFACode);
+            bool result = webScraper.TestLoginCredentials();
 
             webScraper.CloseDriver();
             return result;
