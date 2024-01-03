@@ -640,15 +640,15 @@
         </Grid>
 
         <Grid x:Name="ColorSelectorHighlight"
-      Grid.Row="0"
-      Grid.RowSpan="2"
-      HorizontalAlignment="Right"
-      VerticalAlignment="Top"
-      Width="50"
-      Height="150"
-      Margin="0,50,300,0"
-      Panel.ZIndex="2"
-      Visibility="{Binding IsColorSelectorHighlightVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+              Grid.Row="0"
+              Grid.RowSpan="2"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top"
+              Width="50"
+              Height="150"
+              Margin="0,50,300,0"
+              Panel.ZIndex="2"
+              Visibility="{Binding IsColorSelectorHighlightVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
 
             <Rectangle Fill="#FF20202A"
                Grid.Row="0"
@@ -757,15 +757,15 @@
                 </Button>
 
                 <Button Grid.Row="0"
-                Width="35"
-                Height="20"
-                Margin="0,2,0,2"
-                Style="{StaticResource HoverableButtonTheme}"
-                Cursor="Hand"
-                Background="#FF7792"
-                BorderBrush="Transparent"
-                Foreground="White"
-                Command="{Binding EditorHightlightCommand}">
+                        Width="35"
+                        Height="20"
+                        Margin="0,2,0,2"
+                        Style="{StaticResource HoverableButtonTheme}"
+                        Cursor="Hand"
+                        Background="#FF7792"
+                        BorderBrush="Transparent"
+                        Foreground="White"
+                        Command="{Binding EditorHightlightCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
                             <Binding ElementName="rtfEditor" />
@@ -774,6 +774,79 @@
                     </Button.CommandParameter>
                 </Button>
             </StackPanel>
+        </Grid>
+
+        <Grid x:Name="FontSelector"
+              Grid.Row="0"
+              Grid.RowSpan="2"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top"
+              Width="150"
+              Height="150"
+              Margin="0,50,200,0"
+              Panel.ZIndex="2"
+              Visibility="{Binding IsFontSelectorVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <Rectangle Fill="#FF20202A"
+                       Grid.Row="0"
+                       Grid.RowSpan="6"
+                       RadiusX="10"
+                       RadiusY="10"
+                       StrokeThickness="2">
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FFCEA204"/>
+                        <GradientStop Color="#FFEC2F63" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+            </Rectangle>
+
+            <ScrollViewer Margin="3"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding FontElements}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button FontFamily="{Binding FontName}"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource HoverableButtonTheme}"
+                                        Cursor="Hand"
+                                        Command="{Binding DataContext.EditorSetFontCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                            <Binding ElementName="rtfEditor" />
+                                            <Binding RelativeSource="{RelativeSource Self}" Path="FontFamily" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                    <Border Background="#FF353544"
+                                            Width="120"
+                                            CornerRadius="8">
+                                        <TextBlock Text="{Binding FontName}"
+                                                   TextAlignment="Center"
+                                                   Padding="5"
+                                                   Width="125"
+                                                   Foreground="#FFFFFF"
+                                                   TextTrimming="CharacterEllipsis">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Content="{Binding FontName}"/>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </Border>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <Grid Grid.Row="0">

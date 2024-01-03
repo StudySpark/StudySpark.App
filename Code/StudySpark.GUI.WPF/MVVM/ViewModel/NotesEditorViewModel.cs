@@ -1,7 +1,9 @@
-﻿using StudySpark.Core.Generic;
+﻿using StudySpark.Core;
+using StudySpark.Core.Generic;
 using StudySpark.GUI.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -24,6 +26,9 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public bool IsColorSelectorHighlightVisible { get; set; } = false;
         public bool IsColorSelectorTextVisible { get; set; } = false;
+        public bool IsFontSelectorVisible { get; set; } = false;
+
+        public ObservableCollection<GenericFontElement> FontElements { get; set; } = new ObservableCollection<GenericFontElement>();
 
         public static GenericNoteListItem? CurrentEditingNote { get; set; }
         public double TextSize { get; set; } = 12;
@@ -36,6 +41,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand EditorSetTextColorCommand { get; private set; }
         public RelayCommand EditorHightlightCommand { get; private set; }
         public RelayCommand EditorFontCommand { get; private set; }
+        public RelayCommand EditorSetFontCommand { get; private set; }
         public RelayCommand EditorTextSizeMinCommand { get; private set; }
         public RelayCommand EditorTextSizePlusCommand { get; private set; }
         public RelayCommand EditorBulletListCommand { get; private set; }
@@ -50,6 +56,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             //var textRange = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
             //textRange.Load(stream, DataFormats.Rtf);
+
+            FontElements = FontManager.GetAvailableFonts();
 
             TextSize = GetDefaultFontSize();
             OnPropertyChanged(nameof(TextSize));
@@ -72,6 +80,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorColorCommand = new RelayCommand((o) => {
@@ -79,6 +89,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = !IsColorSelectorTextVisible;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorSetTextColorCommand = new RelayCommand((o) => {
@@ -96,6 +108,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             ToggleEditorHightlightColorSelectorCommand = new RelayCommand((o) => {
@@ -103,6 +117,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorHightlightCommand = new RelayCommand((o) => {
@@ -120,17 +136,39 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorFontCommand = new RelayCommand((o) => {
                 RichTextBox rtfEditor = o as RichTextBox;
 
-                Debug.WriteLine("Font");
+                //ChangeFontFamily(rtfEditor, "");
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = !IsFontSelectorVisible;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
+            });
+
+            EditorSetFontCommand = new RelayCommand((o) => {
+                object[] parameters = o as object[];
+
+                if (parameters != null && parameters.Length == 2) {
+                    RichTextBox rtfEditor = parameters[0] as RichTextBox;
+                    FontFamily fontFamily = parameters[1] as FontFamily;
+
+                    ChangeFontFamily(rtfEditor, fontFamily);
+                }
+
+                IsColorSelectorHighlightVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
+                IsColorSelectorTextVisible = false;
+                OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorTextSizeMinCommand = new RelayCommand((o) => {
@@ -150,6 +188,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorTextSizePlusCommand = new RelayCommand((o) => {
@@ -169,6 +209,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorBulletListCommand = new RelayCommand((o) => {
@@ -180,6 +222,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorImageCommand = new RelayCommand((o) => {
@@ -198,6 +242,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorAlignLeftCommand = new RelayCommand((o) => {
@@ -209,6 +255,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorAlignCenterCommand = new RelayCommand((o) => {
@@ -220,6 +268,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             EditorAlignRightCommand = new RelayCommand((o) => {
@@ -231,6 +281,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
                 IsColorSelectorTextVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorTextVisible));
+                IsFontSelectorVisible = false;
+                OnPropertyChanged(nameof(IsFontSelectorVisible));
             });
 
             rtfEditor_SelectionChangedCommand = new RelayCommand((o) => {
@@ -314,6 +366,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 var newParagraph = new Paragraph(new Run("• "));
 
                 richTextBox.Document.Blocks.InsertAfter(insertionPosition.Paragraph, newParagraph);
+            }
+        }
+
+        private void ChangeFontFamily(RichTextBox richTextBox, FontFamily font) {
+            TextRange selection = new TextRange(richTextBox.Selection.Start, richTextBox.Selection.End);
+
+            if (selection != null) {
+                if (font != null) {
+                    selection.ApplyPropertyValue(TextElement.FontFamilyProperty, font);
+                }
             }
         }
 
