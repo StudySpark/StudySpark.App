@@ -37,108 +37,74 @@
             <ItemsControl ItemsSource="{Binding NoteListViewElements}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Width="180"
-                            Height="80"
-                            Background="#BF22212F"
-                            CornerRadius="8"
-                            Margin="8"
-                            Padding="4">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="24" />
-                                    <RowDefinition Height="18" />
-                                    <RowDefinition Height="32" />
-                                </Grid.RowDefinitions>
+                        <Button Width="180"
+                                Height="80"
+                                Padding="0"
+                                Margin="8"
+                                BorderBrush="Transparent"
+                                Background="Transparent"
+                                Style="{StaticResource HoverableButtonTheme}"
+                                Command="{Binding DataContext.NoteEditClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                CommandParameter="{Binding}"
+                                Cursor="Hand">
+                            <Border
+                                Background="#BF22212F"
+                                CornerRadius="8"
+                                Padding="4">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="24" />
+                                        <RowDefinition Height="18" />
+                                        <RowDefinition Height="32" />
+                                    </Grid.RowDefinitions>
 
-                                <TextBlock Text="{Binding NoteName}"
-                                           Grid.Row="0"
+                                    <TextBlock Text="{Binding NoteName}"
+                                               Grid.Row="0"
+                                               HorizontalAlignment="Left"
+                                               Width="165"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="5,0,0,0"
+                                               FontSize="16"
+                                               Foreground="#FFFFFF"
+                                               VerticalAlignment="Top">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip Content="{Binding NoteName}"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+
+                                    <Label Content="{Binding NoteDate}"
+                                           Grid.Row="1"
                                            HorizontalAlignment="Left"
                                            Width="165"
-                                           TextTrimming="CharacterEllipsis"
-                                           Margin="5,0,0,0"
-                                           FontSize="16"
-                                           Foreground="#FFFFFF"
-                                           VerticalAlignment="Top">
-                                    <TextBlock.ToolTip>
-                                        <ToolTip Content="{Binding NoteName}"/>
-                                    </TextBlock.ToolTip>
-                                </TextBlock>
+                                           Margin="0,-8,0,0" 
+                                           FontSize="12"
+                                           Foreground="#FF929292"
+                                           VerticalAlignment="Top" />
 
-                                <Label Content="{Binding NoteDate}"
-                                       Grid.Row="1"
-                                       HorizontalAlignment="Left"
-                                       Width="165"
-                                       Margin="0,-8,0,0" 
-                                       FontSize="12"
-                                       Foreground="#FF929292"
-                                       VerticalAlignment="Top" />
+                                    <StackPanel Grid.Row="2">
 
-                                <Grid Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button Width="32"
-                                            Height="32"
-                                            Cursor="Hand"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            Margin="0,-5,0,0"
-                                            Style="{StaticResource HoverableButtonTheme}"
-                                            Grid.Column="0"
-                                            Command="{Binding DataContext.NoteViewClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                            CommandParameter="{Binding}">
-                                        <Border CornerRadius="5"
-                                                BorderThickness="1"
-                                                Margin="-2"
-                                                Padding="4"
-                                                BorderBrush="#0CFFFFFF">
-                                            <Image Source="/Images/NoteView.png" />
-                                        </Border>
-                                    </Button>
-
-                                    <Button Width="32"
-                                            Height="32"
-                                            Cursor="Hand"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            Margin="0,-5,0,0"
-                                            Style="{StaticResource HoverableButtonTheme}"
-                                            Grid.Column="1"
-                                            Command="{Binding DataContext.NoteEditClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                            CommandParameter="{Binding}">
-                                        <Border CornerRadius="5"
-                                                BorderThickness="1"
-                                                Margin="-2"
-                                                Padding="4"
-                                                BorderBrush="#0CFFFFFF">
-                                            <Image Source="/Images/NoteEdit.png" />
-                                        </Border>
-                                    </Button>
-
-                                    <Button Width="32"
-                                            Height="32"
-                                            Cursor="Hand"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            Margin="0,-5,0,0"
-                                            Style="{StaticResource HoverableButtonTheme}"
-                                            Grid.Column="2"
-                                            Command="{Binding DataContext.NotePreDeleteClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                            CommandParameter="{Binding}">
-                                        <Border CornerRadius="5"
-                                                BorderThickness="1"
-                                                Margin="-2"
-                                                Padding="4"
-                                                BorderBrush="#0CFFFFFF">
-                                            <Image Source="/Images/NoteTrash.png" />
-                                        </Border>
-                                    </Button>
+                                        <Button Width="32"
+                                                Height="32"
+                                                Cursor="Hand"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                Margin="2,-5,0,0"
+                                                Style="{StaticResource HoverableButtonTheme}"
+                                                Command="{Binding DataContext.NotePreDeleteClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                                CommandParameter="{Binding}"
+                                                HorizontalAlignment="Left">
+                                            <Border CornerRadius="5"
+                                                    BorderThickness="1"
+                                                    Margin="-2"
+                                                    Padding="4"
+                                                    BorderBrush="#0CFFFFFF">
+                                                <Image Source="/Images/NoteTrash.png" />
+                                            </Border>
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
-                            </Grid>
-                        </Border>
+                            </Border>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
