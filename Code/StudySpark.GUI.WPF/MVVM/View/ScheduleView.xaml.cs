@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudySpark.GUI.WPF.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,49 @@ namespace StudySpark.GUI.WPF.MVVM.View
         public ScheduleView()
         {
             InitializeComponent();
+
+            Loaded += GradesView_Loaded;
+            Unloaded += GradesView_Unloaded;
+
             CreateGrid();
+        }
+
+        private void GradesView_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadingMessage.Visibility = Visibility.Visible;
+            NotLoggedInMessage.Visibility = Visibility.Collapsed;
+            InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
+
+            if (DataContext is ScheduleViewModel viewModel)
+            {
+                viewModel.NoUserLoggedInEvent += OnNoUserLoggedInEvent;
+                viewModel.InvalidUserCredentialsEvent += OnUserInvalidCredentialsEvent;
+                viewModel.IsViewLoaded = true;
+            }
+
+            Loaded -= GradesView_Loaded;
+        }
+
+        private void OnNoUserLoggedInEvent(object? sender, EventArgs e)
+        {
+            LoadingMessage.Visibility = Visibility.Collapsed;
+            NotLoggedInMessage.Visibility = Visibility.Visible;
+            InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
+        }
+
+        private void OnUserInvalidCredentialsEvent(object? sender, EventArgs e)
+        {
+            LoadingMessage.Visibility = Visibility.Collapsed;
+            NotLoggedInMessage.Visibility = Visibility.Collapsed;
+            InvalidCredentialsMessage.Visibility = Visibility.Visible;
+        }
+
+        private void GradesView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GradesViewModel viewModel)
+            {
+                viewModel.IsViewLoaded = false;
+            }
         }
 
         public void CreateGrid()
