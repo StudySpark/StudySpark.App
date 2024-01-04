@@ -182,54 +182,6 @@ namespace StudySpark.Core.BierScraper
             }
             return brandID;
         }
-        //    //AT THIS POINT WE HAVE AL THE INFORMATION WE NEED, SO WE CAN ADD IT TO THE FINAL LIST!
-        //    for (int i = 0; i < productsList.Count; i++)
-        //    {
-        //        //ADD LIST TO FINAL LIST
-        //        //THIS SUBLIST WILL CONTAIN ALL THE RELEVANT INFORMATION PER PRODUCT;
-        //        BierInformatie.Add(new List<object>());
-
-        //        //GET THE NAME AND LOWEST PRICE AND ADD TO SUBLIST
-        //        string name = productsList[i][PRODUCT_NAME].Text;
-        //        string lowestPrice = productsList[i][PRODUCT_LOWEST_PRICE].Text;
-        //        BierInformatie[i].Add(name);
-        //        BierInformatie[i].Add(lowestPrice);
-
-        //        //CREATE A LIST -- FOR POSSIBLE MULTIPLE SALES PER PRODUCT
-        //        List<Dictionary<string, string>> aanbiedingen = new();
-        //        for (int j = 0; j < scraper.salesList[i].Count; j++)
-        //        {
-        //            //CREATE DICTIONARY FOR EVERY SALE
-        //            Dictionary<string, string> aanbieding = new();
-
-        //            //GET THE OLD AND NEW PRICE AND ADD THEM TO THE DICTIONARY
-        //            string van = scraper.salesList[i].ElementAt(j).Key.GetAttribute("innerHTML");
-        //            string voor = scraper.salesList[i].ElementAt(j).Value.GetAttribute("innerHTML");
-        //            aanbieding.Add(van, voor);
-        //            aanbiedingen.Add(aanbieding);
-        //        }
-        //        BierInformatie[i].Add(aanbiedingen);
-
-
-
-        //        //GET THE IMAGE
-        //        List<List<string>> images = new();
-        //        for (int j = 0; j < storeImages[i].Count; j++)
-        //        {
-        //            List<string> image = new();
-        //            string? imageUrl = storeImages[i].ElementAt(j).GetAttribute("data-src");
-        //            image.Add(imageUrl);
-        //            images.Add(image);
-        //        }
-        //        BierInformatie[i].Add(images);
-        //    }
-
-        //    //CLOSE DRIVER AND RETURN FINAL LIST WITH INFORMATION
-        //    biernetScraper.CloseDriver();
-        //    return BierInformatie;
-        //}
-
-        //USED TO GET THE CHANING STORE ID
         public static string getStoreID(int i)
         {
             string storeID;

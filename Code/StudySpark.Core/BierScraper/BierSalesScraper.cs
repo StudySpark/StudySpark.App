@@ -175,8 +175,6 @@ namespace StudySpark.Core.BierScraper
                 {"november", "November"},
                 {"december", "December"}
             };
-
-            
             
             string[] words = date.Split(' ');
 
@@ -188,7 +186,7 @@ namespace StudySpark.Core.BierScraper
 
             if (DateTime.TryParseExact(dateString, "dddd, MMMM d yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
             {
-                return result.ToString("MM/dd");
+                return result.ToString("yyyy-MM-dd");
             }
             return "";
         }

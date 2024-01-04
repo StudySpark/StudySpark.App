@@ -1,12 +1,325 @@
-﻿using System;
+﻿using System.Windows.Controls;
+using StudySpark.Core.Generic;
+using StudySpark.Core.Repositories;
+using StudySpark.GUI.WPF.Core;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
-    public class VerlopenBierAanbiedingenViewModel
+    public class VerlopenBierAanbiedingenViewModel : ObservableObject
     {
+        public int IMAGE_WIDTH = 100;
+        public int IMAGE_HEIGHT = 100;
+
+        public int PRODUCT_INFORMATION_WIDTH = 300;
+        public int PRODUCT_INFORMATION_HEIGHT = 100;
+
+        public int INFO_GRID_WIDTH = 175;
+        public int INFO_GRID_HEIGHT = 100;
+
+        public int SALES_GRID_WIDTH = 1;
+
+        public int MARGIN = 1;
+
+        private BeerRepository beerRepository;
+
+        private StackPanel bookmarkPanel = new StackPanel();
+        private event EventHandler bookmarkRemoved;
+        private object alleBookmarks;
+        public object AlleBookmarks
+        {
+            get
+            {
+                return alleBookmarks;
+            }
+            set
+            {
+                alleBookmarks = value;
+                OnPropertyChanged();
+            }
+        }
+        public VerlopenBierAanbiedingenViewModel()
+        {
+            beerRepository = new BeerRepository();
+            AlleBierAanbiedingenViewModel.bookmarkAddedEvent += createBookMarkPanel;
+            bookmarkRemoved += createBookMarkPanel;
+
+            createBookMarkPanel(this, new EventArgs());
+        }
+        public void createBookMarkPanel(object? sender, EventArgs e)
+        {
+            bookmarkPanel.Children.Clear();
+            bookmarkPanel.VerticalAlignment = VerticalAlignment.Top;
+            bookmarkPanel.HorizontalAlignment = HorizontalAlignment.Center;
+            List<GenericBeerProduct> bookmarks = beerRepository.getBookMarked();
+            int z = 0;
+            foreach (GenericBeerProduct bookmark in bookmarks)
+            {
+                var bookInfo = new StackPanel();
+
+                List<GenericBeerSale> sales = beerRepository.getExpiredSales(bookmark.id);
+
+                if (sales.Count > 0)
+                {
+
+                    var info = DisplayInformation(bookmark, sales, z);
+                    bookInfo.Children.Add(info);
+                }
+
+
+                bookmarkPanel.Children.Add(bookInfo);
+                z++;
+            }
+            alleBookmarks = bookmarkPanel;
+        }
+        private UIElement DisplayInformation(GenericBeerProduct product, List<GenericBeerSale> sales, int zIndex)
+        {
+            //CREATE RETURN VALUE
+            var containerDivider = new StackPanel()
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Orientation = Orientation.Vertical,
+                Height = PRODUCT_INFORMATION_HEIGHT + 10,
+            };
+
+            var container = new StackPanel
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Orientation = Orientation.Horizontal,
+                Height = PRODUCT_INFORMATION_HEIGHT,
+                Width = 850,
+            };
+
+            //IMAGE OF THE PRODUCT
+            Grid imageGrid = new()
+            {
+                Width = IMAGE_WIDTH
+            };
+            var logo = new Image
+            {
+                Width = IMAGE_WIDTH,
+                Height = IMAGE_HEIGHT,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Source = GetProductImage(product.brandID)
+            };
+            Border b = new Border()
+            {
+                Height = IMAGE_HEIGHT,
+                Width = IMAGE_WIDTH,
+                BorderBrush = new SolidColorBrush(Colors.DarkGray),
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(10),
+            };
+            b.Child = logo;
+            imageGrid.Children.Add(b);
+
+
+            //INFORMATION OF THE PRODUCT
+            Grid infoGrid = new()
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                Width = INFO_GRID_WIDTH,
+                Height = INFO_GRID_HEIGHT
+            };
+            var information = DisplayInformationOfProduct(product, zIndex);
+            infoGrid.Children.Add(information);
+
+            //SALES
+            Grid salesGrid = new();
+            ColumnDefinition c1 = new()
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            };
+            salesGrid.ColumnDefinitions.Add(c1);
+            var prices = GetPrices(sales, zIndex);
+            salesGrid.Children.Add(prices);
+
+            Border border = new Border()
+            {
+                Height = PRODUCT_INFORMATION_HEIGHT,
+                BorderBrush = new SolidColorBrush(Colors.DarkGray),
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(10),
+            };
+            //ADD DIFFERENT GRIDS
+            container.Children.Add(imageGrid);
+            container.Children.Add(infoGrid);
+            container.Children.Add(salesGrid);
+
+            border.Child = container;
+
+            containerDivider.Children.Add(border);
+
+            return containerDivider;
+        }
+        private UIElement DisplayInformationOfProduct(GenericBeerProduct product, int index)
+        {
+            var information = new Grid
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Height = PRODUCT_INFORMATION_HEIGHT,
+                Width = PRODUCT_INFORMATION_WIDTH,
+            };
+            RowDefinition r1 = new()
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            };
+            RowDefinition r2 = new()
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            };
+            RowDefinition r3 = new()
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            };
+
+            information.RowDefinitions.Add(r1);
+            information.RowDefinitions.Add(r2);
+
+            var productNaam = new TextBlock
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Text = GetProductName(product, index),
+                Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+            };
+            var laagstePrijs = new TextBlock
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top,
+                Text = $"laagste prijs: {GetLowestPrice(product.lowestprice, index)}",
+                Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+            };
+            information.Children.Add(productNaam);
+            Grid.SetRow(productNaam, 0);
+            information.Children.Add(laagstePrijs);
+            Grid.SetRow(laagstePrijs, 1);
+
+            return information;
+        }
+        private UIElement GetPrices(List<GenericBeerSale> sales, int index)
+        {
+            int SALES = 2;
+            var scrollViewer = new ScrollViewer()
+            {
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+                CanContentScroll = true,
+                Height = 90,
+            };
+
+            var priceContainer = new WrapPanel()
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
+            };
+
+            for (int j = 0; j < sales.Count; j++)
+            {
+
+                Image img = new Image();
+                try
+                {
+                    img.Source = GetStoreImage(sales[j], index, j);
+                }
+                catch (Exception e)
+                {
+                    img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
+                }
+                img.Width = 40;
+
+                Border b = new Border()
+                {
+                    BorderThickness = new Thickness(1),
+                    CornerRadius = new CornerRadius(10),
+                };
+                b.Child = img; ;
+
+                TextBlock t = new TextBlock();
+
+                Run run1 = new Run($"{sales[j].oldprice}\n");
+                run1.Foreground = new SolidColorBrush(Color.FromRgb(255, 160, 160));
+                run1.TextDecorations = TextDecorations.Strikethrough;
+                t.Inlines.Add(run1);
+
+                Run run2 = new Run($"{sales[j].newprice}\n");
+                run2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                t.Inlines.Add(run2);
+                Run run3 = new Run($"{sales[j].expirationdate}\n");
+                run3.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                t.Inlines.Add(run3);
+
+                priceContainer.Children.Add(b);
+                priceContainer.Children.Add(t);
+
+
+                scrollViewer.Content = priceContainer;
+            }
+            return scrollViewer;
+        }
+        private BitmapImage GetStoreImage(GenericBeerSale sale, int index, int jIndex)
+        {
+            string url = sale.storeImage;
+
+            BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
+            return image;
+        }
+        private string GetProductName(GenericBeerProduct product, int index)
+        {
+            int NAME_INDEX = 0;
+            string? name = product.productname;
+            return name;
+        }
+
+        private string GetLowestPrice(string sale, int index)
+        {
+            int LOWEST_PRICE_INDEX = 1;
+            string? lowestPrice = sale;
+
+            int charLocationStart = lowestPrice.IndexOf("€");
+            string lowestPriceTrimFirstHalf = lowestPrice.Substring(charLocationStart);
+            int charLocationStop = lowestPriceTrimFirstHalf.IndexOf(":");
+            string lowestPriceTrim = lowestPriceTrimFirstHalf.Substring(0, charLocationStop);
+
+            return lowestPriceTrim;
+        }
+
+        private BitmapImage GetProductImage(int index)
+        {
+            string name = "";
+            switch (index)
+            {
+                case 0:
+                    name = "HertogJan";
+                    break;
+                case 1:
+                    name = "Amstel";
+                    break;
+                case 2:
+                    name = "Heineken";
+                    break;
+                case 3:
+                    name = "Grolsch";
+                    break;
+            }
+            BitmapImage image = new BitmapImage(new Uri($"..\\..\\..\\Images\\{name}.png", UriKind.Relative));
+            return image;
+        }
     }
 }

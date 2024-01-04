@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -171,7 +172,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             removeBtn.Click += (sender, e) =>
             {
-                beerRepository.removeBookMark(product.id);
+                beerRepository.updateBookMark(product.productname, product.brandID, 0);
                 bookmarkRemoved?.Invoke(this, new EventArgs());
             };
             //ADD DIFFERENT GRIDS
@@ -228,24 +229,75 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             return information;
         }
+        //private UIElement GetPrices(List<GenericBeerSale> sales, int index)
+        //{
+        //    int SALES = 2;
+        //    var priceContainer = new WrapPanel()
+        //    {
+        //        VerticalAlignment = VerticalAlignment.Center,
+        //        HorizontalAlignment = HorizontalAlignment.Left,
+        //    };
+        //    string? van = "";
+        //    string? voor = "";
+
+        //    for (int j = 0; j < sales.Count; j++)
+        //    {
+        //        van = sales[j].oldprice;
+        //        voor = sales[j].newprice;
+
+        //        Image img = new Image();
+        //        img.Source = GetStoreImage(sales[j].store);
+        //        img.Width = 40;
+
+        //        Border b = new Border()
+        //        {
+        //            BorderThickness = new Thickness(1),
+        //            CornerRadius = new CornerRadius(10),
+        //        };
+        //        b.Child = img; ;
+
+        //        TextBlock t = new TextBlock()
+        //        {
+        //            Text = $"Van: {van}\nVoor: {voor}\n",
+        //        };
+        //        t.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
+        //        priceContainer.Children.Add(b);
+        //        priceContainer.Children.Add(t);
+        //    }
+            
+
+        //    return priceContainer;
+        //}
         private UIElement GetPrices(List<GenericBeerSale> sales, int index)
         {
             int SALES = 2;
+            var scrollViewer = new ScrollViewer()
+            {
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+                CanContentScroll = true,
+                Height = 90,
+            };
+
             var priceContainer = new WrapPanel()
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
-            string? van = "";
-            string? voor = "";
 
             for (int j = 0; j < sales.Count; j++)
             {
-                van = sales[j].oldprice;
-                voor = sales[j].newprice;
 
                 Image img = new Image();
-                img.Source = GetStoreImage(sales[j].store);
+                try
+                {
+                    img.Source = GetStoreImage(sales[j], index, j);
+                }
+                catch (Exception e)
+                {
+                    img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
+                }
                 img.Width = 40;
 
                 Border b = new Border()
@@ -255,21 +307,28 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 };
                 b.Child = img; ;
 
-                TextBlock t = new TextBlock()
-                {
-                    Text = $"Van: {van}\nVoor: {voor}\n",
-                };
-                t.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                TextBlock t = new TextBlock();
+
+                Run run1 = new Run($"{sales[j].oldprice}\n");
+                run1.Foreground = new SolidColorBrush(Color.FromRgb(255, 160, 160));
+                run1.TextDecorations = TextDecorations.Strikethrough;
+                t.Inlines.Add(run1);
+
+                Run run2 = new Run($"{sales[j].newprice}\n");
+                run2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                t.Inlines.Add(run2);
+
 
                 priceContainer.Children.Add(b);
                 priceContainer.Children.Add(t);
-            }
-            
 
-            return priceContainer;
+                scrollViewer.Content = priceContainer;
+            }
+            return scrollViewer;
         }
-        private BitmapImage GetStoreImage(string url)
+        private BitmapImage GetStoreImage(GenericBeerSale sale, int index, int jIndex)
         {
+            string url = sale.storeImage;
 
             BitmapImage image = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
             return image;

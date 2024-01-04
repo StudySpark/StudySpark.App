@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,25 +62,27 @@ namespace StudySpark.Core.Repositories
             }
             return false;
         }
-        public void removeBookMark(int productID)
+        public void updateBookMark(string productname, int brandID, int bookmarked)
         {
             SqliteCommand sqlite_cmd;
             sqlite_cmd = DBRepository.Conn.CreateCommand();
 
-            sqlite_cmd.CommandText = "DELETE FROM BeerSales WHERE ProductID = @param1";
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+            sqlite_cmd.CommandText = "UPDATE BeerProducts SET bookmarked = @param3 WHERE productname = @param1 AND brandID = @param2";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productname));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param2", brandID));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param3", bookmarked));
 
             sqlite_cmd.ExecuteNonQuery();
-            removeProduct(productID);
-
         }
-        public void removeProduct(int productID)
+
+        public void removeProduct(string productname, int brandID)
         {
             SqliteCommand sqlite_cmd;
             sqlite_cmd = DBRepository.Conn.CreateCommand();
 
-            sqlite_cmd.CommandText = "DELETE FROM BeerProducts WHERE id = @param1";
-            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+            sqlite_cmd.CommandText = "UPDATE BeerProducts SET bookmarked = 0 WHERE productname = @param1 AND brandID = @param2";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productname));
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param2", brandID));
 
             sqlite_cmd.ExecuteNonQuery();
 
@@ -127,7 +130,6 @@ namespace StudySpark.Core.Repositories
         }
         public void insertSale(int productID, string store, string storeimage, string oldprice, string newprice, string expirationdate)
         {
-
             SqliteCommand sqlite_cmd = DBRepository.Conn.CreateCommand();
             sqlite_cmd.CommandText = "INSERT INTO BeerSales (productID, store, storeimage, oldprice, newprice, expirationdate) VALUES(@productID, @store, @storeimage, @oldprice, @newprice, @expirationdate)";
             sqlite_cmd.Parameters.Add(new SqliteParameter("@productID", productID));
@@ -176,14 +178,16 @@ namespace StudySpark.Core.Repositories
                 return new List<GenericBeerSale>();
             }
 
+
             List<GenericBeerSale> sales = new List<GenericBeerSale>();
 
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
 
             sqlite_cmd = DBRepository.Conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM BeerSales WHERE productID = @param1";
+            sqlite_cmd.CommandText = "SELECT * FROM BeerSales WHERE productID = @param1 AND expirationdate > current_date";
             sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+
 
             reader = sqlite_cmd.ExecuteReader();
             while (reader.Read())
@@ -194,7 +198,75 @@ namespace StudySpark.Core.Repositories
                 string storeimage = reader.GetString(3);
                 string oldprice = reader.GetString(4);
                 string newprice = reader.GetString(5);
-                string expirationdate = reader.GetString(5);
+                string expirationdate = reader.GetString(6);
+
+                GenericBeerSale sale = new GenericBeerSale(id, prodID, store, storeimage, oldprice, newprice, expirationdate);
+                sales.Add(sale);
+            }
+            return sales;
+        }
+        public List<GenericBeerSale> getNearlyExpired(int productID)
+        {
+            if (DBRepository.Conn == null)
+            {
+                return new List<GenericBeerSale>();
+            }
+
+
+            List<GenericBeerSale> sales = new List<GenericBeerSale>();
+
+            SqliteDataReader reader;
+            SqliteCommand sqlite_cmd;
+
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM BeerSales WHERE productID = @param1 AND expirationdate > current_date AND expirationdate != '' AND expirationdate < datetime(current_date, '+7 days');";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+
+
+            reader = sqlite_cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                int prodID = reader.GetInt32(1);
+                string store = reader.GetString(2);
+                string storeimage = reader.GetString(3);
+                string oldprice = reader.GetString(4);
+                string newprice = reader.GetString(5);
+                string expirationdate = reader.GetString(6);
+
+                GenericBeerSale sale = new GenericBeerSale(id, prodID, store, storeimage, oldprice, newprice, expirationdate);
+                sales.Add(sale);
+            }
+            return sales;
+        }
+        public List<GenericBeerSale> getExpiredSales(int productID)
+        {
+            if (DBRepository.Conn == null)
+            {
+                return new List<GenericBeerSale>();
+            }
+
+
+            List<GenericBeerSale> sales = new List<GenericBeerSale>();
+
+            SqliteDataReader reader;
+            SqliteCommand sqlite_cmd;
+
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM BeerSales WHERE productID = @param1 AND expirationdate < current_date AND expirationdate != '' ";
+            sqlite_cmd.Parameters.Add(new SqliteParameter("@param1", productID));
+
+
+            reader = sqlite_cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                int prodID = reader.GetInt32(1);
+                string store = reader.GetString(2);
+                string storeimage = reader.GetString(3);
+                string oldprice = reader.GetString(4);
+                string newprice = reader.GetString(5);
+                string expirationdate = reader.GetString(6);
 
                 GenericBeerSale sale = new GenericBeerSale(id, prodID, store, storeimage, oldprice, newprice, expirationdate);
                 sales.Add(sale);

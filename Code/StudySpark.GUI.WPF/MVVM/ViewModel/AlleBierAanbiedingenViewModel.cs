@@ -286,14 +286,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 BeerRepository beerRepository = new BeerRepository();
                 if (!beerRepository.checkBookMark(bierInfo.productname, brandName))
                 {
-                    beerRepository.insertBookMark(brandName, bierInfo.productname, 1, bierInfo.lowestprice);
-                    List<GenericBeerProduct> product = beerRepository.getLastBookMarked();
-
-                    List<GenericBeerSale> sales = beerRepository.getSales(bierInfo.id);
-                    for (int j = 0; j < sales.Count; j++)
-                    {
-                        beerRepository.insertSale(product[0].id, sales[j].store, sales[j].storeImage, sales[j].oldprice, sales[j].newprice, sales[j].expirationdate);
-                    };
+                    beerRepository.updateBookMark(bierInfo.productname, bierInfo.brandID, 1);
 
                     (bookmarkBtn.Content as Image).Source = new BitmapImage(new Uri("..\\..\\..\\Images\\bookmark_checked.png", UriKind.Relative));
                     // invoke event
