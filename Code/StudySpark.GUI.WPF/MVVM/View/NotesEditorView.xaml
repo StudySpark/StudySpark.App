@@ -337,6 +337,7 @@
         </Grid>
 
         <RichTextBox x:Name="rtfEditor"
+                     Visibility="Visible"
                      Grid.Row="1"
                      Background="Transparent"
                      Foreground="#FFF"

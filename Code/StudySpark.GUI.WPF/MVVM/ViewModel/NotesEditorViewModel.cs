@@ -21,6 +21,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         private const int MIN_TEXT_SIZE = 6;
         private const int MAX_TEXT_SIZE = 96;
 
+        public static event EventHandler<LoadContentEventArgs> LoadContentEvent;
         public bool IsColorSelectorHighlightVisible { get; set; } = false;
         public static GenericNoteListItem? CurrentEditingNote { get; set; }
         public double TextSize { get; set; } = 12;
@@ -40,35 +41,29 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public RelayCommand EditorAlignCenterCommand { get; private set; }
         public RelayCommand EditorAlignRightCommand { get; private set; }
 
-        public static RichTextBox rtfEditor = new RichTextBox();
 
-        public NotesEditorViewModel() {
+        public NotesEditorViewModel()
+        {
             //var textRange = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
             //textRange.Load(stream, DataFormats.Rtf);
+            
 
-            if (CurrentEditingNote != null && CurrentEditingNote.Content != null) {
-
-                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(CurrentEditingNote.Content)))
-                {
-                    if (stream.Length != 0)
-                    {
-                        TextRange text = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
-                        text.Load(stream, DataFormats.Rtf);
-                    }
-                }
+            if (CurrentEditingNote != null && CurrentEditingNote.Content != null)
+            {
+                LoadContentEvent?.Invoke(this, new LoadContentEventArgs(CurrentEditingNote.Content));
             }
-
-
             TextSize = GetDefaultFontSize();
             OnPropertyChanged(nameof(TextSize));
 
-            EditorBackCommand = new RelayCommand((o) => {
+            EditorBackCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
-
+                
                 MainViewManager.CurrentMainView = MainViewManager.NotesVM;
             });
 
-            EditorSaveCommand = new RelayCommand((o) => {
+            EditorSaveCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 // Get the RTF text from the RichTextBox
@@ -77,7 +72,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 using (MemoryStream ms = new MemoryStream())
                 {
                     tr.Save(ms, DataFormats.Rtf);
-                    rtfText = Encoding.ASCII.GetString(ms.ToArray());
+                    rtfText = Encoding.UTF8.GetString(ms.ToArray());
                 }
 
                 CurrentEditingNote.Content = rtfText;
@@ -89,7 +84,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorColorCommand = new RelayCommand((o) => {
+            EditorColorCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 var colorDialog = new System.Windows.Forms.ColorDialog();
@@ -105,15 +101,18 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            ToggleEditorHightlightColorSelectorCommand = new RelayCommand((o) => {
+            ToggleEditorHightlightColorSelectorCommand = new RelayCommand((o) =>
+            {
                 IsColorSelectorHighlightVisible = !IsColorSelectorHighlightVisible;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorHightlightCommand = new RelayCommand((o) => {
+            EditorHightlightCommand = new RelayCommand((o) =>
+            {
                 object[] parameters = o as object[];
 
-                if (parameters != null && parameters.Length == 2) {
+                if (parameters != null && parameters.Length == 2)
+                {
                     RichTextBox rtfEditor = parameters[0] as RichTextBox;
                     Brush buttonBackground = parameters[1] as Brush;
 
@@ -125,21 +124,24 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorFontCommand = new RelayCommand((o) => {
+            EditorFontCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorTextSizeMinCommand = new RelayCommand((o) => {
+            EditorTextSizeMinCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 double currentTextSize = TextSize;
                 TextSize--;
                 TextSize = TextSize < MIN_TEXT_SIZE ? MIN_TEXT_SIZE : TextSize;
 
-                if (!ChangeLineFontSize(rtfEditor, TextSize)) {
+                if (!ChangeLineFontSize(rtfEditor, TextSize))
+                {
                     TextSize = currentTextSize;
                 }
 
@@ -149,14 +151,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorTextSizePlusCommand = new RelayCommand((o) => {
+            EditorTextSizePlusCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 double currentTextSize = TextSize;
                 TextSize++;
                 TextSize = TextSize > MAX_TEXT_SIZE ? MAX_TEXT_SIZE : TextSize;
 
-                if (!ChangeLineFontSize(rtfEditor, TextSize)) {
+                if (!ChangeLineFontSize(rtfEditor, TextSize))
+                {
                     TextSize = currentTextSize;
                 }
 
@@ -166,7 +170,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorBulletListCommand = new RelayCommand((o) => {
+            EditorBulletListCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 Debug.WriteLine("Bullet List");
@@ -175,7 +180,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorImageCommand = new RelayCommand((o) => {
+            EditorImageCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
@@ -193,7 +199,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorAlignLeftCommand = new RelayCommand((o) => {
+            EditorAlignLeftCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 Debug.WriteLine("ALeft");
@@ -202,7 +209,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorAlignCenterCommand = new RelayCommand((o) => {
+            EditorAlignCenterCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 Debug.WriteLine("ACenter");
@@ -211,7 +219,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
 
-            EditorAlignRightCommand = new RelayCommand((o) => {
+            EditorAlignRightCommand = new RelayCommand((o) =>
+            {
                 RichTextBox rtfEditor = o as RichTextBox;
 
                 Debug.WriteLine("ARight");
@@ -220,7 +229,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
             });
         }
-
+        
         private bool ChangeLineFontSize(RichTextBox richTextBox, double newSize) {
             if (richTextBox.Selection.IsEmpty) {
                 return false;
@@ -292,6 +301,15 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                     OnPropertyChanged(nameof(TextSize));
                 }
             }
+        }
+    }
+    public class LoadContentEventArgs : EventArgs
+    {
+        public string Content { get; }
+
+        public LoadContentEventArgs(string content)
+        {
+            Content = content;
         }
     }
 }
