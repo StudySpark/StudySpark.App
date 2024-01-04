@@ -378,7 +378,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private UIElement GetPrices(GenericBeerProduct bierInfo)
         {
-            int SALES = 2;
             var scrollViewer = new ScrollViewer()
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
@@ -398,23 +397,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             for(int j=0; j < sales.Count; j++)
             {
 
-                Image img = new Image();
-                try
-                {
-                    img.Source = GetStoreImage(sales[j]);
-                } catch (Exception e)
-                {
-                    img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
-                }
-                img.Width = 40;
-                
-                Border b = new Border() 
-                {
-                    BorderThickness = new Thickness(1),
-                    CornerRadius = new CornerRadius(10),
-                };
-                b.Child = img; ;
-
                 TextBlock t = new TextBlock();
 
                 Run run1 = new Run($"{sales[j].oldprice}\n");
@@ -425,6 +407,26 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 Run run2 = new Run($"{sales[j].newprice}\n");
                 run2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 t.Inlines.Add(run2);
+
+
+                Image img = new Image();
+
+                try
+                {
+                    img.Source = GetStoreImage(sales[j]);
+                }
+                catch (Exception)
+                {
+                    img.Source = new BitmapImage(new Uri($"..\\..\\..\\Images\\man.png", UriKind.Relative));
+                }
+                img.Width = 40;
+
+                Border b = new Border()
+                {
+                    BorderThickness = new Thickness(1),
+                    CornerRadius = new CornerRadius(10),
+                };
+                b.Child = img;
 
 
                 priceContainer.Children.Add(b);

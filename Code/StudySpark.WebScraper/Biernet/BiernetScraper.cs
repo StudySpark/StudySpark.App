@@ -51,10 +51,6 @@ namespace StudySpark.WebScraper.Biernet
                     try
                     {
                         salesList[i].Add(winkelsInformation[j].FindElement(By.ClassName("van_prijs")), winkelsInformation[j].FindElement(By.ClassName("aanbiedingPrijsPPC")));
-                    }
-                    catch (Exception) { }
-                    try
-                    {
                         storeImages[i].Add(winkelsInformation[j].FindElement(By.ClassName("PakketFoto")));
                     }
                     catch (Exception) { }
@@ -70,25 +66,21 @@ namespace StudySpark.WebScraper.Biernet
                 BierInformatie[i].Add(lowestPrice);
 
                 List<Dictionary<string, string>> aanbiedingen = new();
+                List<List<string>> images = new();
                 for (int j = 0; j < salesList[i].Count; j++)
                 {
                     Dictionary<string, string> aanbieding = new();
-
                     string van = salesList[i].ElementAt(j).Key.GetAttribute("innerHTML");
                     string voor = salesList[i].ElementAt(j).Value.GetAttribute("innerHTML");
                     aanbieding.Add(van, voor);
                     aanbiedingen.Add(aanbieding);
-                }
-                BierInformatie[i].Add(aanbiedingen);
 
-                List<List<string>> images = new();
-                for (int j = 0; j < storeImages[i].Count; j++)
-                {
                     List<string> image = new();
                     string? imageUrl = storeImages[i].ElementAt(j).GetAttribute("data-src");
                     image.Add(imageUrl);
                     images.Add(image);
                 }
+                BierInformatie[i].Add(aanbiedingen);
                 BierInformatie[i].Add(images);
             }
             CloseDriver();

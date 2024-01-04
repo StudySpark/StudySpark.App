@@ -36,42 +36,42 @@
             </Setter>
         </Style>
         <LinearGradientBrush x:Key="ComboBox.Static.Background" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#FFF0F0F0" Offset="0.0"/>
-            <GradientStop Color="#FFE5E5E5" Offset="1.0"/>
+            <GradientStop Color="#22202f" Offset="0.0"/>
+            <GradientStop Color="#22202f" Offset="1.0"/>
         </LinearGradientBrush>
-        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FFACACAC"/>
-        <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#22202f"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="Wheat"/>
         <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3"/>
         <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent"/>
         <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent"/>
         <LinearGradientBrush x:Key="ComboBox.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#FFECF4FC" Offset="0.0"/>
-            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+            <GradientStop Color="#272537" Offset="0.0"/>
+            <GradientStop Color="#272537" Offset="1.0"/>
         </LinearGradientBrush>
-        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#22202f"/>
         <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000"/>
-        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#272537"/>
         <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA"/>
         <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#FFEBF4FC" Offset="0.0"/>
-            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+            <GradientStop Color="#272537" Offset="0.0"/>
+            <GradientStop Color="#272537" Offset="1.0"/>
         </LinearGradientBrush>
-        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#272537"/>
         <LinearGradientBrush x:Key="ComboBox.Pressed.Background" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#FFDAECFC" Offset="0.0"/>
-            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+            <GradientStop Color="#272537" Offset="0.0"/>
+            <GradientStop Color="#272537" Offset="1.0"/>
         </LinearGradientBrush>
-        <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5"/>
-        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000"/>
-        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#272537"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#272537"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#272537"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#272537"/>
         <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#FFDAEBFC" Offset="0.0"/>
-            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+            <GradientStop Color="#272537" Offset="0.0"/>
+            <GradientStop Color="#272537" Offset="1.0"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5"/>
-        <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#22202f"/>
         <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9"/>
         <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF"/>
         <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF"/>
@@ -180,7 +180,7 @@
                 </Grid.ColumnDefinitions>
                 <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
                     <theme:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                        <Border x:Name="dropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+                        <Border x:Name="dropDownBorder" Background="Black" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
                             <ScrollViewer x:Name="DropDownScrollViewer">
                                 <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
                                     <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
@@ -306,24 +306,29 @@
         <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White">
              Productcategorie
         </TextBlock>
-        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
-            <ComboBox Style="{DynamicResource CheckBoxNoSelect}">
-                <CheckBox Content="Hertog Jan" Foreground="Black" 
-                          Unchecked="CheckBox_Checked_HertogJan" 
-                          Checked="CheckBox_Checked_HertogJan" x:Name="CheckboxHertogJan" IsChecked="true"/>
-                <CheckBox Content="Amstel" Foreground="Black" 
-                          Unchecked="CheckBox_Checked_Amstel"
-                          Checked="CheckBox_Checked_Amstel" x:Name="CheckboxAmstel" IsChecked="true"/>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1"
+                    Background="#272537">
+            <ComboBox Style="{DynamicResource CheckBoxNoSelect}" Foreground="White">
+                <CheckBox Content="Hertog Jan" Foreground="Black"
+                            Unchecked="CheckBox_Checked_HertogJan" 
+                            Checked="CheckBox_Checked_HertogJan" x:Name="CheckboxHertogJan" IsChecked="true"/>
+                
+                <CheckBox Content="Amstel" Foreground="Black"
+                            Unchecked="CheckBox_Checked_Amstel"
+                            Checked="CheckBox_Checked_Amstel" x:Name="CheckboxAmstel" IsChecked="true"/>
+                    
                 <CheckBox Content="Heineken" Foreground="Black"
-                          Unchecked="CheckBox_Checked_Heineken" 
-                          Checked="CheckBox_Checked_Heineken" x:Name="CheckboxHeineken" IsChecked="true"/>
-                <CheckBox Content="Grolsch" Foreground="Black" 
-                          Unchecked="CheckBox_Checked_Grolsch"
-                          Checked="CheckBox_Checked_Grolsch" x:Name="CheckboxGrolsch" IsChecked="true"/>
+                            Unchecked="CheckBox_Checked_Heineken" 
+                            Checked="CheckBox_Checked_Heineken" x:Name="CheckboxHeineken" IsChecked="true"/>
+
+                <CheckBox Content="Grolsch" Foreground="Black"
+                            Unchecked="CheckBox_Checked_Grolsch"
+                            Checked="CheckBox_Checked_Grolsch" x:Name="CheckboxGrolsch" IsChecked="true"/>
             </ComboBox>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
-            <ComboBox Style="{DynamicResource CheckBoxNoSelect}">
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1"
+                    Background="#272537">
+            <ComboBox Style="{DynamicResource CheckBoxNoSelect}" Foreground="White">
                 <CheckBox Content="Kratten" Foreground="Black" 
                           Unchecked="CheckBox_Checked_Krat" 
                           Checked="CheckBox_Checked_Krat" x:Name="CheckboxKrat" IsChecked="true"/>
