@@ -81,13 +81,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
                 if (string.IsNullOrEmpty(password)) {
                     FormMissingPasswordEvent?.Invoke(this, EventArgs.Empty);
-                    return;
                 }
 
                 if (string.IsNullOrEmpty(twoFA))
                 {
                     FormMissingTwoFAEvent?.Invoke(this, EventArgs.Empty);
-                    return;
                 }
                 return;
             }

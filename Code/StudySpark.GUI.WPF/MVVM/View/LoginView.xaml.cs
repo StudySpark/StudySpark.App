@@ -34,6 +34,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             LoginViewModel.FormResetErrorsEvent += ((object? sender, EventArgs a) => {
                 EmailRequiredText.Visibility = Visibility.Hidden;
                 PasswordRequiredText.Visibility = Visibility.Hidden;
+                TwoFARequiredText.Visibility = Visibility.Hidden;
             });
 
             LoginViewModel.FormMissingEmailEvent += ((object? sender, EventArgs a) => {

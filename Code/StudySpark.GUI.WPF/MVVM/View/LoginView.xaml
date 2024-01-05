@@ -40,8 +40,8 @@
                    Grid.Column="1"
                    Margin="34,37,32,10"
                    HorizontalAlignment="Center"
-                   Width="285" />
-        <Label Content="Windesheim Educator login"
+                   Width="190" />
+        <Label Content="Windesheim login"
                Foreground="LightGray"
                Margin="25,18,25,276"
                HorizontalContentAlignment="Center"
@@ -204,10 +204,10 @@
                        Foreground="#FFCE5151"
                        VerticalContentAlignment="Bottom"
                        Grid.Column="1"
-                       Grid.Row="3"
+                       Grid.Row="5"
                        FontWeight="SemiBold"
                        Padding="0, 0, 0, 0"
-                       Margin="78,0,0,0"/>
+                       Margin="30,0,0,0"/>
                 <Border BorderBrush="LightGray"
                         BorderThickness="1"
                         VerticalAlignment="Center"
