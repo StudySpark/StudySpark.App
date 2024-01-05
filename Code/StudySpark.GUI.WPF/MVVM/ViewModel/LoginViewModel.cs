@@ -100,7 +100,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 return;
             }
 
-            DBConnector.Database.CreateUser(username, password);
+            DBConnector.Database.CreateUser(username, password, twoFA);
 
             LoginViewEventArgs eventArgs = new LoginViewEventArgs();
             eventArgs.LoginViewEventType = LoginViewEvent.USERDATASUBMITTED;
@@ -130,14 +130,23 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.TwoFACode = twoFA;
             scraperOptions.Debug = false;
 
-            //EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
-            WIPWebScraper webScraper = new WIPWebScraper(scraperOptions);
+            if (ReturnToView == RETURNVIEW.EDUCATOR) {
+                EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
 
-            webScraper.SetupDriver();
-            bool result = webScraper.TestLoginCredentials();
+                webScraper.SetupDriver();
+                bool result = webScraper.TestLoginCredentials();
 
-            webScraper.CloseDriver();
-            return result;
+                webScraper.CloseDriver();
+                return result;
+            } else {
+                WIPWebScraper webScraper = new WIPWebScraper(scraperOptions);
+
+                webScraper.SetupDriver();
+                bool result = webScraper.TestLoginCredentials();
+
+                webScraper.CloseDriver();
+                return result;
+            }
         }
     }
 }
