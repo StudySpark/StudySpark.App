@@ -221,25 +221,13 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="18"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="/Images/key.png" Height="18"/>
-                        <PasswordBox Grid.Column="1"
-                                     x:Name="twoFABox"
-                                     VerticalContentAlignment="Center"
-                                     FontSize="14"
-                                     IsTabStop="False"
-                                     Focusable="False"
-                                     Background="Transparent"
-                                     Foreground="LightGray"
-                                     BorderBrush="Transparent"
-                                     SelectionBrush="Transparent"
-                                     Margin="0 0 0 0"/>
+                        <Image Grid.Column="0" Source="/Images/2FA.png" Height="18"/>
                         <TextBox Grid.Column="1"
                                  VerticalContentAlignment="Center"
                                  FontSize="14"
                                  Text="{Binding TwoFA}"
-                                 TextChanged="TwoFABox_TextChanged"
                                  Background="Transparent"
-                                 Foreground="Transparent"
+                                 Foreground="LightGray"
                                  BorderBrush="Transparent"
                                  SelectionBrush="#FFB722DA"
                                  Margin="0 0 0 0"/>

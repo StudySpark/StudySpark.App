@@ -84,7 +84,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public void LoginUser() {
             FormResetErrorsEvent?.Invoke(this, EventArgs.Empty);
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(twoFA)) {
                 if (string.IsNullOrEmpty(username)) {
                     FormMissingEmailEvent?.Invoke(this, EventArgs.Empty);
                 }

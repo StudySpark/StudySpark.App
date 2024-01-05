@@ -62,10 +62,6 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             passwordBox.Password = (sender as TextBox)?.Text;
         }
 
-        private void TwoFABox_TextChanged(object sender, TextChangedEventArgs e) {
-            twoFABox.Password = (sender as TextBox)?.Text;
-        }
-
         private void OnViewChangeEvent(object? sender, LoginViewEventArgs ea) {
             switch (ea.LoginViewEventType) {
                 case LoginViewEvent.USERDATASUBMITTED:
