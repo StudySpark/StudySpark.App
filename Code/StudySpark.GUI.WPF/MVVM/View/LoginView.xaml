@@ -265,7 +265,7 @@
                 <Grid x:Name="LoginFailed"
                       Grid.Column="1"
                       Grid.Row="8">
-                    <Label Content="   Connectie met educator mislukt!&#x0a;Controlleer de ingevoerde gegevens."
+                    <Label Content="Connectie met Windesheim mislukt!&#x0a;Controlleer de ingevoerde gegevens."
                            Foreground="#FFCE5151"
                            Padding="0,5,0,0"
                            HorizontalContentAlignment="Center"
