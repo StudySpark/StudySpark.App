@@ -85,7 +85,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             GenericUser user = (GenericUser)parameters;
 
             LoginViewEventArgs eventArgs = new LoginViewEventArgs();
-            eventArgs.LoginViewEventType = TestLoginCredentials(user.Username, user.Password, user.TwoFA) ? LoginViewEvent.LOGINSUCCESS : LoginViewEvent.LOGINFAILED;
+            eventArgs.LoginViewEventType = TestLoginCredentials(user.Username, user.Password) ? LoginViewEvent.LOGINSUCCESS : LoginViewEvent.LOGINFAILED;
             try
             {
                 Application.Current.Dispatcher.Invoke(() => {
@@ -95,12 +95,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             catch (Exception) { }
         }
 
-        public bool TestLoginCredentials(string username, string password, string twoFA)
+        public bool TestLoginCredentials(string username, string password)
         {
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.Username = username;
             scraperOptions.Password = password;
-            scraperOptions.TwoFACode = twoFA;
             scraperOptions.Debug = false;
 
             //EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
@@ -108,6 +107,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             webScraper.SetupDriver();
             bool result = webScraper.TestLoginCredentials();
+            
+            if (result)
+            {
+                webScraper.FetchSchedule();
+            }
 
             webScraper.CloseDriver();
             return result;
