@@ -107,6 +107,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             webScraper.SetupDriver();
             bool result = webScraper.TestLoginCredentials();
+            
+            if (result)
+            {
+                webScraper.FetchSchedule();
+            }
 
             webScraper.CloseDriver();
             return result;

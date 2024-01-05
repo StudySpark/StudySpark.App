@@ -85,5 +85,30 @@ namespace StudySpark.WebScraper.WIP
 
             return false;
         }
+
+        public void FetchSchedule()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("activitiesupcoming-link")));
+
+            var moveToButton = driver.FindElement(By.ClassName("activitiesupcoming-link"));
+            moveToButton.Click();
+
+            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("dhx_cal_next_button")));
+
+            moveToButton = driver.FindElement(By.ClassName("dhx_cal_next_button"));
+            moveToButton.Click();
+
+            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("dhx_cal_event")));
+
+            List<IWebElement> list = driver.FindElements(By.XPath(".//div//div[contains(@class,'dhx_scale_holder')]/div[contains(@class,'cal_event')]")).ToList();
+            Debug.WriteLineIf(list.Count() > 0, "Data has been found.");
+            Debug.WriteLineIf(list.Count() == 0, "Data has not been found.");
+            foreach (IWebElement element in list)
+            {
+                Console.WriteLine(element.ToString() + " heeft als data " + element.GetAttribute("class") + " = " + element.Text);
+                Console.WriteLine("----------");
+            }
+        }
     }
 }
