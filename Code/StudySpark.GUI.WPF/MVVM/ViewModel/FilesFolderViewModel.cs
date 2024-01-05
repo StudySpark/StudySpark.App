@@ -222,7 +222,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     {
                         DBConnector.Database.DeleteFileData(folderPath, fileName);
                         UpdateOnChange();
-                        System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
+                        //System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
                     }
                     catch (Exception ex)
                     {
@@ -283,7 +283,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
 
             UpdateOnChange();
-            System.Windows.MessageBox.Show("Geselecteerde bestanden verwijderd");
+            //System.Windows.MessageBox.Show("Geselecteerde bestanden verwijderd");
         }
 
         private string TruncateFileName(string fileName, int maxLength)
@@ -391,7 +391,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                     UpdateOnChange();
                 }
-                System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
+                //System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
             }
             else
             {
@@ -420,7 +420,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                     UpdateOnChange();
                 }
-                System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
+                //System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
             } else
             {
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");
