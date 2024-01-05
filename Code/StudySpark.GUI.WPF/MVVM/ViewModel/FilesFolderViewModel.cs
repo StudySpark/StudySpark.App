@@ -111,7 +111,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     };
                 }
 
-                RoutedEventHandler ClickOpenHandler = CreateClickOpenHandler(file);
+                RoutedEventHandler ClickOpenHandler = SystemFileHandler.CreateClickOpenHandler(file);
                 RoutedEventHandler ClickDelHandler = CreateClickDelHandler(file);
 
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickOpenHandler);
@@ -209,41 +209,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             textBlock.IsEnabled = true;
             textBlock.Cursor = System.Windows.Input.Cursors.Hand;
             return textBlock;
-        }
-
-        private RoutedEventHandler CreateClickOpenHandler(GenericFile file)
-        {
-            return (sender, args) =>
-            {
-                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
-                {
-
-                    string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
-
-                    // Logic to run the file using the buttonFilePath
-                    try
-                    {
-                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
-                        {
-                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
-                            {
-                                FileName = "cmd.exe",
-                                Arguments = $"/c start \"\" \"{buttonFilePath}\"",
-                                UseShellExecute = false,
-                                RedirectStandardOutput = true,
-                                CreateNoWindow = true
-                            };
-
-                            process.StartInfo = startInfo;
-                            process.Start();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show($"Error: {ex.Message}");
-                    }
-                }
-            };
         }
 
         private RoutedEventHandler CreateClickDelHandler(GenericFile file)
