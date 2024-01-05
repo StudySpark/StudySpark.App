@@ -22,6 +22,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public static event LoginViewEventHandler? ViewDataChangeEvent;
         public static event EventHandler? FormResetErrorsEvent, FormMissingEmailEvent, FormMissingPasswordEvent, FormMissingTwoFAEvent;
 
+        public enum RETURNVIEW {
+            EDUCATOR,
+            WIP
+        }
+
+        public static RETURNVIEW ReturnToView;
+
         private string username;
 
         public string Username {
@@ -67,8 +74,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void LoginView_LoginSuccessEvent(object? sender, EventArgs e) {
-            //MainViewManager.CurrentMainView = MainViewManager.GradesVM;
-            MainViewManager.CurrentMainView = MainViewManager.ScheduleVM;
+            if (ReturnToView == RETURNVIEW.EDUCATOR) {
+                MainViewManager.CurrentMainView = MainViewManager.GradesVM;
+            } else {
+                MainViewManager.CurrentMainView = MainViewManager.ScheduleVM;
+            }
         }
 
         public void LoginUser() {

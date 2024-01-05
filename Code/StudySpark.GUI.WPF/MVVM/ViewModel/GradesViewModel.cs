@@ -50,6 +50,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             preload();
 
             EducatorLoginCommand = new RelayCommand(o => {
+                LoginViewModel.ReturnToView = LoginViewModel.RETURNVIEW.EDUCATOR;
                 MainViewManager.CurrentMainView = MainViewManager.LoginVM;
                 //CurrentView = LoginVM;
             });
