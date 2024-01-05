@@ -51,7 +51,14 @@ namespace StudySpark.WebScraper.WIP
             var twoFA = driver.FindElement(By.Id("idTxtBx_SAOTCC_OTC"));
             subButton = driver.FindElement(By.Id("idSubmit_SAOTCC_Continue"));
 
-            twoFA.SendKeys(scraperOptions?.TwoFACode);
+            if (string.IsNullOrEmpty(scraperOptions.TwoFACode))
+            {
+                twoFA.SendKeys("000000");
+            }
+            else 
+            { 
+                twoFA.SendKeys(scraperOptions?.TwoFACode); 
+            }
             subButton.Click();
 
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("idSIButton9")));
