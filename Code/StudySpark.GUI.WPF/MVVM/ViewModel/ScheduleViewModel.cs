@@ -20,7 +20,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class ScheduleViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, ScheduleLoadedEvent;
+        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, Missing2FACodeEvent, ScheduleLoadedEvent, WIPLoadStartedEvent, WIPLoadFinishedEvent;
 
         public ObservableCollection<GradeElement> ScheduleViewElements { get; } = new ObservableCollection<GradeElement>();
 
@@ -75,6 +75,36 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             Thread thread = new Thread(TestLoginCredentialsThread);
             thread.Start(user);
         }
+
+        private void load(GenericUser user, bool loginResult)
+        {
+            if (user.TwoFA == null || user.TwoFA.Length == 0)
+            {
+                Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                return;
+            }
+
+            if (!loginResult)
+            {
+                InvalidUserCredentialsEvent?.Invoke(null, EventArgs.Empty);
+                return;
+            }
+
+            //List<GradeElement> cachedGrades = DBConnector.Database.ReadGradesData();
+            //foreach (GradeElement gradeElement in cachedGrades)
+            //{
+            //    ScheduleViewElements.Add(gradeElement);
+            //}
+
+            ScheduleLoadedEvent?.Invoke(null, EventArgs.Empty);
+
+            WIPLoadStartedEvent?.Invoke(null, EventArgs.Empty);
+            Thread thread = new Thread(LoadUpdatedSchedule);
+            thread.Start(user);
+        }
+
+        private void LoadUpdatedSchedule(object? parameters) { }
+
         private void TestLoginCredentialsThread(object? parameters)
         {
             if (parameters == null)
@@ -84,12 +114,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             GenericUser user = (GenericUser)parameters;
 
-            LoginViewEventArgs eventArgs = new LoginViewEventArgs();
-            eventArgs.LoginViewEventType = TestLoginCredentials(user.Username, user.Password) ? LoginViewEvent.LOGINSUCCESS : LoginViewEvent.LOGINFAILED;
+            bool result = TestLoginCredentials(user.Username, user.Password);
             try
             {
                 Application.Current.Dispatcher.Invoke(() => {
-                    Debug.WriteLine("Thread reached");
+                    load(user, result);
                 });
             }
             catch (Exception) { }
@@ -107,11 +136,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             webScraper.SetupDriver();
             bool result = webScraper.TestLoginCredentials();
-            
-            if (result)
-            {
-                webScraper.FetchSchedule();
-            }
 
             webScraper.CloseDriver();
             return result;

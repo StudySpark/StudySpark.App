@@ -19,15 +19,15 @@ namespace StudySpark.WebScraper.WIP
             scraperOptions.URL = "https://wip.windesheim.nl";
         }
 
-        public void Load(string authCode)
+        public void Load()
         {
             SetupDriver();
             WaitForPageLoad();
 
-            HandleLogIn();
+            HandleLogIn(true);
         }
 
-        private void HandleLogIn()
+        private void HandleLogIn(bool with2FA)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("i0116")));
@@ -51,15 +51,15 @@ namespace StudySpark.WebScraper.WIP
             var twoFA = driver.FindElement(By.Id("idTxtBx_SAOTCC_OTC"));
             subButton = driver.FindElement(By.Id("idSubmit_SAOTCC_Continue"));
 
-            if (string.IsNullOrEmpty(scraperOptions.TwoFACode))
+            if (with2FA)
             {
-                twoFA.SendKeys("000000");
+                twoFA.SendKeys(scraperOptions?.TwoFACode);
+                subButton.Click();
             }
-            else 
-            { 
-                twoFA.SendKeys(scraperOptions?.TwoFACode); 
+            else
+            {
+                return;
             }
-            subButton.Click();
 
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("idSIButton9")));
 
@@ -70,27 +70,39 @@ namespace StudySpark.WebScraper.WIP
 
         public bool TestLoginCredentials()
         {
-            HandleLogIn();
+            HandleLogIn(false);
             WaitForPageLoad();
 
-            if (CheckIfIdExists("usernameError"))
+            //if (CheckIfIdExists("usernameError"))
+            //{
+            //    return false;
+            //}
+            //else if (CheckIfIdExists("errorText"))
+            //{
+            //    return false;
+            //}
+            //else if (CheckIfIdExists("idTxtBx_SAOTCC_OTC"))
+            //{
+            //    return false;
+            //}
+            //else if (CheckIfIdExists("idSpan_SAOTCC_Error_OTC"))
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
+
+            try
             {
-                return false;
-            }
-            else if (CheckIfIdExists("errorText"))
-            {
-                return false;
-            }
-            else if (CheckIfIdExists("idSpan_SAOTCC_Error_OTC"))
-            {
-                return false;
-            }
-            else
-            {
+                WaitForIdLoad("idTxtBx_SAOTCC_OTC", 15);
                 return true;
+            } catch
+            {
+                return false;
             }
 
-            return false;
         }
 
         public void FetchSchedule()
