@@ -40,8 +40,8 @@
                    Grid.Column="1"
                    Margin="34,37,32,10"
                    HorizontalAlignment="Center"
-                   Width="285" />
-        <Label Content="Windesheim Educator login"
+                   Width="190" />
+        <Label Content="Windesheim login"
                Foreground="LightGray"
                Margin="25,18,25,276"
                HorizontalContentAlignment="Center"
@@ -204,10 +204,10 @@
                        Foreground="#FFCE5151"
                        VerticalContentAlignment="Bottom"
                        Grid.Column="1"
-                       Grid.Row="3"
+                       Grid.Row="5"
                        FontWeight="SemiBold"
                        Padding="0, 0, 0, 0"
-                       Margin="78,0,0,0"/>
+                       Margin="30,0,0,0"/>
                 <Border BorderBrush="LightGray"
                         BorderThickness="1"
                         VerticalAlignment="Center"
@@ -221,25 +221,13 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="18"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="/Images/key.png" Height="18"/>
-                        <PasswordBox Grid.Column="1"
-                                     x:Name="twoFABox"
-                                     VerticalContentAlignment="Center"
-                                     FontSize="14"
-                                     IsTabStop="False"
-                                     Focusable="False"
-                                     Background="Transparent"
-                                     Foreground="LightGray"
-                                     BorderBrush="Transparent"
-                                     SelectionBrush="Transparent"
-                                     Margin="0 0 0 0"/>
+                        <Image Grid.Column="0" Source="/Images/2FA.png" Height="18"/>
                         <TextBox Grid.Column="1"
                                  VerticalContentAlignment="Center"
                                  FontSize="14"
                                  Text="{Binding TwoFA}"
-                                 TextChanged="TwoFABox_TextChanged"
                                  Background="Transparent"
-                                 Foreground="Transparent"
+                                 Foreground="LightGray"
                                  BorderBrush="Transparent"
                                  SelectionBrush="#FFB722DA"
                                  Margin="0 0 0 0"/>
@@ -265,7 +253,7 @@
                 <Grid x:Name="LoginFailed"
                       Grid.Column="1"
                       Grid.Row="8">
-                    <Label Content="   Connectie met educator mislukt!&#x0a;Controlleer de ingevoerde gegevens."
+                    <Label Content="Connectie met Windesheim mislukt!&#x0a;Controlleer de ingevoerde gegevens."
                            Foreground="#FFCE5151"
                            Padding="0,5,0,0"
                            HorizontalContentAlignment="Center"

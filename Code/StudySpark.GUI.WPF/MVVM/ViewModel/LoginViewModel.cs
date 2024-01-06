@@ -22,6 +22,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         public static event LoginViewEventHandler? ViewDataChangeEvent;
         public static event EventHandler? FormResetErrorsEvent, FormMissingEmailEvent, FormMissingPasswordEvent, FormMissingTwoFAEvent;
 
+        public enum RETURNVIEW {
+            EDUCATOR,
+            WIP
+        }
+
+        public static RETURNVIEW ReturnToView;
+
         private string username;
 
         public string Username {
@@ -67,32 +74,33 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void LoginView_LoginSuccessEvent(object? sender, EventArgs e) {
-            //MainViewManager.CurrentMainView = MainViewManager.GradesVM;
-            MainViewManager.CurrentMainView = MainViewManager.ScheduleVM;
+            if (ReturnToView == RETURNVIEW.EDUCATOR) {
+                MainViewManager.CurrentMainView = MainViewManager.GradesVM;
+            } else {
+                MainViewManager.CurrentMainView = MainViewManager.ScheduleVM;
+            }
         }
 
         public void LoginUser() {
             FormResetErrorsEvent?.Invoke(this, EventArgs.Empty);
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(twoFA)) {
                 if (string.IsNullOrEmpty(username)) {
                     FormMissingEmailEvent?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (string.IsNullOrEmpty(password)) {
                     FormMissingPasswordEvent?.Invoke(this, EventArgs.Empty);
-                    return;
                 }
 
                 if (string.IsNullOrEmpty(twoFA))
                 {
                     FormMissingTwoFAEvent?.Invoke(this, EventArgs.Empty);
-                    return;
                 }
                 return;
             }
 
-            DBConnector.Database.CreateUser(username, password);
+            DBConnector.Database.CreateUser(username, password, twoFA);
 
             LoginViewEventArgs eventArgs = new LoginViewEventArgs();
             eventArgs.LoginViewEventType = LoginViewEvent.USERDATASUBMITTED;
@@ -122,14 +130,23 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.TwoFACode = twoFA;
             scraperOptions.Debug = false;
 
-            //EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
-            WIPWebScraper webScraper = new WIPWebScraper(scraperOptions);
+            if (ReturnToView == RETURNVIEW.EDUCATOR) {
+                EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
 
-            webScraper.SetupDriver();
-            bool result = webScraper.TestLoginCredentials();
+                webScraper.SetupDriver();
+                bool result = webScraper.TestLoginCredentials();
 
-            webScraper.CloseDriver();
-            return result;
+                webScraper.CloseDriver();
+                return result;
+            } else {
+                WIPWebScraper webScraper = new WIPWebScraper(scraperOptions);
+
+                webScraper.SetupDriver();
+                bool result = webScraper.TestLoginCredentials();
+
+                webScraper.CloseDriver();
+                return result;
+            }
         }
     }
 }

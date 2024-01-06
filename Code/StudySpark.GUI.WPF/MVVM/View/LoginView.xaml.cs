@@ -34,6 +34,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             LoginViewModel.FormResetErrorsEvent += ((object? sender, EventArgs a) => {
                 EmailRequiredText.Visibility = Visibility.Hidden;
                 PasswordRequiredText.Visibility = Visibility.Hidden;
+                TwoFARequiredText.Visibility = Visibility.Hidden;
             });
 
             LoginViewModel.FormMissingEmailEvent += ((object? sender, EventArgs a) => {
@@ -59,10 +60,6 @@ namespace StudySpark.GUI.WPF.MVVM.View {
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e) {
             passwordBox.Password = (sender as TextBox)?.Text;
-        }
-
-        private void TwoFABox_TextChanged(object sender, TextChangedEventArgs e) {
-            twoFABox.Password = (sender as TextBox)?.Text;
         }
 
         private void OnViewChangeEvent(object? sender, LoginViewEventArgs ea) {

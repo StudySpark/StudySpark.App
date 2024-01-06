@@ -17,7 +17,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class GradesViewModel : INotifyPropertyChanged {
         public RelayCommand EducatorLoginCommand { get; set; }
-        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, GradesLoadedEvent, EducatorLoadStartedEvent, EducatorLoadFinishedEvent;
+        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, Missing2FACodeEvent, GradesLoadedEvent, EducatorLoadStartedEvent, EducatorLoadFinishedEvent;
 
         private bool isUserLoggedIn = false, isUserCredentialsValid = false;
 
@@ -50,6 +50,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             preload();
 
             EducatorLoginCommand = new RelayCommand(o => {
+                LoginViewModel.ReturnToView = LoginViewModel.RETURNVIEW.EDUCATOR;
                 MainViewManager.CurrentMainView = MainViewManager.LoginVM;
                 //CurrentView = LoginVM;
             });
@@ -70,9 +71,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void load(GenericUser user, bool loginResult) {
+            if (user.TwoFA == null || user.TwoFA.Length == 0) {
+                Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                return;
+            }
+
             if (!loginResult) {
                 InvalidUserCredentialsEvent?.Invoke(null, EventArgs.Empty);
-
                 return;
             }
 
@@ -97,9 +102,18 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             GenericUser user = (GenericUser)parameters;
 
+            if (user.TwoFA == null || user.TwoFA.Length == 0) {
+                Application.Current.Dispatcher.Invoke(() => {
+                    InvalidUserCredentialsEvent?.Invoke(null, EventArgs.Empty);
+                }); 
+
+                return;
+            }
+
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.Username = user.Username;
             scraperOptions.Password = user.Password;
+            scraperOptions.TwoFACode = user.TwoFA;
             scraperOptions.Debug = false;
             EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
 

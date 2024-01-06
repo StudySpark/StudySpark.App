@@ -21,10 +21,10 @@ namespace StudySpark.WebScraper.Educator {
             SetupDriver();
             WaitForPageLoad();
 
-            HandleLogIn();
+            HandleLogIn(true);
         }
 
-        private void HandleLogIn() {
+        private void HandleLogIn(bool with2FA) {
             if (GetElementById("userNameInput") == null) {
                 return;
             }
@@ -35,8 +35,9 @@ namespace StudySpark.WebScraper.Educator {
 
             GetElementById("submitButton").Click();
 
-            if (CheckIfIdExists("verificationCodeInput"))
-            {
+            if (with2FA) {
+                WaitForIdLoad("verificationCodeInput");
+
                 GetElementById("verificationCodeInput").SendKeys(scraperOptions?.TwoFACode);
 
                 GetElementById("signInButton").Click();
@@ -44,18 +45,14 @@ namespace StudySpark.WebScraper.Educator {
         }
 
         public bool TestLoginCredentials() {
-            HandleLogIn();
+            HandleLogIn(false);
             WaitForPageLoad();
-
-            if (CheckIfIdExists("errorText")) {
+            try {
+                WaitForIdLoad("verificationCodeInput", 15);
+                return true;
+            } catch {
                 return false;
             }
-
-            if (CheckIfClassExists("educator")) {
-                return true;
-            }
-
-            return false;
         }
 
         public List<StudentGrade> FetchGrades() {

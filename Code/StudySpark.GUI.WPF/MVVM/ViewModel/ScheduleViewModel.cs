@@ -53,6 +53,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             preload();
 
             ScheduleLoginCommand = new RelayCommand(o => {
+                LoginViewModel.ReturnToView = LoginViewModel.RETURNVIEW.WIP;
                 MainViewManager.CurrentMainView = MainViewManager.LoginVM;
                 //CurrentView = LoginVM;
             });

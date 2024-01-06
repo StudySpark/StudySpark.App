@@ -11,7 +11,6 @@ namespace StudySpark.Core.Repositories
     public class UserRepository
     {
 
-
         public void createUser(string username, string password)
         {            
             byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
