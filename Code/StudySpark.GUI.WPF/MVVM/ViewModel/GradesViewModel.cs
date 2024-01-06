@@ -104,7 +104,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             if (user.TwoFA == null || user.TwoFA.Length == 0) {
                 Application.Current.Dispatcher.Invoke(() => {
-                    InvalidUserCredentialsEvent?.Invoke(null, EventArgs.Empty);
+                    Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
                 }); 
 
                 return;
@@ -121,12 +121,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             List<StudentGrade> grades = webScraper.FetchGrades();
             webScraper.CloseDriver();
 
-            if (grades.Count != 0) {
+            if (grades != null && grades.Count != 0) {
                 try {
                     Application.Current.Dispatcher.Invoke(() => {
                         showNewEducatorData(grades);
                     });
                 } catch (NullReferenceException) { }
+            } else {
+                Application.Current.Dispatcher.Invoke(() => {
+                    Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                });
             }
         }
 
