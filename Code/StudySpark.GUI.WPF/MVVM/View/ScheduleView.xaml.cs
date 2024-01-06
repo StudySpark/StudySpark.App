@@ -79,8 +79,8 @@ namespace StudySpark.GUI.WPF.MVVM.View
             LoadingMessage.Visibility = Visibility.Collapsed;
             NotLoggedInMessage.Visibility = Visibility.Collapsed;
             MainSchedule.Visibility = Visibility.Collapsed;
-            InvalidCredentialsMessage.Visibility = Visibility.Visible;
-            Missing2FACodeMessage.Visibility = Visibility.Collapsed;
+            InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
+            Missing2FACodeMessage.Visibility = Visibility.Visible;
         }
 
         private void OnScheduleLoaded(object? sender, EventArgs e)
