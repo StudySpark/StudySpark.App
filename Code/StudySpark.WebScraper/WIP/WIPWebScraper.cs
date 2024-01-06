@@ -100,7 +100,16 @@ namespace StudySpark.WebScraper.WIP
                 return true;
             } catch
             {
-                return false;
+                try
+                {
+                    WaitForIdLoad("DeltaPlaceHolderMain", 15);
+                    return true;
+                }
+                catch 
+                {
+                    return false;
+                }
+                
             }
 
         }
@@ -121,12 +130,59 @@ namespace StudySpark.WebScraper.WIP
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("dhx_cal_event")));
 
             List<IWebElement> list = driver.FindElements(By.XPath(".//div//div[contains(@class,'dhx_scale_holder')]/div[contains(@class,'cal_event')]")).ToList();
-            Debug.WriteLineIf(list.Count() > 0, "Data has been found.");
-            Debug.WriteLineIf(list.Count() == 0, "Data has not been found.");
+            List<ScheduleActivity> result = new List<ScheduleActivity>();
             foreach (IWebElement element in list)
             {
-                Console.WriteLine(element.ToString() + " heeft als data " + element.GetAttribute("class") + " = " + element.Text);
-                Console.WriteLine("----------");
+                element.Click();
+
+                List<IWebElement> scheduleInfo = driver.FindElements(By.XPath(".//div[contains(@class, 'dlwo-row')]/div[contains(@class, 'dlwo-col')]")).ToList();
+
+                ScheduleActivity schedAct = new ScheduleActivity();
+
+                foreach (IWebElement info in scheduleInfo)
+                {
+                    int index = scheduleInfo.IndexOf(info);
+
+                    Debug.WriteLine(index + " : " + info.Text);
+
+                    if (index >= 0 && index % 2 == 0)
+                    {
+
+                        switch (scheduleInfo[index].Text)
+                        {
+                            case "Class":
+                                schedAct.Class = scheduleInfo[index + 1].Text;
+                                break;
+                            case "Room":
+                                schedAct.Classroom = scheduleInfo[index + 1].Text;
+                                break;
+                            case "Teacher(s)":
+                                schedAct.Teacher = scheduleInfo[index + 1].Text;
+                                break;
+                            case "OE/EvL":
+                                int cut = scheduleInfo[index + 1].Text.IndexOf("|");
+                                string coursename = scheduleInfo[index + 1].Text.Substring(0, cut - 1);
+                                string coursecode = scheduleInfo[index + 1].Text.Substring(cut + 2);
+
+                                schedAct.CourseName = coursename;
+                                schedAct.CourseCode = coursecode;
+                                break;
+                            default:
+                                schedAct.CourseName = "Niet gevonden";
+                                schedAct.CourseCode = "Niet gevonden";
+                                schedAct.Class = "Niet gevonden";
+                                schedAct.Classroom = "Niet gevonden";
+                                schedAct.Teacher = "Niet gevonden";
+                                break;
+                        }
+                    }
+                }
+
+                Debug.WriteLine("ScheduleActivity = " + schedAct.ToString());
+                Debug.WriteLine("--------------");
+
+                var exitButton = driver.FindElement(By.XPath(".//div/div[contains(@class, 'dhx_cancel_btn_set')]"));
+                exitButton.Click();
             }
         }
     }

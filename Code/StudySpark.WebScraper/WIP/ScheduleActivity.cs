@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudySpark.Core.Schedule
+namespace StudySpark.WebScraper.WIP
 {
-    public class Activity
+    public class ScheduleActivity
     {
 
         public string CourseName { get; set; }
@@ -22,6 +22,11 @@ namespace StudySpark.Core.Schedule
         public DateTime EndTime { get; set; }
 
         public string Teacher { get; set; }
+
+        public override string ToString()
+        {
+            return $"{CourseName}, {CourseCode}, {Class}, {Classroom}, {Teacher}";
+        }
 
     }
 }

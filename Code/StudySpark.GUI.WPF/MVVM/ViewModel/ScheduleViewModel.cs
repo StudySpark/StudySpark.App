@@ -90,12 +90,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 return;
             }
 
-            //List<GradeElement> cachedGrades = DBConnector.Database.ReadGradesData();
-            //foreach (GradeElement gradeElement in cachedGrades)
-            //{
-            //    ScheduleViewElements.Add(gradeElement);
-            //}
-
             ScheduleLoadedEvent?.Invoke(null, EventArgs.Empty);
 
             WIPLoadStartedEvent?.Invoke(null, EventArgs.Empty);
@@ -103,7 +97,36 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             thread.Start(user);
         }
 
-        private void LoadUpdatedSchedule(object? parameters) { }
+        private void LoadUpdatedSchedule(object? parameters) 
+        { 
+            if (parameters == null)
+            {
+                return;
+            }
+
+            GenericUser? user = (GenericUser)parameters;
+
+            if (user.TwoFA == null || user.TwoFA.Length == 0)
+            {
+                Application.Current.Dispatcher.Invoke(() => {
+                    Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                });
+
+                return;
+            }
+
+            ScraperOptions scraperOptions = new ScraperOptions();
+            scraperOptions.Username = user.Username;
+            scraperOptions.Password = user.Password;
+            scraperOptions.TwoFACode = user.TwoFA;
+            scraperOptions.Debug = false;
+            WIPWebScraper scraper = new WIPWebScraper(scraperOptions);
+
+            scraper.Load();
+            scraper.FetchSchedule();
+            scraper.CloseDriver();
+
+        }
 
         private void TestLoginCredentialsThread(object? parameters)
         {
