@@ -5,6 +5,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -114,7 +115,7 @@ namespace StudySpark.WebScraper.WIP
 
         }
 
-        public void FetchSchedule()
+        public List<ScheduleActivity> FetchSchedule()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("activitiesupcoming-link")));
@@ -176,14 +177,31 @@ namespace StudySpark.WebScraper.WIP
                                 break;
                         }
                     }
+
+                    string timeInfo = driver.FindElement(By.ClassName("dlwo-event-date")).Text;
+                    int firstCut = timeInfo.IndexOf("-");
+                    int lastCut = timeInfo.IndexOf(" ", firstCut + 2);
+
+                    string start = timeInfo.Substring(0, firstCut - 1);
+                    string end = timeInfo.Substring(firstCut + 2, lastCut - (firstCut + 2));
+                    string date = timeInfo.Substring(lastCut + 1);
+
+                    string format = "HH:mm d MMMM yyyy";
+
+                    schedAct.StartTime = DateTime.ParseExact(start + " " + date, format, CultureInfo.InvariantCulture);
+                    schedAct.EndTime = DateTime.ParseExact(end + " " + date, format, CultureInfo.InvariantCulture);
                 }
 
                 Debug.WriteLine("ScheduleActivity = " + schedAct.ToString());
                 Debug.WriteLine("--------------");
 
+                result.Add(schedAct);
+
                 var exitButton = driver.FindElement(By.XPath(".//div/div[contains(@class, 'dhx_cancel_btn_set')]"));
                 exitButton.Click();
             }
+
+            return result;
         }
     }
 }
