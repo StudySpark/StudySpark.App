@@ -35,7 +35,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             LoadingMessage.Visibility = Visibility.Visible;
             NotLoggedInMessage.Visibility = Visibility.Collapsed;
             InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
-            // MainSchedule.Visibility = Visibility.Collapsed;
+            MainSchedule.Visibility = Visibility.Collapsed;
             Missing2FACodeMessage.Visibility = Visibility.Collapsed;
             ScheduleLoadMessage.Visibility = Visibility.Collapsed;
 
@@ -55,7 +55,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         private void OnNoUserLoggedInEvent(object? sender, EventArgs e) {
             LoadingMessage.Visibility = Visibility.Collapsed;
             NotLoggedInMessage.Visibility = Visibility.Visible;
-            // MainSchedule.Visibility = Visibility.Collapsed;
+            MainSchedule.Visibility = Visibility.Collapsed;
             InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
             Missing2FACodeMessage.Visibility = Visibility.Collapsed;
 
@@ -64,7 +64,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         private void OnUserInvalidCredentialsEvent(object? sender, EventArgs e) {
             LoadingMessage.Visibility = Visibility.Collapsed;
             NotLoggedInMessage.Visibility = Visibility.Collapsed;
-            // MainSchedule.Visibility = Visibility.Collapsed;
+            MainSchedule.Visibility = Visibility.Collapsed;
             InvalidCredentialsMessage.Visibility = Visibility.Visible;
             Missing2FACodeMessage.Visibility = Visibility.Collapsed;
         }
@@ -72,7 +72,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         private void OnMissing2FACodeEvent(object? sender, EventArgs e) {
             LoadingMessage.Visibility = Visibility.Collapsed;
             NotLoggedInMessage.Visibility = Visibility.Collapsed;
-            // MainSchedule.Visibility = Visibility.Collapsed;
+            MainSchedule.Visibility = Visibility.Collapsed;
             InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
             Missing2FACodeMessage.Visibility = Visibility.Visible;
         }
@@ -80,7 +80,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         private void OnScheduleLoaded(object? sender, EventArgs e) {
             LoadingMessage.Visibility = Visibility.Collapsed;
             NotLoggedInMessage.Visibility = Visibility.Collapsed;
-            // MainSchedule.Visibility = Visibility.Visible;
+            MainSchedule.Visibility = Visibility.Visible;
             InvalidCredentialsMessage.Visibility = Visibility.Collapsed;
             Missing2FACodeMessage.Visibility = Visibility.Collapsed;
         }
@@ -103,17 +103,17 @@ namespace StudySpark.GUI.WPF.MVVM.View {
 
         //    for (int row = 0; row < 6; row++) {
         //        RowDefinition rowDefinition = new RowDefinition();
-        //        // MainSchedule.RowDefinitions.Add(rowDefinition);
+        //        MainSchedule.RowDefinitions.Add(rowDefinition);
 
         //        ColumnDefinition columnDefinition = new ColumnDefinition();
-        //        // MainSchedule.ColumnDefinitions.Add(columnDefinition);
+        //        MainSchedule.ColumnDefinitions.Add(columnDefinition);
 
         //        for (int col = 0; col < 6; col++) {
         //            // Create a Border control for each square
         //            Border border = CreateBorder(row, col);
 
         //            // Add the Border control to the mainGrid
-        //            // MainSchedule.Children.Add(border);
+        //            MainSchedule.Children.Add(border);
 
         //            // Set the row and column for the Border control
         //            Grid.SetRow(border, row);
@@ -151,7 +151,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
         //                Grid.SetColumn(textBlock, 0);
 
         //                // Add the cell's Grid to the mainGrid
-        //                // MainSchedule.Children.Add(cellGrid);
+        //                MainSchedule.Children.Add(cellGrid);
 
         //                // Set the row and column for the cell's Grid
         //                Grid.SetRow(cellGrid, row);
