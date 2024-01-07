@@ -278,6 +278,112 @@
                     Width="3"
                     CornerRadius="2"/>
 
+            <Border Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="3"
+                    CornerRadius="8">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#f1a106"/>
+                        <GradientStop Color="#f13f99" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <Label Content="08:30-10:30"
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0,-6"/>
+
+                    <Label Content="T0.00"
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Margin="0,-20,0,-6"/>
+
+                    <Label Content="PV Engels 2 Hoorcollege , ."
+                           FontSize="10"
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0,-5"/>
+
+                    <Label Content="ICTOOSDDb"
+                           FontSize="8"
+                           Foreground="#AAFFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0,-5"/>
+
+                    <Label Content="J Wright"
+                           FontSize="8"
+                           Foreground="#AAFFFFFF"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Margin="0,-16,0,-7"/>
+
+                    <Label Content="Engels 2 | ICT.PV-EN2.V19"
+                           FontSize="8"
+                           Foreground="#88FFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="0,-2"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="3"
+                    CornerRadius="8">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#f1a106"/>
+                        <GradientStop Color="#f13f99" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <Label Content="08:30-10:30"
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0,-6"/>
+                    
+                    <Label Content="T0.00"
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Margin="0,-20,0,-6"/>
+
+                    <Label Content="PV Engels 2 Hoorcollege , ."
+                           FontSize="10"
+                           Foreground="#FFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0,-5"/>
+
+                    <Label Content="ICTOOSDDb"
+                           FontSize="8"
+                           Foreground="#AAFFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0,-5"/>
+
+                    <Label Content="J Wright"
+                           FontSize="8"
+                           Foreground="#AAFFFFFF"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Margin="0,-16,0,-7"/>
+
+                    <Label Content="Engels 2 | ICT.PV-EN2.V19"
+                           FontSize="8"
+                           Foreground="#88FFFFFF"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="0,-2"/>
+                </StackPanel>
+            </Border>
+
             <ItemsControl ItemsSource="{Binding ScheduleMondayItemElements}"
                           Grid.Column="1"
                           Grid.Row="1"

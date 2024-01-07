@@ -22,12 +22,6 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     /// </summary>
     public partial class ScheduleView : UserControl {
 
-        public ObservableCollection<Object> ScheduleMondayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
-        public ObservableCollection<Object> ScheduleTuesdayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
-        public ObservableCollection<Object> ScheduleWednesdayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
-        public ObservableCollection<Object> ScheduleThursdayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
-        public ObservableCollection<Object> ScheduleFridayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
-
         public ScheduleView() {
             InitializeComponent();
 
