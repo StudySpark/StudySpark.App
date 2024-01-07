@@ -18,7 +18,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="Je bent niet ingelogd!"
                    Width="454"
                    Height="212"
@@ -26,7 +27,13 @@
                    FontSize="20"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"/>
-            <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+            <Rectangle Width="2"
+                       Margin="0,0,166,30"
+                       HorizontalAlignment="Right"
+                       Height="200"
+                       VerticalAlignment="Bottom"
+                       RenderTransformOrigin="0.5,0.5"
+                       Fill="#FFC7C7C7" >
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -43,7 +50,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="Je account-gegevens zijn onjuist!"
                    Width="552"
                    Height="212"
@@ -51,7 +59,13 @@
                    FontSize="20"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"/>
-            <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+            <Rectangle Width="2"
+                       Margin="0,0,166,30"
+                       HorizontalAlignment="Right"
+                       Height="200"
+                       VerticalAlignment="Bottom"
+                       RenderTransformOrigin="0.5,0.5"
+                       Fill="#FFC7C7C7" >
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -68,7 +82,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="   Sessie niet meer geldig!&#x0a;Voer een nieuw 2FA code in"
                    Width="502"
                    Height="212"
@@ -76,7 +91,13 @@
                    FontSize="20"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"/>
-                    <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+                    <Rectangle Width="2"
+                               Margin="0,0,166,30"
+                               HorizontalAlignment="Right"
+                               Height="200"
+                               VerticalAlignment="Bottom"
+                               RenderTransformOrigin="0.5,0.5"
+                               Fill="#FFC7C7C7" >
                         <Rectangle.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -93,8 +114,9 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
-            <Label Content="      Een moment geduld A.U.B.&#x0a;Het rooster wordt opgehaald."
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
+            <Label Content="  Een moment geduld A.U.B.&#x0a;Het rooster wordt opgehaald."
                    Width="700"
                    Height="424"
                    Foreground="#FFC7C7C7"
@@ -106,46 +128,492 @@
         </Grid>
 
         <Grid Grid.Row="0"
-      x:Name="ScheduleLoadMessage">
+              x:Name="ScheduleLoadMessage">
             <Image Source="/Images/Loading.png"
-           Width="24"
-           Height="24"
-           Margin="0,0,160,2"
-           HorizontalAlignment="Right"
-           VerticalAlignment="Bottom"/>
+                   Width="24"
+                   Height="24"
+                   Margin="0,0,160,2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
             <Label Content="Informatie ophalen uit WIP..."
-           Foreground="#FFC7C7C7"
-           FontSize="12"
-           HorizontalAlignment="Right"
-           VerticalAlignment="Bottom"/>
+                   Foreground="#FFC7C7C7"
+                   FontSize="12"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
         </Grid>
 
-        <Grid>
+        <Grid Margin="25,25,25,80">
             <Grid.RowDefinitions>
-                <RowDefinition>
-                </RowDefinition>
+                <RowDefinition Height="48" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <Grid x:Name="MainSchedule"
-              Grid.Row="0"
-              Grid.Column="0"
-              Margin="30, 0, 30, 30"
-              Visibility="Visible"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch">
-            </Grid>
+            <Border Background="#2d2b3c"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="5"
+                    CornerRadius="12,12,0,0"></Border>
+
+            <Border Background="#2d2b3c"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Grid.RowSpan="5"
+                    CornerRadius="12,0,0,12"></Border>
+
+            <Border Background="#211F2F"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="5"
+                    Grid.RowSpan="5"
+                    CornerRadius="0,0,12,0"></Border>
+
+            <Label Content="Maandag"
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Dinsdag"
+                   Grid.Row="0"
+                   Grid.Column="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Woensdag"
+                   Grid.Row="0"
+                   Grid.Column="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Donderdag"
+                   Grid.Row="0"
+                   Grid.Column="4"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Vrijdag"
+                   Grid.Row="0"
+                   Grid.Column="5"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="08:00"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="16"/>
+
+            <Label Content="18:00"
+                   Grid.Row="5"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="16"/>
+
+            <Border Background="#FFFFFF"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Grid.RowSpan="3"
+                    Margin="30,5"
+                    CornerRadius="2"/>
+
+            <Border Background="#11FFFFFF"
+                    Grid.Column="2"
+                    Grid.Row="1"
+                    Grid.RowSpan="5"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Width="3"
+                    CornerRadius="2"/>
+
+            <Border Background="#11FFFFFF"
+                    Grid.Column="3"
+                    Grid.Row="1"
+                    Grid.RowSpan="5"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Width="3"
+                    CornerRadius="2"/>
+
+            <Border Background="#11FFFFFF"
+                    Grid.Column="4"
+                    Grid.Row="1"
+                    Grid.RowSpan="5"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Width="3"
+                    CornerRadius="2"/>
+
+            <Border Background="#11FFFFFF"
+                    Grid.Column="5"
+                    Grid.Row="1"
+                    Grid.RowSpan="5"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Width="3"
+                    CornerRadius="2"/>
+
+            <ItemsControl ItemsSource="{Binding ScheduleMondayItemElements}"
+                          Grid.Column="1"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Grid.Column="1"
+                                Grid.Row="1"
+                                Margin="{Binding ElementMargin}"
+                                CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#f1a106"/>
+                                    <GradientStop Color="#f13f99" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel>
+                                <Label Content="{Binding StartEndTime}"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-6"/>
+
+                                <Label Content="{Binding Classroom}"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-20,0,-6"/>
+
+                                <Label Content="{Binding CourseName}"
+                                       FontSize="10"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
+
+                                <Label Content="{Binding Class}"
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
+
+                                <Label Content="{Binding Teacher}"
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-16,0,-7"/>
+
+                                <Label Content="{Binding CourseCode}"
+                                       FontSize="8"
+                                       Foreground="#88FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,-2"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleTuesdayItemElements}"
+                          Grid.Column="2"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Grid.Column="1"
+        Grid.Row="1"
+        Margin="{Binding ElementMargin}"
+        CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#f1a106"/>
+                                    <GradientStop Color="#f13f99" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel>
+                                <Label Content="{Binding StartEndTime}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-6"/>
+
+                                <Label Content="{Binding Classroom}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-20,0,-6"/>
+
+                                <Label Content="{Binding CourseName}"
+               FontSize="10"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Class}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Teacher}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-16,0,-7"/>
+
+                                <Label Content="{Binding CourseCode}"
+               FontSize="8"
+               Foreground="#88FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
+               Margin="0,-2"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleWednesdayItemElements}"
+                          Grid.Column="3"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Grid.Column="1"
+        Grid.Row="1"
+        Margin="{Binding ElementMargin}"
+        CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#f1a106"/>
+                                    <GradientStop Color="#f13f99" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel>
+                                <Label Content="{Binding StartEndTime}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-6"/>
+
+                                <Label Content="{Binding Classroom}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-20,0,-6"/>
+
+                                <Label Content="{Binding CourseName}"
+               FontSize="10"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Class}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Teacher}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-16,0,-7"/>
+
+                                <Label Content="{Binding CourseCode}"
+               FontSize="8"
+               Foreground="#88FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
+               Margin="0,-2"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleThursdayItemElements}"
+                          Grid.Column="4"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Grid.Column="1"
+        Grid.Row="1"
+        Margin="{Binding ElementMargin}"
+        CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#f1a106"/>
+                                    <GradientStop Color="#f13f99" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel>
+                                <Label Content="{Binding StartEndTime}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-6"/>
+
+                                <Label Content="{Binding Classroom}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-20,0,-6"/>
+
+                                <Label Content="{Binding CourseName}"
+               FontSize="10"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Class}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Teacher}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-16,0,-7"/>
+
+                                <Label Content="{Binding CourseCode}"
+               FontSize="8"
+               Foreground="#88FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
+               Margin="0,-2"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleFridayItemElements}"
+                          Grid.Column="5"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Grid.Column="1"
+        Grid.Row="1"
+        Margin="{Binding ElementMargin}"
+        CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#f1a106"/>
+                                    <GradientStop Color="#f13f99" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel>
+                                <Label Content="{Binding StartEndTime}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-6"/>
+
+                                <Label Content="{Binding Classroom}"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-20,0,-6"/>
+
+                                <Label Content="{Binding CourseName}"
+               FontSize="10"
+               Foreground="#FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Class}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="0,-5"/>
+
+                                <Label Content="{Binding Teacher}"
+               FontSize="8"
+               Foreground="#AAFFFFFF"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0,-16,0,-7"/>
+
+                                <Label Content="{Binding CourseCode}"
+               FontSize="8"
+               Foreground="#88FFFFFF"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
+               Margin="0,-2"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>-->
+
+            <!--<Grid x:Name="MainSchedule"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="30, 0, 30, 30"
+                  Visibility="Visible"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
+            </Grid>-->
 
             <Button Content="👤"
-                x:Name="EducatorAccountSettingsButton"
-                Width="58"
-                Height="56"
-                FontSize="32"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="0,0,20,20"
-                Cursor="Hand"
-                Style="{StaticResource RoundButtonTheme}"
-                Command="{Binding ScheduleLoginCommand}"/>
-        </Grid>
+                    x:Name="EducatorAccountSettingsButton"
+                    Width="58"
+                    Height="56"
+                    FontSize="32"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,20,20"
+                    Cursor="Hand"
+                    Style="{StaticResource RoundButtonTheme}"
+                    Command="{Binding ScheduleLoginCommand}"/>
+        <!--</Grid>-->
     </Grid>
 </UserControl>
