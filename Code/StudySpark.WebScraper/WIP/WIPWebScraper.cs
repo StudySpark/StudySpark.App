@@ -56,44 +56,27 @@ namespace StudySpark.WebScraper.WIP
             {
                 twoFA.SendKeys(scraperOptions?.TwoFACode);
                 subButton.Click();
+
+                try {
+                    wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("idSIButton9")));
+
+                    subButton = driver.FindElement(By.Id("idSIButton9"));
+
+                    subButton.Click();
+                } catch (WebDriverTimeoutException wdte) {
+                    throw wdte;
+                }
             }
             else
             {
                 return;
             }
-
-            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("idSIButton9")));
-
-            subButton = driver.FindElement(By.Id("idSIButton9"));
-
-            subButton.Click();
         }
 
         public bool TestLoginCredentials()
         {
             HandleLogIn(false);
             WaitForPageLoad();
-
-            //if (CheckIfIdExists("usernameError"))
-            //{
-            //    return false;
-            //}
-            //else if (CheckIfIdExists("errorText"))
-            //{
-            //    return false;
-            //}
-            //else if (CheckIfIdExists("idTxtBx_SAOTCC_OTC"))
-            //{
-            //    return false;
-            //}
-            //else if (CheckIfIdExists("idSpan_SAOTCC_Error_OTC"))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
 
             try
             {
@@ -109,8 +92,7 @@ namespace StudySpark.WebScraper.WIP
                 catch 
                 {
                     return false;
-                }
-                
+                }               
             }
 
         }

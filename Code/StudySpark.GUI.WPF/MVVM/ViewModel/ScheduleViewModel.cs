@@ -191,10 +191,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             WIPWebScraper scraper = new WIPWebScraper(scraperOptions);
 
             DBRepository.InvalidateUser2FACode();
+            List<ScheduleActivity> schedule = new List<ScheduleActivity>();
 
-            scraper.Load();
-            List<ScheduleActivity> schedule = scraper.FetchSchedule();
-            scraper.CloseDriver();
+            try {
+                scraper.Load();
+                schedule = scraper.FetchSchedule();
+                scraper.CloseDriver();
+            } catch (Exception ex) {
+                
+            }
+
 
             if (schedule != null && schedule.Count != 0) {
                 try {
@@ -204,6 +210,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 } catch (NullReferenceException) { }
             } else {
                 Application.Current.Dispatcher.Invoke(() => {
+                    WIPLoadFinishedEvent?.Invoke(null, EventArgs.Empty);
                     Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
                 });
             }

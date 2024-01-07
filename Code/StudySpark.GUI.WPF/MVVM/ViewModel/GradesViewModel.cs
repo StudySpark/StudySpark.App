@@ -132,6 +132,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 } catch (NullReferenceException) { }
             } else {
                 Application.Current.Dispatcher.Invoke(() => {
+                    EducatorLoadFinishedEvent?.Invoke(null, EventArgs.Empty);
                     Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
                 });
             }
