@@ -25,7 +25,7 @@ namespace StudySpark.WebScraper.WIP
 
         public override string ToString()
         {
-            return $"{CourseName}, {CourseCode}, {Class}, {Classroom}, {Teacher}";
+            return $"ScheduleActivity = (CourseName:{CourseName}, CourseCode:{CourseCode}, Class:{Class}, Classroom:{Classroom}, Teacher(s):{Teacher}, StartTime:{StartTime}, EndTime:{EndTime})";
         }
 
     }
