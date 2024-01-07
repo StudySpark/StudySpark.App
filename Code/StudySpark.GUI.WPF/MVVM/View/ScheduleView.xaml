@@ -277,6 +277,56 @@
                     HorizontalAlignment="Left"
                     Width="3"
                     CornerRadius="2"/>
+
+            <ItemsControl ItemsSource="{Binding ScheduleMondayItemElements}"
+                          Grid.Column="1"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleTuesdayItemElements}"
+                          Grid.Column="2"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleWednesdayItemElements}"
+                          Grid.Column="3"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleThursdayItemElements}"
+                          Grid.Column="4"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding ScheduleFridayItemElements}"
+                          Grid.Column="5"
+                          Grid.Row="1"
+                          Grid.RowSpan="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
 
         <!--<Grid>

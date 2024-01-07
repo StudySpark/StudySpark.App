@@ -1,6 +1,8 @@
-﻿using StudySpark.GUI.WPF.MVVM.ViewModel;
+﻿using StudySpark.Core.Grades;
+using StudySpark.GUI.WPF.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +21,12 @@ namespace StudySpark.GUI.WPF.MVVM.View {
     /// Interaction logic for ScheduleView.xaml
     /// </summary>
     public partial class ScheduleView : UserControl {
+
+        public ObservableCollection<Object> ScheduleMondayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
+        public ObservableCollection<Object> ScheduleTuesdayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
+        public ObservableCollection<Object> ScheduleWednesdayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
+        public ObservableCollection<Object> ScheduleThursdayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
+        public ObservableCollection<Object> ScheduleFridayItemElements { get; } = new ObservableCollection<Object>(); // TODO: Object
 
         public ScheduleView() {
             InitializeComponent();
