@@ -18,7 +18,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="Je bent niet ingelogd!"
                    Width="454"
                    Height="212"
@@ -49,7 +50,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="Je account-gegevens zijn onjuist!"
                    Width="552"
                    Height="212"
@@ -80,7 +82,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="   Sessie niet meer geldig!&#x0a;Voer een nieuw 2FA code in"
                    Width="502"
                    Height="212"
@@ -111,7 +114,8 @@
               Width="700"
               Height="424"
               HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
             <Label Content="  Een moment geduld A.U.B.&#x0a;Het rooster wordt opgehaald."
                    Width="700"
                    Height="424"
@@ -138,20 +142,120 @@
                    VerticalAlignment="Bottom"/>
         </Grid>
 
-        <Grid>
+        <Grid Margin="25,25,25,80">
             <Grid.RowDefinitions>
-                <RowDefinition>
-                </RowDefinition>
+                <RowDefinition Height="48" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <Grid x:Name="MainSchedule"
+            <Border Background="#2d2b3c"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="5"
+                    CornerRadius="12,12,0,0"></Border>
+
+            <Border Background="#2d2b3c"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Grid.RowSpan="5"
+                    CornerRadius="12,0,0,12"></Border>
+
+            <Border Background="#211F2F"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="5"
+                    Grid.RowSpan="5"
+                    CornerRadius="0,0,12,0"></Border>
+
+            <Label Content="Maandag"
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Dinsdag"
+                   Grid.Row="0"
+                   Grid.Column="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Woensdag"
+                   Grid.Row="0"
+                   Grid.Column="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Donderdag"
+                   Grid.Row="0"
+                   Grid.Column="4"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="Vrijdag"
+                   Grid.Row="0"
+                   Grid.Column="5"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="22"/>
+
+            <Label Content="08:00"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="16"/>
+
+            <Label Content="18:00"
+                   Grid.Row="5"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#FFFFFF"
+                   FontSize="16"/>
+
+            <Border Background="#FFFFFF"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Grid.RowSpan="3"
+                    Margin="30,5"
+                    CornerRadius="2"/>
+        </Grid>
+
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>-->
+
+            <!--<Grid x:Name="MainSchedule"
                   Grid.Row="0"
                   Grid.Column="0"
                   Margin="30, 0, 30, 30"
                   Visibility="Visible"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-            </Grid>
+            </Grid>-->
 
             <Button Content="👤"
                     x:Name="EducatorAccountSettingsButton"
@@ -164,6 +268,6 @@
                     Cursor="Hand"
                     Style="{StaticResource RoundButtonTheme}"
                     Command="{Binding ScheduleLoginCommand}"/>
-        </Grid>
+        <!--</Grid>-->
     </Grid>
 </UserControl>
