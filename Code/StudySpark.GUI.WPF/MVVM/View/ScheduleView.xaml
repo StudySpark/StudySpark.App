@@ -26,7 +26,13 @@
                    FontSize="20"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"/>
-            <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+            <Rectangle Width="2"
+                       Margin="0,0,166,30"
+                       HorizontalAlignment="Right"
+                       Height="200"
+                       VerticalAlignment="Bottom"
+                       RenderTransformOrigin="0.5,0.5"
+                       Fill="#FFC7C7C7" >
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -51,7 +57,13 @@
                    FontSize="20"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"/>
-            <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+            <Rectangle Width="2"
+                       Margin="0,0,166,30"
+                       HorizontalAlignment="Right"
+                       Height="200"
+                       VerticalAlignment="Bottom"
+                       RenderTransformOrigin="0.5,0.5"
+                       Fill="#FFC7C7C7" >
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -76,7 +88,13 @@
                    FontSize="20"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"/>
-                    <Rectangle Width="2" Margin="0,0,166,30" HorizontalAlignment="Right" Height="200" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FFC7C7C7" >
+                    <Rectangle Width="2"
+                               Margin="0,0,166,30"
+                               HorizontalAlignment="Right"
+                               Height="200"
+                               VerticalAlignment="Bottom"
+                               RenderTransformOrigin="0.5,0.5"
+                               Fill="#FFC7C7C7" >
                         <Rectangle.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -94,7 +112,7 @@
               Height="424"
               HorizontalAlignment="Right"
               VerticalAlignment="Bottom">
-            <Label Content="      Een moment geduld A.U.B.&#x0a;Het rooster wordt opgehaald."
+            <Label Content="  Een moment geduld A.U.B.&#x0a;Het rooster wordt opgehaald."
                    Width="700"
                    Height="424"
                    Foreground="#FFC7C7C7"
@@ -106,18 +124,18 @@
         </Grid>
 
         <Grid Grid.Row="0"
-      x:Name="ScheduleLoadMessage">
+              x:Name="ScheduleLoadMessage">
             <Image Source="/Images/Loading.png"
-           Width="24"
-           Height="24"
-           Margin="0,0,160,2"
-           HorizontalAlignment="Right"
-           VerticalAlignment="Bottom"/>
+                   Width="24"
+                   Height="24"
+                   Margin="0,0,160,2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
             <Label Content="Informatie ophalen uit WIP..."
-           Foreground="#FFC7C7C7"
-           FontSize="12"
-           HorizontalAlignment="Right"
-           VerticalAlignment="Bottom"/>
+                   Foreground="#FFC7C7C7"
+                   FontSize="12"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"/>
         </Grid>
 
         <Grid>
@@ -127,25 +145,25 @@
             </Grid.RowDefinitions>
 
             <Grid x:Name="MainSchedule"
-              Grid.Row="0"
-              Grid.Column="0"
-              Margin="30, 0, 30, 30"
-              Visibility="Visible"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch">
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="30, 0, 30, 30"
+                  Visibility="Visible"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
             </Grid>
 
             <Button Content="👤"
-                x:Name="EducatorAccountSettingsButton"
-                Width="58"
-                Height="56"
-                FontSize="32"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="0,0,20,20"
-                Cursor="Hand"
-                Style="{StaticResource RoundButtonTheme}"
-                Command="{Binding ScheduleLoginCommand}"/>
+                    x:Name="EducatorAccountSettingsButton"
+                    Width="58"
+                    Height="56"
+                    FontSize="32"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,20,20"
+                    Cursor="Hand"
+                    Style="{StaticResource RoundButtonTheme}"
+                    Command="{Binding ScheduleLoginCommand}"/>
         </Grid>
     </Grid>
 </UserControl>
