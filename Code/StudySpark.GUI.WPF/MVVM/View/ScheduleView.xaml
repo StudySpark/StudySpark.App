@@ -144,7 +144,7 @@
 
         <Grid Margin="25,25,25,80">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
+                <RowDefinition Height="45" />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -282,14 +282,22 @@
                           Grid.Column="1"
                           Grid.Row="1"
                           Grid.RowSpan="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="{Binding ElementMargin}"
+                                Height="{Binding ElementHeight}"
+                                VerticalAlignment="Top"
                                 CornerRadius="8">
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#f1a106"/>
                                     <GradientStop Color="#f13f99" Offset="1"/>
                                 </LinearGradientBrush>
@@ -344,58 +352,66 @@
                           Grid.Column="2"
                           Grid.Row="1"
                           Grid.RowSpan="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Grid.Column="1"
-        Grid.Row="1"
-        Margin="{Binding ElementMargin}"
-        CornerRadius="8">
+                                Grid.Row="1"
+                                Margin="{Binding ElementMargin}"
+                                Height="{Binding ElementHeight}"
+                                VerticalAlignment="Top"
+                                CornerRadius="8">
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#f1a106"/>
                                     <GradientStop Color="#f13f99" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <StackPanel>
                                 <Label Content="{Binding StartEndTime}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-6"/>
 
                                 <Label Content="{Binding Classroom}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-20,0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-20,0,-6"/>
 
                                 <Label Content="{Binding CourseName}"
-               FontSize="10"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="10"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Class}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Teacher}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-16,0,-7"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-16,0,-7"/>
 
                                 <Label Content="{Binding CourseCode}"
-               FontSize="8"
-               Foreground="#88FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Margin="0,-2"/>
+                                       FontSize="8"
+                                       Foreground="#88FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,-2"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -406,58 +422,66 @@
                           Grid.Column="3"
                           Grid.Row="1"
                           Grid.RowSpan="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Grid.Column="1"
-        Grid.Row="1"
-        Margin="{Binding ElementMargin}"
-        CornerRadius="8">
+                                Grid.Row="1"
+                                Margin="{Binding ElementMargin}"
+                                Height="{Binding ElementHeight}"
+                                VerticalAlignment="Top"
+                                CornerRadius="8">
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#f1a106"/>
                                     <GradientStop Color="#f13f99" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <StackPanel>
                                 <Label Content="{Binding StartEndTime}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-6"/>
 
                                 <Label Content="{Binding Classroom}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-20,0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-20,0,-6"/>
 
                                 <Label Content="{Binding CourseName}"
-               FontSize="10"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="10"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Class}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Teacher}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-16,0,-7"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-16,0,-7"/>
 
                                 <Label Content="{Binding CourseCode}"
-               FontSize="8"
-               Foreground="#88FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Margin="0,-2"/>
+                                       FontSize="8"
+                                       Foreground="#88FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,-2"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -468,58 +492,66 @@
                           Grid.Column="4"
                           Grid.Row="1"
                           Grid.RowSpan="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Grid.Column="1"
-        Grid.Row="1"
-        Margin="{Binding ElementMargin}"
-        CornerRadius="8">
+                                Grid.Row="1"
+                                Margin="{Binding ElementMargin}"
+                                Height="{Binding ElementHeight}"
+                                VerticalAlignment="Top"
+                                CornerRadius="8">
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#f1a106"/>
                                     <GradientStop Color="#f13f99" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <StackPanel>
                                 <Label Content="{Binding StartEndTime}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-6"/>
 
                                 <Label Content="{Binding Classroom}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-20,0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-20,0,-6"/>
 
                                 <Label Content="{Binding CourseName}"
-               FontSize="10"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="10"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Class}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Teacher}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-16,0,-7"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-16,0,-7"/>
 
                                 <Label Content="{Binding CourseCode}"
-               FontSize="8"
-               Foreground="#88FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Margin="0,-2"/>
+                                       FontSize="8"
+                                       Foreground="#88FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,-2"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -530,58 +562,66 @@
                           Grid.Column="5"
                           Grid.Row="1"
                           Grid.RowSpan="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Grid.Column="1"
-        Grid.Row="1"
-        Margin="{Binding ElementMargin}"
-        CornerRadius="8">
+                                Grid.Row="1"
+                                Margin="{Binding ElementMargin}"
+                                Height="{Binding ElementHeight}"
+                                VerticalAlignment="Top"
+                                CornerRadius="8">
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#f1a106"/>
                                     <GradientStop Color="#f13f99" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <StackPanel>
                                 <Label Content="{Binding StartEndTime}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-6"/>
 
                                 <Label Content="{Binding Classroom}"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-20,0,-6"/>
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-20,0,-6"/>
 
                                 <Label Content="{Binding CourseName}"
-               FontSize="10"
-               Foreground="#FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="10"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Class}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Margin="0,-5"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-5"/>
 
                                 <Label Content="{Binding Teacher}"
-               FontSize="8"
-               Foreground="#AAFFFFFF"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="0,-16,0,-7"/>
+                                       FontSize="8"
+                                       Foreground="#AAFFFFFF"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-16,0,-7"/>
 
                                 <Label Content="{Binding CourseCode}"
-               FontSize="8"
-               Foreground="#88FFFFFF"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Margin="0,-2"/>
+                                       FontSize="8"
+                                       Foreground="#88FFFFFF"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,-2"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -589,31 +629,16 @@
             </ItemsControl>
         </Grid>
 
-        <!--<Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>-->
-
-            <!--<Grid x:Name="MainSchedule"
-                  Grid.Row="0"
-                  Grid.Column="0"
-                  Margin="30, 0, 30, 30"
-                  Visibility="Visible"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch">
-            </Grid>-->
-
-            <Button Content="👤"
-                    x:Name="EducatorAccountSettingsButton"
-                    Width="58"
-                    Height="56"
-                    FontSize="32"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,20,20"
-                    Cursor="Hand"
-                    Style="{StaticResource RoundButtonTheme}"
-                    Command="{Binding ScheduleLoginCommand}"/>
-        <!--</Grid>-->
+        <Button Content="👤"
+                x:Name="EducatorAccountSettingsButton"
+                Width="58"
+                Height="56"
+                FontSize="32"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,20,20"
+                Cursor="Hand"
+                Style="{StaticResource RoundButtonTheme}"
+                Command="{Binding ScheduleLoginCommand}"/>
     </Grid>
 </UserControl>
