@@ -15,17 +15,49 @@ using System.Threading.Tasks;
 using static StudySpark.GUI.WPF.Core.LoginViewEventArgs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Diagnostics;
+using System.Globalization;
+using StudySpark.Core.Repositories;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
     public class ScheduleItemElement {
-        public string? StartEndTime {  get; set; }
-        public string? Classroom { get; set; }
-        public string? CourseName { get; set; }
-        public string? Class { get; set; }
-        public string? Teacher { get; set; }
-        public string? CourseCode { get; set; }
-        public string? ElementMargin { get; set; }
+        public string? StartEndTime { get; set; } = "00:00 - 00:00";
+        public string? Classroom { get; set; } = "A0.00";
+        public string? CourseName { get; set; } = "-----";
+        public string? Class { get; set; } = "-----";
+        public string? Teacher { get; set; } = "-----";
+        public string? CourseCode { get; set; } = "----- | -----";
+        public string? ElementMargin {
+            get {
+                int offsetY = 0;
+
+                int startHours = int.Parse(StartEndTime.Split(" - ")[0].Split(":")[0]) - 8;
+                double startMinutes = double.Parse(StartEndTime.Split(" - ")[0].Split(":")[1]) / 30.0;
+                offsetY += startHours * (scheduleListHeight / 10);
+                offsetY += (int)(startMinutes * (scheduleListHeight / 20));
+
+                return $"3,{offsetY},3,0";
+            }
+        }
+        public string? ElementHeight {
+            get {
+                int offsetStartY = 0;
+                int startHours = int.Parse(StartEndTime.Split(" - ")[0].Split(":")[0]) - 8;
+                double startMinutes = double.Parse(StartEndTime.Split(" - ")[0].Split(":")[1]) / 30.0;
+                offsetStartY += startHours * (scheduleListHeight / 10);
+                offsetStartY += (int)(startMinutes * (scheduleListHeight / 20));
+
+                int offsetEndY = 0;
+                int endHours = int.Parse(StartEndTime.Split(" - ")[1].Split(":")[0]) - 8;
+                double endMinutes = double.Parse(StartEndTime.Split(" - ")[1].Split(":")[1]) / 30.0;
+                offsetEndY += endHours * (scheduleListHeight / 10);
+                offsetEndY += (int)(endMinutes * (scheduleListHeight / 20));
+
+                return $"{offsetEndY - offsetStartY}";
+            }
+        }
+
+        private const int scheduleListHeight = 275;
     }
 
     public class ScheduleViewModel : INotifyPropertyChanged {
@@ -34,11 +66,11 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public ObservableCollection<GradeElement> ScheduleViewElements { get; } = new ObservableCollection<GradeElement>();
 
-        public ObservableCollection<ScheduleItemElement> ScheduleMondayItemElements { get; } = new ObservableCollection<ScheduleItemElement>(); // TODO: Object
-        public ObservableCollection<ScheduleItemElement> ScheduleTuesdayItemElements { get; } = new ObservableCollection<ScheduleItemElement>(); // TODO: Object
-        public ObservableCollection<ScheduleItemElement> ScheduleWednesdayItemElements { get; } = new ObservableCollection<ScheduleItemElement>(); // TODO: Object
-        public ObservableCollection<ScheduleItemElement> ScheduleThursdayItemElements { get; } = new ObservableCollection<ScheduleItemElement>(); // TODO: Object
-        public ObservableCollection<ScheduleItemElement> ScheduleFridayItemElements { get; } = new ObservableCollection<ScheduleItemElement>(); // TODO: Object
+        public ObservableCollection<ScheduleItemElement> ScheduleMondayItemElements { get; } = new ObservableCollection<ScheduleItemElement>();
+        public ObservableCollection<ScheduleItemElement> ScheduleTuesdayItemElements { get; } = new ObservableCollection<ScheduleItemElement>();
+        public ObservableCollection<ScheduleItemElement> ScheduleWednesdayItemElements { get; } = new ObservableCollection<ScheduleItemElement>();
+        public ObservableCollection<ScheduleItemElement> ScheduleThursdayItemElements { get; } = new ObservableCollection<ScheduleItemElement>();
+        public ObservableCollection<ScheduleItemElement> ScheduleFridayItemElements { get; } = new ObservableCollection<ScheduleItemElement>();
 
         public RelayCommand ScheduleLoginCommand { get; set; }
 
@@ -69,37 +101,36 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 //CurrentView = LoginVM;
             });
 
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 ScheduleMondayItemElements.Add(new ScheduleItemElement() {
-                    StartEndTime = "08:30-10:30",
+                    StartEndTime = "08:30 - 10:30",
                     Classroom = "T1.23",
                     CourseName = "Test1",
                     Class = "ICTTest1",
                     Teacher = "Me",
-                    CourseCode = "ABC | 123",
-                    ElementMargin = "3,20,3,0"
+                    CourseCode = "ABC | 123"
                 });
 
                 ScheduleMondayItemElements.Add(new ScheduleItemElement() {
-                    StartEndTime = "11:30-12:30",
+                    StartEndTime = "11:30 - 12:30",
                     Classroom = "T1.23",
                     CourseName = "Test2",
                     Class = "ICTTest2",
                     Teacher = "Me",
-                    CourseCode = "ABC | 123",
-                    ElementMargin = "3,20,3,0"
+                    CourseCode = "ABC | 123"
                 });
 
                 ScheduleTuesdayItemElements.Add(new ScheduleItemElement() {
-                    StartEndTime = "12:30-13:30",
+                    StartEndTime = "12:30 - 13:30",
                     Classroom = "T1.23",
                     CourseName = "Test3",
                     Class = "ICTTest3",
                     Teacher = "Me",
-                    CourseCode = "ABC | 123",
-                    ElementMargin = "3,150,3,0"
+                    CourseCode = "ABC | 123"
                 });
-
             }
+
+        }
 
         private void preload() {
             ScheduleMondayItemElements.Clear();
@@ -159,22 +190,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.Debug = false;
             WIPWebScraper scraper = new WIPWebScraper(scraperOptions);
 
+            DBRepository.InvalidateUser2FACode();
+
             scraper.Load();
             List<ScheduleActivity> schedule = scraper.FetchSchedule();
             scraper.CloseDriver();
 
-            if (schedule != null && schedule.Count != 0)
-            {
-                try
-                {
+            if (schedule != null && schedule.Count != 0) {
+                try {
                     Application.Current.Dispatcher.Invoke(() => {
                         ShowUpdatedSchedule(schedule);
                     });
-                }
-                catch (NullReferenceException) { }
-            }
-            else
-            {
+                } catch (NullReferenceException) { }
+            } else {
                 Application.Current.Dispatcher.Invoke(() => {
                     Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
                 });
@@ -182,8 +210,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         }
 
-        private void ShowUpdatedSchedule(List<ScheduleActivity> schedule)
-        {
+        private void ShowUpdatedSchedule(List<ScheduleActivity> schedule) {
             WIPLoadFinishedEvent?.Invoke(null, EventArgs.Empty);
 
             ScheduleMondayItemElements.Clear();
@@ -192,8 +219,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             ScheduleThursdayItemElements.Clear();
             ScheduleFridayItemElements.Clear();
 
-            foreach (ScheduleActivity schedAct in schedule)
-            {
+            foreach (ScheduleActivity schedAct in schedule) {
                 ScheduleItemElement element = new ScheduleItemElement();
                 element.CourseName = schedAct.CourseName;
                 element.CourseCode = schedAct.CourseCode;
@@ -201,18 +227,18 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 element.Classroom = schedAct.Classroom;
                 element.Teacher = schedAct.Teacher;
 
-                string? start = schedAct.StartTime?.ToString();
-                string? end = schedAct.EndTime?.ToString();
-                int cut = start.IndexOf(" ");
+                CultureInfo cultureInfoDutch = new CultureInfo("nl-NL"); // "nl-NL" for Dutch (Netherlands)
+                string? dayString = schedAct.StartTime?.ToString("dddd", cultureInfoDutch);
+                string? startTimeString = schedAct.StartTime?.ToString("HH:mm");
+                string? endTimeString = schedAct.EndTime?.ToString("HH:mm");
 
-                DateOnly day = DateOnly.Parse(start.Substring(0, cut));
-                string starttime = start.Substring(cut + 1, start.LastIndexOf(":") - (cut + 1));
-                string endtime = end.Substring(cut + 1, end.LastIndexOf(":") - (cut + 1));
+                element.StartEndTime = startTimeString + " - " + endTimeString;
 
-                element.StartEndTime = starttime + "-" + endtime;
+                Debug.WriteLine($"dayString: {dayString}");
+                Debug.WriteLine($"startTimeString: {startTimeString}");
+                Debug.WriteLine($"endTimeString: {endTimeString}");
 
-                switch (day.ToString("dddd"))
-                {
+                switch (dayString) {
                     case "maandag":
                         ScheduleMondayItemElements.Add(element);
                         break;
