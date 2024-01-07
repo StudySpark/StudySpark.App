@@ -94,6 +94,10 @@ namespace StudySpark.Core.Repositories {
             }
         }
 
+        public static void InvalidateUser2FACode() {
+            lastUser2FACode = "";
+        }
+
         public bool InsertGitData(string fullpath, string type) {
             if (Conn == null) {
                 return false;

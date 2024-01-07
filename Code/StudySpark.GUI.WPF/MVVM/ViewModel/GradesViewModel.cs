@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using StudySpark.Core.Generic;
 using StudySpark.Core.Grades;
+using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using StudySpark.WebScraper;
 using StudySpark.WebScraper.Educator;
@@ -116,6 +117,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.TwoFACode = user.TwoFA;
             scraperOptions.Debug = false;
             EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
+
+            DBRepository.InvalidateUser2FACode();
 
             webScraper.Load();
             List<StudentGrade> grades = webScraper.FetchGrades();

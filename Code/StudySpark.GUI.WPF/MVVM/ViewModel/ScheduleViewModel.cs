@@ -16,6 +16,7 @@ using static StudySpark.GUI.WPF.Core.LoginViewEventArgs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Diagnostics;
 using System.Globalization;
+using StudySpark.Core.Repositories;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
@@ -188,6 +189,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.TwoFACode = user.TwoFA;
             scraperOptions.Debug = false;
             WIPWebScraper scraper = new WIPWebScraper(scraperOptions);
+
+            DBRepository.InvalidateUser2FACode();
 
             scraper.Load();
             List<ScheduleActivity> schedule = scraper.FetchSchedule();
