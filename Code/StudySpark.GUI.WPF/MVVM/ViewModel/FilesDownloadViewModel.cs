@@ -52,6 +52,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
                     Button b = ButtonNoHoverEffect();
                     b.Tag = _lastDownloadedFiles[i];
+
+                    RoutedEventHandler ClickOpenHandler = SystemFileHandler.CreateClickRawOpenHandler(_lastDownloadedFiles[i]);
+                    b.Click += ClickOpenHandler;
+
                     downloadGrid.Children.Add(b);
 
                     //Create textbox and add it to grid

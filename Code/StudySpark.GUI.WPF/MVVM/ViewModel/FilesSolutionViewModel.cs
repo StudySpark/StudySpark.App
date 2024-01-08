@@ -16,6 +16,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Reflection.Metadata;
+using System.Diagnostics;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -59,6 +60,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     //create button and add it to grid
                     Button b = ButtonNoHoverEffect();
                     b.Tag = _recentSLNFiles[i];
+
+                    RoutedEventHandler ClickOpenHandler = SystemFileHandler.CreateClickRawOpenHandler(_recentSLNFiles[i]);
+                    b.Click += ClickOpenHandler;
+
                     solutionGrid.Children.Add(b);
 
                     //Create textbox and add it to grid
