@@ -21,10 +21,10 @@ namespace StudySpark.WebScraper.Educator {
             SetupDriver();
             WaitForPageLoad();
 
-            HandleLogIn();
+            HandleLogIn(true);
         }
 
-        private void HandleLogIn() {
+        private void HandleLogIn(bool with2FA) {
             if (GetElementById("userNameInput") == null) {
                 return;
             }
@@ -34,39 +34,47 @@ namespace StudySpark.WebScraper.Educator {
             GetElementById("passwordInput").SendKeys(scraperOptions?.Password);
 
             GetElementById("submitButton").Click();
+
+            if (with2FA) {
+                WaitForIdLoad("verificationCodeInput");
+
+                GetElementById("verificationCodeInput").SendKeys(scraperOptions?.TwoFACode);
+
+                GetElementById("signInButton").Click();
+            }
         }
 
         public bool TestLoginCredentials() {
-            HandleLogIn();
+            HandleLogIn(false);
             WaitForPageLoad();
-
-            if (CheckIfIdExists("errorText")) {
+            try {
+                WaitForIdLoad("verificationCodeInput", 15);
+                return true;
+            } catch {
                 return false;
             }
-
-            if (CheckIfClassExists("educator")) {
-                return true;
-            }
-
-            return false;
         }
 
-        public List<StudentGrade> FetchGrades() {
+        public List<StudentGrade>? FetchGrades() {
             List<StudentGrade> grades = new List<StudentGrade>();
 
             WaitForPageLoad();
 
-            foreach (IWebElement item in GetElementsByClassName("studyplanning-unit")) {
-                StudentGrade grade = new StudentGrade();
+            try {
+                foreach (IWebElement item in GetElementsByClassName("studyplanning-unit")) {
+                    StudentGrade grade = new StudentGrade();
 
-                grade.CourseName = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.ClassName("btn-link")).Text;
-                grade.CourseCode = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.TagName("small")).Text;
-                grade.ECs = item.FindElement(By.ClassName("exam-unit-workload-amount")).Text;
-                grade.Semester = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[0].FindElement(By.TagName("dd")).Text;
-                grade.TestDate = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[1].FindElement(By.TagName("dd")).Text;
-                grade.Grade = item.FindElement(By.ClassName("grade")).Text.Split("\n")[0];
+                    grade.CourseName = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.ClassName("btn-link")).Text;
+                    grade.CourseCode = item.FindElement(By.ClassName("exam-unit__name")).FindElement(By.TagName("small")).Text;
+                    grade.ECs = item.FindElement(By.ClassName("exam-unit-workload-amount")).Text;
+                    grade.Semester = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[0].FindElement(By.TagName("dd")).Text;
+                    grade.TestDate = item.FindElement(By.ClassName("justify-content-end")).FindElements(By.ClassName("examination-date"))[1].FindElement(By.TagName("dd")).Text;
+                    grade.Grade = item.FindElement(By.ClassName("grade")).Text.Split("\n")[0];
 
-                grades.Add(grade);
+                    grades.Add(grade);
+                }
+            } catch {
+                return null;
             }
 
             return grades;

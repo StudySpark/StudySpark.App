@@ -34,6 +34,7 @@ namespace StudySpark.GUI.WPF.MVVM.View {
             LoginViewModel.FormResetErrorsEvent += ((object? sender, EventArgs a) => {
                 EmailRequiredText.Visibility = Visibility.Hidden;
                 PasswordRequiredText.Visibility = Visibility.Hidden;
+                TwoFARequiredText.Visibility = Visibility.Hidden;
             });
 
             LoginViewModel.FormMissingEmailEvent += ((object? sender, EventArgs a) => {
@@ -44,12 +45,17 @@ namespace StudySpark.GUI.WPF.MVVM.View {
                 PasswordRequiredText.Visibility = Visibility.Visible;
             });
 
+            LoginViewModel.FormMissingTwoFAEvent += ((object? sender, EventArgs a) => {
+                TwoFARequiredText.Visibility = Visibility.Visible;
+            });
+
 
             LoginGrid.Visibility = Visibility.Visible;
             TestConnection.Visibility = Visibility.Hidden;
             LoginFailed.Visibility = Visibility.Hidden;
             EmailRequiredText.Visibility = Visibility.Hidden;
             PasswordRequiredText.Visibility = Visibility.Hidden;
+            TwoFARequiredText.Visibility = Visibility.Hidden;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e) {
@@ -86,6 +92,11 @@ namespace StudySpark.GUI.WPF.MVVM.View {
 
         private void Button_HelpPassword_Click(object sender, RoutedEventArgs e) {
             MessageBox.Show("Vul hier je Windesheim account wachtwoord in");
+        }
+
+        private void Button_HelpTwoFA_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Vul hier de code uit je authenticator-app in");
         }
     }
 }

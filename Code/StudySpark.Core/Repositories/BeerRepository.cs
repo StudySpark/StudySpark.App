@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using OpenQA.Selenium;
 using StudySpark.Core.FileManager;
 using StudySpark.Core.Generic;
 using System;
@@ -40,7 +41,34 @@ namespace StudySpark.Core.Repositories
             }
             return brandID;
         }
+        public void removeAllSales(List<int> bookmarkedIDs)
+        {
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+            sqlite_cmd.CommandText = "DELETE FROM BeerSales WHERE productID NOT IN (" + string.Join(",", bookmarkedIDs) + ")"; ;
 
+            sqlite_cmd.ExecuteNonQuery();
+        }
+        public void removeAll()
+        {
+            SqliteCommand sqlite_command = DBRepository.Conn.CreateCommand();
+            sqlite_command.CommandText = "SELECT id FROM BeerProducts WHERE bookmarked = 1";
+            SqliteDataReader reader = sqlite_command.ExecuteReader();
+            
+            List<int> bookmarkedIDs = new();
+            while (reader.Read())
+            {
+                bookmarkedIDs.Add(reader.GetInt32(0));
+            }
+            removeAllSales(bookmarkedIDs);
+
+            SqliteCommand sqlite_cmd;
+            sqlite_cmd = DBRepository.Conn.CreateCommand();
+
+            sqlite_cmd.CommandText = "DELETE FROM BeerProducts WHERE bookmarked = 0";
+
+            sqlite_cmd.ExecuteNonQuery();
+        }
         public bool checkBookMark(string productname, string brandname)
         {
             SqliteCommand sqlite_cmd;
@@ -74,7 +102,6 @@ namespace StudySpark.Core.Repositories
 
             sqlite_cmd.ExecuteNonQuery();
         }
-
         public void removeProduct(string productname, int brandID)
         {
             SqliteCommand sqlite_cmd;
@@ -91,28 +118,40 @@ namespace StudySpark.Core.Repositories
         {
             SqliteCommand sqlite_cmd;
 
-            foreach (Dictionary<GenericBeerProduct, List<GenericBeerSale>> dict in products) {
-                foreach(var (key, value)  in dict)
-                {        
-                    sqlite_cmd = DBRepository.Conn.CreateCommand();
-                    sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice) VALUES(@brandID, @productname, @bookmarked, @lowestprice)";
-                    sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", key.brandID));
-                    sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", key.productname));
-                    sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", key.bookmarked));
-                    sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", key.lowestprice));
+            foreach (Dictionary<GenericBeerProduct, List<GenericBeerSale>> dict in products)
+            {
+               
+                foreach (var (key, value) in dict)
+                {
+                    SqliteCommand sqlite_command = DBRepository.Conn.CreateCommand();
+                    sqlite_command.CommandText = "SELECT COUNT(*) FROM BeerProducts WHERE productname = @param1 AND brandID = @param2";
+                    
+                    sqlite_command.Parameters.Add(new SqliteParameter("@param2", key.brandID));
+                    sqlite_command.Parameters.Add(new SqliteParameter("@param1", key.productname));
 
-                    sqlite_cmd.ExecuteNonQuery();
+                    int existingRecords = Convert.ToInt32(sqlite_command.ExecuteScalar());
 
-                    foreach (GenericBeerSale sale in value)
+                    if (existingRecords == 0)
                     {
-                        GenericBeerProduct lastProd = getLastInserted();
-                        insertSale(lastProd.id, sale.store, sale.storeImage, sale.oldprice, sale.newprice, sale.expirationdate);
+                        sqlite_cmd = DBRepository.Conn.CreateCommand();
+                        sqlite_cmd.CommandText = "INSERT INTO BeerProducts (brandID, productname, bookmarked, lowestprice) VALUES(@brandID, @productname, @bookmarked, @lowestprice)";
+                        sqlite_cmd.Parameters.Add(new SqliteParameter("@brandID", key.brandID));
+                        sqlite_cmd.Parameters.Add(new SqliteParameter("@productname", key.productname));
+                        sqlite_cmd.Parameters.Add(new SqliteParameter("@bookmarked", key.bookmarked));
+                        sqlite_cmd.Parameters.Add(new SqliteParameter("@lowestprice", key.lowestprice));
+
+                        sqlite_cmd.ExecuteNonQuery();
+
+                        foreach (GenericBeerSale sale in value)
+                        {
+                            GenericBeerProduct lastProd = getLastInserted();
+                            insertSale(lastProd.id, sale.store, sale.storeImage, sale.oldprice, sale.newprice, sale.expirationdate);
+                        }
                     }
-
                 }
+                
             }
-
-
+            
         }
         public void insertBookMark(string brand, string productname, int bookmarked, string lowestprice)
         {

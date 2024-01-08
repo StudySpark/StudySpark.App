@@ -8,23 +8,47 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <WrapPanel>
-                <ContentControl Margin="10" Width="650" Content="{Binding CurrentRepoList}"/>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Margin="0,0,120,83" Width="Auto">
+            <!-- WrapPanel with a fixed width to enable horizontal scrolling -->
+
+            <WrapPanel Margin="0" Width="Auto">
+                <!-- Grid for each item to control its width -->
+                <Grid Margin="0, 0, 2450, 100" Width="auto" >
+
+                    <ContentControl Content="{Binding CurrentRepoList}" Width="auto"/>
+                </Grid>
             </WrapPanel>
         </ScrollViewer>
+
+
+        <RadioButton Content="Basis" Foreground="White"
+             IsChecked="True"
+             Margin="0,0,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <RadioButton Content="Geavanceerd" Foreground="White"
+             IsChecked="{Binding IsVerboseView, Mode=TwoWay}"
+             Margin="0,22,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
         <Button Content="➕"
                 FontSize="35"
                 Width="58"
-                Height="56"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
                 Margin="0,0,20,20"
                 Cursor="Hand"
                 Style="{StaticResource RoundButtonTheme}"
-                Command="{Binding OpenRepoSelectCommand}" />
-        <Slider x:Name="commitSlider" Minimum="1" Maximum="{Binding MaxCommitsForCurrentRepo}" Width="300" Height="20" Value="{Binding MaxCommitsToShow}" VerticalAlignment="Top" />
-        <TextBlock Text="{Binding MaxCommitsToShow, UpdateSourceTrigger=PropertyChanged}" Width="30" Height="20" VerticalAlignment="Top" Margin="0,18,0,0" Foreground="White" />
+                Command="{Binding OpenRepoSelectCommand}" Height="56" Panel.ZIndex="20" />
+        <Slider x:Name="commitSlider"
+        Minimum="1" Maximum="{Binding MaxCommitsForCurrentRepo}"
+        Width="200" Height="300"
+        AutoToolTipPlacement="TopLeft"
+                AutoToolTipPrecision="0"
+        Value="{Binding MaxCommitsToShow}"
+        VerticalAlignment="Top" Panel.ZIndex="3" HorizontalAlignment="Right" Margin="0,300,-150,0">
+            <Slider.RenderTransform>
+                <RotateTransform Angle="-90"/>
+            </Slider.RenderTransform>
+        </Slider>
+        <TextBlock Text="{Binding MaxCommitsToShow, UpdateSourceTrigger=PropertyChanged}" Width="30" Height="20" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Margin="0,300,20,0" />
     </Grid>
 </UserControl>

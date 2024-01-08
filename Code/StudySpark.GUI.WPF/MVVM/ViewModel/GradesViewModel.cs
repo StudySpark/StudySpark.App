@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using StudySpark.Core.Generic;
 using StudySpark.Core.Grades;
+using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
 using StudySpark.WebScraper;
 using StudySpark.WebScraper.Educator;
@@ -17,7 +18,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace StudySpark.GUI.WPF.MVVM.ViewModel {
     public class GradesViewModel : INotifyPropertyChanged {
         public RelayCommand EducatorLoginCommand { get; set; }
-        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, GradesLoadedEvent, EducatorLoadStartedEvent, EducatorLoadFinishedEvent;
+        public event EventHandler? NoUserLoggedInEvent, InvalidUserCredentialsEvent, Missing2FACodeEvent, GradesLoadedEvent, EducatorLoadStartedEvent, EducatorLoadFinishedEvent;
 
         private bool isUserLoggedIn = false, isUserCredentialsValid = false;
 
@@ -50,6 +51,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             preload();
 
             EducatorLoginCommand = new RelayCommand(o => {
+                LoginViewModel.ReturnToView = LoginViewModel.RETURNVIEW.EDUCATOR;
                 MainViewManager.CurrentMainView = MainViewManager.LoginVM;
                 //CurrentView = LoginVM;
             });
@@ -70,9 +72,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         }
 
         private void load(GenericUser user, bool loginResult) {
+            if (user.TwoFA == null || user.TwoFA.Length == 0) {
+                Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                return;
+            }
+
             if (!loginResult) {
                 InvalidUserCredentialsEvent?.Invoke(null, EventArgs.Empty);
-
                 return;
             }
 
@@ -97,22 +103,38 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
             GenericUser user = (GenericUser)parameters;
 
+            if (user.TwoFA == null || user.TwoFA.Length == 0) {
+                Application.Current.Dispatcher.Invoke(() => {
+                    Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                }); 
+
+                return;
+            }
+
             ScraperOptions scraperOptions = new ScraperOptions();
             scraperOptions.Username = user.Username;
             scraperOptions.Password = user.Password;
+            scraperOptions.TwoFACode = user.TwoFA;
             scraperOptions.Debug = false;
             EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
+
+            DBRepository.InvalidateUser2FACode();
 
             webScraper.Load();
             List<StudentGrade> grades = webScraper.FetchGrades();
             webScraper.CloseDriver();
 
-            if (grades.Count != 0) {
+            if (grades != null && grades.Count != 0) {
                 try {
                     Application.Current.Dispatcher.Invoke(() => {
                         showNewEducatorData(grades);
                     });
                 } catch (NullReferenceException) { }
+            } else {
+                Application.Current.Dispatcher.Invoke(() => {
+                    EducatorLoadFinishedEvent?.Invoke(null, EventArgs.Empty);
+                    Missing2FACodeEvent?.Invoke(null, EventArgs.Empty);
+                });
             }
         }
 

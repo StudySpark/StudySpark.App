@@ -28,6 +28,10 @@ namespace StudySpark.GUI.WPF.Core {
         public static NotesViewModel? NotesVM { get { if (_notesVM == null) { _notesVM = new NotesViewModel(); } return _notesVM; } set { _notesVM = value; } }
 
 
+        private static NotesEditorViewModel? _notesEditorVM;
+        public static NotesEditorViewModel? NotesEditorVM { get { if (_notesEditorVM == null) { _notesEditorVM = new NotesEditorViewModel(); } return _notesEditorVM; } set { _notesEditorVM = value; } }
+
+
         private static FilesViewModel? _filesVM;
         public static FilesViewModel? FilesVM { get { if (_filesVM == null) { _filesVM = new FilesViewModel(); } return _filesVM; } set { _filesVM = value; } }
 

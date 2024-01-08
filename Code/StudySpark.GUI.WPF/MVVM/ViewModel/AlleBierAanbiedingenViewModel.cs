@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using StudySpark.Core.BierScraper;
+using LibGit2Sharp;
+using StudySpark.WebScraper.Biernet;
 using StudySpark.Core.Generic;
 using StudySpark.Core.Repositories;
 using StudySpark.GUI.WPF.Core;
@@ -18,6 +20,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
     public class AlleBierAanbiedingenViewModel : ObservableObject
     {
         BeerRepository beerRepository = new BeerRepository();
+        FilteredBeerList filters = new FilteredBeerList();
 
         private event EventHandler ScraperHasFinished;
         private event EventHandler RetrieveFromDBHasFinished;
@@ -61,10 +64,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         
         //SUBLISTS -- PER BRAND -- ADD NEW LIST FOR EACH NEW BRAND
-        private List<List<object>> BierInfoHertogJan;
-        private List<List<object>> BierInfoAmstel;
-        private List<List<object>> BierInfoHeineken;
-        private List<List<object>> BierInfoGrolsch;
+        private List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoHertogJan;
+        private List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoAmstel;
+        private List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoHeineken;
+        private List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoGrolsch;
 
         private List<List<List<object>>> BierList = new();
         private List<GenericBeerProduct>? BierListFromDB = null;
@@ -74,52 +77,56 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         private StackPanel AllePanel = new StackPanel();
         public AlleBierAanbiedingenViewModel()
         {
-            if (BierListFromDB == null)
-            {
-                BierListFromDB = RetrieveBeersalesFromDB();
-            }
+            BierListFromDB = RetrieveBeersalesFromDB();
 
             BierFilterVM = new BierFilterViewModel();
             FilterAanbiedingen = BierFilterVM;
 
-            Thread BierScrapeThread = new Thread(new ThreadStart(RetrieveBeerSales));
-            BierScrapeThread.Start();
-
+            var cts = new CancellationTokenSource();
+            RecurringTask(() => StartScaper(), 60, cts.Token);  //interval in minutes
 
             //SUBSCRIBING TO EVENTS
-            BierFilterView.ViewDataChangeEvent += SetFilteredList;   
+            BierFilterView.ViewDataChangeEvent += SetFilteredList;
             BierFilterView.ViewDataChangeEvent += DisplayBeerSales;
-           
+
             BierAanbiedingenViewModel.BierAanbiedingenClickedEvent += DisplayBeerSales;
 
-            RetrieveFromDBHasFinished += DisplayBeerSales;
-            
             ScraperHasFinished += (object sender, EventArgs e) =>
             {
                 BierListFromDB = RetrieveBeersalesFromDB();
             };
+            ScraperHasFinished += DisplayBeerSales;
         }
-
+        private void StartScaper()
+        {
+            Thread BierScrapeThread = new Thread(new ThreadStart(RetrieveBeerSales));
+            BierScrapeThread.IsBackground = true;
+            BierScrapeThread.Start();
+        }
         private void RetrieveBeerSales()
         {
-            BiernetScraper.ScraperOptions options = new BiernetScraper.ScraperOptions();
+            WebScraper.ScraperOptions options = new();
             BiernetScraper scraper = new BiernetScraper(options);
-            var salesInDB = RetrieveBeersalesFromDB();
 
-            if (salesInDB.Count == 0)
-            {
-                
-                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoHertogJan = scraper.BierScrape("https://www.biernet.nl/bier/merken/hertog-jan-pilsener", "Hertog Jan");
-                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoAmstel = scraper.BierScrape("https://www.biernet.nl/bier/merken/amstel-pilsener", "Amstel");
-                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoHeineken = scraper.BierScrape("https://www.biernet.nl/bier/merken/heineken-pilsener", "Heineken");
-                List<Dictionary<GenericBeerProduct, List<GenericBeerSale>>> BierInfoGrolsch = scraper.BierScrape("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner", "Grolsch");
+            scraper.Load("https://www.biernet.nl/bier/merken/hertog-jan-pilsener", "Hertog Jan");
+            BierInfoHertogJan = scraper.BierScrape();
 
-                beerRepository.insertBeersale(BierInfoHertogJan);
-                beerRepository.insertBeersale(BierInfoAmstel);
-                beerRepository.insertBeersale(BierInfoHeineken);
-                beerRepository.insertBeersale(BierInfoGrolsch);
+            scraper.Load("https://www.biernet.nl/bier/merken/amstel-pilsener", "Amstel");
+            BierInfoAmstel = scraper.BierScrape();
 
-            }
+            scraper.Load("https://www.biernet.nl/bier/merken/heineken-pilsener", "Heineken");
+            BierInfoHeineken = scraper.BierScrape();
+
+            scraper.Load("https://www.biernet.nl/bier/merken/grolsch-premium-pilsner", "Grolsch");
+            BierInfoGrolsch = scraper.BierScrape();
+
+            BierList.Clear();
+            //BierList.Add(BierInfoHertogJan);
+            //BierList.Add(BierInfoAmstel);
+            //BierList.Add(BierInfoHeineken);
+            //BierList.Add(BierInfoGrolsch);
+
+            AddBeersalesToDB();
 
             ScraperHasFinished?.Invoke(this, new EventArgs());
         }
@@ -167,7 +174,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                                 break;
                         }
 
-                        if (FilteredList.Contains(brandName))
+                        if (FilterActive(brandName, beerSale.productname))
                         {
                             StackPanel info = DisplayInformation(beerSale, i, brandName);
                             info.VerticalAlignment = VerticalAlignment.Center;
@@ -443,87 +450,75 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         }
         private void SetFilteredList(object sender, EventArgs e)
         {
-            bool? HertogJanChecked = BierFilterViewModel.hertogIsChecked;
-            bool? AmstelChecked = BierFilterViewModel.amstelIsChecked;
-            bool? HeinekenChecked = BierFilterViewModel.heinekenIsChecked;
-            bool? GrolschIsChecked = BierFilterViewModel.grolschIsChecked;
+            bool? HertogJanChecked = BierFilterViewModel.hertogIsChecked ?? true;
+            bool? AmstelChecked = BierFilterViewModel.amstelIsChecked ?? true;
+            bool? HeinekenChecked = BierFilterViewModel.heinekenIsChecked ?? true;
+            bool? GrolschIsChecked = BierFilterViewModel.grolschIsChecked ?? true;
+            bool? KratIsChecked = BierFilterViewModel.kratIsChecked ?? true;
+            bool? BlikIsChecked = BierFilterViewModel.blikIsChecked ?? true;
+            bool? FlesIsChecked = BierFilterViewModel.flesIsChecked ?? true;
+            bool? FustIsChecked = BierFilterViewModel.fustIsChecked ?? true;
+            bool? TrayIsChecked = BierFilterViewModel.trayIsChecked ?? true;
 
-            if ((bool)HertogJanChecked)
-            {
-                if (!FilteredList.Contains("Hertog Jan"))
-                {
-                    FilteredList.Add("Hertog Jan");
-                }
-            }
-            else
-            {
-                for(int i=0; i< FilteredList.Count; i++)
-                {
-                    if(FilteredList[i].Equals("Hertog Jan"))
-                    {
-                        FilteredList.RemoveAt(i);
-                    }
-                }
-            }
+            List<bool?> checkedFilters = new List<bool?>();
+            checkedFilters.Add(HertogJanChecked);
+            checkedFilters.Add(AmstelChecked);
+            checkedFilters.Add(HeinekenChecked);
+            checkedFilters.Add(GrolschIsChecked);
+            checkedFilters.Add(KratIsChecked);
+            checkedFilters.Add(BlikIsChecked);
+            checkedFilters.Add(FlesIsChecked);
+            checkedFilters.Add(FustIsChecked);
+            checkedFilters.Add(TrayIsChecked);
 
-            if ((bool)AmstelChecked)
-            {
-                if (!FilteredList.Contains("Amstel"))
-                {
-                    FilteredList.Add("Amstel");
-                }
-            } 
-            else
-            {
-                for (int i = 0; i < FilteredList.Count; i++)
-                {
-                    if (FilteredList[i].Equals("Amstel"))
-                    {
-                        FilteredList.RemoveAt(i);
-                    }
-                }
-            }
-
-            if((bool)HeinekenChecked) 
-            {
-                if (!FilteredList.Contains("Heineken"))
-                {
-                    FilteredList.Add("Heineken");
-                }
-            }
-            else
-            {
-                for (int i = 0; i < FilteredList.Count; i++)
-                {
-                    if (FilteredList[i].Equals("Heineken"))
-                    {
-                        FilteredList.RemoveAt(i);
-                    }
-                }
-            }
-            if ((bool)GrolschIsChecked)
-            {
-                if (!FilteredList.Contains("Grolsch"))
-                {
-                    FilteredList.Add("Grolsch");
-                }
-            }
-            else
-            {
-                for (int i = 0; i < FilteredList.Count; i++)
-                {
-                    if (FilteredList[i].Equals("Grolsch"))
-                    {
-                        FilteredList.RemoveAt(i);
-                    }
-                }
-            }
+            FilteredList = filters.SetFilteredList(checkedFilters);
         }
-       
+
         private List<GenericBeerProduct> RetrieveBeersalesFromDB()
         {
             var list = beerRepository.getBeerSales();
             return list;
+        }
+        static void RecurringTask(Action action, int interval, CancellationToken cancellationToken)
+        {
+            if (action == null)
+            {
+                return;
+            }
+
+            Task.Run(async () =>
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    action();
+                    await Task.Delay(TimeSpan.FromMinutes(interval), cancellationToken);
+                }
+            }, cancellationToken);
+        }
+        private void AddBeersalesToDB()
+        {
+            beerRepository.removeAll();
+
+            beerRepository.insertBeersale(BierInfoHertogJan);
+            beerRepository.insertBeersale(BierInfoAmstel);
+            beerRepository.insertBeersale(BierInfoHeineken);
+            beerRepository.insertBeersale(BierInfoGrolsch);
+        }
+        private bool FilterActive(string brandName, string productName)
+        {
+            var productNameToLower = productName.ToLower();
+            var brandNameToLower = brandName.ToLower();
+            if (FilteredList.Contains(brandNameToLower))
+            {
+                foreach (var filter in FilteredList)
+                {
+                    if (productNameToLower.Contains(filter))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

@@ -11,4 +11,8 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.15.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StudySpark.Core\StudySpark.Core.csproj" />
+  </ItemGroup>
+
 </Project>

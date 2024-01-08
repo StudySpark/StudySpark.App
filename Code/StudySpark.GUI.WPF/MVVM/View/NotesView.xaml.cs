@@ -13,15 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StudySpark.GUI.WPF.MVVM.View
-{
+namespace StudySpark.GUI.WPF.MVVM.View {
     /// <summary>
     /// Interaction logic for NotesView.xaml
     /// </summary>
-    public partial class NotesView : UserControl
-    {
-        public NotesView()
-        {
+    public partial class NotesView : UserControl {
+        public NotesView() {
             InitializeComponent();
         }
     }

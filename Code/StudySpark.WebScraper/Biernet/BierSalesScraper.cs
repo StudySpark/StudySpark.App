@@ -11,90 +11,29 @@ using System.Diagnostics;
 using StudySpark.Core.Generic;
 using static System.Net.Mime.MediaTypeNames;
 using System.Globalization;
+using System.Drawing.Drawing2D;
 
-namespace StudySpark.Core.BierScraper
+namespace StudySpark.WebScraper.BierScraper
 {
-    internal class BierSalesScraper
+    internal class BierSalesScraper : WebScraper
     {
-        public static void Main(string[] args)
+        public BierSalesScraper(ScraperOptions scraperOptions) : base(scraperOptions) { }
+
+        public void Load(string url)
         {
-            BierSalesScraper.ScraperOptions options = new();
-            BierSalesScraper scraper = new BierSalesScraper(options);
+            scraperOptions.URL = url;
+            SetupDriver(true);
+            WaitForPageLoad();
         }
-
-        private ScraperOptions? scraperOptions;
-        private ChromeDriver? driver;
-
-        public BierSalesScraper(ScraperOptions scraperOptions)
+        public List<GenericBeerSale> BierSaleScrape()
         {
-            this.scraperOptions = scraperOptions;
-        }
-        public void SetupDriver()
-        {
-            var options = new ChromeOptions();
-            options.AddArgument("--headless");
-            var chromeDriverService = ChromeDriverService.CreateDefaultService();
-            chromeDriverService.HideCommandPromptWindow = true;
-            //options.AddArgument("--disable-gpu");
-
-            driver = new ChromeDriver(chromeDriverService, options);
-            driver?.Navigate().GoToUrl(scraperOptions?.URL);
-            driver.Manage().Window.Size = new System.Drawing.Size(100, 800);
-        }
-
-        public void CloseDriver()
-        {
-            if (driver == null)
-            {
-                return;
-            }
-
-            driver.Close();
-        }
-
-        public IWebElement GetElementById(string element)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-
-            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(element)));
-        }
-
-        public ReadOnlyCollection<IWebElement> GetElementsByClassName(string element)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-
-            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName(element)));
-        }
-
-        public ReadOnlyCollection<IWebElement> GetElementsByXPath(string XPath)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-
-            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(By.XPath(XPath)));
-        }
-
-        public class ScraperOptions
-        {
-            public string? URL { get; set; }
-        }
-
-
-        public List<GenericBeerSale> BierSaleScrape(string url)
-        {
-
             List<List<object>> BierInformatie = new();
             List<GenericBeerSale> salesList = new List<GenericBeerSale>();
 
             int PRODUCT_NAME = 0;
             int PRODUCT_LOWEST_PRICE = 1;
 
-            ScraperOptions scraperOptions = new ScraperOptions();
-            scraperOptions.URL = url;
-
-            BierSalesScraper biernetScraper = new BierSalesScraper(scraperOptions);
-            biernetScraper.SetupDriver();
-
-            IWebElement ajaxdiv = biernetScraper.GetElementById("inhoud_ajaxdiv");
+            IWebElement ajaxdiv = GetElementById("inhoud_ajaxdiv");
 
             IWebElement aanbiedingenDiv = ajaxdiv.FindElement(By.ClassName("aanbiedingen"));
 
