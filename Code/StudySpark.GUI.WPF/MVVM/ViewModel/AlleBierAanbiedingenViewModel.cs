@@ -174,7 +174,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                                 break;
                         }
 
-                        if (true)//FilteredList.Contains(brandName))
+                        if (FilterActive(brandName, beerSale.productname))
                         {
                             StackPanel info = DisplayInformation(beerSale, i, brandName);
                             info.VerticalAlignment = VerticalAlignment.Center;
@@ -503,6 +503,22 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             beerRepository.insertBeersale(BierInfoAmstel);
             beerRepository.insertBeersale(BierInfoHeineken);
             beerRepository.insertBeersale(BierInfoGrolsch);
-        }     
+        }
+        private bool FilterActive(string brandName, string productName)
+        {
+            var productNameToLower = productName.ToLower();
+            var brandNameToLower = brandName.ToLower();
+            if (FilteredList.Contains(brandNameToLower))
+            {
+                foreach (var filter in FilteredList)
+                {
+                    if (productNameToLower.Contains(filter))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
