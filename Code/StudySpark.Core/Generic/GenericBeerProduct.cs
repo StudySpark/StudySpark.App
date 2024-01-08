@@ -28,5 +28,11 @@ namespace StudySpark.Core.Generic
             }
             this.lowestprice = lowestPrice;
         }
+        public GenericBeerProduct(int brand, string productname, string lowestprice)
+        {
+            this.brandID = brand;
+            this.productname = productname;
+            this.lowestprice = lowestprice;
+        }
     }
 }

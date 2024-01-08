@@ -12,6 +12,7 @@
         Background="Transparent"
         ResizeMode="CanResizeWithGrip"
         AllowsTransparency="True"
+        Icon="Images/Logo_NoText.png"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>

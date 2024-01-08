@@ -130,6 +130,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             scraperOptions.TwoFACode = twoFA;
             scraperOptions.Debug = false;
 
+
             if (ReturnToView == RETURNVIEW.EDUCATOR) {
                 EducatorWebScraper webScraper = new EducatorWebScraper(scraperOptions);
 
