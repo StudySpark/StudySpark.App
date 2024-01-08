@@ -22,9 +22,9 @@
         </ScrollViewer>
 
 
-        <RadioButton Content="Brief View"
+        <RadioButton Content="Basis"
              Margin="0,0,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <RadioButton Content="Verbose View"
+        <RadioButton Content="Geavanceerd"
              IsChecked="{Binding IsVerboseView, Mode=TwoWay}"
              Margin="0,22,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
