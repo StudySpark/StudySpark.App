@@ -24,6 +24,8 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         private const int MAX_TEXT_SIZE = 96;
         private const string HIGHLIGHT_TRANSPARENT_HEX = "#FF2B2A3C";
 
+        public static event EventHandler<LoadContentEventArgs> LoadContentEvent;
+
         public bool IsColorSelectorHighlightVisible { get; set; } = false;
         public bool IsColorSelectorTextVisible { get; set; } = false;
         public bool IsFontSelectorVisible { get; set; } = false;
@@ -54,6 +56,10 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
 
         public NotesEditorViewModel() {
 
+            if (CurrentEditingNote != null && CurrentEditingNote.Content != null) {
+                LoadContentEvent?.Invoke(this, new LoadContentEventArgs(CurrentEditingNote.Content));
+            }
+
             //var textRange = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
             //textRange.Load(stream, DataFormats.Rtf);
 
@@ -71,10 +77,16 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
             EditorSaveCommand = new RelayCommand((o) => {
                 RichTextBox rtfEditor = o as RichTextBox;
 
-                TextRange textRange = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
-                // textRange.Save(stream, DataFormats.Rtf);
-                Debug.WriteLine(textRange.Text);
-                MessageBox.Show("Opslaan is niet mogelijk.");
+                // Get the RTF text from the RichTextBox
+                string rtfText;
+                TextRange tr = new TextRange(rtfEditor.Document.ContentStart, rtfEditor.Document.ContentEnd);
+                using (MemoryStream ms = new MemoryStream()) {
+                    tr.Save(ms, DataFormats.Rtf);
+                    rtfText = Encoding.UTF8.GetString(ms.ToArray());
+                }
+                CurrentEditingNote.Content = rtfText;
+                // Create a new GenericNoteListItem and set the content
+                MessageBox.Show("Opgeslagen.");
 
                 IsColorSelectorHighlightVisible = false;
                 OnPropertyChanged(nameof(IsColorSelectorHighlightVisible));
@@ -390,5 +402,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
         //        }
         //    }
         //}
+    }
+
+    public class LoadContentEventArgs : EventArgs {
+        public string Content { get; }
+
+        public LoadContentEventArgs(string content) {
+            Content = content;
+        }
     }
 }

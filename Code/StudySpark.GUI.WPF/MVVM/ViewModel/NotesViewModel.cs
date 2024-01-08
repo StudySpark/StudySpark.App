@@ -63,7 +63,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                     }
                 }
 
-                GenericNoteListItem newNote = new GenericNoteListItem { NoteName = noteName, NoteDate = currentDate };
+                GenericNoteListItem newNote = new GenericNoteListItem { NoteName = noteName, NoteDate = currentDate, Content = string.Empty };
                 NotesRepository.Instance.NoteListViewElements.Add(newNote);
                 NotesEditorViewModel.CurrentEditingNote = newNote;
                 MainViewManager.CurrentMainView = MainViewManager.NotesEditorVM;

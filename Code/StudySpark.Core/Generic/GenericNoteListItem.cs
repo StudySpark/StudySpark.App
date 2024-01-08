@@ -9,5 +9,6 @@ namespace StudySpark.Core.Generic {
 
         public string? NoteName { get; set; }
         public string? NoteDate { get; set; }
+        public string? Content { get; set; }
     }
 }
