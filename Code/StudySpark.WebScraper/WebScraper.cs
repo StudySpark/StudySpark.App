@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using System.Collections.ObjectModel;
 using OpenQA.Selenium.Chrome;
 using SeleniumExtras.WaitHelpers;
+using System.Threading;
 
 namespace StudySpark.WebScraper {
     public class WebScraper {
@@ -56,6 +57,11 @@ namespace StudySpark.WebScraper {
             wait.Until(ExpectedConditions.ElementExists(By.TagName("body")));
         }
 
+        public void WaitForIdLoad(string id, uint timeout = 30) {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+            wait.Until(ExpectedConditions.ElementExists(By.Id(id)));
+        }
+
         public IWebElement GetElementById(string element, uint timeout = 30) {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
 
@@ -68,11 +74,17 @@ namespace StudySpark.WebScraper {
             return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName(element)));
         }
 
-        public bool CheckIfIdExists(string element) {
+        public bool CheckIfIdExists(string element, uint timeout = 30) {
             try {
-                return driver?.FindElement(By.Id(element)) != null;
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+
+                return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id(element))) != null;
             } catch (NoSuchElementException) {
-                return false;
+                try {
+                    return driver?.FindElement(By.Id(element)) != null;
+                } catch {
+                    return false;
+                }
             }
         }
 

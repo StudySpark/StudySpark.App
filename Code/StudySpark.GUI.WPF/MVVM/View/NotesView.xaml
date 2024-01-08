@@ -4,10 +4,173 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StudySpark.GUI.WPF.MVVM.View"
+             xmlns:vm="clr-namespace:StudySpark.GUI.WPF.MVVM.ViewModel"
+             xmlns:core="clr-namespace:StudySpark.GUI.WPF.Core"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:NotesViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="303,171,0,0" TextWrapping="Wrap" Text="Notes" VerticalAlignment="Top" Width="120"/>
 
+    <UserControl.DataContext>
+        <vm:NotesViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid x:Name="NoNotesMessage"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Visibility="{Binding IsNoteListViewEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Label Content="Geen opgeslagen notities"
+                   Foreground="#FFC7C7C7"
+                   FontSize="20"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+            
+        </Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding NoteListViewElements}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Width="180"
+                                Height="80"
+                                Padding="0"
+                                Margin="8"
+                                BorderBrush="Transparent"
+                                Background="Transparent"
+                                Style="{StaticResource HoverableButtonTheme}"
+                                Command="{Binding DataContext.NoteEditClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                CommandParameter="{Binding}"
+                                Cursor="Hand">
+                            <Border
+                                Background="#BF22212F"
+                                CornerRadius="8"
+                                Padding="4">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="24" />
+                                        <RowDefinition Height="18" />
+                                        <RowDefinition Height="32" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="{Binding NoteName}"
+                                               Grid.Row="0"
+                                               HorizontalAlignment="Left"
+                                               Width="165"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="5,0,0,0"
+                                               FontSize="16"
+                                               Foreground="#FFFFFF"
+                                               VerticalAlignment="Top">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip Content="{Binding NoteName}"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+
+                                    <Label Content="{Binding NoteDate}"
+                                           Grid.Row="1"
+                                           HorizontalAlignment="Left"
+                                           Width="165"
+                                           Margin="0,-8,0,0" 
+                                           FontSize="12"
+                                           Foreground="#FF929292"
+                                           VerticalAlignment="Top" />
+
+                                    <StackPanel Grid.Row="2">
+
+                                        <Button Width="32"
+                                                Height="32"
+                                                Cursor="Hand"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                Margin="2,-5,0,0"
+                                                Style="{StaticResource HoverableButtonTheme}"
+                                                Command="{Binding DataContext.NotePreDeleteClick, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                                CommandParameter="{Binding}"
+                                                HorizontalAlignment="Left">
+                                            <Border CornerRadius="5"
+                                                    BorderThickness="1"
+                                                    Margin="-2"
+                                                    Padding="4"
+                                                    BorderBrush="#0CFFFFFF">
+                                                <Image Source="/Images/NoteTrash.png" />
+                                            </Border>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <ToggleButton Content="➕"
+              FontSize="35"
+              x:Name="NewNoteButton"
+              Width="58"
+              Height="58"
+              VerticalAlignment="Bottom"
+              HorizontalAlignment="Right"
+              Margin="0,0,20,20"
+              Padding="0,0,0,-18"
+              Cursor="Hand"
+              Style="{StaticResource RoundToggleButtonTheme}" />
+
+        <Grid HorizontalAlignment="Right"
+              VerticalAlignment="Bottom"
+              Margin="0,0,70,70"
+              Width="200"
+              Height="50"
+              Visibility="{Binding ElementName=NewNoteButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" >
+
+            <Rectangle Fill="#FF20202A"
+                       RadiusX="10"
+                       RadiusY="10"
+                       StrokeThickness="2">
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FFCEA204"/>
+                        <GradientStop Color="#FFEC2F63" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+            </Rectangle>
+
+            <TextBox x:Name="NewNoteNameInput"
+                     Text="Nieuwe Notitie"
+                     VerticalContentAlignment="Center"
+                     Width="150"
+                     Height="30"
+                     Background="Transparent"
+                     Margin="-38,0,0,0" BorderBrush="#FF20202A" Foreground="White"/>
+            <Button Width="32"
+                    Height="32"
+                    Margin="0,0,-150,0"
+                    Cursor="Hand"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Style="{StaticResource HoverableButtonTheme}"
+                    Grid.Column="2"
+                    Command="{Binding NoteCreateCommand}"
+                    CommandParameter="{Binding ElementName=NewNoteNameInput}">
+                <Border CornerRadius="5"
+                        BorderThickness="1"
+                        Margin="-2"
+                        Padding="4"
+                        BorderBrush="#0CFFFFFF">
+                    <Image Source="/Images/NoteAccept.png" />
+                </Border>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

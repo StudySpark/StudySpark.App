@@ -111,7 +111,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     };
                 }
 
-                RoutedEventHandler ClickOpenHandler = CreateClickOpenHandler(file);
+                RoutedEventHandler ClickOpenHandler = SystemFileHandler.CreateClickOpenHandler(file);
                 RoutedEventHandler ClickDelHandler = CreateClickDelHandler(file);
 
                 folderGrid.AddHandler(Button.MouseLeftButtonDownEvent, ClickOpenHandler);
@@ -211,41 +211,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return textBlock;
         }
 
-        private RoutedEventHandler CreateClickOpenHandler(GenericFile file)
-        {
-            return (sender, args) =>
-            {
-                if (args.OriginalSource is Button clickedButton && clickedButton.Tag is string folderPath && file.TargetName is string fileName)
-                {
-
-                    string buttonFilePath = System.IO.Path.Combine(folderPath, fileName);
-
-                    // Logic to run the file using the buttonFilePath
-                    try
-                    {
-                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
-                        {
-                            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
-                            {
-                                FileName = "cmd.exe",
-                                Arguments = $"/c start \"\" \"{buttonFilePath}\"",
-                                UseShellExecute = false,
-                                RedirectStandardOutput = true,
-                                CreateNoWindow = true
-                            };
-
-                            process.StartInfo = startInfo;
-                            process.Start();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show($"Error: {ex.Message}");
-                    }
-                }
-            };
-        }
-
         private RoutedEventHandler CreateClickDelHandler(GenericFile file)
         {
             return (sender, args) =>
@@ -257,7 +222,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     {
                         DBConnector.Database.DeleteFileData(folderPath, fileName);
                         UpdateOnChange();
-                        System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
+                        //System.Windows.MessageBox.Show($"Bestand/map is verwijderd");
                     }
                     catch (Exception ex)
                     {
@@ -318,7 +283,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
 
             UpdateOnChange();
-            System.Windows.MessageBox.Show("Geselecteerde bestanden verwijderd");
+            //System.Windows.MessageBox.Show("Geselecteerde bestanden verwijderd");
         }
 
         private string TruncateFileName(string fileName, int maxLength)
@@ -426,7 +391,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                     UpdateOnChange();
                 }
-                System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
+                //System.Windows.MessageBox.Show("Bestand succesvol toegevoegd!");
             }
             else
             {
@@ -455,7 +420,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                     UpdateOnChange();
                 }
-                System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
+                //System.Windows.MessageBox.Show("Map succesvol toegevoegd!");
             } else
             {
                 System.Windows.MessageBox.Show("Er is iets fout gegaan!");

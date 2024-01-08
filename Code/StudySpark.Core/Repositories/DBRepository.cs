@@ -37,6 +37,8 @@ namespace StudySpark.Core.Repositories {
             }
         }
 
+        private static string lastUser2FACode = "";
+
         public bool InsertGrade(GradeElement gradeElement) {
             if (Conn == null) {
                 return false;
@@ -49,7 +51,9 @@ namespace StudySpark.Core.Repositories {
             return true;
         }
 
-        public void CreateUser(string username, string password) {
+        public void CreateUser(string username, string password, string twoFACode) {
+            lastUser2FACode = twoFACode;
+
             byte[] key = Encoding.UTF8.GetBytes("1jlSTUDYSPARKbzJPAuhjXAQluf/e5e4");
             byte[] iv = Encoding.UTF8.GetBytes("420694206942069F");
 
@@ -82,11 +86,16 @@ namespace StudySpark.Core.Repositories {
                 while (reader.Read()) {
                     user.Username = reader.GetString(0);
                     user.Password = Encryption.DecryptString(reader.GetString(1), key, iv);
+                    user.TwoFA = lastUser2FACode;
                 }
                 return user;
             } catch {
                 return null;
             }
+        }
+
+        public static void InvalidateUser2FACode() {
+            lastUser2FACode = "";
         }
 
         public bool InsertGitData(string fullpath, string type) {
