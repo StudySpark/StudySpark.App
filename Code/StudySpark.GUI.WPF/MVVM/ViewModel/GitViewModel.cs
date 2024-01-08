@@ -236,12 +236,12 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             // Create a TextBlock with different colored parts
             var coloredTextBlock = new TextBlock();
 
-            // Add a red part
+            // Add the red part
             coloredTextBlock.Inlines.Add(new Run($"+/-: ") { Foreground = Brushes.Orange });
 
-            // Add a green part
+            // Add the green part
             coloredTextBlock.Inlines.Add(new Run($"+{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item1}  ") { Foreground = Brushes.Green });
-            // Add a red part
+            // Add the red part
             coloredTextBlock.Inlines.Add(new Run($"-{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item2}") { Foreground = Brushes.Red });
 
             (listViewItem.Content as StackPanel).Children.Add(coloredTextBlock);
@@ -260,7 +260,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             var separatorBar = new Border
             {
                 Height = 25, 
-                Background = Brushes.DarkGray,
+                Background = Brushes.DarkOrange,
                 Margin = new Thickness(0, 0, 0, 5), 
             };
 
@@ -282,13 +282,13 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             // Create a TextBlock with different colored parts
             var coloredTextBlock = new TextBlock();
 
-            // Add a red part
+            // Add the orange part
             coloredTextBlock.Inlines.Add(new Run($"+/-: ") { Foreground = Brushes.Orange });
 
-            // Add a green part
-            coloredTextBlock.Inlines.Add(new Run($"{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item1}") { Foreground = Brushes.Green });
-            // Add a red part
-            coloredTextBlock.Inlines.Add(new Run($"{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item2}") { Foreground = Brushes.Red });
+            // Add the green part
+            coloredTextBlock.Inlines.Add(new Run($"+{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item1}  ") { Foreground = Brushes.Green });
+            // Add the red part
+            coloredTextBlock.Inlines.Add(new Run($"-{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item2}") { Foreground = Brushes.Red });
 
             (listViewItem.Content as StackPanel).Children.Add(coloredTextBlock);
 
