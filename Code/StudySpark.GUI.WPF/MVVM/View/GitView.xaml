@@ -14,18 +14,18 @@
 
             <WrapPanel Margin="0" Width="Auto">
                 <!-- Grid for each item to control its width -->
-                <Grid Margin="100, 100, 2450, 100" Width="Auto">
+                <Grid Margin="0, 0, 2450, 100" Width="auto" >
 
-                    <ContentControl Content="{Binding CurrentRepoList}" />
+                    <ContentControl Content="{Binding CurrentRepoList}" Width="auto"/>
                 </Grid>
             </WrapPanel>
         </ScrollViewer>
 
 
-        <RadioButton Content="Basis"
+        <RadioButton Content="Basis" Foreground="White"
              IsChecked="True"
              Margin="0,0,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <RadioButton Content="Geavanceerd"
+        <RadioButton Content="Geavanceerd" Foreground="White"
              IsChecked="{Binding IsVerboseView, Mode=TwoWay}"
              Margin="0,22,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 

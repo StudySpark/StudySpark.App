@@ -277,6 +277,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             // Add subitems with verbose commit information
             (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Commit ID: {commit.Id.Sha}", Foreground = Brushes.Orange });
             (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}", Foreground = Brushes.Orange });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Datum: {commit.Author.When}", Foreground = Brushes.Orange });
             (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bestanden: {GetChangedFiles(commit)}", Foreground = Brushes.Orange });
 
             // Create a TextBlock with different colored parts
