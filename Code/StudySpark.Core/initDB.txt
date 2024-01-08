@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS BeerProducts (
 	productname VARCHAR(64) NOT NULL,
 	bookmarked int,
 	lowestprice VARCHAR(32) NOT NULL,
-	expirationdate date NOT NULL,
 	FOREIGN KEY (brandID) REFERENCES BeerBrands(id)
 );
 
@@ -46,8 +45,10 @@ CREATE TABLE IF NOT EXISTS BeerSales (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	productID INTEGER,
 	store VARCHAR(256) NOT NULL,
+	storeimage VARCHAR(256) NOT NULL,
 	oldprice VARCHAR(32) NOT NULL,
 	newprice VARCHAR(32) NOT NULL,
+	expirationdate date NOT NULL,
 	FOREIGN KEY (productID) REFERENCES BeerProducts(id)
 );
 
