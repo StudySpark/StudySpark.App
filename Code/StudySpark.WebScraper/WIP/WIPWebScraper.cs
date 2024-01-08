@@ -105,11 +105,6 @@ namespace StudySpark.WebScraper.WIP
             var moveToButton = driver.FindElement(By.ClassName("activitiesupcoming-link"));
             moveToButton.Click();
 
-            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("dhx_cal_next_button")));
-
-            moveToButton = driver.FindElement(By.ClassName("dhx_cal_next_button"));
-            moveToButton.Click();
-
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("dhx_cal_event")));
 
             List<IWebElement> list = driver.FindElements(By.XPath(".//div//div[contains(@class,'dhx_scale_holder')]/div[contains(@class,'cal_event')]")).ToList();

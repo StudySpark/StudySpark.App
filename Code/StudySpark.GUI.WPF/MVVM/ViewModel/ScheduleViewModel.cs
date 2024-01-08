@@ -197,9 +197,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel {
                 scraper.Load();
                 schedule = scraper.FetchSchedule();
                 scraper.CloseDriver();
-            } catch (Exception ex) {
-                
-            }
+            } catch (Exception) { }
 
 
             if (schedule != null && schedule.Count != 0) {
