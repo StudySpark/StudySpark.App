@@ -77,6 +77,14 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding GradesViewCommand}" />
 
+                <RadioButton Content="Rooster"
+                             Cursor="Hand"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding ScheduleViewCommand}"/>
+
                 <RadioButton Content="Git"
                              Cursor="Hand"
                              Height="50"
@@ -84,6 +92,7 @@
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding GitViewCommand}" />
+                
                 <RadioButton Content="Bier Aanbiedingen"
                              Cursor="Hand"
                              Height="50"
@@ -101,13 +110,6 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding TimelineViewCommand}"/>-->
 
-                <!--<RadioButton Content="Rooster"
-                             Cursor="Hand"
-                             Height="50"
-                             Foreground="White"
-                             FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding ScheduleViewCommand}"/>-->
             </StackPanel>
 
             <Grid MouseLeftButtonDown="WindowDrag"
