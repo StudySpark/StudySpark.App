@@ -20,6 +20,7 @@ using HorizontalAlignment = System.Windows.HorizontalAlignment;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Orientation = System.Windows.Controls.Orientation;
+using System.Windows.Controls.Primitives;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -58,7 +59,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 {
                     _maxCommitsToShow = value;
                     OnPropertyChanged(nameof(MaxCommitsToShow));
-                    UpdateOnChange(); 
+                    UpdateOnChange();
                 }
             }
         }
@@ -72,6 +73,20 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 {
                     _maxCommitsForCurrentRepo = value;
                     OnPropertyChanged(nameof(MaxCommitsForCurrentRepo));
+                }
+            }
+        }
+        private bool _isVerboseView;
+        public bool IsVerboseView
+        {
+            get { return _isVerboseView; }
+            set
+            {
+                if (_isVerboseView != value)
+                {
+                    _isVerboseView = value;
+                    OnPropertyChanged(nameof(IsVerboseView));
+                    UpdateOnChange();
                 }
             }
         }
@@ -96,25 +111,25 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             repos = DBConnector.Database.ReadGitData();
             repoPanel.Children.Clear();
             repoPanel.Orientation = Orientation.Vertical;
+
+            UniformGrid uniformGrid = new UniformGrid();
+            uniformGrid.Columns = 2;
+
             foreach (GenericGit repo in repos)
             {
-
                 // Create a new instance of a StackPanel for each repository
-                StackPanel repositoryBar = new StackPanel();
-                repositoryBar.Orientation = Orientation.Horizontal;
-                repositoryBar.Background = Brushes.DarkGray;
-                repositoryBar.Margin= new Thickness(0, 25, 0, 0);
+                /*                StackPanel repositoryBar = new StackPanel();
+                                repositoryBar.Orientation = Orientation.Horizontal;
+                                repositoryBar.Background = Brushes.DarkGray;
+                                repositoryBar.Margin = new Thickness(0, 25, 0, 0);*/
 
-                // Add TextBlock with repository name to the bar
-                TextBlock repoNameTextBlock = new TextBlock();
-                repoNameTextBlock.Text = repo.TargetName;
-                repoNameTextBlock.Foreground = Brushes.White;
-                repoNameTextBlock.Margin = new Thickness(10, 5, 10, 5);
+                /*                // Add TextBlock with repository name to the bar
+                                TextBlock repoNameTextBlock = new TextBlock();
+                                repoNameTextBlock.Text = repo.TargetName;
+                                repoNameTextBlock.Foreground = Brushes.White;
+                                repoNameTextBlock.Margin = new Thickness(10, 5, 10, 5);
 
-                repositoryBar.Children.Add(repoNameTextBlock);
-
-                // Add the repository bar to the view
-                repoPanel.Children.Add(repositoryBar);
+                                repositoryBar.Children.Add(repoNameTextBlock);*/
 
                 // Create a new instance of ListView for each repository
                 ListView commitListView = new ListView();
@@ -132,10 +147,19 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     {
                         int totalCommits = gitRepo.Commits.Count();
                         int commitsToShow = Math.Min(MaxCommitsToShow, gitRepo.Commits.Count());
-                        if(MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
+                        if (MaxCommitsForCurrentRepo < totalCommits) { MaxCommitsForCurrentRepo = totalCommits; }
                         for (int i = 0; i < commitsToShow; i++)
                         {
-                            DisplayCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
+                            if (IsVerboseView)
+                            {
+                                // Display verbose commit information
+                                DisplayVerboseCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
+                            }
+                            else
+                            {
+                                // Display brief commit information
+                                DisplayBriefCommitInfo(commitListView, repo, gitRepo.Commits.ElementAt(i));
+                            }
                         }
                     }
                     else
@@ -143,7 +167,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                         // If there are no commits, display a message
                         var noCommitsMessage = new TextBlock
                         {
-                            Text = "No commits in this repository.",
+                            Text = $"No commits in this repository ({repo.TargetName}).",
                             Foreground = Brushes.Gray,
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center
@@ -156,10 +180,17 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 itemStyle.Setters.Add(new Setter(ListViewItem.BorderBrushProperty, Brushes.White));
                 itemStyle.Setters.Add(new Setter(ListViewItem.BorderThicknessProperty, new Thickness(0, 0, 0, 1)));
                 commitListView.ItemContainerStyle = itemStyle;
-                // Add the ListView to the view after processing each repository
-                repoPanel.Children.Add(commitListView);
+
+                // Add the repository bar and commitListView to the UniformGrid
+                //uniformGrid.Children.Add(repositoryBar);
+                uniformGrid.Children.Add(commitListView);
             }
+
+            // Set the UniformGrid as the CurrentRepoList
+            _currentRepoList = uniformGrid;
+            OnPropertyChanged(nameof(CurrentRepoList));
         }
+
 
 
 
@@ -178,6 +209,74 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             // Add ListViewItem to the ListView
             commitListView.Items.Add(listViewItem);
+        }
+        private void DisplayBriefCommitInfo(ListView commitListView, GenericGit repo, Commit commit)
+        {
+            // Create ListViewItem to hold brief commit information
+            var listViewItem = new ListViewItem();
+
+            // Add subitems with brief commit information
+            listViewItem.Content = new StackPanel();
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Datum: {commit.Author.When}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"+/-: {GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit)}" });
+
+            // Add ListViewItem to the ListView
+            commitListView.Items.Add(listViewItem);
+        }
+
+        private void DisplayVerboseCommitInfo(ListView commitListView, GenericGit repo, Commit commit)
+        {
+            // Create ListViewItem to hold verbose commit information
+            var listViewItem = new ListViewItem();
+
+            // Add subitems with verbose commit information
+            listViewItem.Content = new StackPanel();
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Commit ID: {commit.Id.Sha}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bestanden: {GetChangedFiles(commit)}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"+/-: {GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit)}" });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bericht: {commit.Message}" });
+
+            // Add ListViewItem to the ListView
+            commitListView.Items.Add(listViewItem);
+        }
+
+
+        private string GetChangedFilesCount(string a, Commit commit)
+        {
+            using (var repo = new Repository(a))
+            {
+
+
+                int totalAdditions = 0;
+                int totalDeletions = 0;
+
+                foreach (var parent in commit.Parents)
+                {
+                    TreeChanges changes = repo.Diff.Compare<TreeChanges>(parent.Tree, commit.Tree);
+
+                    foreach (TreeEntryChanges change in changes)
+                    {
+                        if (change.Status != ChangeKind.Deleted)
+                        {
+                            Patch patch = repo.Diff.Compare<Patch>(parent.Tree, commit.Tree, new[] { change.Path });
+                            totalAdditions += patch.LinesAdded;
+                        }
+
+                        if (change.Status != ChangeKind.Added)
+                        {
+                            Patch patch = repo.Diff.Compare<Patch>(parent.Tree, commit.Tree, new[] { change.Path });
+                            totalDeletions += patch.LinesDeleted;
+                        }
+                    }
+                }
+
+
+                return $"{totalAdditions}+ || {totalDeletions}-";
+            }
         }
 
         private string GetChangedFiles(Commit commit)
@@ -256,7 +355,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
 
 
- 
+
     }
 
 
