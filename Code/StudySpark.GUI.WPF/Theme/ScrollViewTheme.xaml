@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="HorizontalNormalBrush" Color="#FF686868" />
     <SolidColorBrush x:Key="HorizontalNormalBorderBrush" Color="#888" />
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                     Color="#272537"/>
+                     Color="Transparent"/>
     <LinearGradientBrush x:Key="ListBoxBackgroundBrush" StartPoint="0,0" EndPoint="1,0.001">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
