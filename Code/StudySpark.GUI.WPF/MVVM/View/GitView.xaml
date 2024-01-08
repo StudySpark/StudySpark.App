@@ -30,6 +30,7 @@
              Margin="0,22,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
         <Button Content="➕"
+                FontSize="35"
                 Width="58"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
