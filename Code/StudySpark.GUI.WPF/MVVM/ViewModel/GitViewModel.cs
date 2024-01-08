@@ -117,19 +117,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
             foreach (GenericGit repo in repos)
             {
-                // Create a new instance of a StackPanel for each repository
-                /*                StackPanel repositoryBar = new StackPanel();
-                                repositoryBar.Orientation = Orientation.Horizontal;
-                                repositoryBar.Background = Brushes.DarkGray;
-                                repositoryBar.Margin = new Thickness(0, 25, 0, 0);*/
 
-                /*                // Add TextBlock with repository name to the bar
-                                TextBlock repoNameTextBlock = new TextBlock();
-                                repoNameTextBlock.Text = repo.TargetName;
-                                repoNameTextBlock.Foreground = Brushes.White;
-                                repoNameTextBlock.Margin = new Thickness(10, 5, 10, 5);
-
-                                repositoryBar.Children.Add(repoNameTextBlock);*/
 
                 // Create a new instance of ListView for each repository
                 ListView commitListView = new ListView();
@@ -194,22 +182,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
 
 
 
-        private void DisplayCommitInfo(ListView commitListView, GenericGit repo, Commit commit)
-        {
-            // Create ListViewItem to hold commit information
-            var listViewItem = new ListViewItem();
 
-            // Add subitems with commit information
-            listViewItem.Content = new StackPanel();
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Commit ID: {commit.Id.Sha}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Author: {commit.Author.Name}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Changed Files: {GetChangedFiles(commit)}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Message: {commit.Message}" });
-
-            // Add ListViewItem to the ListView
-            commitListView.Items.Add(listViewItem);
-        }
         private void DisplayBriefCommitInfo(ListView commitListView, GenericGit repo, Commit commit)
         {
             // Create ListViewItem to hold brief commit information
@@ -294,31 +267,6 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             return button;
         }
 
-        public TextBlock SubText()
-        {
-            TextBlock textBlock = new TextBlock();
-            textBlock.TextAlignment = TextAlignment.Center;
-            textBlock.Width = 100;
-            textBlock.Height = 20;
-            textBlock.FontSize = 12;
-            textBlock.Foreground = new SolidColorBrush(Colors.White);
-            textBlock.Background = new SolidColorBrush(Colors.Transparent);
-            textBlock.IsEnabled = true;
-            textBlock.Cursor = System.Windows.Input.Cursors.Hand;
-            return textBlock;
-        }
-        private string TruncateFileName(string fileName, int maxLength)
-        {
-            if (fileName.Length <= maxLength)
-            {
-                return fileName;
-            }
-            else
-            {
-                // If the file name is too long, truncate it and add "..." at the end
-                return fileName.Substring(0, maxLength - 3) + "...";
-            }
-        }
         private void SelectRepository()
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
