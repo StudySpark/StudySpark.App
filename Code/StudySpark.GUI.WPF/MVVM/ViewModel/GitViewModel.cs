@@ -95,14 +95,14 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
         {
             OpenRepoSelectCommand = new RelayCommand(o => SelectRepository());
 
-            UpdateOnChange();
+            
 
             //set alignment for panel
             repoPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             repoPanel.VerticalAlignment = VerticalAlignment.Top;
 
             _currentRepoList = repoPanel;
-
+            UpdateOnChange();
         }
 
         private void UpdateOnChange()
@@ -248,7 +248,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                 }
 
 
-                return $"{totalAdditions}+ || {totalDeletions}-";
+                return $"+{totalAdditions} || -{totalDeletions}";
             }
         }
 

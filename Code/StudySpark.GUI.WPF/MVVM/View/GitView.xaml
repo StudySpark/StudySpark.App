@@ -23,6 +23,7 @@
 
 
         <RadioButton Content="Basis"
+             IsChecked="True"
              Margin="0,0,0,0" Panel.ZIndex="2" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         <RadioButton Content="Geavanceerd"
              IsChecked="{Binding IsVerboseView, Mode=TwoWay}"
