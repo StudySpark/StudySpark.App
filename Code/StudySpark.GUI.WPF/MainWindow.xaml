@@ -53,13 +53,13 @@
                              IsChecked="True"
                              Command="{Binding OverviewViewCommand}"/>
 
-                <!--<RadioButton Content="Notities"
+                <RadioButton Content="Notities"
                              Cursor="Hand"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding NotesViewCommand}"/>-->
+                             Command="{Binding NotesViewCommand}"/>
 
                 <RadioButton Content="Bestanden"
                              Cursor="Hand"

@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="Theme/RoundButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/RoundToggleButtonTheme.xaml" />
                 <ResourceDictionary Source="Theme/SquareButtonTheme.xaml" />
+                <ResourceDictionary Source="Theme/HoverableButtonTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:OverviewViewModel}">
@@ -25,6 +26,10 @@
 
             <DataTemplate DataType="{x:Type viewModel:NotesViewModel}">
                 <view:NotesView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:NotesEditorViewModel}">
+                <view:NotesEditorView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:FilesViewModel}">
