@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Orientation = System.Windows.Controls.Orientation;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -113,7 +114,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             repoPanel.Orientation = Orientation.Vertical;
 
             UniformGrid uniformGrid = new UniformGrid();
-            uniformGrid.Columns = 2;
+            uniformGrid.Columns = 5;
 
             foreach (GenericGit repo in repos)
             {
@@ -152,8 +153,27 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                     else
                     {
-                        // If there are no commits, display a message
-                        var noCommitsMessage = new TextBlock
+
+                        // Add a bar separator with text
+                        var separatorBar = new Border
+                        {
+                            Height = 25, 
+                            Background = Brushes.DarkOrange,
+                            Margin = new Thickness(0, 0, 0, 5) 
+                        };
+
+                        separatorBar.Child = new TextBlock
+                        {
+                            Text = repo.TargetName,
+                            Foreground = Brushes.White, 
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center
+                        };
+
+                        commitListView.Items.Add(separatorBar);
+                    
+                    // If there are no commits, display a message
+                    var noCommitsMessage = new TextBlock
                         {
                             Text = $"No commits in this repository ({repo.TargetName}).",
                             Foreground = Brushes.Gray,
@@ -188,13 +208,43 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             // Create ListViewItem to hold brief commit information
             var listViewItem = new ListViewItem();
 
-            // Add subitems with brief commit information
             listViewItem.Content = new StackPanel();
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Datum: {commit.Author.When}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"+/-: {GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit)}" });
 
+            // Add a bar separator with text
+            var separatorBar = new Border
+            {
+                Height = 25,
+                Background = Brushes.DarkOrange,
+                Margin = new Thickness(0, 0, 0, 5),
+            };
+
+            separatorBar.Child = new TextBlock
+            {
+                Text = repo.TargetName,
+                Foreground = Brushes.White,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            (listViewItem.Content as StackPanel).Children.Add(separatorBar);
+
+            // Add subitems with brief commit information
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}", Foreground = Brushes.Orange });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}", Foreground = Brushes.Orange });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Datum: {commit.Author.When}" , Foreground = Brushes.Orange });
+
+            // Create a TextBlock with different colored parts
+            var coloredTextBlock = new TextBlock();
+
+            // Add a red part
+            coloredTextBlock.Inlines.Add(new Run($"+/-: ") { Foreground = Brushes.Orange });
+
+            // Add a green part
+            coloredTextBlock.Inlines.Add(new Run($"+{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item1}  ") { Foreground = Brushes.Green });
+            // Add a red part
+            coloredTextBlock.Inlines.Add(new Run($"-{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item2}") { Foreground = Brushes.Red });
+
+            (listViewItem.Content as StackPanel).Children.Add(coloredTextBlock);
             // Add ListViewItem to the ListView
             commitListView.Items.Add(listViewItem);
         }
@@ -204,21 +254,52 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             // Create ListViewItem to hold verbose commit information
             var listViewItem = new ListViewItem();
 
-            // Add subitems with verbose commit information
             listViewItem.Content = new StackPanel();
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Repository: {repo.TargetName}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Commit ID: {commit.Id.Sha}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bestanden: {GetChangedFiles(commit)}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"+/-: {GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit)}" });
-            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bericht: {commit.Message}" });
+
+            // Add a bar separator with text
+            var separatorBar = new Border
+            {
+                Height = 25, 
+                Background = Brushes.DarkGray,
+                Margin = new Thickness(0, 0, 0, 5), 
+            };
+
+            separatorBar.Child = new TextBlock
+            {
+                Text = repo.TargetName, 
+                Foreground = Brushes.White, 
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            (listViewItem.Content as StackPanel).Children.Add(separatorBar);
+
+            // Add subitems with verbose commit information
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Commit ID: {commit.Id.Sha}", Foreground = Brushes.Orange });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Auteur: {commit.Author.Name}", Foreground = Brushes.Orange });
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bestanden: {GetChangedFiles(commit)}", Foreground = Brushes.Orange });
+
+            // Create a TextBlock with different colored parts
+            var coloredTextBlock = new TextBlock();
+
+            // Add a red part
+            coloredTextBlock.Inlines.Add(new Run($"+/-: ") { Foreground = Brushes.Orange });
+
+            // Add a green part
+            coloredTextBlock.Inlines.Add(new Run($"{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item1}") { Foreground = Brushes.Green });
+            // Add a red part
+            coloredTextBlock.Inlines.Add(new Run($"{GetChangedFilesCount($"{repo.Path}\\{repo.TargetName}", commit).Item2}") { Foreground = Brushes.Red });
+
+            (listViewItem.Content as StackPanel).Children.Add(coloredTextBlock);
+
+            (listViewItem.Content as StackPanel).Children.Add(new TextBlock { Text = $"Bericht: {commit.Message}", Foreground = Brushes.Orange });
 
             // Add ListViewItem to the ListView
             commitListView.Items.Add(listViewItem);
         }
 
 
-        private string GetChangedFilesCount(string a, Commit commit)
+        private (int, int) GetChangedFilesCount(string a, Commit commit)
         {
             using (var repo = new Repository(a))
             {
@@ -247,8 +328,7 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
                     }
                 }
 
-
-                return $"+{totalAdditions} || -{totalDeletions}";
+                return (totalAdditions, totalDeletions);
             }
         }
 
