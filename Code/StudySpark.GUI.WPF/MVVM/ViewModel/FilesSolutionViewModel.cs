@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Reflection.Metadata;
 using System.Diagnostics;
-
+using StudySpark.Core;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -108,22 +108,23 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             currentSLNList = solutionPanel;
         }
 
-        public ImageBrush SetIcon()
-        {
+        public ImageBrush SetIcon() {
             ImageBrush? brush = null;
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                brush = new ImageBrush
-                {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                brush = new ImageBrush {
                     ImageSource = new BitmapImage(new Uri("StudySpark.GUI.WPF/Images/Icon_VS.png", UriKind.Relative))
                 };
-            }
-            else
-            {
-                brush = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
-                };
+            } else {
+                try {
+                    Logger.Warning($"Loading '{new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative).AbsoluteUri.ToString()}' in VS mode");
+                    brush = new ImageBrush {
+                        ImageSource = new BitmapImage(new Uri("..\\..\\..\\Images\\Icon_VS.png", UriKind.Relative))
+                    };
+                } catch {
+                    string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "Icon_VS.png");
+                    Logger.Warning($"Loading '{new Uri(imagePath).AbsoluteUri.ToString()}' in System mode");
+                    brush = new ImageBrush { ImageSource = new BitmapImage(new Uri(imagePath)) };
+                }
             }
             return brush;
         }

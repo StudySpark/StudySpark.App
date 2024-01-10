@@ -24,6 +24,7 @@
     <None Remove="Images\info.png" />
     <None Remove="Images\key.png" />
     <None Remove="Images\Loading.png" />
+    <None Remove="Images\logo.ico" />
     <None Remove="Images\Logo_NoText.png" />
 	  <None Remove="Images\Logo_NoText_NoColor.png" />
     <None Remove="Images\man.png" />
@@ -50,10 +51,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\2FA.png" />
-    <Resource Include="Images\bookmark.png">
+    <Content Include="Images\2FA.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Images\bookmark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -66,43 +72,117 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Amstel.png" />
-    <Resource Include="Images\bookmark_checked.png" />
-    <Resource Include="Images\DirectoryIcon.png" />
-    <Resource Include="Images\Excel.png" />
-    <Resource Include="Images\ExclamationMark.png" />
-    <Resource Include="Images\FileIcon.png" />
-    <Resource Include="Images\Grolsch.png" />
-    <Resource Include="Images\Heineken.png" />
-    <Resource Include="Images\HertogJan.png" />
-    <Resource Include="Images\Icon_VS.png" />
-    <Resource Include="Images\info.png" />
-    <Resource Include="Images\key.png" />
-    <Resource Include="Images\Loading.png" />
-    <Resource Include="Images\Logo_NoText.png" />
-	  <Resource Include="Images\Logo_NoText_NoColor.png" />
-    <Resource Include="Images\man.png" />
-    <Resource Include="Images\NoteAccept.png" />
-    <Resource Include="Images\NoteAlignCenter.png" />
-    <Resource Include="Images\NoteAlignLeft.png" />
-    <Resource Include="Images\NoteAlignRight.png" />
-    <Resource Include="Images\NoteBack.png" />
-    <Resource Include="Images\NoteColor.png" />
-    <Resource Include="Images\NoteEdit.png" />
-    <Resource Include="Images\NoteFont.png" />
-    <Resource Include="Images\NoteHightlight.png" />
-    <Resource Include="Images\NoteImage.png" />
-    <Resource Include="Images\NoteSave.png" />
-    <Resource Include="Images\NoteTextList.png" />
-    <Resource Include="Images\NoteTextSizeMin.png" />
-    <Resource Include="Images\NoteTextSizePlus.png" />
-    <Resource Include="Images\NoteTrash.png" />
-    <Resource Include="Images\NoteTrashConfirm.png" />
-    <Resource Include="Images\NoteView.png" />
-    <Resource Include="Images\PowerPoint.png" />
-    <Resource Include="Images\Trash_Bin.png" />
-    <Resource Include="Images\Word.png" />
-    <Resource Include="Images\user.png" />
+    <Content Include="Images\Amstel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\bookmark_checked.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\DirectoryIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Excel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ExclamationMark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\FileIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Grolsch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Heineken.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HertogJan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Icon_VS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\info.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\key.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Loading.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Logo_NoText.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+	  <Content Include="Images\Logo_NoText_NoColor.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+    <Content Include="Images\man.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteAccept.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteAlignCenter.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteAlignLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteAlignRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteBack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteColor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteEdit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteFont.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteHightlight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteSave.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteTextList.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteTextSizeMin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteTextSizePlus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteTrash.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteTrashConfirm.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NoteView.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PowerPoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Trash_Bin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Word.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Logo_NoText.png" />
   </ItemGroup>
 

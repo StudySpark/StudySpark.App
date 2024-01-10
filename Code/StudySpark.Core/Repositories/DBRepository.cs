@@ -20,18 +20,34 @@ namespace StudySpark.Core.Repositories {
     // Collection of logic-methods
     // for the SQLite DB
     public class DBRepository {
-        private static SqliteConnection conn;   
+        private static SqliteConnection conn;
         public static SqliteConnection Conn {
             get {
-                if (conn == null)
-                {
-                    conn = new SqliteConnection("Data Source = ..\\..\\..\\..\\StudySpark.Core\\bin\\Debug\\net6.0\\database.db");
+                if (conn == null) {
+                    Logger.Info("Creating databse connection");
+
+                    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "StudySpark"));
+
+                    string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "StudySpark", "database.db");
+
+                    Logger.Info($"Databse path: {databasePath}");
+
+                    conn = new SqliteConnection($"Data Source={databasePath}");
                     conn.Open();
 
-                    string command = File.ReadAllText("initDB.txt");
+                    string commandPath = "initDB.txt";
+                    if (!File.Exists(commandPath)) {
+                        commandPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "initDB.txt");
+                    }
+                    Logger.Info($"SQL init file path: {commandPath}");
+
                     SqliteCommand sqlite_cmd = conn.CreateCommand();
-                    sqlite_cmd.CommandText = command;
+                    sqlite_cmd.CommandText = File.ReadAllText(commandPath);
                     sqlite_cmd.ExecuteNonQuery();
+
+
+                    string connCreatedSuccessfullyMessage = conn != null ? "Yes" : "No";
+                    Logger.Info($"Connection created: {connCreatedSuccessfullyMessage}");
                 }
                 return conn;
             }
@@ -45,7 +61,7 @@ namespace StudySpark.Core.Repositories {
             }
 
             SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = $"INSERT INTO Grades (coursename, coursecode, testdate, semester, ecs, grade) VALUES ('{gradeElement.CourseName}', '{gradeElement.CourseCode}', '{gradeElement.TestDate}', '{gradeElement.Semester}', {gradeElement.ECs}, '{gradeElement.Grade}');";
             sqlite_cmd.ExecuteNonQuery();
             return true;
@@ -60,11 +76,11 @@ namespace StudySpark.Core.Repositories {
             string encryptedString = Encryption.EncryptString(password, key, iv);
 
             string deletesql = "DELETE FROM Users;";
-            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, Conn);
             deleteCmd.ExecuteNonQuery();
 
             string createsql = "INSERT INTO Users (Username, Password) VALUES(@Username, @Password)";
-            SqliteCommand insertSQL = new SqliteCommand(createsql, conn);
+            SqliteCommand insertSQL = new SqliteCommand(createsql, Conn);
             insertSQL.Parameters.Add(new SqliteParameter("@Username", username));
             insertSQL.Parameters.Add(new SqliteParameter("@Password", encryptedString));
             try {
@@ -117,7 +133,7 @@ namespace StudySpark.Core.Repositories {
             }
 
             SqliteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = $"INSERT INTO GitTable (path, targetname, type) VALUES('{path}', '{targetname}', '{type}'); ";
             sqlite_cmd.ExecuteNonQuery();
             return true;
@@ -136,7 +152,7 @@ namespace StudySpark.Core.Repositories {
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
 
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = "SELECT * FROM Grades";
 
             reader = sqlite_cmd.ExecuteReader();
@@ -165,7 +181,7 @@ namespace StudySpark.Core.Repositories {
             SqliteDataReader reader;
             SqliteCommand sqlite_cmd;
 
-            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd = Conn.CreateCommand();
             sqlite_cmd.CommandText = "SELECT * FROM GitTable";
 
             reader = sqlite_cmd.ExecuteReader();
@@ -182,7 +198,7 @@ namespace StudySpark.Core.Repositories {
 
         public void ClearGradesData() {
             string deletesql = "DELETE FROM Grades;";
-            SqliteCommand deleteCmd = new SqliteCommand(deletesql, conn);
+            SqliteCommand deleteCmd = new SqliteCommand(deletesql, Conn);
             deleteCmd.ExecuteNonQuery();
         }
 
