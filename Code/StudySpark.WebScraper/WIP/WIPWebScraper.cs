@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using StudySpark.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -63,7 +64,9 @@ namespace StudySpark.WebScraper.WIP
                     subButton = driver.FindElement(By.Id("idSIButton9"));
 
                     subButton.Click();
+                    Logger.Info("2FA succesful");
                 } catch (WebDriverTimeoutException wdte) {
+                    Logger.Warning(wdte.ToString());
                     throw wdte;
                 }
             }
@@ -122,6 +125,7 @@ namespace StudySpark.WebScraper.WIP
                     int index = scheduleInfo.IndexOf(info);
 
                     Debug.WriteLine(index + " : " + info.Text);
+                    Logger.Info(index + " : " + info.Text);
 
                     if (index >= 0 && index % 2 == 0)
                     {
@@ -171,6 +175,9 @@ namespace StudySpark.WebScraper.WIP
 
                 Debug.WriteLine("ScheduleActivity = " + schedAct.ToString());
                 Debug.WriteLine("--------------");
+
+                Logger.Info("ScheduleActivity = " + schedAct.ToString());
+                Logger.Info("--------------");
 
                 result.Add(schedAct);
 

@@ -19,6 +19,7 @@ using System.Threading;
 using System.IO;
 using System.Windows.Controls.Primitives;
 using System.Collections;
+using StudySpark.Core;
 
 namespace StudySpark.GUI.WPF.MVVM.ViewModel
 {
@@ -299,23 +300,24 @@ namespace StudySpark.GUI.WPF.MVVM.ViewModel
             }
         }
 
-        public ImageBrush SetIcon(string image)
-        {
+        public ImageBrush SetIcon(string image) {
 
             ImageBrush? brush = null;
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                brush = new ImageBrush
-                {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                brush = new ImageBrush {
                     ImageSource = new BitmapImage(new Uri($"StudySpark.GUI.WPF/Images/{image}", UriKind.Relative))
                 };
-            }
-            else
-            {
-                brush = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}"))
-                };
+            } else {
+                try {
+                    Logger.Warning($"Loading '{new Uri($"pack://application:,,,/Images/{image}").AbsoluteUri.ToString()}' in VS mode");
+                    brush = new ImageBrush {
+                        ImageSource = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}"))
+                    };
+                } catch {
+                    string imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", image);
+                    Logger.Warning($"Loading '{new Uri(imagePath).AbsoluteUri.ToString()}' in System mode");
+                    brush = new ImageBrush { ImageSource = new BitmapImage(new Uri(imagePath)) };
+                }
             }
 
             return brush;
